@@ -172,6 +172,17 @@ nav {
 }
 
 /* ── CATEGORY PILLS ── */
+.pills-wrap {
+  position: relative;
+}
+.pills-wrap::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 48px;
+  background: linear-gradient(to right, transparent, var(--bg));
+  pointer-events: none;
+}
 .pills-row {
   display: flex;
   gap: 8px;
@@ -520,17 +531,12 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
   <div class="wrap">
     <h1>SPEND LESS.<em>LIVE MORE.</em></h1>
     <p class="hero-sub">Exclusive student deals, verified instantly. Always free.</p>
-    <div class="stats-row">
-      <div class="stat-item"><div class="stat-val">500+</div><div class="stat-lbl">Deals</div></div>
-      <div class="stat-item"><div class="stat-val">Free</div><div class="stat-lbl">Forever</div></div>
-      <div class="stat-item"><div class="stat-val">SA</div><div class="stat-lbl">Students only</div></div>
-    </div>
     <div class="search-wrap">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" placeholder="Search brands or deals..." id="search-input" oninput="filterPerks()">
       <span class="deal-badge" id="deal-count">8 deals</span>
     </div>
-    <div class="pills-row">
+    <div class="pills-wrap"><div class="pills-row">
       <button class="pill active" onclick="setCat(this,'all')">All</button>
       <button class="pill" onclick="setCat(this,'fashion')">Fashion</button>
       <button class="pill" onclick="setCat(this,'tech')">Tech</button>
@@ -539,7 +545,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       <button class="pill" onclick="setCat(this,'software')">Software</button>
       <button class="pill" onclick="setCat(this,'fitness')">Fitness</button>
       <button class="pill" onclick="setCat(this,'entertainment')">Entertainment</button>
-    </div>
+    </div></div>
   </div>
 </section>
 
