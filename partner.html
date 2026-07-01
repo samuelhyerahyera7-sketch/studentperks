@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partner with Student Perks — Reach SA Students</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --lime: #d4ff00;
+  --lime-d: #b8e000;
+  --bg: #0c0c0c;
+  --bg2: #111;
+  --bg3: #1a1a1a;
+  --card: #171717;
+  --border: rgba(255,255,255,.07);
+  --white: #fff;
+  --ink: rgba(255,255,255,.92);
+  --ink2: rgba(255,255,255,.45);
+  --ink3: rgba(255,255,255,.25);
+  --font: 'Inter', sans-serif;
+  --display: 'Bebas Neue', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; font-family: var(--font); }
+.wrap { max-width: 480px; margin: 0 auto; padding: 0 18px; }
+@media(min-width:860px){ .wrap { max-width: 1100px; } }
+
+/* ── NAV ── */
+nav { background: var(--bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 200; }
+.nav-inner { display: flex; align-items: center; height: 60px; gap: 10px; }
+.nav-spacer { flex: 1; }
+.logo-word { font-family: var(--font); font-size: 21px; font-weight: 900; letter-spacing: -.03em; color: var(--white); white-space: nowrap; }
+.logo-word span { color: var(--lime); }
+.nav-desktop { display: none; align-items: center; gap: 24px; }
+.nav-desktop a { font-size: 13px; font-weight: 500; color: var(--ink2); transition: color .12s; }
+.nav-desktop a:hover, .nav-desktop a.active { color: var(--white); }
+.nav-verify { background: var(--lime); color: var(--bg); font-size: 12px; font-weight: 800; letter-spacing: .06em; padding: 10px 22px; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); transition: background .15s; white-space: nowrap; }
+.nav-verify:hover { background: var(--white); }
+.nav-burger { background: none; border: none; cursor: pointer; color: var(--white); display: flex; align-items: center; padding: 4px; }
+@media(min-width:860px){ .nav-desktop { display: flex; } .nav-burger { display: none; } }
+
+/* ── MOBILE MENU ── */
+.menu-overlay { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 400; flex-direction: column; overflow-y: auto; }
+.menu-overlay.open { display: flex; }
+.menu-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid var(--border); }
+.menu-close { background: none; border: none; color: var(--white); cursor: pointer; }
+.menu-verify { display: block; margin: 20px; background: var(--lime); color: var(--bg); font-size: 14px; font-weight: 800; letter-spacing: .05em; padding: 16px; text-align: center; border-radius: 50px; text-transform: uppercase; }
+.menu-items { padding: 0 20px; }
+.menu-item { display: block; padding: 18px 0; font-size: 18px; font-weight: 600; color: var(--ink2); border-bottom: 1px solid var(--border); cursor: pointer; transition: color .12s; }
+.menu-item:hover { color: var(--lime); }
+.menu-foot { padding: 24px 20px; margin-top: auto; }
+.menu-contact-row { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--ink3); margin-bottom: 10px; }
+.menu-contact-ico { width: 34px; height: 34px; border-radius: 8px; background: var(--bg3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.menu-copy { font-size: 11px; color: var(--ink3); margin-top: 16px; }
+
+/* ── HERO ── */
+.partner-hero { padding: 60px 0 52px; border-bottom: 1px solid var(--border); }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(212,255,0,.1); border: 1px solid rgba(212,255,0,.2); color: var(--lime); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; padding: 7px 16px; border-radius: 50px; margin-bottom: 24px; }
+.hero-eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--lime); }
+.partner-hero h1 { font-family: var(--display); font-size: 72px; font-weight: 400; line-height: .92; letter-spacing: .01em; color: var(--white); text-transform: uppercase; margin-bottom: 20px; }
+@media(min-width:480px){ .partner-hero h1 { font-size: 90px; } }
+@media(min-width:860px){ .partner-hero h1 { font-size: 120px; } }
+.partner-hero h1 em { font-style: normal; color: var(--lime); display: block; }
+.partner-hero p { font-size: 16px; color: var(--ink2); max-width: 500px; line-height: 1.65; margin-bottom: 32px; }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.lime-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--lime); color: var(--bg); font-size: 14px; font-weight: 800; padding: 16px 36px; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); letter-spacing: .04em; text-transform: uppercase; transition: background .15s, transform .1s; }
+.lime-btn:hover { background: var(--white); transform: translateY(-2px); }
+.ghost-btn { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: var(--ink2); font-size: 14px; font-weight: 700; padding: 16px 28px; border-radius: 50px; border: 1px solid var(--border); cursor: pointer; font-family: var(--font); letter-spacing: .04em; transition: all .15s; }
+.ghost-btn:hover { border-color: rgba(255,255,255,.3); color: var(--white); }
+
+/* ── TRUST LOGOS ── */
+.trust-strip { padding: 28px 0; border-bottom: 1px solid var(--border); }
+.trust-label { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink3); margin-bottom: 18px; }
+.trust-logos { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.trust-logo { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 9px 18px; font-size: 13px; font-weight: 800; color: var(--ink3); letter-spacing: .02em; }
+
+/* ── STATS ── */
+.partner-stats { display: grid; grid-template-columns: repeat(3,1fr); border-bottom: 1px solid var(--border); }
+.pstat { padding: 28px 0; border-right: 1px solid var(--border); text-align: center; }
+.pstat:last-child { border-right: none; }
+.pstat-val { font-family: var(--display); font-size: 44px; color: var(--lime); letter-spacing: .02em; line-height: 1; }
+.pstat-lbl { font-size: 11px; font-weight: 600; color: var(--ink3); text-transform: uppercase; letter-spacing: .08em; margin-top: 5px; }
+
+/* ── HOW IT WORKS ── */
+.how-sec { padding: 60px 0; border-bottom: 1px solid var(--border); }
+.sec-heading { font-family: var(--display); font-size: 40px; color: var(--white); text-transform: uppercase; letter-spacing: .02em; margin-bottom: 6px; }
+.sec-sub { font-size: 14px; color: var(--ink2); margin-bottom: 36px; }
+.steps-grid { display: grid; gap: 14px; }
+@media(min-width:640px){ .steps-grid { grid-template-columns: repeat(3,1fr); } }
+.step-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 28px 22px; position: relative; overflow: hidden; }
+.step-num { font-family: var(--display); font-size: 80px; color: rgba(212,255,0,.06); position: absolute; top: -10px; right: 16px; line-height: 1; letter-spacing: .02em; pointer-events: none; }
+.step-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(212,255,0,.08); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.step-title { font-size: 16px; font-weight: 800; color: var(--white); margin-bottom: 8px; }
+.step-desc { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+.step-time { display: inline-block; margin-top: 14px; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--lime); background: rgba(212,255,0,.08); padding: 4px 10px; border-radius: 4px; }
+
+/* ── BENEFITS ── */
+.benefits-sec { padding: 60px 0; border-bottom: 1px solid var(--border); background: var(--bg2); }
+.benefits-grid { display: grid; gap: 14px; }
+@media(min-width:640px){ .benefits-grid { grid-template-columns: repeat(2,1fr); } }
+@media(min-width:860px){ .benefits-grid { grid-template-columns: repeat(3,1fr); } }
+.benefit-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px 20px; }
+.benefit-ico { width: 40px; height: 40px; border-radius: 10px; background: rgba(212,255,0,.08); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+.benefit-title { font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 6px; }
+.benefit-desc { font-size: 13px; color: var(--ink2); line-height: 1.6; }
+
+/* ── FORM SECTION ── */
+.apply-sec { padding: 60px 0 80px; }
+.apply-wrap { max-width: 680px; margin: 0 auto; }
+.form-card { background: var(--card); border: 1px solid var(--border); border-radius: 28px; padding: 36px 28px; }
+@media(min-width:480px){ .form-card { padding: 44px 40px; } }
+.form-title { font-family: var(--display); font-size: 36px; color: var(--white); text-transform: uppercase; letter-spacing: .02em; margin-bottom: 6px; }
+.form-sub { font-size: 14px; color: var(--ink2); margin-bottom: 30px; line-height: 1.5; }
+.form-row { display: grid; gap: 12px; margin-bottom: 12px; }
+@media(min-width:500px){ .form-row.two { grid-template-columns: 1fr 1fr; } }
+.field label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink3); margin-bottom: 7px; }
+.field input, .field select, .field textarea { width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 14px; font-family: var(--font); color: var(--white); background: var(--bg3); outline: none; transition: border-color .15s; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--lime); }
+.field input::placeholder, .field textarea::placeholder { color: var(--ink3); }
+.field select option { background: #1a1a1a; }
+.field textarea { resize: none; height: 100px; }
+.form-submit { display: block; width: 100%; background: var(--lime); color: var(--bg); font-size: 14px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 17px; text-align: center; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); margin-top: 22px; transition: background .15s, opacity .15s; }
+.form-submit:hover { background: var(--white); }
+.form-submit:disabled { opacity: .5; cursor: not-allowed; }
+.form-note { text-align: center; font-size: 12px; color: var(--ink3); margin-top: 14px; line-height: 1.5; }
+
+/* ── SUCCESS STATE ── */
+.success-state { display: none; text-align: center; padding: 60px 20px; }
+.success-state.show { display: block; }
+.success-ico { width: 72px; height: 72px; border-radius: 50%; background: rgba(212,255,0,.1); border: 1px solid rgba(212,255,0,.3); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+.success-title { font-family: var(--display); font-size: 44px; color: var(--white); text-transform: uppercase; letter-spacing: .02em; margin-bottom: 12px; }
+.success-sub { font-size: 15px; color: var(--ink2); max-width: 360px; margin: 0 auto 28px; line-height: 1.6; }
+.success-back { display: inline-block; background: var(--lime); color: var(--bg); font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 14px 36px; border-radius: 50px; transition: background .15s; }
+.success-back:hover { background: var(--white); }
+
+/* ── FOOTER ── */
+footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48px 0 28px; }
+.footer-grid { display: grid; grid-template-columns: 1fr; gap: 36px; margin-bottom: 36px; }
+@media(min-width:700px){ .footer-grid { grid-template-columns: 200px 1fr; } }
+.footer-desc { font-size: 13px; color: var(--ink3); line-height: 1.65; margin: 10px 0 18px; }
+.footer-social { display: flex; gap: 12px; }
+.f-soc { color: var(--lime); }
+.footer-cols { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+@media(min-width:700px){ .footer-cols { grid-template-columns: repeat(3,1fr); } }
+.footer-col h4 { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--ink3); margin-bottom: 14px; }
+.footer-col a { display: block; font-size: 13px; color: var(--ink3); margin-bottom: 9px; cursor: pointer; transition: color .12s; }
+.footer-col a:hover { color: var(--white); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 20px; display: flex; justify-content: space-between; font-size: 11px; color: var(--ink3); flex-wrap: wrap; gap: 8px; }
+.fbl { display: flex; gap: 14px; }
+.fbl a { color: var(--ink3); cursor: pointer; }
+.fbl a:hover { color: var(--white); }
+
+/* ── MODAL (Sign in) ── */
+.modal-back { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 999; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+.modal-back.open { display: flex; }
+.modal { background: #141414; border: 1px solid rgba(255,255,255,.09); border-radius: 24px; padding: 30px 24px; width: 100%; max-width: 370px; margin: 16px; position: relative; }
+.modal-x { position: absolute; top: 14px; right: 14px; background: var(--bg3); border: none; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ink2); font-size: 18px; }
+.modal-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+.modal-tab { flex: 1; padding: 11px; text-align: center; font-size: 15px; font-weight: 600; color: var(--ink3); cursor: pointer; border-bottom: 2px solid transparent; transition: all .15s; }
+.modal-tab.active { color: var(--white); border-bottom-color: var(--lime); }
+.field-m { margin-bottom: 10px; }
+.field-m input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 14px; font-family: var(--font); color: var(--white); background: var(--bg3); outline: none; transition: border-color .15s; }
+.field-m input:focus { border-color: var(--lime); }
+.field-m input::placeholder { color: var(--ink3); }
+.modal-submit { display: block; width: 100%; background: var(--lime); color: var(--bg); font-size: 14px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: 15px; text-align: center; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); margin-top: 6px; transition: background .15s; }
+.modal-submit:hover { background: var(--white); }
+.modal-form-head { margin-bottom: 18px; }
+.modal-form-title { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 4px; letter-spacing: -.02em; }
+.modal-form-sub { font-size: 13px; color: var(--ink3); line-height: 1.5; }
+.modal-terms { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--ink3); line-height: 1.5; margin: 12px 0; cursor: pointer; }
+.modal-terms input[type="checkbox"] { margin-top: 2px; accent-color: var(--lime); flex-shrink: 0; width: 14px; height: 14px; }
+.modal-switch { text-align: center; font-size: 13px; color: var(--ink3); margin-top: 14px; }
+.modal-switch span { color: var(--lime); cursor: pointer; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="wrap">
+    <div class="nav-inner">
+      <a href="index.html" class="logo-word">Student<span>Perks.</span></a>
+      <div class="nav-spacer"></div>
+      <div class="nav-desktop">
+        <a href="index.html#perks">Deals</a>
+        <a href="index.html#events">Events</a>
+        <a href="index.html#jobs">Jobs</a>
+        <a href="partner.html" class="active" style="color:var(--white)">For Business</a>
+        <button class="nav-verify" onclick="openModal('jn')">VERIFY</button>
+      </div>
+      <button class="nav-verify" onclick="openModal('jn')" style="display:flex" id="mobile-verify">VERIFY</button>
+      <button class="nav-burger" onclick="openMenu()" style="margin-left:8px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+<style>@media(min-width:860px){ #mobile-verify { display:none !important; } .nav-burger { display:none !important; } }</style>
+
+<!-- MOBILE MENU -->
+<div class="menu-overlay" id="menu-overlay">
+  <div class="menu-head">
+    <a href="index.html" class="logo-word" style="font-size:18px">Student<span>Perks.</span></a>
+    <button class="menu-close" onclick="closeMenu()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <button class="menu-verify" onclick="openModal('jn');closeMenu()">Verify Student Status</button>
+  <div class="menu-items">
+    <a class="menu-item" href="index.html#perks" onclick="closeMenu()">Deals</a>
+    <a class="menu-item" href="index.html#events" onclick="closeMenu()">Events</a>
+    <a class="menu-item" href="index.html#jobs" onclick="closeMenu()">Jobs</a>
+    <a class="menu-item" href="partner.html" style="color:var(--lime)">For Business</a>
+  </div>
+  <div class="menu-foot">
+    <div class="menu-contact-row">
+      <div class="menu-contact-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      Whatsapp <span style="color:var(--lime);margin-left:6px">+27 81 696 1623</span>
+    </div>
+    <div class="menu-contact-row">
+      <div class="menu-contact-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+      Email <span style="color:var(--lime);margin-left:6px">support@studentperks.co.za</span>
+    </div>
+    <p class="menu-copy">© 2025 Student Perks. All Rights Reserved.</p>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="partner-hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">For Businesses</div>
+    <h1>REACH<em>SA STUDENTS.</em></h1>
+    <p>List your student deal on StudentPerks and get discovered by thousands of verified South African students every month — completely free.</p>
+    <div class="hero-ctas">
+      <a href="#apply" class="lime-btn">
+        List Your Deal
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+      </a>
+      <a href="mailto:support@studentperks.co.za" class="ghost-btn">Talk to us first</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- STATS -->
+<section style="border-bottom:1px solid var(--border)">
+  <div class="wrap">
+    <div class="partner-stats">
+      <div class="pstat">
+        <div class="pstat-val">R0</div>
+        <div class="pstat-lbl">To List Your Deal</div>
+      </div>
+      <div class="pstat">
+        <div class="pstat-val">24H</div>
+        <div class="pstat-lbl">Review Time</div>
+      </div>
+      <div class="pstat">
+        <div class="pstat-val">Fast</div>
+        <div class="pstat-lbl">Growing Platform</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-sec">
+  <div class="wrap">
+    <h2 class="sec-heading">How It Works</h2>
+    <p class="sec-sub">Three simple steps to get your deal in front of SA students.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <div class="step-title">Submit your deal</div>
+        <div class="step-desc">Fill in the form below with your brand details, offer type and discount. Takes less than 3 minutes.</div>
+        <span class="step-time">Takes 3 minutes</span>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="step-title">We review it</div>
+        <div class="step-desc">Our team checks your offer to make sure it's genuine and valuable to students. We'll contact you with any questions.</div>
+        <span class="step-time">Within 24–48 hours</span>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div class="step-title">Go live</div>
+        <div class="step-desc">Your deal goes live on StudentPerks and starts reaching thousands of verified SA students immediately.</div>
+        <span class="step-time">Instantly after approval</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="benefits-sec">
+  <div class="wrap">
+    <h2 class="sec-heading">Why List With Us?</h2>
+    <p class="sec-sub">The fastest way to reach South Africa's student market.</p>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="benefit-title">Verified student audience</div>
+        <div class="benefit-desc">Every user confirms their student status — your deal reaches real, active SA students looking to save.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="benefit-title">Completely free to list</div>
+        <div class="benefit-desc">No listing fees, no commission, no hidden costs. Your deal appears on the platform at no charge.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="benefit-title">Up in 24 hours</div>
+        <div class="benefit-desc">Submit today and your deal can be live by tomorrow. Fast review, no delays, no lengthy approvals.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="benefit-title">High-intent traffic</div>
+        <div class="benefit-desc">Students visit StudentPerks specifically to find deals — they're already looking for what you're offering.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
+        <div class="benefit-title">Any category welcome</div>
+        <div class="benefit-desc">Fashion, food, tech, travel, fitness, software — if students would love it, we want it listed.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91A16 16 0 0 0 13 13.91l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 15.15z"/></svg>
+        </div>
+        <div class="benefit-title">Dedicated support</div>
+        <div class="benefit-desc">Reach us on WhatsApp or email anytime. We help you craft the best possible offer for students.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLICATION FORM -->
+<section class="apply-sec" id="apply">
+  <div class="wrap">
+    <div class="apply-wrap">
+      <div class="form-card">
+
+        <!-- Form -->
+        <div id="form-wrap">
+          <div class="form-title">List Your Deal</div>
+          <div class="form-sub">Fill in your details below and we'll get back to you within 24 hours.</div>
+          <form id="partner-form" action="https://formsubmit.co/ajax/deniloans6@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="New Partner Application — StudentPerks">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <!-- Honeypot -->
+            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+            <div class="form-row two">
+              <div class="field">
+                <label>Brand / Business Name *</label>
+                <input type="text" name="brand_name" placeholder="e.g. Woolworths" required>
+              </div>
+              <div class="field">
+                <label>Contact Person *</label>
+                <input type="text" name="contact_name" placeholder="Your full name" required>
+              </div>
+            </div>
+
+            <div class="form-row two">
+              <div class="field">
+                <label>Email Address *</label>
+                <input type="email" name="email" placeholder="you@brand.co.za" required>
+              </div>
+              <div class="field">
+                <label>Phone Number *</label>
+                <input type="tel" name="phone" placeholder="+27 8x xxx xxxx" required>
+              </div>
+            </div>
+
+            <div class="form-row two">
+              <div class="field">
+                <label>Category *</label>
+                <select name="category" required>
+                  <option value="" disabled selected>Select a category</option>
+                  <option value="fashion">Fashion &amp; Clothing</option>
+                  <option value="tech">Tech &amp; Electronics</option>
+                  <option value="food">Food &amp; Drink</option>
+                  <option value="travel">Travel &amp; Transport</option>
+                  <option value="software">Software &amp; Apps</option>
+                  <option value="fitness">Fitness &amp; Wellness</option>
+                  <option value="entertainment">Entertainment &amp; Media</option>
+                  <option value="finance">Finance &amp; Banking</option>
+                  <option value="education">Education &amp; Books</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Your Offer / Discount *</label>
+                <input type="text" name="offer" placeholder="e.g. 25% off sitewide" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label>Describe Your Offer *</label>
+                <textarea name="description" placeholder="Tell students what they get, how to claim it, and any T&Cs..." required></textarea>
+              </div>
+            </div>
+
+            <div class="form-row two">
+              <div class="field">
+                <label>Website / Promo URL *</label>
+                <input type="url" name="website" placeholder="https://yourbrand.co.za" required>
+              </div>
+              <div class="field">
+                <label>Offer Expiry Date</label>
+                <input type="date" name="expiry" style="color-scheme:dark">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label>Anything else we should know?</label>
+                <textarea name="extra" placeholder="Logo colours, verification method, target student segment..."></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="form-submit" id="submit-btn">Submit Application →</button>
+            <p class="form-note">We'll review your application and reply within 24–48 hours.<br>Questions? <a href="mailto:support@studentperks.co.za" style="color:var(--lime)">Email us</a> or WhatsApp <a href="https://wa.me/27816961623" style="color:var(--lime)">+27 81 696 1623</a></p>
+          </form>
+        </div>
+
+        <!-- Success state -->
+        <div class="success-state" id="success-state">
+          <div class="success-ico">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="success-title">Application Sent!</div>
+          <p class="success-sub">Thanks for applying. We'll review your deal and get back to you at your email address within 24–48 hours.</p>
+          <p style="font-size:13px;color:var(--ink3);margin-bottom:24px">In the meantime, feel free to reach us on WhatsApp at <a href="https://wa.me/27816961623" style="color:var(--lime)">+27 81 696 1623</a></p>
+          <a href="index.html" class="success-back">Back to StudentPerks</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="logo-word" style="font-size:17px">Student<span>Perks.</span></div>
+        <p class="footer-desc">Exclusive student deals, events and jobs — built for SA students.</p>
+        <div class="footer-social">
+          <svg class="f-soc" width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <svg class="f-soc" width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          <svg class="f-soc" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col"><h4>Platform</h4><a href="index.html#perks">Deals</a><a href="index.html#events">Events</a><a href="index.html#jobs">Jobs</a></div>
+        <div class="footer-col"><h4>Company</h4><a href="partner.html">For Business</a><a href="mailto:support@studentperks.co.za">Contact</a></div>
+        <div class="footer-col"><h4>Contact</h4><a href="https://wa.me/27816961623">+27 81 696 1623</a><a href="mailto:support@studentperks.co.za">support@studentperks.co.za</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Student Perks. All Rights Reserved.</span>
+      <div class="fbl"><a>Terms &amp; conditions</a><a>Privacy Policy</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- SIGN IN MODAL -->
+<div class="modal-back" id="modal-back">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal()">×</button>
+    <div style="display:flex;align-items:center;gap:7px;margin-bottom:20px">
+      <div class="logo-word" style="font-size:17px">Student<span>Perks.</span></div>
+    </div>
+    <div class="modal-tabs">
+      <div class="modal-tab active" id="t-si" onclick="switchTab('si')">Sign in</div>
+      <div class="modal-tab" id="t-jn" onclick="switchTab('jn')">Join now</div>
+    </div>
+    <form id="form-si" onsubmit="return false">
+      <div class="field-m"><input type="email" placeholder="Email address"></div>
+      <div class="field-m"><input type="password" placeholder="Password"></div>
+      <button type="submit" class="modal-submit" onclick="closeModal()">Sign in</button>
+      <p class="modal-switch">Not a member? <span onclick="switchTab('jn')">Join now</span></p>
+    </form>
+    <form id="form-jn" style="display:none" onsubmit="return false">
+      <div class="modal-form-head">
+        <div class="modal-form-title">Create an account</div>
+        <div class="modal-form-sub">Fill in the details below to create your StudentPerks account.</div>
+      </div>
+      <div class="field-m"><input type="email" placeholder="Email address"></div>
+      <div class="field-m"><input type="text" placeholder="Name &amp; Surname"></div>
+      <div class="field-m"><input type="password" placeholder="Password"></div>
+      <div class="field-m"><input type="password" placeholder="Confirm Password"></div>
+      <div class="field-m"><input type="text" placeholder="Referral Code (optional)" style="font-size:13px"></div>
+      <label class="modal-terms">
+        <input type="checkbox">
+        <span>I agree to the <a href="#" style="color:var(--lime)">terms &amp; conditions</a> and <a href="#" style="color:var(--lime)">privacy statement</a>.</span>
+      </label>
+      <button type="submit" class="modal-submit" onclick="closeModal()">Create account</button>
+      <p class="modal-switch">Already a member? <span onclick="switchTab('si')">Sign in</span></p>
+    </form>
+  </div>
+</div>
+
+<script>
+function openMenu(){ document.getElementById('menu-overlay').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeMenu(){ document.getElementById('menu-overlay').classList.remove('open'); document.body.style.overflow=''; }
+function openModal(t){ document.getElementById('modal-back').classList.add('open'); document.body.style.overflow='hidden'; switchTab(t); }
+function closeModal(){ document.getElementById('modal-back').classList.remove('open'); document.body.style.overflow=''; }
+function switchTab(t){
+  const jn = t==='jn';
+  document.getElementById('t-si').classList.toggle('active',!jn);
+  document.getElementById('t-jn').classList.toggle('active',jn);
+  document.getElementById('form-si').style.display = jn?'none':'';
+  document.getElementById('form-jn').style.display = jn?'':'none';
+}
+document.getElementById('modal-back').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+// Partner form submission via AJAX
+document.getElementById('partner-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(this.action, {
+      method: 'POST',
+      body: new FormData(this),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      document.getElementById('form-wrap').style.display = 'none';
+      document.getElementById('success-state').classList.add('show');
+    } else {
+      throw new Error();
+    }
+  } catch {
+    btn.textContent = 'Try Again';
+    btn.disabled = false;
+    alert('Something went wrong. Please email us at support@studentperks.co.za');
+  }
+});
+</script>
+</body>
+</html>

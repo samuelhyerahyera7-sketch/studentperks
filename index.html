@@ -43,22 +43,7 @@ nav {
   height: 60px;
   gap: 10px;
 }
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-.nav-diamond {
-  width: 32px;
-  height: 32px;
-  background: var(--lime);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
+.nav-spacer { flex: 1; }
 .logo-word {
   font-family: var(--font);
   font-size: 21px;
@@ -68,10 +53,11 @@ nav {
   white-space: nowrap;
 }
 .logo-word span { color: var(--lime); }
-.nav-spacer { flex: 1; }
 .nav-desktop { display: none; align-items: center; gap: 24px; }
 .nav-desktop a { font-size: 13px; font-weight: 500; color: var(--ink2); transition: color .12s; }
 .nav-desktop a:hover { color: var(--white); }
+.nav-desktop a.biz { color: var(--lime); font-weight: 700; }
+.nav-desktop a.biz:hover { color: var(--lime-d); }
 .nav-verify {
   background: var(--white);
   color: var(--bg);
@@ -97,9 +83,6 @@ nav {
 .menu-overlay { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 400; flex-direction: column; overflow-y: auto; }
 .menu-overlay.open { display: flex; }
 .menu-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid var(--border); }
-.menu-logo { display: flex; align-items: center; gap: 8px; }
-.menu-logo-text { font-size: 16px; font-weight: 900; color: var(--white); letter-spacing: -.01em; text-transform: uppercase; }
-.menu-logo-text span { color: var(--lime); }
 .menu-close { background: none; border: none; color: var(--white); cursor: pointer; }
 .menu-verify { display: block; margin: 20px; background: var(--white); color: var(--bg); font-size: 14px; font-weight: 800; letter-spacing: .05em; padding: 16px; text-align: center; border-radius: 50px; text-transform: uppercase; }
 .menu-items { padding: 0 20px; }
@@ -172,9 +155,7 @@ nav {
 }
 
 /* ── CATEGORY PILLS ── */
-.pills-wrap {
-  position: relative;
-}
+.pills-wrap { position: relative; }
 .pills-wrap::after {
   content: '';
   position: absolute;
@@ -183,13 +164,7 @@ nav {
   background: linear-gradient(to right, transparent, var(--bg));
   pointer-events: none;
 }
-.pills-row {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding-bottom: 2px;
-}
+.pills-row { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
 .pills-row::-webkit-scrollbar { display: none; }
 .pill {
   flex-shrink: 0;
@@ -231,26 +206,9 @@ nav {
   cursor: pointer;
 }
 .trend-card.small { width: 42vw; max-width: 180px; }
-.trend-img {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-}
-.trend-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,.88) 35%, rgba(0,0,0,.15) 100%);
-}
-.trend-content {
-  position: relative;
-  z-index: 2;
-  padding: 14px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
+.trend-img { position: absolute; inset: 0; background-size: cover; background-position: center; }
+.trend-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.88) 35%, rgba(0,0,0,.15) 100%); }
+.trend-content { position: relative; z-index: 2; padding: 14px; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; }
 .trend-tag { font-size: 9px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--lime); margin-bottom: 4px; }
 .trend-title { font-size: 13px; font-weight: 700; color: var(--white); line-height: 1.3; }
 
@@ -265,87 +223,17 @@ nav {
   transition: transform .2s, box-shadow .2s;
   border: 1px solid transparent;
 }
-.perk-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(212,255,0,.2);
-  box-shadow: 0 8px 32px rgba(212,255,0,.06);
-}
-.perk-top-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-.perk-logo-box {
-  width: 54px;
-  height: 54px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: 900;
-  color: var(--white);
-  flex-shrink: 0;
-  font-family: var(--font);
-}
+.perk-card:hover { transform: translateY(-3px); border-color: rgba(212,255,0,.2); box-shadow: 0 8px 32px rgba(212,255,0,.06); }
+.perk-top-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+.perk-logo-box { width: 54px; height: 54px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; color: var(--white); flex-shrink: 0; font-family: var(--font); }
 .perk-disc-col { text-align: right; }
-.perk-disc-val {
-  font-family: var(--display);
-  font-size: 42px;
-  line-height: 1;
-  color: var(--lime);
-  letter-spacing: .02em;
-}
-.perk-disc-type {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--ink3);
-  margin-top: 2px;
-}
+.perk-disc-val { font-family: var(--display); font-size: 42px; line-height: 1; color: var(--lime); letter-spacing: .02em; }
+.perk-disc-type { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink3); margin-top: 2px; }
 .perk-name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.perk-name {
-  font-family: var(--display);
-  font-size: 28px;
-  letter-spacing: .03em;
-  color: var(--white);
-  line-height: 1;
-}
-.perk-badge {
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: .07em;
-  text-transform: uppercase;
-  background: var(--lime);
-  color: var(--bg);
-  padding: 3px 9px;
-  border-radius: 4px;
-}
-.perk-desc {
-  font-size: 14px;
-  color: var(--ink2);
-  line-height: 1.6;
-  margin-bottom: 18px;
-}
-.perk-cta {
-  display: block;
-  width: 100%;
-  background: var(--white);
-  color: var(--bg);
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  padding: 15px;
-  text-align: center;
-  border-radius: 50px;
-  border: none;
-  cursor: pointer;
-  font-family: var(--font);
-  transition: background .15s;
-}
+.perk-name { font-family: var(--display); font-size: 28px; letter-spacing: .03em; color: var(--white); line-height: 1; }
+.perk-badge { font-size: 9px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; background: var(--lime); color: var(--bg); padding: 3px 9px; border-radius: 4px; }
+.perk-desc { font-size: 14px; color: var(--ink2); line-height: 1.6; margin-bottom: 18px; }
+.perk-cta { display: block; width: 100%; background: var(--white); color: var(--bg); font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 15px; text-align: center; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); transition: background .15s; }
 .perk-cta:hover { background: var(--lime); }
 .perk-cta.dark { background: #222; color: var(--white); }
 .perk-cta.dark:hover { background: var(--lime); color: var(--bg); }
@@ -401,6 +289,78 @@ nav {
 .outline-btn { display: block; width: 100%; background: transparent; color: var(--ink2); font-size: 13px; font-weight: 700; letter-spacing: .04em; padding: 15px; text-align: center; border-radius: 14px; border: 1px solid var(--border); cursor: pointer; font-family: var(--font); transition: all .15s; margin-top: 14px; text-transform: uppercase; }
 .outline-btn:hover { border-color: var(--lime); color: var(--lime); }
 
+/* ── BUSINESS CTA ── */
+.biz-cta-sec { padding: 64px 0; border-top: 1px solid var(--border); }
+.biz-cta-inner {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  overflow: hidden;
+  display: grid;
+}
+@media(min-width:860px){ .biz-cta-inner { grid-template-columns: 1fr 1fr; } }
+.biz-cta-left {
+  padding: 44px 36px;
+  position: relative;
+  overflow: hidden;
+}
+.biz-cta-blob {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: var(--lime);
+  opacity: .06;
+  filter: blur(60px);
+  top: -60px;
+  left: -60px;
+  pointer-events: none;
+}
+.biz-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--lime);
+  background: rgba(212,255,0,.08);
+  border: 1px solid rgba(212,255,0,.15);
+  padding: 6px 14px;
+  border-radius: 50px;
+  margin-bottom: 20px;
+}
+.biz-eyebrow::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--lime); }
+.biz-cta-title {
+  font-family: var(--display);
+  font-size: 54px;
+  color: var(--white);
+  text-transform: uppercase;
+  line-height: .92;
+  letter-spacing: .02em;
+  margin-bottom: 16px;
+}
+.biz-cta-title em { font-style: normal; color: var(--lime); display: block; }
+.biz-cta-desc { font-size: 14px; color: var(--ink2); line-height: 1.65; margin-bottom: 28px; max-width: 360px; }
+.biz-cta-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+.lime-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--lime); color: var(--bg); font-size: 13px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 15px 30px; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); transition: background .15s, transform .1s; }
+.lime-btn:hover { background: var(--white); transform: translateY(-2px); }
+.ghost-btn { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: var(--ink2); font-size: 13px; font-weight: 700; padding: 15px 24px; border-radius: 50px; border: 1px solid var(--border); cursor: pointer; font-family: var(--font); transition: all .15s; }
+.ghost-btn:hover { border-color: rgba(255,255,255,.3); color: var(--white); }
+.biz-cta-right {
+  padding: 36px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+@media(min-width:860px){ .biz-cta-right { border-top: none; border-left: 1px solid var(--border); justify-content: center; } }
+.biz-feature { display: flex; align-items: flex-start; gap: 14px; }
+.biz-feature-ico { width: 38px; height: 38px; border-radius: 10px; background: rgba(212,255,0,.07); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.biz-feature-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 3px; }
+.biz-feature-desc { font-size: 12px; color: var(--ink3); line-height: 1.55; }
+
 /* ── FINAL CTA ── */
 .final-cta { background: var(--bg2); border-top: 1px solid var(--border); padding: 72px 0; text-align: center; }
 .final-cta h2 {
@@ -415,8 +375,6 @@ nav {
 }
 .final-cta h2 em { font-style: normal; color: var(--lime); display: block; }
 .final-cta p { font-size: 15px; color: var(--ink2); max-width: 380px; margin: 0 auto 32px; line-height: 1.65; }
-.lime-btn { display: inline-block; background: var(--lime); color: var(--bg); font-size: 14px; font-weight: 800; padding: 17px 44px; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); letter-spacing: .04em; text-transform: uppercase; transition: background .15s, transform .1s; }
-.lime-btn:hover { background: var(--white); transform: translateY(-2px); }
 
 /* ── FOOTER ── */
 footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48px 0 28px; }
@@ -460,6 +418,12 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 .modal-switch span { color: var(--lime); cursor: pointer; font-weight: 600; }
 
 #no-results { display: none; text-align: center; padding: 48px 0; color: var(--ink3); font-size: 15px; }
+
+/* ── EMPTY STATE ── */
+.empty-state { text-align: center; padding: 56px 20px; }
+.empty-ico { width: 60px; height: 60px; border-radius: 16px; background: rgba(212,255,0,.08); border: 1px solid rgba(212,255,0,.12); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+.empty-title { font-family: var(--display); font-size: 28px; color: var(--white); text-transform: uppercase; letter-spacing: .02em; margin-bottom: 10px; }
+.empty-desc { font-size: 14px; color: var(--ink2); line-height: 1.65; max-width: 360px; margin: 0 auto 24px; }
 </style>
 </head>
 <body>
@@ -468,14 +432,15 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 <nav>
   <div class="wrap">
     <div class="nav-inner">
-      <div class="nav-logo">
+      <a href="index.html" class="nav-logo">
         <div class="logo-word">Student<span>Perks.</span></div>
-      </div>
+      </a>
       <div class="nav-spacer"></div>
       <div class="nav-desktop">
         <a href="#perks">Deals</a>
         <a href="#events">Events</a>
         <a href="#jobs">Jobs</a>
+        <a href="partner.html" class="biz">For Business</a>
         <button class="nav-verify" onclick="openModal('jn')">VERIFY</button>
       </div>
       <button class="nav-verify" onclick="openModal('jn')" style="display:flex" id="mobile-verify">VERIFY</button>
@@ -505,7 +470,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
     <a class="menu-item" href="#perks" onclick="closeMenu()">Deals</a>
     <a class="menu-item" href="#events" onclick="closeMenu()">Events</a>
     <a class="menu-item" href="#jobs" onclick="closeMenu()">Jobs</a>
-    <a class="menu-item" onclick="closeMenu();openPartner()">Become a partner</a>
+    <a class="menu-item" href="partner.html" style="color:var(--lime)">For Business</a>
     <a class="menu-item" onclick="closeMenu();openModal('jn')">Recruit and earn</a>
   </div>
   <div class="menu-foot">
@@ -549,49 +514,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
   </div>
 </section>
 
-<!-- TRENDING NOW -->
-<section class="trending-sec">
-  <div class="wrap">
-    <div class="sec-row">
-      <span class="sec-lbl">Trending Now</span>
-      <div class="sec-divider"></div>
-    </div>
-    <div class="trend-scroll">
-      <div class="trend-card" onclick="openModal('jn')">
-        <div class="trend-img" style="background-image:url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80')"></div>
-        <div class="trend-overlay"></div>
-        <div class="trend-content">
-          <div class="trend-tag">Hot Drop</div>
-          <div class="trend-title">Nike Store: Extra 20% off clearance</div>
-        </div>
-      </div>
-      <div class="trend-card small" onclick="openModal('jn')">
-        <div class="trend-img" style="background-image:url('https://images.unsplash.com/photo-1593640495253-23196b27a87f?w=400&q=80')"></div>
-        <div class="trend-overlay"></div>
-        <div class="trend-content">
-          <div class="trend-tag">Tech Flash</div>
-          <div class="trend-title">Razer: 15% off</div>
-        </div>
-      </div>
-      <div class="trend-card" onclick="openModal('jn')">
-        <div class="trend-img" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80')"></div>
-        <div class="trend-overlay"></div>
-        <div class="trend-content">
-          <div class="trend-tag">Most Claimed</div>
-          <div class="trend-title">ASOS: 25% off everything</div>
-        </div>
-      </div>
-      <div class="trend-card small" onclick="openModal('jn')">
-        <div class="trend-img" style="background-image:url('https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=500&q=80')"></div>
-        <div class="trend-overlay"></div>
-        <div class="trend-content">
-          <div class="trend-tag">Limited</div>
-          <div class="trend-title">Spotify: 3 months R1</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ALL PERKS -->
 <section class="perks-sec" id="perks">
@@ -601,107 +523,14 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       <div class="sec-divider"></div>
     </div>
 
-    <div class="perk-card fade-in" data-cat="fashion">
-      <div class="perk-top-row">
-        <div class="perk-logo-box" style="background:#fff;color:#000">A</div>
-        <div class="perk-disc-col"><div class="perk-disc-val">-25%</div><div class="perk-disc-type">Site Wide</div></div>
+    <div class="empty-state">
+      <div class="empty-ico">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
       </div>
-      <div class="perk-name-row">
-        <div class="perk-name">ASOS</div>
-        <span class="perk-badge">POPULAR</span>
-      </div>
-      <div class="perk-desc">Get the latest fits with an exclusive student discount on everything.</div>
-      <button class="perk-cta" onclick="openModal('jn')">Claim Perk &nbsp;→</button>
+      <div class="empty-title">Deals coming soon</div>
+      <p class="empty-desc">No deals listed yet. Are you a brand? Partner with StudentPerks to reach SA students — it's completely free.</p>
+      <a href="partner.html" class="perk-cta" style="display:inline-block;max-width:300px;margin:0 auto">List Your Deal for Free →</a>
     </div>
-
-    <div class="perk-card fade-in" data-cat="entertainment">
-      <div class="perk-top-row">
-        <div class="perk-logo-box" style="background:#1DB954">S</div>
-        <div class="perk-disc-col"><div class="perk-disc-val">R1</div><div class="perk-disc-type">Premium</div></div>
-      </div>
-      <div class="perk-name-row">
-        <div class="perk-name">Spotify</div>
-      </div>
-      <div class="perk-desc">3 months of premium music and podcasts for just a rand. No ads.</div>
-      <button class="perk-cta dark" onclick="openModal('jn')">Redeem Deal &nbsp;→</button>
-    </div>
-
-    <div class="perk-card fade-in" data-cat="tech">
-      <div class="perk-top-row">
-        <div class="perk-logo-box" style="background:#1c1c1e;border:1px solid rgba(255,255,255,.1);font-size:15px;letter-spacing:0">A</div>
-        <div class="perk-disc-col"><div class="perk-disc-val">-20%</div><div class="perk-disc-type">Hardware</div></div>
-      </div>
-      <div class="perk-name-row">
-        <div class="perk-name">Apple</div>
-        <span class="perk-badge">EDUCATION</span>
-      </div>
-      <div class="perk-desc">Save on Mac, iPad and more with Apple's student education pricing.</div>
-      <button class="perk-cta" onclick="openModal('jn')">Claim Perk &nbsp;→</button>
-    </div>
-
-    <div class="perk-card fade-in" data-cat="food">
-      <div class="perk-top-row">
-        <div class="perk-logo-box" style="background:#000;border:1px solid rgba(255,255,255,.1)">U</div>
-        <div class="perk-disc-col"><div class="perk-disc-val">-30%</div><div class="perk-disc-type">First 3 Orders</div></div>
-      </div>
-      <div class="perk-name-row">
-        <div class="perk-name">Uber Eats</div>
-        <span class="perk-badge">NEW</span>
-      </div>
-      <div class="perk-desc">30% off your first 3 Uber Eats orders when you verify your student account.</div>
-      <button class="perk-cta" onclick="openModal('jn')">Claim Perk &nbsp;→</button>
-    </div>
-
-    <div class="perk-card fade-in" data-cat="software">
-      <div class="perk-top-row">
-        <div class="perk-logo-box" style="background:#fff;color:#000">N</div>
-        <div class="perk-disc-col"><div class="perk-disc-val">FREE</div><div class="perk-disc-type">Pro Plan</div></div>
-      </div>
-      <div class="perk-name-row">
-        <div class="perk-name">Notion</div>
-      </div>
-      <div class="perk-desc">Notion Pro is completely free for students and educators. Forever.</div>
-      <button class="perk-cta" onclick="openModal('jn')">Claim Perk &nbsp;→</button>
-    </div>
-
-    <div class="perk-card fade-in" data-cat="travel">
-      <div class="perk-top-row">
-        <div class="perk-logo-box" style="background:#003087">G</div>
-        <div class="perk-disc-col"><div class="perk-disc-val">-15%</div><div class="perk-disc-type">Bus Travel</div></div>
-      </div>
-      <div class="perk-name-row">
-        <div class="perk-name">Greyhound</div>
-      </div>
-      <div class="perk-desc">15% off intercity bus travel for verified students across South Africa.</div>
-      <button class="perk-cta" onclick="openModal('jn')">Claim Perk &nbsp;→</button>
-    </div>
-
-    <div class="perk-card fade-in" data-cat="fitness">
-      <div class="perk-top-row">
-        <div class="perk-logo-box" style="background:#6600cc">P</div>
-        <div class="perk-disc-col"><div class="perk-disc-val">-50%</div><div class="perk-disc-type">Membership</div></div>
-      </div>
-      <div class="perk-name-row">
-        <div class="perk-name">Planet Fitness</div>
-      </div>
-      <div class="perk-desc">Half-price gym membership for students. No joining fee, no contract.</div>
-      <button class="perk-cta" onclick="openModal('jn')">Claim Perk &nbsp;→</button>
-    </div>
-
-    <div class="perk-card fade-in" data-cat="tech">
-      <div class="perk-top-row">
-        <div class="perk-logo-box" style="background:#00cc44;color:#000">R</div>
-        <div class="perk-disc-col"><div class="perk-disc-val">-15%</div><div class="perk-disc-type">Sitewide</div></div>
-      </div>
-      <div class="perk-name-row">
-        <div class="perk-name">Razer</div>
-      </div>
-      <div class="perk-desc">15% off gaming peripherals, laptops and accessories for verified students.</div>
-      <button class="perk-cta" onclick="openModal('jn')">Claim Perk &nbsp;→</button>
-    </div>
-
-    <div id="no-results">No perks match your search.</div>
-    <button class="outline-btn" onclick="openModal('jn')">View all perks →</button>
   </div>
 </section>
 
@@ -713,10 +542,13 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       <div class="sec-divider"></div>
       <a class="sec-view" href="#">View all →</a>
     </div>
-    <div class="ev-row"><div class="ev-date"><div class="ev-day">18</div><div class="ev-mon">Jul</div></div><div class="ev-info"><div class="ev-type">Career Fair</div><div class="ev-name">UCT Engineering & Commerce Career Fair 2025</div><div class="ev-loc">Upper Campus, UCT · 09:00–17:00</div></div><span class="ev-badge free">Free</span></div>
-    <div class="ev-row"><div class="ev-date"><div class="ev-day">25</div><div class="ev-mon">Jul</div></div><div class="ev-info"><div class="ev-type">Social</div><div class="ev-name">Wits Semester 2 Kickoff Party</div><div class="ev-loc">Matrix, Braamfontein · 21:00–02:00</div></div><span class="ev-badge paid">R80</span></div>
-    <div class="ev-row"><div class="ev-date"><div class="ev-day">02</div><div class="ev-mon">Aug</div></div><div class="ev-info"><div class="ev-type">Workshop</div><div class="ev-name">CV Writing & LinkedIn Workshop — Stellenbosch</div><div class="ev-loc">Neelsie Student Centre · 10:00–13:00</div></div><span class="ev-badge free">Free</span></div>
-    <button class="outline-btn" onclick="openModal('jn')">View all events →</button>
+    <div class="empty-state">
+      <div class="empty-ico">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div class="empty-title">No events yet</div>
+      <p class="empty-desc">Student events are coming soon — career fairs, socials, workshops and more. Check back shortly.</p>
+    </div>
   </div>
 </section>
 
@@ -728,10 +560,72 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       <div class="sec-divider"></div>
       <a class="sec-view" href="#">View all →</a>
     </div>
-    <div class="job-card"><div class="job-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="job-info"><div class="job-title">Student Brand Ambassador</div><div class="job-co">Hustle SA · Remote</div><div class="job-tags"><span class="job-tag">Part-time</span><span class="job-tag">Marketing</span></div></div><div class="job-salary">R5K/MO</div><div class="job-arr"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div></div>
-    <div class="job-card"><div class="job-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div><div class="job-info"><div class="job-title">Junior Web Developer Intern</div><div class="job-co">CodeCraft Labs · Cape Town</div><div class="job-tags"><span class="job-tag">Internship</span><span class="job-tag">Tech</span></div></div><div class="job-salary">R8K/MO</div><div class="job-arr"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div></div>
-    <div class="job-card"><div class="job-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div class="job-info"><div class="job-title">Finance Internship — BCom</div><div class="job-co">CapitoGroup · Sandton</div><div class="job-tags"><span class="job-tag">Internship</span><span class="job-tag">Finance</span></div></div><div class="job-salary">R10K/MO</div><div class="job-arr"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></div></div>
-    <button class="outline-btn" onclick="openModal('jn')">View all jobs →</button>
+    <div class="empty-state">
+      <div class="empty-ico">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      </div>
+      <div class="empty-title">No jobs listed yet</div>
+      <p class="empty-desc">Student internships, part-time roles and graduate opportunities are coming soon.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS CTA -->
+<section class="biz-cta-sec">
+  <div class="wrap">
+    <div class="biz-cta-inner">
+      <div class="biz-cta-left">
+        <div class="biz-cta-blob"></div>
+        <div class="biz-eyebrow">For Businesses</div>
+        <div class="biz-cta-title">GROW YOUR<em>REACH.</em></div>
+        <p class="biz-cta-desc">List your student deal on StudentPerks and tap into thousands of verified SA students — for free. Submit your offer in 3 minutes.</p>
+        <div class="biz-cta-btns">
+          <a href="partner.html" class="lime-btn">
+            List Your Deal
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+          <a href="mailto:support@studentperks.co.za" class="ghost-btn">Talk to us</a>
+        </div>
+      </div>
+      <div class="biz-cta-right">
+        <div class="biz-feature">
+          <div class="biz-feature-ico">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div>
+            <div class="biz-feature-title">Free to list</div>
+            <div class="biz-feature-desc">No fees, no commission. Your deal appears at zero cost.</div>
+          </div>
+        </div>
+        <div class="biz-feature">
+          <div class="biz-feature-ico">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <div class="biz-feature-title">Verified student audience</div>
+            <div class="biz-feature-desc">Every user confirms their student status — real, active SA students looking for deals.</div>
+          </div>
+        </div>
+        <div class="biz-feature">
+          <div class="biz-feature-ico">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="biz-feature-title">Live within 24 hours</div>
+            <div class="biz-feature-desc">Fast review, no red tape. Submit today, go live tomorrow.</div>
+          </div>
+        </div>
+        <div class="biz-feature">
+          <div class="biz-feature-ico">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div>
+            <div class="biz-feature-title">High-intent traffic</div>
+            <div class="biz-feature-desc">Students come here specifically to find deals — they're already looking.</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -758,39 +652,17 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
         </div>
       </div>
       <div class="footer-cols">
-        <div class="footer-col"><h4>Platform</h4><a>Deals</a><a>Events</a><a>Jobs</a></div>
-        <div class="footer-col"><h4>Company</h4><a>About</a><a>News</a><a>Become a partner</a><a onclick="openModal('jn')" style="cursor:pointer">Recruit and earn</a><a>Contact</a></div>
-        <div class="footer-col"><h4>Contact</h4><a>+27 81 696 1623</a><a>support@studentperks.co.za</a></div>
+        <div class="footer-col"><h4>Platform</h4><a href="#perks">Deals</a><a href="#events">Events</a><a href="#jobs">Jobs</a></div>
+        <div class="footer-col"><h4>Company</h4><a href="partner.html">For Business</a><a>About</a><a>News</a><a onclick="openModal('jn')" style="cursor:pointer">Recruit and earn</a><a>Contact</a></div>
+        <div class="footer-col"><h4>Contact</h4><a href="https://wa.me/27816961623">+27 81 696 1623</a><a href="mailto:support@studentperks.co.za">support@studentperks.co.za</a></div>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2025 Student Perks. All Rights Reserved.</span>
-      <div class="fbl"><a>Terms & conditions</a><a>Privacy Policy</a></div>
+      <div class="fbl"><a>Terms &amp; conditions</a><a>Privacy Policy</a></div>
     </div>
   </div>
 </footer>
-
-<!-- PARTNER MODAL -->
-<div class="modal-back" id="partner-back">
-  <div class="modal">
-    <button class="modal-x" onclick="closePartner()">×</button>
-    <div class="modal-logo">
-      <div class="logo-word" style="font-size:17px">Student<span>Perks.</span></div>
-    </div>
-    <div class="modal-form-head">
-      <div class="modal-form-title">Become a partner</div>
-      <div class="modal-form-sub">List your brand's deals and reach thousands of SA students.</div>
-    </div>
-    <form onsubmit="return false">
-      <div class="field"><input type="text" placeholder="Business name"></div>
-      <div class="field"><input type="text" placeholder="Your name"></div>
-      <div class="field"><input type="email" placeholder="Email address"></div>
-      <div class="field"><input type="tel" placeholder="Phone number"></div>
-      <div class="field"><textarea placeholder="Tell us about your offer..." style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:var(--font);color:var(--white);background:var(--bg3);outline:none;resize:none;height:90px;transition:border-color .15s;" onfocus="this.style.borderColor='var(--lime)'" onblur="this.style.borderColor='var(--border)'"></textarea></div>
-      <button type="submit" class="modal-submit" onclick="closePartner()">Send enquiry</button>
-    </form>
-  </div>
-</div>
 
 <!-- MODAL -->
 <div class="modal-back" id="modal-back">
@@ -819,13 +691,13 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
         <div class="modal-form-sub">Fill in the details below to create your very own StudentPerks account.</div>
       </div>
       <div class="field"><input type="email" placeholder="Email address"></div>
-      <div class="field"><input type="text" placeholder="Name & Surname"></div>
+      <div class="field"><input type="text" placeholder="Name &amp; Surname"></div>
       <div class="field"><input type="password" placeholder="Password"></div>
       <div class="field"><input type="password" placeholder="Confirm Password"></div>
       <div class="field"><input type="text" placeholder="Referral Code (optional)" style="font-size:13px"></div>
       <label class="modal-terms">
         <input type="checkbox" id="terms-check">
-        <span>I agree to the <a href="#" style="color:var(--lime)">terms & conditions</a> and <a href="#" style="color:var(--lime)">privacy statement</a>.</span>
+        <span>I agree to the <a href="#" style="color:var(--lime)">terms &amp; conditions</a> and <a href="#" style="color:var(--lime)">privacy statement</a>.</span>
       </label>
       <button type="submit" class="modal-submit" onclick="closeModal()">Create account</button>
       <p class="modal-switch">Already a member? <span onclick="switchTab('si')">Sign in</span></p>
@@ -836,9 +708,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 <script>
 function openMenu(){ document.getElementById('menu-overlay').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeMenu(){ document.getElementById('menu-overlay').classList.remove('open'); document.body.style.overflow=''; }
-function openPartner(){ document.getElementById('partner-back').classList.add('open'); document.body.style.overflow='hidden'; }
-function closePartner(){ document.getElementById('partner-back').classList.remove('open'); document.body.style.overflow=''; }
-document.getElementById('partner-back').addEventListener('click',e=>{ if(e.target===e.currentTarget) closePartner(); });
 function openModal(t){ document.getElementById('modal-back').classList.add('open'); document.body.style.overflow='hidden'; switchTab(t); }
 function closeModal(){ document.getElementById('modal-back').classList.remove('open'); document.body.style.overflow=''; }
 function switchTab(t){
