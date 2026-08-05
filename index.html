@@ -523,13 +523,20 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       <div class="sec-divider"></div>
     </div>
 
-    <div class="empty-state">
-      <div class="empty-ico">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+    <div class="perk-card fade-in" data-cat="other" onclick="window.open('https://www.cratesandboxes.co.za','_blank')">
+      <div class="perk-top-row">
+        <div class="perk-logo-box" style="background:#7B5C3A;">C&amp;B</div>
+        <div class="perk-disc-col">
+          <div class="perk-disc-val">10%</div>
+          <div class="perk-disc-type">OFF SITEWIDE</div>
+        </div>
       </div>
-      <div class="empty-title">Deals coming soon</div>
-      <p class="empty-desc">No deals listed yet. Are you a brand? Partner with StudentPerks to reach SA students — it's completely free.</p>
-      <a href="partner.html" class="perk-cta" style="display:inline-block;max-width:300px;margin:0 auto">List Your Deal for Free →</a>
+      <div class="perk-name-row">
+        <div class="perk-name">CRATES &amp; BOXES</div>
+        <div class="perk-badge">NEW</div>
+      </div>
+      <div class="perk-desc">Get 10% off everything at Crates &amp; Boxes — your go-to for moving, storage and student digs. Mention your student status at checkout to claim.</div>
+      <a class="perk-cta" href="https://www.cratesandboxes.co.za" target="_blank" onclick="event.stopPropagation()">Shop Now →</a>
     </div>
   </div>
 </section>
@@ -746,6 +753,7 @@ function filterPerks(){
   document.getElementById('deal-count').textContent = visible + ' deals';
   document.getElementById('no-results').style.display = visible === 0 ? '' : 'none';
 }
+filterPerks();
 </script>
 </body>
 </html>
