@@ -7,6 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*:focus { outline: none; }
+*:focus-visible { outline: none; }
 :root {
   --lime: #d4ff00;
   --lime-d: #b8e000;
@@ -394,21 +396,25 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 .fbl a:hover { color: var(--white); }
 
 /* ── MODAL ── */
-.modal-back { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 999; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+.modal-back { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 999; align-items: center; justify-content: center; backdrop-filter: blur(8px); padding: 16px; }
 .modal-back.open { display: flex; }
-.modal { background: #141414; border: 1px solid rgba(255,255,255,.09); border-radius: 24px; padding: 30px 24px; width: 100%; max-width: 370px; margin: 16px; position: relative; }
-.modal-x { position: absolute; top: 14px; right: 14px; background: var(--bg3); border: none; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ink2); font-size: 18px; }
-.modal-logo { display: flex; align-items: center; gap: 7px; margin-bottom: 20px; }
+.modal { background: #141414; border: 1px solid rgba(255,255,255,.09); border-radius: 24px; padding: 30px 24px; width: 100%; max-width: 400px; position: relative; max-height: 92vh; overflow-y: auto; }
+.modal-x { position: sticky; top: 0; float: right; background: var(--bg3); border: none; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ink2); font-size: 18px; z-index: 10; margin: -10px -10px 0 0; }
+.modal-logo { display: flex; align-items: center; gap: 7px; margin-bottom: 20px; clear: both; }
 .modal-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
 .modal-tab { flex: 1; padding: 11px; text-align: center; font-size: 15px; font-weight: 600; color: var(--ink3); cursor: pointer; border-bottom: 2px solid transparent; transition: all .15s; }
 .modal-tab.active { color: var(--white); border-bottom-color: var(--lime); }
 .field { margin-bottom: 10px; }
-.field input, .field select { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 14px; font-family: var(--font); color: var(--white); background: var(--bg3); outline: none; transition: border-color .15s; }
+.field input, .field select { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 14px; font-family: var(--font); color: var(--white); background: var(--bg3); outline: none; transition: border-color .15s; appearance: none; -webkit-appearance: none; }
 .field input:focus, .field select:focus { border-color: var(--lime); }
 .field input::placeholder { color: var(--ink3); }
-.field select option { background: var(--bg3); }
+.field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,.4)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+.field select option { background: #1a1a1a; color: #fff; }
 .modal-submit { display: block; width: 100%; background: var(--lime); color: var(--bg); font-size: 14px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: 15px; text-align: center; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); margin-top: 6px; transition: background .15s; }
-.modal-submit:hover { background: var(--white); }
+.modal-submit:hover:not(:disabled) { background: var(--white); }
+.modal-submit:disabled { opacity: .6; cursor: not-allowed; }
+.modal-submit.ghost { background: var(--bg3); color: var(--ink2); }
+.modal-submit.ghost:hover:not(:disabled) { background: rgba(255,255,255,.1); color: var(--white); }
 .modal-form-head { margin-bottom: 18px; }
 .modal-form-title { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 4px; letter-spacing: -.02em; }
 .modal-form-sub { font-size: 13px; color: var(--ink3); line-height: 1.5; }
@@ -416,6 +422,32 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 .modal-terms input[type="checkbox"] { margin-top: 2px; accent-color: var(--lime); flex-shrink: 0; width: 14px; height: 14px; }
 .modal-switch { text-align: center; font-size: 13px; color: var(--ink3); margin-top: 14px; }
 .modal-switch span { color: var(--lime); cursor: pointer; font-weight: 600; }
+.modal-err { display: none; color: #ff5555; font-size: 12px; margin-bottom: 8px; padding: 8px 12px; background: rgba(255,85,85,.08); border-radius: 8px; border: 1px solid rgba(255,85,85,.2); }
+/* Step indicator */
+.step-indicator { display: flex; align-items: center; margin-bottom: 6px; }
+.step-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--bg3); border: 1.5px solid rgba(255,255,255,.15); flex-shrink: 0; transition: all .2s; }
+.step-dot.active { background: var(--lime); border-color: var(--lime); box-shadow: 0 0 0 3px rgba(212,255,0,.18); }
+.step-dot.done { background: rgba(212,255,0,.55); border-color: rgba(212,255,0,.55); }
+.step-line { flex: 1; height: 1.5px; background: rgba(255,255,255,.1); }
+.step-line.done { background: rgba(212,255,0,.35); }
+.step-lbl { font-size: 10px; color: var(--ink3); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px; }
+/* Upload zone */
+.upload-zone { border: 2px dashed rgba(212,255,0,.2); border-radius: 14px; padding: 22px 16px; text-align: center; cursor: pointer; margin-bottom: 10px; transition: border-color .2s, background .2s; }
+.upload-zone:hover { border-color: rgba(212,255,0,.5); background: rgba(212,255,0,.03); }
+.upload-zone.has-file { border-color: var(--lime); background: rgba(212,255,0,.05); }
+/* Info box */
+.info-box { background: rgba(212,255,0,.06); border: 1px solid rgba(212,255,0,.14); border-radius: 12px; padding: 11px 13px; margin-bottom: 10px; }
+.info-box-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--lime); margin-bottom: 4px; }
+.info-box-text { font-size: 12px; color: var(--ink3); line-height: 1.6; }
+/* Success state */
+.modal-success { text-align: center; padding: 24px 8px; }
+.modal-success-icon { font-size: 44px; margin-bottom: 14px; }
+.modal-success-title { font-size: 17px; font-weight: 800; color: var(--white); margin-bottom: 8px; }
+.modal-success-sub { font-size: 13px; color: var(--ink3); line-height: 1.65; }
+/* Applied banner */
+.applied-banner { display: none; background: var(--lime); color: var(--bg); padding: 14px 20px; text-align: center; font-size: 14px; font-weight: 700; position: relative; }
+.applied-banner.show { display: block; }
+.applied-banner-x { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 18px; cursor: pointer; color: var(--bg); opacity: .6; font-family: var(--font); }
 
 #no-results { display: none; text-align: center; padding: 48px 0; color: var(--ink3); font-size: 15px; }
 
@@ -427,6 +459,12 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 </style>
 </head>
 <body>
+
+<!-- APPLIED BANNER -->
+<div class="applied-banner" id="applied-banner">
+  🎉 Your verification application has been submitted! We'll review it and email you within 24 hours.
+  <button class="applied-banner-x" onclick="document.getElementById('applied-banner').classList.remove('show')">×</button>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -441,9 +479,9 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
         <a href="#events">Events</a>
         <a href="#jobs">Jobs</a>
         <a href="partner.html" class="biz">For Business</a>
-        <button class="nav-verify" onclick="openModal('jn')">VERIFY</button>
+        <button class="nav-verify" onclick="openModal('si')">SIGN IN</button>
       </div>
-      <button class="nav-verify" onclick="openModal('jn')" style="display:flex" id="mobile-verify">VERIFY</button>
+      <button class="nav-verify" onclick="openModal('si')" style="display:flex" id="mobile-verify">SIGN IN</button>
       <button class="nav-burger" onclick="openMenu()" style="margin-left:8px">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -465,13 +503,13 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
   </div>
-  <button class="menu-verify" onclick="openModal('jn');closeMenu()">Verify Student Status</button>
+  <button class="menu-verify" onclick="openModal('si');closeMenu()">Sign In</button>
   <div class="menu-items">
     <a class="menu-item" href="#perks" onclick="closeMenu()">Deals</a>
     <a class="menu-item" href="#events" onclick="closeMenu()">Events</a>
     <a class="menu-item" href="#jobs" onclick="closeMenu()">Jobs</a>
     <a class="menu-item" href="partner.html" style="color:var(--lime)">For Business</a>
-    <a class="menu-item" onclick="closeMenu();openModal('jn')">Recruit and earn</a>
+    <a class="menu-item" onclick="closeMenu();openModal('jn')">Verify student status</a>
   </div>
   <div class="menu-foot">
     <div class="menu-contact-row">
@@ -675,85 +713,379 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 
 <!-- MODAL -->
 <div class="modal-back" id="modal-back">
-  <div class="modal">
+  <div class="modal" id="modal-box">
     <button class="modal-x" onclick="closeModal()">×</button>
     <div class="modal-logo">
       <div class="logo-word" style="font-size:17px">Student<span>Perks.</span></div>
     </div>
     <div class="modal-tabs">
       <div class="modal-tab active" id="t-si" onclick="switchTab('si')">Sign in</div>
-      <div class="modal-tab" id="t-jn" onclick="switchTab('jn')">Join now</div>
+      <div class="modal-tab" id="t-jn" onclick="switchTab('jn')">Verify &amp; Join</div>
     </div>
 
-    <!-- SIGN IN -->
-    <form id="form-si" onsubmit="return false">
-      <div class="field"><input type="email" placeholder="Email address"></div>
-      <div class="field"><input type="password" placeholder="Password"></div>
-      <button type="submit" class="modal-submit" onclick="closeModal()">Sign in</button>
-      <p class="modal-switch">Not a member? <span onclick="switchTab('jn')">Join now</span></p>
-    </form>
-
-    <!-- JOIN NOW -->
-    <form id="form-jn" style="display:none" onsubmit="return false">
-      <div class="modal-form-head">
-        <div class="modal-form-title">Create an account</div>
-        <div class="modal-form-sub">Fill in the details below to create your very own StudentPerks account.</div>
+    <!-- ── SIGN IN ── -->
+    <div id="panel-si">
+      <div id="si-form-wrap">
+        <div class="modal-form-head">
+          <div class="modal-form-title">Welcome back</div>
+          <div class="modal-form-sub">Enter your email and we'll send you a secure sign-in link.</div>
+        </div>
+        <div class="field"><input type="email" id="si-email" placeholder="Your email address"></div>
+        <div class="modal-err" id="si-err"></div>
+        <button class="modal-submit" id="si-btn" onclick="handleSignIn()">Send sign-in link</button>
       </div>
-      <div class="field"><input type="email" placeholder="Email address"></div>
-      <div class="field"><input type="text" placeholder="Name &amp; Surname"></div>
-      <div class="field"><input type="password" placeholder="Password"></div>
-      <div class="field"><input type="password" placeholder="Confirm Password"></div>
-      <div class="field"><input type="text" placeholder="Referral Code (optional)" style="font-size:13px"></div>
-      <label class="modal-terms">
-        <input type="checkbox" id="terms-check">
-        <span>I agree to the <a href="#" style="color:var(--lime)">terms &amp; conditions</a> and <a href="#" style="color:var(--lime)">privacy statement</a>.</span>
-      </label>
-      <button type="submit" class="modal-submit" onclick="closeModal()">Create account</button>
-      <p class="modal-switch">Already a member? <span onclick="switchTab('si')">Sign in</span></p>
-    </form>
+      <div id="si-success" class="modal-success" style="display:none">
+        <div class="modal-success-icon">📬</div>
+        <div class="modal-success-title">Check your inbox!</div>
+        <div class="modal-success-sub">If your account is approved, you'll receive a sign-in link shortly. Check your spam folder too.</div>
+      </div>
+      <p class="modal-switch">New here? <span onclick="switchTab('jn')">Verify your student status</span></p>
+    </div>
+
+    <!-- ── JOIN / VERIFY ── -->
+    <div id="panel-jn" style="display:none">
+
+      <!-- Step indicator -->
+      <div class="step-indicator" id="step-indicator">
+        <div class="step-dot active" id="dot-1"></div>
+        <div class="step-line" id="line-1"></div>
+        <div class="step-dot" id="dot-2"></div>
+        <div class="step-line" id="line-2"></div>
+        <div class="step-dot" id="dot-3"></div>
+      </div>
+      <div class="step-lbl" id="step-lbl">Step 1 of 3 — Account details</div>
+
+      <!-- STEP 1 -->
+      <div id="step-1">
+        <div class="modal-form-head">
+          <div class="modal-form-title">Create account</div>
+          <div class="modal-form-sub">Start with your basic details. We'll verify your student status next.</div>
+        </div>
+        <div class="field"><input type="text" id="jn-name" placeholder="Full name"></div>
+        <div class="field"><input type="email" id="jn-email" placeholder="Personal email address"></div>
+        <div class="field"><input type="password" id="jn-pass" placeholder="Password (min 8 characters)"></div>
+        <div class="field"><input type="password" id="jn-pass2" placeholder="Confirm password"></div>
+        <div class="field"><input type="text" id="jn-ref" placeholder="Referral code (optional)" style="font-size:13px"></div>
+        <div class="modal-err" id="err-1"></div>
+        <button class="modal-submit" onclick="nextStep(2)">Continue →</button>
+      </div>
+
+      <!-- STEP 2 -->
+      <div id="step-2" style="display:none">
+        <div class="modal-form-head">
+          <div class="modal-form-title">Student details</div>
+          <div class="modal-form-sub">These details help us verify your enrolment.</div>
+        </div>
+        <div class="field">
+          <select id="jn-institution">
+            <option value="" disabled selected>Select your institution</option>
+            <optgroup label="Traditional Universities">
+              <option>University of Cape Town (UCT)</option>
+              <option>University of the Witwatersrand (Wits)</option>
+              <option>Stellenbosch University (SU)</option>
+              <option>University of Pretoria (UP)</option>
+              <option>University of KwaZulu-Natal (UKZN)</option>
+              <option>University of Johannesburg (UJ)</option>
+              <option>North-West University (NWU)</option>
+              <option>University of the Western Cape (UWC)</option>
+              <option>Rhodes University</option>
+              <option>University of Limpopo</option>
+              <option>University of Venda</option>
+              <option>University of Fort Hare</option>
+              <option>Walter Sisulu University (WSU)</option>
+              <option>Sol Plaatje University</option>
+              <option>Sefako Makgatho Health Sciences University (SMU)</option>
+              <option>UNISA (Distance Learning)</option>
+            </optgroup>
+            <optgroup label="Universities of Technology">
+              <option>Cape Peninsula University of Technology (CPUT)</option>
+              <option>Durban University of Technology (DUT)</option>
+              <option>Mangosuthu University of Technology (MUT)</option>
+              <option>Tshwane University of Technology (TUT)</option>
+              <option>Vaal University of Technology (VUT)</option>
+              <option>Central University of Technology (CUT)</option>
+            </optgroup>
+            <optgroup label="Private Institutions">
+              <option>IIE MSA / Varsity College</option>
+              <option>Rosebank College</option>
+              <option>Boston City Campus</option>
+              <option>DAMELIN</option>
+              <option>CTI Education Group</option>
+              <option>Richfield Graduate Institute</option>
+              <option>MANCOSA</option>
+            </optgroup>
+            <option value="other">Other institution</option>
+          </select>
+        </div>
+        <div class="field"><input type="text" id="jn-other-inst" placeholder="Institution name" style="display:none"></div>
+        <div class="field"><input type="email" id="jn-student-email" placeholder="Student email (e.g. you@myuniversity.ac.za)"></div>
+        <div class="field">
+          <select id="jn-year">
+            <option value="" disabled selected>Year of study</option>
+            <option>1st Year</option>
+            <option>2nd Year</option>
+            <option>3rd Year</option>
+            <option>4th Year</option>
+            <option>5th Year +</option>
+            <option>Postgraduate (Honours)</option>
+            <option>Postgraduate (Masters)</option>
+            <option>Postgraduate (PhD)</option>
+            <option>Part-time / Distance learning</option>
+          </select>
+        </div>
+        <div class="field"><input type="text" id="jn-course" placeholder="Degree / Course (e.g. BCom Accounting)"></div>
+        <div class="field"><input type="text" id="jn-stunum" placeholder="Student number"></div>
+        <div class="modal-err" id="err-2"></div>
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <button class="modal-submit ghost" style="flex:0 0 auto;width:auto;padding:15px 18px" onclick="goStep(1)">←</button>
+          <button class="modal-submit" style="flex:1" onclick="nextStep(3)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div id="step-3" style="display:none">
+        <div class="modal-form-head">
+          <div class="modal-form-title">Verify your identity</div>
+          <div class="modal-form-sub">Upload your student card so we can confirm your enrolment.</div>
+        </div>
+
+        <div class="upload-zone" id="upload-zone" onclick="document.getElementById('card-file').click()">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <div id="upload-lbl" style="font-size:14px;font-weight:600;color:var(--white);margin:7px 0 3px">Tap to upload student card</div>
+          <div style="font-size:11px;color:var(--ink3)">JPG, PNG or PDF · max 5 MB</div>
+        </div>
+        <input type="file" id="card-file" accept="image/*,.pdf" style="display:none" onchange="handleFile(this)">
+
+        <div class="info-box">
+          <div class="info-box-label">What we check</div>
+          <div class="info-box-text">Your name, institution and enrolment year must match what you entered. Your card is reviewed by our team and never shared with third parties.</div>
+        </div>
+        <div class="info-box">
+          <div class="info-box-label">Student email verification</div>
+          <div class="info-box-text">We'll also send a verification link to your student email address — click it to confirm you have access to that inbox.</div>
+        </div>
+
+        <label class="modal-terms">
+          <input type="checkbox" id="terms-chk" style="accent-color:var(--lime);flex-shrink:0">
+          <span>I agree to the <a href="#" style="color:var(--lime)">terms &amp; conditions</a> and <a href="#" style="color:var(--lime)">privacy statement</a>. I confirm this is my own genuine student card.</span>
+        </label>
+
+        <div class="modal-err" id="err-3"></div>
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <button class="modal-submit ghost" style="flex:0 0 auto;width:auto;padding:15px 18px" onclick="goStep(2)">←</button>
+          <button class="modal-submit" style="flex:1" id="jn-submit-btn" onclick="submitJoin()">Submit for verification</button>
+        </div>
+      </div>
+
+      <!-- JOIN SUCCESS -->
+      <div id="jn-success" class="modal-success" style="display:none">
+        <div class="modal-success-icon">🎉</div>
+        <div class="modal-success-title">Application submitted!</div>
+        <div class="modal-success-sub">We'll review your student card and email you within 24 hours. Check your student inbox for the verification link too.</div>
+      </div>
+
+      <p class="modal-switch" id="jn-switch-link">Already verified? <span onclick="switchTab('si')">Sign in</span></p>
+    </div>
   </div>
 </div>
 
 <script>
+/* ── MENU ── */
 function openMenu(){ document.getElementById('menu-overlay').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeMenu(){ document.getElementById('menu-overlay').classList.remove('open'); document.body.style.overflow=''; }
-function openModal(t){ document.getElementById('modal-back').classList.add('open'); document.body.style.overflow='hidden'; switchTab(t); }
+
+/* ── MODAL ── */
+function openModal(t){ document.getElementById('modal-back').classList.add('open'); document.body.style.overflow='hidden'; switchTab(t||'si'); resetModal(); }
 function closeModal(){ document.getElementById('modal-back').classList.remove('open'); document.body.style.overflow=''; }
 function switchTab(t){
   const jn = t==='jn';
   document.getElementById('t-si').classList.toggle('active',!jn);
   document.getElementById('t-jn').classList.toggle('active',jn);
-  document.getElementById('form-si').style.display = jn?'none':'';
-  document.getElementById('form-jn').style.display = jn?'':'none';
+  document.getElementById('panel-si').style.display = jn?'none':'';
+  document.getElementById('panel-jn').style.display = jn?'':'none';
 }
 document.getElementById('modal-back').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal(); });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); closeMenu(); } });
 
+function resetModal(){
+  showErr('si-err',''); document.getElementById('si-success').style.display='none';
+  document.getElementById('si-form-wrap').style.display='';
+  document.getElementById('si-email').value='';
+  const btn=document.getElementById('si-btn'); btn.disabled=false; btn.textContent='Send sign-in link';
+  document.getElementById('jn-success').style.display='none';
+  document.getElementById('jn-switch-link').style.display='';
+  goStep(1,true);
+}
+
+/* ── SIGN IN ── */
+async function handleSignIn(){
+  const email = document.getElementById('si-email').value.trim();
+  const btn = document.getElementById('si-btn');
+  if(!email || !email.includes('@')){ showErr('si-err','Please enter a valid email address.'); return; }
+  showErr('si-err','');
+  btn.disabled=true; btn.textContent='Sending…';
+  try {
+    await fetch('https://formsubmit.co/ajax/deniloans6@gmail.com',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify({ _subject:'StudentPerks Sign-in Request', email, request_type:'sign_in', _captcha:'false' })
+    });
+  } catch(e){}
+  document.getElementById('si-form-wrap').style.display='none';
+  document.getElementById('si-success').style.display='block';
+}
+
+/* ── JOIN — STEPS ── */
+let step = 1;
+
+function nextStep(to){
+  if(to===2){
+    const name=document.getElementById('jn-name').value.trim();
+    const email=document.getElementById('jn-email').value.trim();
+    const pass=document.getElementById('jn-pass').value;
+    const pass2=document.getElementById('jn-pass2').value;
+    if(!name){ showErr('err-1','Please enter your full name.'); return; }
+    if(!email||!email.includes('@')){ showErr('err-1','Please enter a valid email address.'); return; }
+    if(pass.length<8){ showErr('err-1','Password must be at least 8 characters.'); return; }
+    if(pass!==pass2){ showErr('err-1','Passwords do not match.'); return; }
+    showErr('err-1','');
+  }
+  if(to===3){
+    const inst=document.getElementById('jn-institution').value;
+    const semail=document.getElementById('jn-student-email').value.trim();
+    const yr=document.getElementById('jn-year').value;
+    const course=document.getElementById('jn-course').value.trim();
+    const stunum=document.getElementById('jn-stunum').value.trim();
+    if(!inst){ showErr('err-2','Please select your institution.'); return; }
+    if(inst==='other'&&!document.getElementById('jn-other-inst').value.trim()){ showErr('err-2','Please enter your institution name.'); return; }
+    if(!semail||!semail.includes('@')){ showErr('err-2','Please enter your student email address.'); return; }
+    if(!yr){ showErr('err-2','Please select your year of study.'); return; }
+    if(!course){ showErr('err-2','Please enter your degree or course.'); return; }
+    if(!stunum){ showErr('err-2','Please enter your student number.'); return; }
+    showErr('err-2','');
+  }
+  goStep(to);
+}
+
+function goStep(to, silent){
+  document.getElementById('step-'+step).style.display='none';
+  document.getElementById('step-'+to).style.display='block';
+  for(let i=1;i<=3;i++){
+    const dot=document.getElementById('dot-'+i);
+    dot.className='step-dot'+(i<to?' done':i===to?' active':'');
+  }
+  if(document.getElementById('line-1')) document.getElementById('line-1').className='step-line'+(to>1?' done':'');
+  if(document.getElementById('line-2')) document.getElementById('line-2').className='step-line'+(to>2?' done':'');
+  const labels=['','Step 1 of 3 — Account details','Step 2 of 3 — Student details','Step 3 of 3 — Verify your identity'];
+  document.getElementById('step-lbl').textContent=labels[to];
+  step=to;
+  if(!silent) document.getElementById('modal-box').scrollTop=0;
+}
+
+/* ── "Other" institution ── */
+document.getElementById('jn-institution').addEventListener('change',function(){
+  document.getElementById('jn-other-inst').style.display=this.value==='other'?'':'none';
+});
+
+/* ── File upload ── */
+function handleFile(input){
+  if(!input.files||!input.files[0]) return;
+  const f=input.files[0];
+  if(f.size>5*1024*1024){ showErr('err-3','File is too large. Please upload a file under 5 MB.'); input.value=''; return; }
+  document.getElementById('upload-zone').classList.add('has-file');
+  document.getElementById('upload-lbl').textContent='✓ '+f.name;
+  showErr('err-3','');
+}
+
+/* ── Submit join form ── */
+async function submitJoin(){
+  const file=document.getElementById('card-file').files[0];
+  const terms=document.getElementById('terms-chk').checked;
+  if(!file){ showErr('err-3','Please upload a photo of your student card.'); return; }
+  if(!terms){ showErr('err-3','Please agree to the terms and conditions.'); return; }
+  showErr('err-3','');
+
+  const btn=document.getElementById('jn-submit-btn');
+  btn.disabled=true; btn.textContent='Submitting…';
+
+  const inst=document.getElementById('jn-institution').value==='other'
+    ? document.getElementById('jn-other-inst').value.trim()
+    : document.getElementById('jn-institution').value;
+
+  const fd=new FormData();
+  fd.append('_subject','New StudentPerks Verification Application');
+  fd.append('_captcha','false');
+  fd.append('_template','table');
+  fd.append('full_name', document.getElementById('jn-name').value.trim());
+  fd.append('personal_email', document.getElementById('jn-email').value.trim());
+  fd.append('institution', inst);
+  fd.append('student_email', document.getElementById('jn-student-email').value.trim());
+  fd.append('year_of_study', document.getElementById('jn-year').value);
+  fd.append('degree_course', document.getElementById('jn-course').value.trim());
+  fd.append('student_number', document.getElementById('jn-stunum').value.trim());
+  fd.append('referral_code', document.getElementById('jn-ref').value.trim()||'none');
+  fd.append('student_card', file, file.name);
+
+  try {
+    const res=await fetch('https://formsubmit.co/ajax/deniloans6@gmail.com',{
+      method:'POST', headers:{'Accept':'application/json'}, body:fd
+    });
+    const data=await res.json();
+    if(data.success==='true'||data.success===true){
+      for(let i=1;i<=3;i++) document.getElementById('step-'+i).style.display='none';
+      document.getElementById('step-indicator').style.display='none';
+      document.getElementById('step-lbl').style.display='none';
+      document.getElementById('jn-success').style.display='block';
+      document.getElementById('jn-switch-link').style.display='none';
+    } else {
+      throw new Error('failed');
+    }
+  } catch(e){
+    showErr('err-3','Something went wrong. Please email us at support@studentperks.co.za if this continues.');
+    btn.disabled=false; btn.textContent='Submit for verification';
+  }
+}
+
+/* ── Helpers ── */
+function showErr(id, msg){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.textContent=msg;
+  el.style.display=msg?'block':'none';
+}
+
+/* ── Applied banner ── */
+(function(){
+  const p=new URLSearchParams(window.location.search);
+  if(p.has('applied')) document.getElementById('applied-banner').classList.add('show');
+})();
+
+/* ── Perks filter ── */
 let activeCat = 'all';
 function setCat(el, cat){
   document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
   el.classList.add('active');
-  activeCat = cat;
+  activeCat=cat;
   filterPerks();
 }
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.1 });
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } });
+},{ threshold:0.1 });
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
 
 function filterPerks(){
-  const q = document.getElementById('search-input').value.toLowerCase();
-  const cards = document.querySelectorAll('.perk-card');
-  let visible = 0;
-  cards.forEach(card => {
-    const catMatch = activeCat === 'all' || card.dataset.cat === activeCat;
-    const textMatch = !q || card.innerText.toLowerCase().includes(q);
-    const show = catMatch && textMatch;
-    card.style.display = show ? '' : 'none';
+  const q=document.getElementById('search-input').value.toLowerCase();
+  const cards=document.querySelectorAll('.perk-card');
+  let visible=0;
+  cards.forEach(card=>{
+    const catMatch=activeCat==='all'||card.dataset.cat===activeCat;
+    const textMatch=!q||card.innerText.toLowerCase().includes(q);
+    const show=catMatch&&textMatch;
+    card.style.display=show?'':'none';
     if(show) visible++;
   });
-  document.getElementById('deal-count').textContent = visible + ' deals';
-  document.getElementById('no-results').style.display = visible === 0 ? '' : 'none';
+  document.getElementById('deal-count').textContent=visible+' deals';
+  document.getElementById('no-results').style.display=visible===0?'':'none';
 }
 filterPerks();
 </script>
