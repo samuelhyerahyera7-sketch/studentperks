@@ -934,14 +934,35 @@ async function handleSignIn(){
   showErr('si-err','');
   btn.disabled=true; btn.textContent='Sending…';
   try {
-    await fetch('https://formsubmit.co/ajax/deniloans6@gmail.com',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body: JSON.stringify({ _subject:'StudentPerks Sign-in Request', email, request_type:'sign_in', _captcha:'false' })
+    const {data: app} = await sb
+      .from('student_applications')
+      .select('status')
+      .eq('email', email)
+      .maybeSingle();
+
+    if(!app){
+      showErr('si-err',"We couldn't find an account with that email. Have you applied yet?");
+      btn.disabled=false; btn.textContent='Send sign-in link';
+      return;
+    }
+    if(app.status !== 'approved'){
+      showErr('si-err','Your application is still under review. We\'ll email you once approved.');
+      btn.disabled=false; btn.textContent='Send sign-in link';
+      return;
+    }
+
+    const {error} = await sb.auth.signInWithOtp({
+      email,
+      options:{ emailRedirectTo: 'https://studentperks.co.za/' }
     });
-  } catch(e){}
-  document.getElementById('si-form-wrap').style.display='none';
-  document.getElementById('si-success').style.display='block';
+    if(error) throw error;
+
+    document.getElementById('si-form-wrap').style.display='none';
+    document.getElementById('si-success').style.display='block';
+  } catch(e){
+    showErr('si-err','Failed to send sign-in link. Please try again.');
+    btn.disabled=false; btn.textContent='Send sign-in link';
+  }
 }
 
 /* ── JOIN — STEPS ── */
