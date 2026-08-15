@@ -13,6 +13,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StudentPerks Admin</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -172,6 +173,17 @@ button{cursor:pointer;border:none;font-family:var(--font)}
 /* CODE GENERATOR */
 .gen-row{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-bottom:16px}
 .gen-row .field{flex:1;min-width:120px}
+
+/* ANALYTICS */
+.chart-grid{display:grid;gap:16px;margin-bottom:20px}
+@media(min-width:700px){.chart-grid-2{grid-template-columns:1fr 1fr}}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}
+.chart-card-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:16px}
+.chart-wrap{position:relative;height:200px}
+.an-stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+@media(min-width:640px){.an-stat-grid{grid-template-columns:repeat(4,1fr)}}
+.ga-link-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(66,133,244,.12);color:#4285f4;border:1px solid rgba(66,133,244,.2);font-size:13px;font-weight:700;padding:10px 18px;border-radius:50px;cursor:pointer;text-decoration:none;transition:background .15s;margin-bottom:20px}
+.ga-link-btn:hover{background:rgba(66,133,244,.22)}
 </style>
 </head>
 <body>
@@ -216,6 +228,7 @@ button{cursor:pointer;border:none;font-family:var(--font)}
     <button class="tab-btn"        id="tbtn-vendors"      onclick="showTab('vendors')">Vendors</button>
     <button class="tab-btn"        id="tbtn-coupons"      onclick="showTab('coupons')">Coupons</button>
     <button class="tab-btn"        id="tbtn-redemptions"  onclick="showTab('redemptions')">Redemptions</button>
+    <button class="tab-btn"        id="tbtn-analytics"    onclick="showTab('analytics')">Analytics</button>
     <button class="tab-btn"        id="tbtn-settings"     onclick="showTab('settings')">Settings</button>
   </div>
 
@@ -366,6 +379,54 @@ button{cursor:pointer;border:none;font-family:var(--font)}
       </div>
     </div>
 
+    <!-- ── ANALYTICS ── -->
+    <div class="tab-panel" id="tab-analytics">
+      <div class="sec-head">
+        <div class="sec-title">Analytics</div>
+        <a class="ga-link-btn" href="https://analytics.google.com" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Google Analytics →
+        </a>
+      </div>
+      <div class="sec-rule"></div>
+
+      <!-- Stat cards -->
+      <div class="an-stat-grid">
+        <div class="stat-card"><div class="stat-val" id="an-total-apps">—</div><div class="stat-lbl">Total Applications</div></div>
+        <div class="stat-card"><div class="stat-val" id="an-approved">—</div><div class="stat-lbl">Approved Students</div></div>
+        <div class="stat-card"><div class="stat-val" id="an-redemptions">—</div><div class="stat-lbl">Total Redemptions</div></div>
+        <div class="stat-card"><div class="stat-val" id="an-conversion">—</div><div class="stat-lbl">Conversion Rate</div></div>
+      </div>
+
+      <!-- Applications over time -->
+      <div class="chart-card" style="margin-bottom:16px">
+        <div class="chart-card-title">Applications — last 30 days</div>
+        <div class="chart-wrap"><canvas id="chart-apps"></canvas></div>
+      </div>
+
+      <!-- Redemptions + Top vendors -->
+      <div class="chart-grid chart-grid-2">
+        <div class="chart-card">
+          <div class="chart-card-title">Redemptions — last 30 days</div>
+          <div class="chart-wrap"><canvas id="chart-redemptions"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Top vendors by redemptions</div>
+          <div class="chart-wrap"><canvas id="chart-vendors"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Redemptions with student details -->
+      <div class="sec-head" style="margin-top:8px"><div class="sec-title">Redemptions with student details</div></div>
+      <div class="sec-rule"></div>
+      <div class="data-table" id="an-redeem-table">
+        <div class="dt-row head" style="grid-template-columns:44px 130px 1fr 1fr 1fr 130px">
+          <div></div><div>Code</div><div>Student</div><div>University</div><div>Vendor</div><div>Redeemed at</div>
+        </div>
+        <div class="loading-row" id="an-redeem-loading">Loading…</div>
+      </div>
+    </div>
+
   </div><!-- /.admin-body -->
 </div><!-- /#admin-page -->
 
@@ -478,6 +539,7 @@ function showTab(name) {
     case 'vendors':      loadVendors(); break;
     case 'coupons':      initCoupons(); break;
     case 'redemptions':  loadRedemptions(); break;
+    case 'analytics':    loadAnalytics(); break;
     case 'settings':     loadSettings(); break;
   }
 }
@@ -760,6 +822,194 @@ async function changeAdminPass() {
   localStorage.setItem('sp_admin_hash',newHash);
   ['cp-current','cp-new','cp-confirm'].forEach(id=>document.getElementById(id).value='');
   err.style.display='none'; ok.style.display='block';
+}
+
+/* ── ANALYTICS ── */
+let _charts = {};
+
+function destroyChart(id) { if(_charts[id]){ _charts[id].destroy(); delete _charts[id]; } }
+
+function last30Days() {
+  const days = [];
+  for(let i=29;i>=0;i--){
+    const d = new Date(); d.setDate(d.getDate()-i);
+    days.push(d.toISOString().slice(0,10));
+  }
+  return days;
+}
+
+function groupByDay(rows, tsField) {
+  const counts = {};
+  (rows||[]).forEach(r=>{
+    const day = (r[tsField]||'').slice(0,10);
+    counts[day] = (counts[day]||0) + 1;
+  });
+  return counts;
+}
+
+const CHART_DEFAULTS = {
+  color: '#d4ff00',
+  gridColor: 'rgba(255,255,255,.06)',
+  textColor: 'rgba(255,255,255,.35)',
+  font: 'Inter, sans-serif'
+};
+
+function makeLineBar(id, type, labels, data, color) {
+  destroyChart(id);
+  const ctx = document.getElementById(id).getContext('2d');
+  _charts[id] = new Chart(ctx, {
+    type,
+    data: {
+      labels,
+      datasets:[{
+        data,
+        backgroundColor: type==='bar' ? color+'33' : color+'22',
+        borderColor: color,
+        borderWidth: 2,
+        borderRadius: type==='bar' ? 4 : 0,
+        pointRadius: 0,
+        tension: 0.4,
+        fill: type==='line'
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ title: i=>i[0].label } } },
+      scales:{
+        x:{ ticks:{ color:CHART_DEFAULTS.textColor, font:{size:10}, maxTicksLimit:8 }, grid:{color:CHART_DEFAULTS.gridColor} },
+        y:{ ticks:{ color:CHART_DEFAULTS.textColor, font:{size:10}, precision:0 }, grid:{color:CHART_DEFAULTS.gridColor}, beginAtZero:true }
+      }
+    }
+  });
+}
+
+function makeHBar(id, labels, data) {
+  destroyChart(id);
+  const ctx = document.getElementById(id).getContext('2d');
+  _charts[id] = new Chart(ctx, {
+    type:'bar',
+    data:{
+      labels,
+      datasets:[{ data, backgroundColor:'#d4ff0044', borderColor:'#d4ff00', borderWidth:2, borderRadius:4 }]
+    },
+    options:{
+      indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false} },
+      scales:{
+        x:{ ticks:{ color:CHART_DEFAULTS.textColor, font:{size:10}, precision:0 }, grid:{color:CHART_DEFAULTS.gridColor}, beginAtZero:true },
+        y:{ ticks:{ color:'rgba(255,255,255,.6)', font:{size:11} }, grid:{display:false} }
+      }
+    }
+  });
+}
+
+async function loadAnalytics() {
+  const days = last30Days();
+  const cutoff = days[0]+'T00:00:00Z';
+
+  const [appsRes, redemRes, allAppsRes, codesRes] = await Promise.all([
+    _sb.from('student_applications').select('created_at,status').gte('created_at',cutoff),
+    _sb.from('redemptions').select('redeemed_at,vendor_name'),
+    _sb.from('student_applications').select('status'),
+    _sb.from('coupon_codes').select('is_used', {count:'exact',head:false})
+  ]);
+
+  const allApps    = allAppsRes.data || [];
+  const recentApps = appsRes.data    || [];
+  const redems     = redemRes.data   || [];
+  const allCodes   = codesRes.data   || [];
+
+  const totalApps  = allApps.length;
+  const approved   = allApps.filter(a=>a.status==='approved').length;
+  const totalRed   = redems.length;
+  const usedCodes  = allCodes.filter(c=>c.is_used).length;
+  const totalCodes = allCodes.length;
+  const convRate   = totalCodes>0 ? Math.round(usedCodes/totalCodes*100) : 0;
+
+  document.getElementById('an-total-apps').textContent  = totalApps;
+  document.getElementById('an-approved').textContent    = approved;
+  document.getElementById('an-redemptions').textContent = totalRed;
+  document.getElementById('an-conversion').textContent  = convRate+'%';
+
+  // Applications chart
+  const appsByDay   = groupByDay(recentApps,'created_at');
+  const appLabels   = days.map(d=>d.slice(5));
+  const appData     = days.map(d=>appsByDay[d]||0);
+  makeLineBar('chart-apps','bar',appLabels,appData,'#d4ff00');
+
+  // Redemptions chart (last 30 days)
+  const redByDay    = groupByDay(redems.filter(r=>r.redeemed_at>=cutoff),'redeemed_at');
+  const redData     = days.map(d=>redByDay[d]||0);
+  makeLineBar('chart-redemptions','line',appLabels,redData,'#5b8fff');
+
+  // Top vendors
+  const vendorCounts = {};
+  redems.forEach(r=>{ const v=r.vendor_name||'Unknown'; vendorCounts[v]=(vendorCounts[v]||0)+1; });
+  const sorted = Object.entries(vendorCounts).sort((a,b)=>b[1]-a[1]).slice(0,7);
+  if(sorted.length){
+    makeHBar('chart-vendors', sorted.map(e=>e[0]), sorted.map(e=>e[1]));
+  } else {
+    destroyChart('chart-vendors');
+    document.getElementById('chart-vendors').parentElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--ink3);font-size:13px">No redemptions yet</div>';
+  }
+
+  // Student details table
+  await loadAnalyticsRedemptions();
+}
+
+async function loadAnalyticsRedemptions() {
+  const tbody  = document.getElementById('an-redeem-table');
+  const loading= document.getElementById('an-redeem-loading');
+  if(loading) loading.textContent = 'Loading…';
+
+  // Fetch all redemptions ordered newest first
+  const {data: redems} = await _sb
+    .from('redemptions')
+    .select('*')
+    .order('redeemed_at',{ascending:false})
+    .limit(200);
+
+  [...tbody.querySelectorAll('.dt-row:not(.head)')].forEach(r=>r.remove());
+
+  if(!redems||!redems.length){
+    const l=document.getElementById('an-redeem-loading');
+    if(l) l.textContent='No redemptions yet.';
+    return;
+  }
+
+  document.getElementById('an-redeem-loading')?.remove();
+
+  // Fetch student details for emails that appear in redemptions
+  const emails = [...new Set(redems.map(r=>r.student_email).filter(Boolean))];
+  let studentMap = {};
+  if(emails.length){
+    const {data: students} = await _sb
+      .from('student_applications')
+      .select('personal_email,full_name,institution,card_photo_url,status')
+      .in('personal_email', emails);
+    (students||[]).forEach(s=>{ studentMap[s.personal_email]=s; });
+  }
+
+  redems.forEach(r => {
+    const student = studentMap[r.student_email] || null;
+    const photoUrl = student?.card_photo_url || '';
+    const photoHtml = photoUrl
+      ? `<img src="${photoUrl}" onclick="window.open('${photoUrl}','_blank')" style="width:36px;height:36px;object-fit:cover;border-radius:8px;cursor:pointer;border:1px solid var(--border)" title="View student card">`
+      : `<div style="width:36px;height:36px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:11px">?</div>`;
+
+    const row = document.createElement('div');
+    row.className = 'dt-row';
+    row.style.gridTemplateColumns = '44px 130px 1fr 1fr 1fr 130px';
+    row.innerHTML = `
+      <div>${photoHtml}</div>
+      <div class="dt-cell mono">${esc(r.code)}</div>
+      <div class="dt-cell bold">${student ? esc(student.full_name) : esc(r.student_email||'—')}</div>
+      <div class="dt-cell dim">${student ? esc(student.institution||'—') : '—'}</div>
+      <div class="dt-cell dim">${esc(r.vendor_name||'—')}</div>
+      <div class="dt-cell dim">${fmtDateLong(r.redeemed_at)}</div>
+    `;
+    tbody.appendChild(row);
+  });
 }
 
 /* ── MODALS ── */
