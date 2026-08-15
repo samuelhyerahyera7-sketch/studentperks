@@ -631,7 +631,7 @@ async function loadVendors() {
       <div class="vendor-card-top">
         <div>
           <div class="vendor-name">${esc(v.name)}</div>
-          <div class="vendor-prefix">SP-${esc(v.code_prefix)}-XXXXXX</div>
+          <div class="vendor-prefix">${esc(v.code_prefix)}001-XX</div>
         </div>
         <div style="display:flex;gap:6px">
           <button class="btn btn-danger btn-sm" onclick="deleteVendor('${v.id}',event)">Delete</button>
@@ -695,12 +695,25 @@ async function generateCodes() {
   if(!vendorId){ showFormErr(err,'Please select a vendor.'); return; }
   const {data:vendor} = await _sb.from('vendors').select('name,code_prefix').eq('id',vendorId).single();
   if(!vendor){ showFormErr(err,'Vendor not found.'); return; }
+
+  // Find the highest existing sequence number for this vendor
+  const {data:existing} = await _sb.from('coupon_codes')
+    .select('code').eq('vendor_id',vendorId).order('created_at',{ascending:false});
+  let startSeq = 1;
+  if(existing && existing.length){
+    const nums = existing.map(c=>{
+      const m = c.code.match(/^[A-Z]+(\d+)-/);
+      return m ? parseInt(m[1]) : 0;
+    });
+    startSeq = Math.max(...nums) + 1;
+  }
+
   const codes = [];
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   for(let i=0;i<qty;i++){
-    let r='';
-    for(let j=0;j<6;j++) r+=chars[Math.floor(Math.random()*chars.length)];
-    codes.push({vendor_id:vendorId,vendor_name:vendor.name,code:`SP-${vendor.code_prefix}-${r}`});
+    const seq = String(startSeq + i).padStart(3,'0');
+    const rand = chars[Math.floor(Math.random()*chars.length)] + chars[Math.floor(Math.random()*chars.length)];
+    codes.push({vendor_id:vendorId,vendor_name:vendor.name,code:`${vendor.code_prefix}${seq}-${rand}`});
   }
   const {error} = await _sb.from('coupon_codes').insert(codes);
   if(error){ showFormErr(err,'Some codes may be duplicates. Try again.'); return; }
