@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Redeem Your Coupon – StudentPerks</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+*:focus{outline:none}*:focus-visible{outline:none}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0a0a0a;color:#f5f5f5;min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:#111;border-bottom:1px solid #222;position:sticky;top:0;z-index:100}
+.nav-logo{font-size:1.25rem;font-weight:800;letter-spacing:.5px}
+.nav-logo span{color:#5b8fff}
+.nav-back{font-size:.85rem;color:#aaa;padding:7px 16px;border:1px solid #333;border-radius:6px;transition:border-color .2s,color .2s}
+.nav-back:hover{border-color:#5b8fff;color:#5b8fff}
+
+/* MAIN */
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.card{background:#161616;border:1px solid #222;border-radius:16px;padding:40px;width:100%;max-width:480px}
+.card h1{font-size:1.5rem;font-weight:700;margin-bottom:6px}
+.card .sub{color:#888;font-size:.9rem;margin-bottom:28px}
+
+/* FORM */
+.field{margin-bottom:18px}
+.field label{display:block;font-size:.8rem;color:#aaa;margin-bottom:6px;font-weight:500;letter-spacing:.3px}
+.field input{width:100%;padding:12px 14px;background:#0e0e0e;border:1px solid #2a2a2a;border-radius:8px;color:#f5f5f5;font-size:.95rem;transition:border-color .2s}
+.field input:focus{border-color:#5b8fff}
+.field input::placeholder{color:#555}
+.field input.upper{text-transform:uppercase;letter-spacing:.1em}
+
+.btn{width:100%;padding:13px;background:#5b8fff;color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;transition:background .2s;letter-spacing:.3px}
+.btn:hover{background:#4a7aff}
+.btn:disabled{background:#333;color:#666;cursor:not-allowed}
+
+/* STATES */
+.loader{display:flex;align-items:center;justify-content:center;gap:10px;color:#888;font-size:.9rem;padding:16px 0}
+.spinner{width:18px;height:18px;border:2px solid #333;border-top-color:#5b8fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.result{border-radius:12px;padding:22px;margin:24px 0;display:none}
+.result.valid{background:#0d2418;border:1px solid #1a5c35}
+.result.used{background:#1c1300;border:1px solid #5c3a00}
+.result.invalid{background:#1a0d0d;border:1px solid #5c1a1a}
+
+.result-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.result-icon{font-size:1.4rem}
+.result-title{font-size:1rem;font-weight:700}
+.valid .result-title{color:#3dd68c}
+.used .result-title{color:#f5a623}
+.invalid .result-title{color:#ff5c5c}
+
+.result-row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88rem}
+.result-row:last-of-type{border-bottom:none}
+.result-row .lbl{color:#888}
+.result-row .val{color:#f5f5f5;font-weight:500;text-align:right;max-width:60%}
+
+.discount-badge{display:inline-block;background:#1a2e5c;color:#5b8fff;padding:4px 12px;border-radius:20px;font-size:.8rem;font-weight:600;margin-bottom:14px}
+
+.confirm-btn{margin-top:18px;width:100%;padding:13px;background:#1a5c35;color:#3dd68c;border:1px solid #2a7a4a;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;transition:background .2s}
+.confirm-btn:hover{background:#1e6b3e}
+
+/* SUCCESS / ERROR FLASH */
+.flash{border-radius:10px;padding:14px 18px;margin-top:18px;font-size:.88rem;display:none}
+.flash.ok{background:#0d2418;border:1px solid #1a5c35;color:#3dd68c}
+.flash.err{background:#1a0d0d;border:1px solid #5c1a1a;color:#ff5c5c}
+
+.already-tag{display:inline-block;background:#1c1300;color:#f5a623;border:1px solid #5c3a00;border-radius:20px;font-size:.78rem;font-weight:600;padding:3px 10px;margin-left:8px;vertical-align:middle}
+
+/* FOOTER */
+footer{text-align:center;padding:24px;color:#444;font-size:.8rem;border-top:1px solid #1a1a1a}
+footer a{color:#5b8fff}
+
+@media(max-width:500px){
+  nav{padding:14px 20px}
+  .card{padding:28px 20px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Student<span>Perks</span></a>
+  <a href="/" class="nav-back">← Back to home</a>
+</nav>
+
+<main>
+  <div class="card">
+    <h1>Redeem Your Coupon</h1>
+    <p class="sub">Enter your coupon code below to reveal your student discount.</p>
+
+    <div class="field">
+      <label>COUPON CODE</label>
+      <input id="codeInput" type="text" class="upper" placeholder="SP-BRAND-XXXXXX" maxlength="20" autocomplete="off" spellcheck="false"/>
+    </div>
+    <div class="field">
+      <label>YOUR EMAIL (optional — to confirm redemption)</label>
+      <input id="emailInput" type="email" placeholder="you@example.com" autocomplete="off"/>
+    </div>
+
+    <button class="btn" id="checkBtn" onclick="checkCode()">Check Code</button>
+
+    <div class="loader" id="loader" style="display:none">
+      <div class="spinner"></div> Looking up your code…
+    </div>
+
+    <!-- VALID -->
+    <div class="result valid" id="resValid">
+      <div class="result-head">
+        <span class="result-icon">✅</span>
+        <span class="result-title">Valid Coupon</span>
+      </div>
+      <div id="discountBadgeWrap"></div>
+      <div class="result-row"><span class="lbl">Code</span><span class="val" id="rv-code"></span></div>
+      <div class="result-row"><span class="lbl">Vendor</span><span class="val" id="rv-vendor"></span></div>
+      <div class="result-row"><span class="lbl">Discount</span><span class="val" id="rv-discount"></span></div>
+      <div class="result-row"><span class="lbl">Assigned to</span><span class="val" id="rv-assigned"></span></div>
+      <button class="confirm-btn" id="redeemBtn" onclick="confirmRedeem()">✓ Mark as Redeemed</button>
+    </div>
+
+    <!-- USED -->
+    <div class="result used" id="resUsed">
+      <div class="result-head">
+        <span class="result-icon">⚠️</span>
+        <span class="result-title">Already Used</span>
+      </div>
+      <div class="result-row"><span class="lbl">Code</span><span class="val" id="ru-code"></span></div>
+      <div class="result-row"><span class="lbl">Vendor</span><span class="val" id="ru-vendor"></span></div>
+      <div class="result-row"><span class="lbl">Used at</span><span class="val" id="ru-usedat"></span></div>
+    </div>
+
+    <!-- INVALID -->
+    <div class="result invalid" id="resInvalid">
+      <div class="result-head">
+        <span class="result-icon">❌</span>
+        <span class="result-title">Invalid Code</span>
+      </div>
+      <p style="color:#ff5c5c;font-size:.88rem">This code doesn't exist in our system. Double-check the code and try again. If you believe this is an error, contact support.</p>
+    </div>
+
+    <div class="flash ok" id="flashOk">🎉 Redeemed! Enjoy your discount. This code is now marked as used.</div>
+    <div class="flash err" id="flashErr"></div>
+  </div>
+</main>
+
+<footer>
+  &copy; 2025 <a href="/">StudentPerks</a> · SA student deals
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const SUPA_URL = 'https://bulmerqkvvrjvzjwmgkl.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1bG1lcnFrdnZyanZ6andtZ2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3OTA4MTksImV4cCI6MjEwMjM2NjgxOX0.UAOqHO_lNBB6ayTa6QEj4vvzdepzNCus0CYv2EOygOGI';
+const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+let currentRow = null;
+
+function hideAll(){
+  ['resValid','resUsed','resInvalid','flashOk','flashErr'].forEach(id=>{
+    document.getElementById(id).style.display='none';
+  });
+}
+
+function fmtDate(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-ZA',{day:'2-digit',month:'short',year:'numeric'}) + ' ' +
+         d.toLocaleTimeString('en-ZA',{hour:'2-digit',minute:'2-digit'});
+}
+
+async function checkCode(){
+  const raw = document.getElementById('codeInput').value.trim().toUpperCase();
+  if(!raw){ flashErr('Please enter a coupon code.'); return; }
+
+  hideAll();
+  document.getElementById('loader').style.display='flex';
+  document.getElementById('checkBtn').disabled = true;
+  document.getElementById('redeemBtn').disabled = false;
+  currentRow = null;
+
+  try {
+    const {data, error} = await sb
+      .from('coupon_codes')
+      .select('*, vendors(name, discount_desc)')
+      .eq('code', raw)
+      .maybeSingle();
+
+    document.getElementById('loader').style.display='none';
+    document.getElementById('checkBtn').disabled = false;
+
+    if(error) throw error;
+
+    if(!data){
+      document.getElementById('resInvalid').style.display='block';
+      return;
+    }
+
+    currentRow = data;
+    const vendorName = data.vendor_name || (data.vendors && data.vendors.name) || '—';
+    const discount = (data.vendors && data.vendors.discount_desc) || '—';
+
+    if(data.is_used){
+      document.getElementById('ru-code').textContent = data.code;
+      document.getElementById('ru-vendor').textContent = vendorName;
+      document.getElementById('ru-usedat').textContent = fmtDate(data.used_at);
+      document.getElementById('resUsed').style.display='block';
+      return;
+    }
+
+    // Valid & available
+    document.getElementById('rv-code').textContent = data.code;
+    document.getElementById('rv-vendor').textContent = vendorName;
+    document.getElementById('rv-discount').textContent = discount;
+    const assigned = data.assigned_to_name
+      ? `${data.assigned_to_name}${data.assigned_to_email ? ' · ' + data.assigned_to_email : ''}`
+      : (data.assigned_to_email || 'Unassigned');
+    document.getElementById('rv-assigned').textContent = assigned;
+
+    document.getElementById('discountBadgeWrap').innerHTML =
+      `<div class="discount-badge">${discount}</div>`;
+
+    document.getElementById('resValid').style.display='block';
+
+  } catch(e){
+    document.getElementById('loader').style.display='none';
+    document.getElementById('checkBtn').disabled = false;
+    flashErr('Error looking up code: ' + (e.message || 'Unknown error'));
+  }
+}
+
+async function confirmRedeem(){
+  if(!currentRow) return;
+  document.getElementById('redeemBtn').disabled = true;
+  document.getElementById('redeemBtn').textContent = 'Marking…';
+
+  const emailVal = document.getElementById('emailInput').value.trim();
+
+  try {
+    // Update coupon_codes
+    const {error: ue} = await sb
+      .from('coupon_codes')
+      .update({is_used: true, used_at: new Date().toISOString()})
+      .eq('id', currentRow.id);
+    if(ue) throw ue;
+
+    // Insert into redemptions
+    const {error: re} = await sb
+      .from('redemptions')
+      .insert({
+        code: currentRow.code,
+        vendor_id: currentRow.vendor_id,
+        vendor_name: currentRow.vendor_name || (currentRow.vendors && currentRow.vendors.name) || '',
+        student_email: emailVal || currentRow.assigned_to_email || ''
+      });
+    if(re) throw re;
+
+    document.getElementById('resValid').style.display='none';
+    document.getElementById('flashOk').style.display='block';
+    currentRow = null;
+
+  } catch(e){
+    document.getElementById('redeemBtn').disabled = false;
+    document.getElementById('redeemBtn').textContent = '✓ Mark as Redeemed';
+    flashErr('Failed to mark as redeemed: ' + (e.message || 'Unknown error'));
+  }
+}
+
+function flashErr(msg){
+  const el = document.getElementById('flashErr');
+  el.textContent = msg;
+  el.style.display='block';
+}
+
+// Allow Enter key on code input
+document.getElementById('codeInput').addEventListener('keydown', e=>{
+  if(e.key==='Enter') checkCode();
+});
+document.getElementById('emailInput').addEventListener('keydown', e=>{
+  if(e.key==='Enter') checkCode();
+});
+
+// Auto-format code input: uppercase + insert dashes as user types
+document.getElementById('codeInput').addEventListener('input', function(){
+  let v = this.value.replace(/[^a-zA-Z0-9-]/g,'').toUpperCase();
+  this.value = v;
+});
+</script>
+</body>
+</html>

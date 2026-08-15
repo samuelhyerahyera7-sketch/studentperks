@@ -889,6 +889,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
 /* ── MENU ── */
 function openMenu(){ document.getElementById('menu-overlay').classList.add('open'); document.body.style.overflow='hidden'; }
@@ -997,7 +998,7 @@ function handleFile(input){
   showErr('err-3','');
 }
 
-/* ── Submit join form ── */
+/* ── Submit join form (Supabase) ── */
 async function submitJoin(){
   const file=document.getElementById('card-file').files[0];
   const terms=document.getElementById('terms-chk').checked;
@@ -1012,36 +1013,44 @@ async function submitJoin(){
     ? document.getElementById('jn-other-inst').value.trim()
     : document.getElementById('jn-institution').value;
 
-  const fd=new FormData();
-  fd.append('_subject','New StudentPerks Verification Application');
-  fd.append('_captcha','false');
-  fd.append('_template','table');
-  fd.append('full_name', document.getElementById('jn-name').value.trim());
-  fd.append('personal_email', document.getElementById('jn-email').value.trim());
-  fd.append('institution', inst);
-  fd.append('student_email', document.getElementById('jn-student-email').value.trim());
-  fd.append('year_of_study', document.getElementById('jn-year').value);
-  fd.append('degree_course', document.getElementById('jn-course').value.trim());
-  fd.append('student_number', document.getElementById('jn-stunum').value.trim());
-  fd.append('referral_code', document.getElementById('jn-ref').value.trim()||'none');
-  fd.append('student_card', file, file.name);
+  const SUPA_URL='https://bulmerqkvvrjvzjwmgkl.supabase.co';
+  const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1bG1lcnFrdnZyanZ6andtZ2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3OTA4MTksImV4cCI6MjEwMjM2NjgxOX0.UAOqHO_lNBB6ayTa6QEj4vvzdepzNCus0CYv2EOygOGI';
+  const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
 
   try {
-    const res=await fetch('https://formsubmit.co/ajax/deniloans6@gmail.com',{
-      method:'POST', headers:{'Accept':'application/json'}, body:fd
+    // 1. Upload student card photo to Supabase Storage
+    const ext=file.name.split('.').pop().toLowerCase();
+    const fname=Date.now()+'-'+Math.random().toString(36).slice(2)+'.'+ext;
+    const {data:upData, error:upErr}=await sb.storage.from('student-cards').upload(fname,file,{contentType:file.type});
+    if(upErr) throw upErr;
+
+    // 2. Build public URL
+    const {data:{publicUrl}}=sb.storage.from('student-cards').getPublicUrl(fname);
+
+    // 3. Insert application row
+    const {error:insErr}=await sb.from('student_applications').insert({
+      full_name: document.getElementById('jn-name').value.trim(),
+      personal_email: document.getElementById('jn-email').value.trim(),
+      institution: inst,
+      student_email: document.getElementById('jn-student-email').value.trim(),
+      year_of_study: document.getElementById('jn-year').value,
+      degree_course: document.getElementById('jn-course').value.trim(),
+      student_number: document.getElementById('jn-stunum').value.trim(),
+      referral_code: document.getElementById('jn-ref').value.trim()||'',
+      card_photo_url: publicUrl,
+      status: 'pending'
     });
-    const data=await res.json();
-    if(data.success==='true'||data.success===true){
-      for(let i=1;i<=3;i++) document.getElementById('step-'+i).style.display='none';
-      document.getElementById('step-indicator').style.display='none';
-      document.getElementById('step-lbl').style.display='none';
-      document.getElementById('jn-success').style.display='block';
-      document.getElementById('jn-switch-link').style.display='none';
-    } else {
-      throw new Error('failed');
-    }
+    if(insErr) throw insErr;
+
+    // 4. Show success
+    for(let i=1;i<=3;i++) document.getElementById('step-'+i).style.display='none';
+    document.getElementById('step-indicator').style.display='none';
+    document.getElementById('step-lbl').style.display='none';
+    document.getElementById('jn-success').style.display='block';
+    document.getElementById('jn-switch-link').style.display='none';
+
   } catch(e){
-    showErr('err-3','Something went wrong. Please email us at support@studentperks.co.za if this continues.');
+    showErr('err-3','Something went wrong. Please try again or email support@studentperks.co.za');
     btn.disabled=false; btn.textContent='Submit for verification';
   }
 }

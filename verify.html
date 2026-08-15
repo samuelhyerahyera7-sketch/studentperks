@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendor Verify — StudentPerks</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+*:focus{outline:none}
+:root{--lime:#d4ff00;--bg:#0c0c0c;--bg3:#1a1a1a;--card:#161616;--border:rgba(255,255,255,.07);--white:#fff;--ink:rgba(255,255,255,.92);--ink2:rgba(255,255,255,.5);--ink3:rgba(255,255,255,.25);--red:#ff4444;--green:#22c55e;--yellow:#ffc800;--font:'Inter',sans-serif}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+.nav{background:var(--card);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:56px;gap:12px}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:19px;color:var(--white);text-transform:uppercase;letter-spacing:.03em}
+.logo span{color:var(--lime)}
+.badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;background:rgba(212,255,0,.1);color:var(--lime);border:1px solid rgba(212,255,0,.2);border-radius:4px;padding:2px 7px}
+.sp{flex:1}
+.page{flex:1;display:flex;align-items:center;justify-content:center;padding:24px}
+
+/* LOGIN */
+.login-card{background:var(--card);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:32px 28px;width:100%;max-width:360px}
+.card-title{font-size:18px;font-weight:800;color:var(--white);margin-bottom:6px;letter-spacing:-.02em}
+.card-sub{font-size:13px;color:var(--ink3);margin-bottom:24px;line-height:1.5}
+.f{margin-bottom:12px}
+.f label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:5px}
+.f input,.f select{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--white);background:var(--bg3);transition:border-color .15s;appearance:none}
+.f input:focus,.f select:focus{border-color:var(--lime)}
+.f input::placeholder{color:var(--ink3)}
+.btn{display:block;width:100%;background:var(--lime);color:var(--bg);font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:14px;border-radius:50px;border:none;cursor:pointer;font-family:var(--font);transition:background .15s;margin-top:6px}
+.btn:hover:not(:disabled){background:var(--white)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-ghost{background:var(--bg3);color:var(--ink2)}
+.btn-ghost:hover:not(:disabled){background:rgba(255,255,255,.08);color:var(--white)}
+.err-box{display:none;font-size:12px;color:var(--red);background:rgba(255,68,68,.08);border:1px solid rgba(255,68,68,.18);border-radius:8px;padding:9px 12px;margin-bottom:10px}
+
+/* DASHBOARD */
+#dashboard{display:none;flex:1;padding:28px 24px;max-width:800px;margin:0 auto;width:100%}
+.vendor-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.vendor-name-display{font-size:20px;font-weight:800;color:var(--white)}
+.vendor-discount{font-size:13px;color:var(--lime);margin-top:3px}
+
+/* VERIFY BOX */
+.verify-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px}
+.verify-box-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:14px}
+.code-input-row{display:flex;gap:10px}
+.code-input{flex:1;padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:monospace;color:var(--white);background:var(--bg3);letter-spacing:.05em;text-transform:uppercase;transition:border-color .15s}
+.code-input:focus{border-color:var(--lime)}
+.code-input::placeholder{color:var(--ink3);font-family:var(--font);font-size:14px;letter-spacing:0;text-transform:none}
+.check-btn{background:var(--lime);color:var(--bg);font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:14px 24px;border-radius:50px;border:none;cursor:pointer;font-family:var(--font);transition:background .15s;white-space:nowrap}
+.check-btn:hover{background:var(--white)}
+
+/* RESULT */
+.result-box{border-radius:14px;padding:18px;margin-top:14px;display:none}
+.result-box.valid{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2)}
+.result-box.used{background:rgba(255,200,0,.07);border:1px solid rgba(255,200,0,.18)}
+.result-box.invalid{background:rgba(255,68,68,.08);border:1px solid rgba(255,68,68,.2)}
+.result-icon{font-size:28px;margin-bottom:8px}
+.result-title{font-size:15px;font-weight:800;color:var(--white);margin-bottom:4px}
+.result-sub{font-size:13px;line-height:1.6}
+.result-sub.green{color:var(--green)}
+.result-sub.yellow{color:var(--yellow)}
+.result-sub.red{color:var(--red)}
+.result-detail{margin-top:10px;font-size:12px;color:var(--ink3);line-height:1.7}
+.result-detail b{color:var(--white);font-weight:600}
+.redeem-confirm-btn{margin-top:12px;display:inline-flex;align-items:center;gap:6px;background:var(--green);color:#000;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:10px 20px;border-radius:50px;border:none;cursor:pointer;font-family:var(--font);transition:background .15s}
+.redeem-confirm-btn:hover{background:#1da54e}
+
+/* CODE LIST */
+.code-list{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.cl-head{display:grid;grid-template-columns:160px 1fr 1fr 90px;gap:10px;padding:12px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);background:rgba(255,255,255,.02);border-bottom:1px solid var(--border)}
+.cl-row{display:grid;grid-template-columns:160px 1fr 1fr 90px;gap:10px;padding:12px 16px;font-size:12px;border-bottom:1px solid var(--border);align-items:center}
+.cl-row:last-child{border-bottom:none}
+.code-mono{font-family:monospace;color:var(--lime);letter-spacing:.04em}
+.cl-dim{color:var(--ink3)}
+.pill{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em}
+.p-available{background:rgba(34,197,94,.1);color:var(--green)}
+.p-assigned{background:rgba(212,255,0,.1);color:var(--lime)}
+.p-used{background:rgba(255,68,68,.1);color:var(--red)}
+.list-empty{text-align:center;padding:28px;color:var(--ink3);font-size:13px}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="logo">Student<span>Perks.</span></div>
+  <div class="badge">Vendor Portal</div>
+  <div class="sp"></div>
+  <span id="vendor-name-nav" style="font-size:12px;color:var(--ink2)"></span>
+  <button id="logout-btn" style="display:none;background:var(--bg3);color:var(--ink2);font-size:12px;font-weight:600;padding:6px 14px;border-radius:8px;border:none;cursor:pointer;margin-left:8px" onclick="doLogout()">Sign out</button>
+</nav>
+
+<!-- LOGIN -->
+<div class="page" id="login-section">
+  <div class="login-card">
+    <div class="card-title">Vendor Sign In</div>
+    <div class="card-sub">Enter your vendor code and PIN to access your coupon dashboard.</div>
+    <div class="f">
+      <label>Vendor code prefix</label>
+      <input type="text" id="v-prefix" placeholder="e.g. NIKE" maxlength="6" oninput="this.value=this.value.toUpperCase()">
+    </div>
+    <div class="f">
+      <label>PIN</label>
+      <input type="password" id="v-pin" placeholder="Your PIN" onkeydown="if(event.key==='Enter')doVendorLogin()">
+    </div>
+    <div class="err-box" id="v-err">Incorrect vendor code or PIN.</div>
+    <button class="btn" id="v-login-btn" onclick="doVendorLogin()">Sign in</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="vendor-header">
+    <div>
+      <div class="vendor-name-display" id="dash-vendor-name"></div>
+      <div class="vendor-discount" id="dash-vendor-discount"></div>
+    </div>
+  </div>
+
+  <!-- Verify a code -->
+  <div class="verify-box">
+    <div class="verify-box-title">Check a coupon code</div>
+    <div class="code-input-row">
+      <input class="code-input" type="text" id="check-input" placeholder="Enter code e.g. SP-NIKE-X7K2M9" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkCode()">
+      <button class="check-btn" onclick="checkCode()">Check</button>
+    </div>
+    <div class="result-box" id="result-box"></div>
+  </div>
+
+  <!-- Code list -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3)">Your Coupon Codes</div>
+    <button onclick="loadCodeList()" style="background:none;border:none;color:var(--lime);font-size:12px;font-weight:600;cursor:pointer">↻ Refresh</button>
+  </div>
+  <div class="code-list" id="code-list">
+    <div class="cl-head"><div>Code</div><div>Assigned to</div><div>Email</div><div>Status</div></div>
+    <div class="list-empty" id="list-loading">Loading…</div>
+  </div>
+</div>
+
+<script>
+const SB_URL = 'https://bulmerqkvvrjvzjwmgkl.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1bG1lcnFrdnZyanZ6andtZ2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3OTA4MTksImV4cCI6MjEwMjM2NjgxOX0.UAOqHO_lNBB6ayTa6QEj4vvzdepzNCu0CYv2EOygOGI';
+const _sb = supabase.createClient(SB_URL, SB_KEY);
+
+let currentVendor = null;
+
+async function doVendorLogin() {
+  const prefix = document.getElementById('v-prefix').value.trim().toUpperCase();
+  const pin    = document.getElementById('v-pin').value.trim();
+  const btn    = document.getElementById('v-login-btn');
+  const err    = document.getElementById('v-err');
+  err.style.display='none';
+  if(!prefix||!pin){ err.textContent='Please enter your vendor code and PIN.'; err.style.display='block'; return; }
+  btn.disabled=true; btn.textContent='Signing in…';
+  const {data,error} = await _sb.from('vendors').select('*').eq('code_prefix',prefix).eq('vendor_pin',pin).single();
+  if(error||!data){
+    err.style.display='block'; btn.disabled=false; btn.textContent='Sign in'; return;
+  }
+  currentVendor = data;
+  sessionStorage.setItem('sp_vendor', JSON.stringify(data));
+  showDashboard();
+}
+
+function doLogout() {
+  sessionStorage.removeItem('sp_vendor');
+  currentVendor = null;
+  document.getElementById('dashboard').style.display='none';
+  document.getElementById('login-section').style.display='flex';
+  document.getElementById('logout-btn').style.display='none';
+  document.getElementById('vendor-name-nav').textContent='';
+  document.getElementById('v-prefix').value='';
+  document.getElementById('v-pin').value='';
+  document.getElementById('result-box').style.display='none';
+}
+
+function showDashboard() {
+  document.getElementById('login-section').style.display='none';
+  document.getElementById('dashboard').style.display='block';
+  document.getElementById('logout-btn').style.display='inline-block';
+  document.getElementById('vendor-name-nav').textContent = currentVendor.name;
+  document.getElementById('dash-vendor-name').textContent = currentVendor.name;
+  document.getElementById('dash-vendor-discount').textContent = currentVendor.discount_desc || '';
+  loadCodeList();
+}
+
+async function checkCode() {
+  const code = document.getElementById('check-input').value.trim().toUpperCase();
+  const box  = document.getElementById('result-box');
+  if(!code){ return; }
+  box.style.display='none';
+  const {data,error} = await _sb.from('coupon_codes').select('*').eq('code',code).single();
+  box.style.display='block';
+  box.className='result-box';
+  if(error||!data){
+    box.classList.add('invalid');
+    box.innerHTML=`<div class="result-icon">❌</div><div class="result-title">Invalid code</div><div class="result-sub red">This code does not exist. Check for typos.</div>`;
+    return;
+  }
+  if(data.vendor_id !== currentVendor.id){
+    box.classList.add('invalid');
+    box.innerHTML=`<div class="result-icon">🚫</div><div class="result-title">Wrong vendor</div><div class="result-sub red">This code belongs to a different vendor.</div>`;
+    return;
+  }
+  if(data.is_used){
+    box.classList.add('used');
+    box.innerHTML=`<div class="result-icon">⚠️</div><div class="result-title">Already redeemed</div><div class="result-sub yellow">This code was used on <b style="color:var(--white)">${fmtLong(data.used_at)}</b></div><div class="result-detail"><b>Assigned to:</b> ${esc(data.assigned_to_name||'—')}<br><b>Email:</b> ${esc(data.assigned_to_email||'—')}</div>`;
+    return;
+  }
+  box.classList.add('valid');
+  box.innerHTML=`
+    <div class="result-icon">✅</div>
+    <div class="result-title">Valid — not yet redeemed</div>
+    <div class="result-sub green">This code is valid and ready to use.</div>
+    <div class="result-detail">
+      <b>Student:</b> ${esc(data.assigned_to_name||'Unknown')}<br>
+      <b>Email:</b> ${esc(data.assigned_to_email||'Unknown')}<br>
+      <b>Discount:</b> ${esc(currentVendor.discount_desc||'—')}
+    </div>
+    <button class="redeem-confirm-btn" onclick="markRedeemed('${data.id}','${esc(code)}')">✓ Mark as redeemed</button>
+  `;
+}
+
+async function markRedeemed(codeId, code) {
+  const now = new Date().toISOString();
+  await _sb.from('coupon_codes').update({is_used:true,used_at:now}).eq('id',codeId);
+  await _sb.from('redemptions').insert({code,vendor_id:currentVendor.id,vendor_name:currentVendor.name,student_email:''});
+  document.getElementById('result-box').innerHTML=`
+    <div class="result-icon">🎉</div>
+    <div class="result-title">Redeemed successfully</div>
+    <div class="result-sub green">Marked as redeemed at <b style="color:var(--white)">${fmtLong(now)}</b></div>
+  `;
+  document.getElementById('result-box').className='result-box valid';
+  document.getElementById('result-box').style.display='block';
+  loadCodeList();
+}
+
+async function loadCodeList() {
+  const list    = document.getElementById('code-list');
+  const loading = document.getElementById('list-loading');
+  if(loading) loading.textContent='Loading…';
+  const {data} = await _sb.from('coupon_codes').select('*').eq('vendor_id',currentVendor.id).order('created_at',{ascending:false});
+  [...list.querySelectorAll('.cl-row')].forEach(r=>r.remove());
+  if(!data||!data.length){
+    const l=document.getElementById('list-loading');
+    if(l)l.textContent='No codes generated yet. Contact your StudentPerks representative.';
+    return;
+  }
+  document.getElementById('list-loading')?.remove();
+  data.forEach(c=>{
+    const row=document.createElement('div'); row.className='cl-row';
+    const cls=c.is_used?'p-used':c.assigned_to_email?'p-assigned':'p-available';
+    const lbl=c.is_used?'Used':c.assigned_to_email?'Assigned':'Available';
+    row.innerHTML=`<div class="code-mono">${esc(c.code)}</div><div>${esc(c.assigned_to_name||'—')}</div><div class="cl-dim">${esc(c.assigned_to_email||'—')}</div><div><span class="pill ${cls}">${lbl}</span></div>`;
+    list.appendChild(row);
+  });
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function fmtLong(ts){if(!ts)return'—';return new Date(ts).toLocaleString('en-ZA',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}
+
+// Restore session
+(function(){
+  const saved=sessionStorage.getItem('sp_vendor');
+  if(saved){ try{ currentVendor=JSON.parse(saved); showDashboard(); }catch(e){} }
+})();
+</script>
+</body>
+</html>
