@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudentPerks Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*:focus { outline: none; }
+:root {
+  --lime: #d4ff00;
+  --lime-d: #b8e000;
+  --bg: #0c0c0c;
+  --bg2: #111;
+  --bg3: #1a1a1a;
+  --card: #161616;
+  --border: rgba(255,255,255,.07);
+  --white: #fff;
+  --ink: rgba(255,255,255,.92);
+  --ink2: rgba(255,255,255,.5);
+  --ink3: rgba(255,255,255,.25);
+  --red: #ff4444;
+  --green: #22c55e;
+  --font: 'Inter', sans-serif;
+  --display: 'Bebas Neue', sans-serif;
+}
+html, body { height: 100%; }
+body { font-family: var(--font); background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; font-family: var(--font); }
+
+/* ── LOGIN PAGE ── */
+#login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(212,255,0,.06), transparent);
+}
+.login-card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 24px;
+  padding: 36px 30px;
+  width: 100%;
+  max-width: 380px;
+}
+.login-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--lime);
+  background: rgba(212,255,0,.08);
+  border: 1px solid rgba(212,255,0,.15);
+  padding: 5px 12px;
+  border-radius: 50px;
+  margin-bottom: 20px;
+}
+.login-badge::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--lime); }
+.login-title { font-family: var(--display); font-size: 38px; color: var(--white); letter-spacing: .02em; text-transform: uppercase; line-height: 1; margin-bottom: 6px; }
+.login-sub { font-size: 13px; color: var(--ink2); margin-bottom: 28px; }
+.lf { margin-bottom: 12px; }
+.lf label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink3); margin-bottom: 6px; }
+.lf input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: var(--font);
+  color: var(--white);
+  background: var(--bg3);
+  transition: border-color .15s;
+}
+.lf input:focus { border-color: var(--lime); }
+.lf input::placeholder { color: var(--ink3); }
+.login-err { display: none; font-size: 12px; color: var(--red); background: rgba(255,68,68,.08); border: 1px solid rgba(255,68,68,.18); border-radius: 8px; padding: 9px 12px; margin-bottom: 10px; }
+.login-btn {
+  display: block;
+  width: 100%;
+  background: var(--lime);
+  color: var(--bg);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: 15px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: background .15s;
+  margin-top: 6px;
+}
+.login-btn:hover:not(:disabled) { background: var(--white); }
+.login-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ── ADMIN SHELL ── */
+#admin-page { display: none; min-height: 100vh; }
+.admin-nav {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  height: 60px;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.admin-logo { font-family: var(--display); font-size: 20px; color: var(--white); text-transform: uppercase; letter-spacing: .03em; }
+.admin-logo span { color: var(--lime); }
+.admin-badge { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; background: rgba(212,255,0,.12); color: var(--lime); border: 1px solid rgba(212,255,0,.2); border-radius: 4px; padding: 2px 7px; }
+.nav-sp { flex: 1; }
+.admin-user { font-size: 12px; color: var(--ink2); display: flex; align-items: center; gap: 8px; }
+.admin-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+.logout-btn { background: var(--bg3); color: var(--ink2); font-size: 12px; font-weight: 600; padding: 7px 14px; border-radius: 8px; transition: all .15s; }
+.logout-btn:hover { background: rgba(255,68,68,.15); color: var(--red); }
+
+.admin-body { padding: 28px 24px; max-width: 1000px; margin: 0 auto; }
+
+/* ── SECTION HEADING ── */
+.sec-head { margin-bottom: 16px; }
+.sec-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--ink3); }
+.sec-rule { height: 1px; background: var(--border); margin-top: 8px; }
+
+/* ── STAT CARDS ── */
+.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 28px; }
+@media(min-width:640px){ .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+.stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 18px 16px; }
+.stat-card-val { font-family: var(--display); font-size: 36px; color: var(--lime); letter-spacing: .02em; line-height: 1; margin-bottom: 4px; }
+.stat-card-lbl { font-size: 11px; font-weight: 600; color: var(--ink3); text-transform: uppercase; letter-spacing: .07em; }
+.stat-card-note { font-size: 10px; color: var(--ink3); margin-top: 6px; }
+.stat-input { background: none; border: none; font-family: var(--display); font-size: 36px; color: var(--lime); letter-spacing: .02em; line-height: 1; width: 100%; cursor: text; padding: 0; }
+.stat-input:focus { color: var(--white); }
+
+/* ── QUICK ACTIONS ── */
+.actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; }
+@media(min-width:640px){ .actions-grid { grid-template-columns: repeat(3, 1fr); } }
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  transition: border-color .15s, background .15s;
+  cursor: pointer;
+  text-align: left;
+}
+.action-btn:hover { border-color: rgba(212,255,0,.25); background: rgba(212,255,0,.03); }
+.action-btn svg { flex-shrink: 0; color: var(--lime); }
+
+/* ── WORKFLOW GUIDE ── */
+.workflow { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; margin-bottom: 28px; }
+.workflow-step { display: flex; gap: 14px; margin-bottom: 16px; }
+.workflow-step:last-child { margin-bottom: 0; }
+.workflow-num { width: 28px; height: 28px; border-radius: 8px; background: rgba(212,255,0,.1); border: 1px solid rgba(212,255,0,.2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: var(--lime); flex-shrink: 0; }
+.workflow-content { flex: 1; }
+.workflow-title { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 3px; }
+.workflow-desc { font-size: 12px; color: var(--ink3); line-height: 1.55; }
+
+/* ── APPROVAL LOG ── */
+.log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.add-entry-btn { background: var(--lime); color: var(--bg); font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 8px 16px; border-radius: 50px; transition: background .15s; }
+.add-entry-btn:hover { background: var(--white); }
+.log-table { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 28px; }
+.log-row { display: grid; grid-template-columns: 1fr 1fr 100px 90px 36px; gap: 10px; align-items: center; padding: 13px 16px; border-bottom: 1px solid var(--border); font-size: 13px; }
+.log-row:last-child { border-bottom: none; }
+.log-row.head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink3); background: rgba(255,255,255,.02); }
+.log-name { font-weight: 600; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.log-email { color: var(--ink2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.log-inst { color: var(--ink3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.status-pill { display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: .05em; }
+.status-pill.pending { background: rgba(255,180,0,.12); color: #ffc800; }
+.status-pill.approved { background: rgba(34,197,94,.1); color: var(--green); }
+.status-pill.rejected { background: rgba(255,68,68,.1); color: var(--red); }
+.log-del { background: none; border: none; color: var(--ink3); font-size: 16px; cursor: pointer; padding: 2px 6px; border-radius: 6px; transition: all .15s; }
+.log-del:hover { background: rgba(255,68,68,.12); color: var(--red); }
+.log-empty { text-align: center; padding: 32px; color: var(--ink3); font-size: 13px; }
+
+/* ── ADD ENTRY MODAL ── */
+.modal-back { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.8); z-index: 999; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(6px); }
+.modal-back.open { display: flex; }
+.modal { background: #141414; border: 1px solid rgba(255,255,255,.09); border-radius: 20px; padding: 28px 24px; width: 100%; max-width: 400px; position: relative; }
+.modal-title { font-size: 16px; font-weight: 800; color: var(--white); margin-bottom: 18px; letter-spacing: -.02em; }
+.mf { margin-bottom: 10px; }
+.mf label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink3); margin-bottom: 5px; }
+.mf input, .mf select {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-size: 13px;
+  font-family: var(--font);
+  color: var(--white);
+  background: var(--bg3);
+  transition: border-color .15s;
+  appearance: none;
+}
+.mf input:focus, .mf select:focus { border-color: var(--lime); }
+.mf input::placeholder { color: var(--ink3); }
+.mf select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,.4)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+.mf select option { background: #1a1a1a; }
+.modal-actions { display: flex; gap: 8px; margin-top: 16px; }
+.modal-cancel { flex: 1; background: var(--bg3); color: var(--ink2); font-size: 13px; font-weight: 700; padding: 13px; border-radius: 50px; transition: background .15s; }
+.modal-cancel:hover { background: rgba(255,255,255,.08); }
+.modal-save { flex: 2; background: var(--lime); color: var(--bg); font-size: 13px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: 13px; border-radius: 50px; transition: background .15s; }
+.modal-save:hover { background: var(--white); }
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="login-page">
+  <div class="login-card">
+    <div class="login-badge">Admin Access</div>
+    <div class="login-title">Student<span style="color:var(--lime)">Perks</span></div>
+    <div class="login-sub">Sign in with your administrator credentials.</div>
+
+    <div class="lf">
+      <label>Email address</label>
+      <input type="email" id="l-email" placeholder="admin@example.com" autocomplete="email">
+    </div>
+    <div class="lf">
+      <label>Password</label>
+      <input type="password" id="l-pass" placeholder="••••••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter') doLogin()">
+    </div>
+    <div class="login-err" id="login-err">Incorrect email or password.</div>
+    <button class="login-btn" id="login-btn" onclick="doLogin()">Sign in</button>
+  </div>
+</div>
+
+<!-- ── ADMIN DASHBOARD ── -->
+<div id="admin-page">
+  <nav class="admin-nav">
+    <div class="admin-logo">Student<span>Perks.</span></div>
+    <div class="admin-badge">Admin</div>
+    <div class="nav-sp"></div>
+    <div class="admin-user">
+      <div class="admin-dot"></div>
+      <span id="admin-email-display"></span>
+    </div>
+    <button class="logout-btn" onclick="doLogout()">Sign out</button>
+  </nav>
+
+  <div class="admin-body">
+
+    <!-- Stats -->
+    <div class="sec-head"><div class="sec-title">Overview</div><div class="sec-rule"></div></div>
+    <div class="stats-grid" style="margin-bottom:28px">
+      <div class="stat-card">
+        <input class="stat-input" id="stat-total" type="number" value="0" min="0" title="Click to edit">
+        <div class="stat-card-lbl">Total Applications</div>
+        <div class="stat-card-note">Click to update</div>
+      </div>
+      <div class="stat-card">
+        <input class="stat-input" id="stat-pending" type="number" value="0" min="0" title="Click to edit">
+        <div class="stat-card-lbl">Pending Review</div>
+        <div class="stat-card-note">Click to update</div>
+      </div>
+      <div class="stat-card">
+        <input class="stat-input" id="stat-approved" type="number" value="0" min="0" title="Click to edit">
+        <div class="stat-card-lbl">Approved</div>
+        <div class="stat-card-note">Click to update</div>
+      </div>
+      <div class="stat-card">
+        <input class="stat-input" id="stat-rejected" type="number" value="0" min="0" title="Click to edit">
+        <div class="stat-card-lbl">Rejected</div>
+        <div class="stat-card-note">Click to update</div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="sec-head"><div class="sec-title">Quick Actions</div><div class="sec-rule"></div></div>
+    <div class="actions-grid">
+      <a class="action-btn" href="https://mail.google.com" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Check email inbox
+      </a>
+      <a class="action-btn" href="index.html" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        View live site
+      </a>
+      <a class="action-btn" href="partner.html" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Partner page
+      </a>
+      <a class="action-btn" href="https://wa.me/27816961623" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        WhatsApp
+      </a>
+      <button class="action-btn" onclick="openAddModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Add approval entry
+      </button>
+      <button class="action-btn" onclick="exportLog()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export log (CSV)
+      </button>
+    </div>
+
+    <!-- Verification workflow -->
+    <div class="sec-head"><div class="sec-title">Verification Workflow</div><div class="sec-rule"></div></div>
+    <div class="workflow" style="margin-bottom:28px">
+      <div class="workflow-step">
+        <div class="workflow-num">1</div>
+        <div class="workflow-content">
+          <div class="workflow-title">Application arrives by email</div>
+          <div class="workflow-desc">FormSubmit sends you a table-formatted email at deniloans6@gmail.com with the student's full name, personal email, student email, institution, year, degree, student number, and their student card photo attachment.</div>
+        </div>
+      </div>
+      <div class="workflow-step">
+        <div class="workflow-num">2</div>
+        <div class="workflow-content">
+          <div class="workflow-title">Review the student card</div>
+          <div class="workflow-desc">Open the attached photo. Confirm the name matches what they entered, the institution matches their selection, and the card shows a current enrolment year. Check the student number if visible.</div>
+        </div>
+      </div>
+      <div class="workflow-step">
+        <div class="workflow-num">3</div>
+        <div class="workflow-content">
+          <div class="workflow-title">Send an approval or rejection email</div>
+          <div class="workflow-desc">Reply to the applicant's personal email. For approvals, welcome them and explain how to access deals (for now, direct them to the site). For rejections, let them know what was missing — they can reapply.</div>
+        </div>
+      </div>
+      <div class="workflow-step">
+        <div class="workflow-num">4</div>
+        <div class="workflow-content">
+          <div class="workflow-title">Log the decision below</div>
+          <div class="workflow-desc">Use "Add approval entry" to record the outcome. This keeps a local browser log of decisions so you don't lose track. Use "Export log (CSV)" to save a backup at any time.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Approval log -->
+    <div class="sec-head">
+      <div class="log-header">
+        <div class="sec-title">Approval Log</div>
+        <button class="add-entry-btn" onclick="openAddModal()">+ Add entry</button>
+      </div>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="log-table" id="log-table">
+      <div class="log-row head">
+        <div>Name</div>
+        <div>Email</div>
+        <div>Institution</div>
+        <div>Status</div>
+        <div></div>
+      </div>
+      <div class="log-empty" id="log-empty">No entries yet. Add your first record above.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── ADD ENTRY MODAL ── -->
+<div class="modal-back" id="add-modal">
+  <div class="modal">
+    <div class="modal-title">Log verification decision</div>
+    <div class="mf">
+      <label>Full name</label>
+      <input type="text" id="m-name" placeholder="Student's full name">
+    </div>
+    <div class="mf">
+      <label>Email address</label>
+      <input type="email" id="m-email" placeholder="student@example.com">
+    </div>
+    <div class="mf">
+      <label>Institution</label>
+      <input type="text" id="m-inst" placeholder="e.g. UCT">
+    </div>
+    <div class="mf">
+      <label>Decision</label>
+      <select id="m-status">
+        <option value="pending">Pending review</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeAddModal()">Cancel</button>
+      <button class="modal-save" onclick="saveEntry()">Save entry</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── AUTH ── */
+const ADMIN_EMAIL = 'samuelhyera.hyera7@gmail.com';
+const PASS_HASH   = '5e7b9ea5a153f3ca9a889f6d6145707494b9d260dc2d13a56b152ea5198a578d';
+const SESSION_KEY = 'sp_admin_session';
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function doLogin() {
+  const email = document.getElementById('l-email').value.trim().toLowerCase();
+  const pass  = document.getElementById('l-pass').value;
+  const btn   = document.getElementById('login-btn');
+  const err   = document.getElementById('login-err');
+
+  err.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+
+  const hash = await sha256(pass);
+
+  if (email !== ADMIN_EMAIL.toLowerCase() || hash !== PASS_HASH) {
+    err.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Sign in';
+    return;
+  }
+
+  sessionStorage.setItem(SESSION_KEY, '1');
+  showAdmin(email);
+}
+
+function doLogout() {
+  sessionStorage.removeItem(SESSION_KEY);
+  document.getElementById('admin-page').style.display = 'none';
+  document.getElementById('login-page').style.display = 'flex';
+  document.getElementById('l-pass').value = '';
+}
+
+function showAdmin(email) {
+  document.getElementById('login-page').style.display = 'none';
+  document.getElementById('admin-page').style.display = 'block';
+  document.getElementById('admin-email-display').textContent = email || ADMIN_EMAIL;
+  loadStats();
+  renderLog();
+}
+
+(function() {
+  if (sessionStorage.getItem(SESSION_KEY)) showAdmin(ADMIN_EMAIL);
+})();
+
+/* ── STATS (persisted in localStorage) ── */
+function loadStats() {
+  ['total','pending','approved','rejected'].forEach(k => {
+    const el = document.getElementById('stat-' + k);
+    const saved = localStorage.getItem('sp_stat_' + k);
+    if (saved !== null) el.value = saved;
+    el.addEventListener('change', () => localStorage.setItem('sp_stat_' + k, el.value));
+  });
+}
+
+/* ── LOG ── */
+function getLog() {
+  try { return JSON.parse(localStorage.getItem('sp_log') || '[]'); } catch { return []; }
+}
+function saveLog(entries) {
+  localStorage.setItem('sp_log', JSON.stringify(entries));
+}
+
+function renderLog() {
+  const entries = getLog();
+  const table = document.getElementById('log-table');
+  const empty = document.getElementById('log-empty');
+
+  const rows = table.querySelectorAll('.log-row:not(.head)');
+  rows.forEach(r => r.remove());
+  empty.style.display = entries.length ? 'none' : 'block';
+
+  entries.forEach((e, i) => {
+    const row = document.createElement('div');
+    row.className = 'log-row';
+    row.innerHTML = `
+      <div class="log-name">${esc(e.name)}</div>
+      <div class="log-email">${esc(e.email)}</div>
+      <div class="log-inst">${esc(e.inst)}</div>
+      <div><span class="status-pill ${e.status}">${e.status}</span></div>
+      <div><button class="log-del" onclick="deleteEntry(${i})" title="Remove">×</button></div>
+    `;
+    table.appendChild(row);
+  });
+}
+
+function deleteEntry(i) {
+  const entries = getLog();
+  entries.splice(i, 1);
+  saveLog(entries);
+  renderLog();
+}
+
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function exportLog() {
+  const entries = getLog();
+  if (!entries.length) { alert('No entries to export.'); return; }
+  const header = 'Name,Email,Institution,Status\n';
+  const rows = entries.map(e => `"${(e.name||'').replace(/"/g,'""')}","${(e.email||'').replace(/"/g,'""')}","${(e.inst||'').replace(/"/g,'""')}","${e.status}"`).join('\n');
+  const blob = new Blob([header + rows], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'studentperks-approvals.csv';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+/* ── ADD MODAL ── */
+function openAddModal() {
+  document.getElementById('m-name').value = '';
+  document.getElementById('m-email').value = '';
+  document.getElementById('m-inst').value = '';
+  document.getElementById('m-status').value = 'pending';
+  document.getElementById('add-modal').classList.add('open');
+}
+function closeAddModal() {
+  document.getElementById('add-modal').classList.remove('open');
+}
+function saveEntry() {
+  const name   = document.getElementById('m-name').value.trim();
+  const email  = document.getElementById('m-email').value.trim();
+  const inst   = document.getElementById('m-inst').value.trim();
+  const status = document.getElementById('m-status').value;
+  if (!name || !email) { alert('Please enter at least a name and email.'); return; }
+  const entries = getLog();
+  entries.unshift({ name, email, inst, status, date: new Date().toISOString().split('T')[0] });
+  saveLog(entries);
+  renderLog();
+  closeAddModal();
+}
+document.getElementById('add-modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeAddModal();
+});
+</script>
+</body>
+</html>
