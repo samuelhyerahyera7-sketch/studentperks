@@ -84,6 +84,12 @@ nav {
 }
 .nav-verify:hover { background: var(--lime); }
 .nav-burger { background: none; border: none; cursor: pointer; color: var(--white); display: flex; align-items: center; padding: 4px; }
+.status-chip { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 700; letter-spacing: .04em; padding: 8px 16px; border-radius: 50px; white-space: nowrap; cursor: default; }
+.status-chip.verified { background: rgba(212,255,0,.12); color: var(--lime); border: 1px solid rgba(212,255,0,.25); }
+.status-chip.pending { background: rgba(255,180,0,.1); color: #ffb400; border: 1px solid rgba(255,180,0,.25); }
+.status-chip::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+.gate-toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: #1a1a1a; border: 1px solid #333; border-radius: 14px; padding: 16px 22px; font-size: 14px; color: var(--white); z-index: 9000; display: none; text-align: center; box-shadow: 0 8px 40px rgba(0,0,0,.5); max-width: 90vw; }
+.gate-toast b { color: var(--lime); }
 @media(min-width:860px){
   .nav-desktop { display: flex; }
   .nav-burger { display: none; }
@@ -472,6 +478,9 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 </head>
 <body>
 
+<!-- GATE TOAST -->
+<div class="gate-toast" id="gate-toast"></div>
+
 <!-- APPLIED BANNER -->
 <div class="applied-banner" id="applied-banner">
   🎉 Your verification application has been submitted! We'll review it and email you within 24 hours.
@@ -491,9 +500,9 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
         <a href="#events">Events</a>
         <a href="#jobs">Jobs</a>
         <a href="partner.html" class="biz">For Business</a>
-        <button class="nav-verify" onclick="openModal('si')">SIGN IN</button>
+        <div id="nav-status-desktop"><button class="nav-verify" onclick="openModal('si')">SIGN IN</button></div>
       </div>
-      <button class="nav-verify" onclick="openModal('si')" style="display:flex" id="mobile-verify">SIGN IN</button>
+      <div id="nav-status-mobile" style="display:flex;align-items:center;gap:8px"><button class="nav-verify" onclick="openModal('si')" id="mobile-verify">SIGN IN</button>
       <button class="nav-burger" onclick="openMenu()" style="margin-left:8px">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -573,7 +582,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       <div class="sec-divider"></div>
     </div>
 
-    <div class="perk-card fade-in" data-cat="other" onclick="window.open('https://www.cratesandboxes.co.za','_blank')">
+    <div class="perk-card fade-in" data-cat="other" onclick="openDeal('https://www.cratesandboxes.co.za')">
       <div class="perk-top-row">
         <div style="background:#fff;border-radius:12px;padding:8px 14px;white-space:nowrap;font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:700;color:#1A1A1A;line-height:1;display:flex;align-items:center;">
           Crates <span style="color:#C9A84C;margin:0 4px;">&amp;</span> Boxes
@@ -588,7 +597,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
         <div class="perk-badge">NEW</div>
       </div>
       <div class="perk-desc">Get 10% off everything at Crates &amp; Boxes — your go-to for moving, storage and student digs. Mention your student status at checkout to claim.</div>
-      <a class="perk-cta" href="https://www.cratesandboxes.co.za" target="_blank" onclick="event.stopPropagation()">Shop Now →</a>
+      <span class="perk-cta" onclick="openDeal('https://www.cratesandboxes.co.za');event.stopPropagation()">Shop Now →</span>
     </div>
   </div>
 </section>
@@ -919,6 +928,47 @@ const SUPA_URL='https://bulmerqkvvrjvzjwmgkl.supabase.co';
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1bG1lcnFrdnZyanZ6andtZ2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3OTA4MTksImV4cCI6MjEwMjM2NjgxOX0.UAOqHO_lNBB6ayTa6QEj4vvzdepzNCu0CYv2EOygOGI';
 const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
 
+/* ── AUTH STATUS ── */
+let _userStatus = null;
+
+async function checkAuthStatus(){
+  const { data: { session } } = await sb.auth.getSession();
+  if(!session) return;
+  const email = session.user.email;
+  const { data: app } = await sb.from('student_applications')
+    .select('status, full_name')
+    .eq('email', email)
+    .maybeSingle();
+  if(!app) return;
+  _userStatus = app.status;
+  const label = app.status === 'approved'
+    ? '<span class="status-chip verified">VERIFIED</span>'
+    : '<span class="status-chip pending">PENDING VERIFICATION</span>';
+  document.getElementById('nav-status-desktop').innerHTML = label;
+  document.getElementById('nav-status-mobile').innerHTML = label;
+}
+
+function openDeal(url){
+  if(!_userStatus){
+    showGateToast('Sign in to access student deals.', true);
+    return;
+  }
+  if(_userStatus !== 'approved'){
+    showGateToast('Your account is <b>pending verification</b>. You\'ll get access to all deals once our team approves your student card — usually within 24 hours.', false);
+    return;
+  }
+  window.open(url, '_blank');
+}
+
+let _gateTimer;
+function showGateToast(msg, showSignIn){
+  const t = document.getElementById('gate-toast');
+  t.innerHTML = msg + (showSignIn ? ' <span style="color:var(--lime);cursor:pointer;text-decoration:underline;margin-left:6px" onclick="openModal(\'si\')">Sign in →</span>' : '');
+  t.style.display = 'block';
+  clearTimeout(_gateTimer);
+  _gateTimer = setTimeout(()=>{ t.style.display='none'; }, 4000);
+}
+
 /* ── PASSWORD TOGGLE ── */
 function togglePw(id, btn){
   const inp = document.getElementById(id);
@@ -972,6 +1022,7 @@ function restoreFormMemory(){
 }
 function clearFormMemory(){ localStorage.removeItem('sp_join_form'); }
 document.addEventListener('DOMContentLoaded',()=>{
+  checkAuthStatus();
   restoreFormMemory();
   JN_FIELDS.forEach(id=>{
     const el=document.getElementById(id);
