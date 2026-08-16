@@ -960,7 +960,7 @@ async function handleSignIn(){
     document.getElementById('si-form-wrap').style.display='none';
     document.getElementById('si-success').style.display='block';
   } catch(e){
-    showErr('si-err','Failed to send sign-in link. Please try again.');
+    showErr('si-err','Failed to send sign-in link: ' + (e.message || JSON.stringify(e)));
     btn.disabled=false; btn.textContent='Send sign-in link';
   }
 }
