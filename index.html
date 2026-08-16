@@ -88,7 +88,7 @@ nav {
 .status-chip.verified { background: rgba(212,255,0,.12); color: var(--lime); border: 1px solid rgba(212,255,0,.25); }
 .status-chip.pending { background: rgba(255,180,0,.1); color: #ffb400; border: 1px solid rgba(255,180,0,.25); }
 .status-chip::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
-.gate-toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: #1a1a1a; border: 1px solid #333; border-radius: 14px; padding: 16px 22px; font-size: 14px; color: var(--white); z-index: 9000; display: none; text-align: center; box-shadow: 0 8px 40px rgba(0,0,0,.5); max-width: 90vw; }
+.gate-toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: #1a1a1a; border: 1px solid #333; border-radius: 14px; padding: 14px 22px; font-size: 14px; color: var(--white); z-index: 9000; display: none; text-align: center; box-shadow: 0 8px 40px rgba(0,0,0,.5); max-width: 92vw; white-space: nowrap; }
 .gate-toast b { color: var(--lime); }
 @media(min-width:860px){
   .nav-desktop { display: flex; }
@@ -973,7 +973,7 @@ function openDeal(url){
     return;
   }
   if(_userStatus !== 'approved'){
-    showGateToast('Your account is <b>pending verification</b>. You\'ll get access to all deals once our team approves your student card — usually within 24 hours.', false);
+    showGateToast('Your account is <b>pending verification</b>. Deals unlock once approved.', false);
     return;
   }
   window.open(url, '_blank');
