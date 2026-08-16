@@ -146,7 +146,7 @@ button{cursor:pointer;border:none;font-family:var(--font)}
 .modal-title{font-size:16px;font-weight:800;color:var(--white);margin-bottom:18px;letter-spacing:-.02em}
 .modal-close{position:absolute;top:16px;right:16px;background:var(--bg3);border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink2);font-size:17px}
 .modal-actions{display:flex;gap:8px;margin-top:16px}
-.modal-photo{width:100%;border-radius:12px;margin-bottom:14px;border:1px solid var(--border);max-height:200px;object-fit:cover;cursor:pointer}
+.modal-photo{width:100%;border-radius:12px;margin-bottom:14px;border:1px solid var(--border);max-height:200px;object-fit:cover;cursor:zoom-in;transition:opacity .15s}.modal-photo:hover{opacity:.85}
 .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 .detail-item label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);display:block;margin-bottom:3px}
 .detail-item span{font-size:13px;color:var(--white)}
@@ -431,13 +431,14 @@ button{cursor:pointer;border:none;font-family:var(--font)}
   <div class="modal">
     <button class="modal-close" onclick="closeModal('app-modal')">×</button>
     <div class="modal-title" id="app-modal-title">Application</div>
-    <img id="app-photo" class="modal-photo" src="" alt="Student card" onerror="this.style.display='none'" style="display:none">
+    <img id="app-photo" class="modal-photo" src="" alt="Student card" onerror="this.style.display='none'" style="display:none" onclick="openLightbox(this.src)">
     <div class="detail-grid" id="app-detail-grid"></div>
     <div class="field" style="margin-bottom:12px">
       <label>Admin notes</label>
       <textarea class="notes-area" id="app-notes" placeholder="Add a note (optional)…"></textarea>
     </div>
     <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="saveNotes()">Save notes</button>
       <button class="btn btn-danger" id="app-reject-btn" onclick="updateAppStatus('rejected')">Reject</button>
       <button class="btn btn-green" id="app-approve-btn" onclick="updateAppStatus('approved')">Approve</button>
     </div>
@@ -1030,6 +1031,31 @@ function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')
 function fmtDate(ts){ if(!ts)return'—'; const d=new Date(ts); return d.toLocaleDateString('en-ZA',{day:'numeric',month:'short'}); }
 function fmtDateLong(ts){ if(!ts)return'—'; const d=new Date(ts); return d.toLocaleString('en-ZA',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }
 function showFormErr(el,msg){ el.textContent=msg; el.style.display='block'; }
+
+/* ── LIGHTBOX ── */
+function openLightbox(src){
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = src;
+  lb.style.display = 'flex';
+}
+function closeLightbox(){ document.getElementById('lightbox').style.display='none'; }
+
+/* ── SAVE NOTES ── */
+async function saveNotes(){
+  if(!currentAppId) return;
+  const notes = document.getElementById('app-notes').value.trim();
+  const btn = event.target;
+  btn.disabled=true; btn.textContent='Saving…';
+  const {error} = await _sb.from('student_applications').update({admin_notes:notes}).eq('id',currentAppId);
+  btn.disabled=false;
+  if(error){ btn.textContent='Error'; setTimeout(()=>{ btn.textContent='Save notes'; },2000); }
+  else { btn.textContent='Saved ✓'; setTimeout(()=>{ btn.textContent='Save notes'; },2000); }
+}
 </script>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;cursor:zoom-out" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="" style="max-width:92vw;max-height:92vh;border-radius:12px;object-fit:contain;box-shadow:0 8px 60px rgba(0,0,0,.6)">
+</div>
 </body>
 </html>
