@@ -1080,7 +1080,7 @@ async function submitJoin(){
     document.getElementById('jn-switch-link').style.display='none';
 
   } catch(e){
-    showErr('err-3','Something went wrong. Please try again or email admin@studentperks.co.za');
+    showErr('err-3','Error: ' + (e.message || JSON.stringify(e)));
     btn.disabled=false; btn.textContent='Submit for verification';
   }
 }
