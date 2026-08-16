@@ -102,7 +102,8 @@ nav { background: var(--bg); border-bottom: 1px solid var(--border); position: s
 .sec-sub { font-size: 14px; color: var(--ink2); margin-bottom: 36px; }
 .steps-grid { display: grid; gap: 14px; }
 @media(min-width:640px){ .steps-grid { grid-template-columns: repeat(3,1fr); } }
-.step-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 28px 22px; position: relative; overflow: hidden; }
+.step-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 28px 22px; position: relative; overflow: hidden; opacity: 0; transform: translateX(60px); transition: opacity .55s ease, transform .55s ease; }
+.step-card.slide-in { opacity: 1; transform: translateX(0); }
 .step-num { font-family: var(--display); font-size: 80px; color: rgba(212,255,0,.06); position: absolute; top: -10px; right: 16px; line-height: 1; letter-spacing: .02em; pointer-events: none; }
 .step-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(212,255,0,.08); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
 .step-title { font-size: 16px; font-weight: 800; color: var(--white); margin-bottom: 8px; }
@@ -555,6 +556,20 @@ document.getElementById('partner-form').addEventListener('submit', async functio
     alert('Something went wrong. Please email us at admin@studentperks.co.za');
   }
 });
+
+(function(){
+  const cards = document.querySelectorAll('.step-card');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const idx = Array.from(cards).indexOf(entry.target);
+        setTimeout(() => entry.target.classList.add('slide-in'), idx * 180);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  cards.forEach(c => obs.observe(c));
+})();
 
 (function(){
   const line1 = 'REACH';
