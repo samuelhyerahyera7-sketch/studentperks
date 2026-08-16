@@ -126,6 +126,9 @@ nav {
 @media(min-width:480px){ .hero h1 { font-size: 80px; } }
 @media(min-width:860px){ .hero h1 { font-size: 110px; } }
 .hero h1 em { font-style: normal; color: var(--lime); display: block; }
+.type-cursor { display: inline-block; color: var(--lime); animation: blink .7s step-end infinite; }
+.type-cursor.done { display: none; }
+@keyframes blink { 50% { opacity: 0; } }
 .hero-sub { font-size: 15px; color: var(--ink2); margin-bottom: 24px; line-height: 1.5; }
 
 /* ── STATS ROW ── */
@@ -553,7 +556,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 <!-- HERO -->
 <section class="hero">
   <div class="wrap">
-    <h1>SPEND LESS.<em>LIVE MORE.</em></h1>
+    <h1><span id="type-line1"></span><em><span id="type-line2"></span><span class="type-cursor" id="type-cursor">|</span></em></h1>
     <p class="hero-sub">Exclusive student deals, verified instantly.</p>
     <div class="search-wrap">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -1275,6 +1278,26 @@ function filterPerks(){
   document.getElementById('no-results').style.display=visible===0?'':'none';
 }
 filterPerks();
+
+/* ── Typewriter ── */
+(function(){
+  const line1 = 'SPEND LESS.';
+  const line2 = 'LIVE MORE.';
+  const el1 = document.getElementById('type-line1');
+  const el2 = document.getElementById('type-line2');
+  const cur  = document.getElementById('type-cursor');
+  let i = 0;
+  function typeLine1(){
+    if(i < line1.length){ el1.textContent += line1[i++]; setTimeout(typeLine1, 68); }
+    else { setTimeout(startLine2, 180); }
+  }
+  let j = 0;
+  function startLine2(){
+    if(j < line2.length){ el2.textContent += line2[j++]; setTimeout(startLine2, 68); }
+    else { setTimeout(()=>{ cur.classList.add('done'); }, 900); }
+  }
+  setTimeout(typeLine1, 200);
+})();
 </script>
 </body>
 </html>
