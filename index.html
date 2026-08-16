@@ -88,8 +88,10 @@ nav {
 .status-chip.verified { background: rgba(212,255,0,.12); color: var(--lime); border: 1px solid rgba(212,255,0,.25); }
 .status-chip.pending { background: rgba(255,180,0,.1); color: #ffb400; border: 1px solid rgba(255,180,0,.25); }
 .status-chip::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
-.gate-toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: #1a1a1a; border: 1px solid #333; border-radius: 14px; padding: 14px 22px; font-size: 14px; color: var(--white); z-index: 9000; display: none; text-align: center; box-shadow: 0 8px 40px rgba(0,0,0,.5); max-width: 92vw; white-space: nowrap; }
+.gate-toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(.94); background: #111; border: 1.5px solid var(--lime); border-radius: 18px; padding: 28px 36px; font-size: 16px; color: var(--white); z-index: 9000; display: none; text-align: center; box-shadow: 0 0 0 6px rgba(212,255,0,.07), 0 24px 60px rgba(0,0,0,.7); max-width: min(88vw, 420px); white-space: normal; line-height: 1.5; opacity: 0; transition: opacity .18s ease, transform .18s ease; }
+.gate-toast.show { opacity: 1; transform: translate(-50%,-50%) scale(1); }
 .gate-toast b { color: var(--lime); }
+.gate-toast .gate-sign-in { display: inline-block; margin-top: 14px; padding: 10px 22px; background: var(--lime); color: #0a0a0a; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; letter-spacing: .3px; }
 @media(min-width:860px){
   .nav-desktop { display: flex; }
   .nav-burger { display: none; }
@@ -482,6 +484,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 <body>
 
 <!-- GATE TOAST -->
+<div id="gate-backdrop" onclick="hideGateToast()" style="display:none;position:fixed;inset:0;z-index:8999;background:rgba(0,0,0,.45)"></div>
 <div class="gate-toast" id="gate-toast"></div>
 
 <!-- APPLIED BANNER -->
@@ -986,10 +989,18 @@ function openDeal(url){
 let _gateTimer;
 function showGateToast(msg, showSignIn){
   const t = document.getElementById('gate-toast');
-  t.innerHTML = msg + (showSignIn ? ' <span style="color:var(--lime);cursor:pointer;text-decoration:underline;margin-left:6px" onclick="openModal(\'si\')">Sign in →</span>' : '');
-  t.style.display = 'block';
+  t.innerHTML = msg + (showSignIn ? '<br><span class="gate-sign-in" onclick="openModal(\'si\');hideGateToast()">Sign in →</span>' : '');
+  const bd = document.getElementById('gate-backdrop');
+  t.style.display = 'block'; bd.style.display = 'block';
+  requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ t.classList.add('show'); }); });
   clearTimeout(_gateTimer);
-  _gateTimer = setTimeout(()=>{ t.style.display='none'; }, 4000);
+  _gateTimer = setTimeout(hideGateToast, 5000);
+}
+function hideGateToast(){
+  const t = document.getElementById('gate-toast');
+  const bd = document.getElementById('gate-backdrop');
+  t.classList.remove('show');
+  setTimeout(()=>{ t.style.display='none'; bd.style.display='none'; }, 200);
 }
 
 /* ── PASSWORD TOGGLE ── */
