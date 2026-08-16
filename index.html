@@ -558,7 +558,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
     <div class="search-wrap">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" placeholder="Search brands or deals..." id="search-input" oninput="filterPerks()">
-      <span class="deal-badge" id="deal-count">8 deals</span>
+      <span class="deal-badge" id="deal-count">9 deals</span>
     </div>
     <div class="pills-wrap"><div class="pills-row">
       <button class="pill active" onclick="setCat(this,'all')">All</button>
@@ -580,6 +580,24 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
     <div class="sec-row">
       <span class="sec-lbl">All Perks</span>
       <div class="sec-divider"></div>
+    </div>
+
+    <div class="perk-card fade-in" data-cat="other" onclick="openDeal('https://www.custommugs.co.za')">
+      <div class="perk-top-row">
+        <div style="background:#F5F0E4;border-radius:12px;padding:8px 16px;white-space:nowrap;font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:700;line-height:1;display:flex;align-items:center;">
+          <span style="color:#1E1B2E">Custom</span><span style="color:#B8962E">Mugs</span>
+        </div>
+        <div class="perk-disc-col">
+          <div class="perk-disc-val">10%</div>
+          <div class="perk-disc-type">OFF SITEWIDE</div>
+        </div>
+      </div>
+      <div class="perk-name-row">
+        <div class="perk-name">CUSTOM MUGS</div>
+        <div class="perk-badge">NEW</div>
+      </div>
+      <div class="perk-desc">Get 10% off custom mugs, printed your way. Perfect for res life, society merch, or gifting. Use your student discount at checkout.</div>
+      <span class="perk-cta" onclick="openDeal('https://www.custommugs.co.za');event.stopPropagation()">Shop Now →</span>
     </div>
 
     <div class="perk-card fade-in" data-cat="other" onclick="openDeal('https://www.cratesandboxes.co.za')">
