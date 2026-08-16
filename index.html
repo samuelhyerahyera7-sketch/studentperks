@@ -569,6 +569,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       <button class="pill" onclick="setCat(this,'software')">Software</button>
       <button class="pill" onclick="setCat(this,'fitness')">Fitness</button>
       <button class="pill" onclick="setCat(this,'entertainment')">Entertainment</button>
+      <button class="pill" onclick="setCat(this,'gifting')">Gifting</button>
     </div></div>
   </div>
 </section>
@@ -582,25 +583,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       <div class="sec-divider"></div>
     </div>
 
-    <div class="perk-card fade-in" data-cat="other" onclick="openDeal('https://www.custommugs.co.za')">
-      <div class="perk-top-row">
-        <div style="background:#F5F0E4;border-radius:12px;padding:8px 16px;white-space:nowrap;font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:700;line-height:1;display:flex;align-items:center;">
-          <span style="color:#1E1B2E">Custom</span><span style="color:#B8962E">Mugs</span>
-        </div>
-        <div class="perk-disc-col">
-          <div class="perk-disc-val">10%</div>
-          <div class="perk-disc-type">OFF SITEWIDE</div>
-        </div>
-      </div>
-      <div class="perk-name-row">
-        <div class="perk-name">CUSTOM MUGS</div>
-        <div class="perk-badge">NEW</div>
-      </div>
-      <div class="perk-desc">Get 10% off custom mugs, printed your way. Perfect for res life, society merch, or gifting. Use your student discount at checkout.</div>
-      <span class="perk-cta" onclick="openDeal('https://www.custommugs.co.za');event.stopPropagation()">Shop Now →</span>
-    </div>
-
-    <div class="perk-card fade-in" data-cat="other" onclick="openDeal('https://www.cratesandboxes.co.za')">
+    <div class="perk-card fade-in" data-cat="gifting" onclick="openDeal('https://www.cratesandboxes.co.za')">
       <div class="perk-top-row">
         <div style="background:#fff;border-radius:12px;padding:8px 14px;white-space:nowrap;font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:700;color:#1A1A1A;line-height:1;display:flex;align-items:center;">
           Crates <span style="color:#C9A84C;margin:0 4px;">&amp;</span> Boxes
@@ -616,6 +599,24 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       </div>
       <div class="perk-desc">Get 10% off everything at Crates &amp; Boxes — your go-to for moving, storage and student digs. Mention your student status at checkout to claim.</div>
       <span class="perk-cta" onclick="openDeal('https://www.cratesandboxes.co.za');event.stopPropagation()">Shop Now →</span>
+    </div>
+
+    <div class="perk-card fade-in" data-cat="gifting" onclick="openDeal('https://www.custommugs.co.za')">
+      <div class="perk-top-row">
+        <div style="background:#F5F0E4;border-radius:12px;padding:8px 16px;white-space:nowrap;font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:700;line-height:1;display:flex;align-items:center;">
+          <span style="color:#1E1B2E">Custom</span><span style="color:#B8962E">Mugs</span>
+        </div>
+        <div class="perk-disc-col">
+          <div class="perk-disc-val">10%</div>
+          <div class="perk-disc-type">OFF SITEWIDE</div>
+        </div>
+      </div>
+      <div class="perk-name-row">
+        <div class="perk-name">CUSTOM MUGS</div>
+        <div class="perk-badge">NEW</div>
+      </div>
+      <div class="perk-desc">Get 10% off custom mugs, printed your way. Perfect for res life, society merch, or gifting. Use your student discount at checkout.</div>
+      <span class="perk-cta" onclick="openDeal('https://www.custommugs.co.za');event.stopPropagation()">Shop Now →</span>
     </div>
   </div>
 </section>
@@ -664,7 +665,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
         <div class="biz-cta-blob"></div>
         <div class="biz-eyebrow">For Businesses</div>
         <div class="biz-cta-title">GROW YOUR<em>REACH.</em></div>
-        <p class="biz-cta-desc">List your student deal on StudentPerks and tap into thousands of verified SA students — for free. Submit your offer in 3 minutes.</p>
+        <p class="biz-cta-desc">List your student deal on StudentPerks and tap into thousands of verified SA students. Submit your offer in 3 minutes.</p>
         <div class="biz-cta-btns">
           <a href="partner.html" class="lime-btn">
             List Your Deal
@@ -679,8 +680,8 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
           </div>
           <div>
-            <div class="biz-feature-title">Free to list</div>
-            <div class="biz-feature-desc">No fees, no commission. Your deal appears at zero cost.</div>
+            <div class="biz-feature-title">Simple pricing</div>
+            <div class="biz-feature-desc">Affordable plans for businesses of any size. Get in front of verified students.</div>
           </div>
         </div>
         <div class="biz-feature">
