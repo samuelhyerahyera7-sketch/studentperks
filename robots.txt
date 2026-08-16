@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /redeem
+Disallow: /verify
+
+Sitemap: https://studentperks.co.za/sitemap.xml
