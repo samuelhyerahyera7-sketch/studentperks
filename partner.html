@@ -73,6 +73,9 @@ nav { background: var(--bg); border-bottom: 1px solid var(--border); position: s
 @media(min-width:480px){ .partner-hero h1 { font-size: 90px; } }
 @media(min-width:860px){ .partner-hero h1 { font-size: 120px; } }
 .partner-hero h1 em { font-style: normal; color: var(--lime); display: block; }
+.type-cursor { display: inline-block; color: var(--lime); animation: blink .7s step-end infinite; }
+.type-cursor.done { display: none; }
+@keyframes blink { 50% { opacity: 0; } }
 .partner-hero p { font-size: 16px; color: var(--ink2); max-width: 500px; line-height: 1.65; margin-bottom: 32px; }
 .hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
 .lime-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--lime); color: var(--bg); font-size: 14px; font-weight: 800; padding: 16px 36px; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); letter-spacing: .04em; text-transform: uppercase; transition: background .15s, transform .1s; }
@@ -240,7 +243,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 <!-- HERO -->
 <section class="partner-hero">
   <div class="wrap">
-    <h1>REACH<em>SA STUDENTS.</em></h1>
+    <h1><span id="type-line1"></span><em><span id="type-line2"></span><span class="type-cursor" id="type-cursor">|</span></em></h1>
     <p>List your student deal on StudentPerks and get discovered by thousands of verified South African students every month.</p>
     <div class="hero-ctas">
       <a href="#apply" class="lime-btn">
@@ -552,6 +555,25 @@ document.getElementById('partner-form').addEventListener('submit', async functio
     alert('Something went wrong. Please email us at admin@studentperks.co.za');
   }
 });
+
+(function(){
+  const line1 = 'REACH';
+  const line2 = 'SA STUDENTS.';
+  const el1 = document.getElementById('type-line1');
+  const el2 = document.getElementById('type-line2');
+  const cur  = document.getElementById('type-cursor');
+  let i = 0;
+  function typeLine1(){
+    if(i < line1.length){ el1.textContent += line1[i++]; setTimeout(typeLine1, 80); }
+    else { setTimeout(startLine2, 200); }
+  }
+  let j = 0;
+  function startLine2(){
+    if(j < line2.length){ el2.textContent += line2[j++]; setTimeout(startLine2, 68); }
+    else { setTimeout(()=>{ cur.classList.add('done'); }, 900); }
+  }
+  setTimeout(typeLine1, 200);
+})();
 </script>
 </body>
 </html>
