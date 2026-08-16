@@ -115,7 +115,8 @@ nav { background: var(--bg); border-bottom: 1px solid var(--border); position: s
 .benefits-grid { display: grid; gap: 14px; }
 @media(min-width:640px){ .benefits-grid { grid-template-columns: repeat(2,1fr); } }
 @media(min-width:860px){ .benefits-grid { grid-template-columns: repeat(3,1fr); } }
-.benefit-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px 20px; }
+.benefit-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px 20px; opacity: 0; transform: translateX(60px); transition: opacity .5s ease, transform .5s ease; }
+.benefit-card.slide-in { opacity: 1; transform: translateX(0); }
 .benefit-ico { width: 40px; height: 40px; border-radius: 10px; background: rgba(212,255,0,.08); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
 .benefit-title { font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 6px; }
 .benefit-desc { font-size: 13px; color: var(--ink2); line-height: 1.6; }
@@ -247,7 +248,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
     <h1><span id="type-line1"></span><em><span id="type-line2"></span><span class="type-cursor" id="type-cursor">|</span></em></h1>
     <p>List your student deal on StudentPerks and get discovered by thousands of verified South African students every month.</p>
     <div class="hero-ctas">
-      <a href="#apply" class="lime-btn">
+      <a href="#apply" class="lime-btn" onclick="goToApply(event)">
         List Your Deal
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
       </a>
@@ -557,6 +558,13 @@ document.getElementById('partner-form').addEventListener('submit', async functio
   }
 });
 
+function goToApply(e){
+  e.preventDefault();
+  const target = document.getElementById('apply');
+  const top = target.getBoundingClientRect().top + window.scrollY;
+  window.scrollTo({ top, behavior: 'smooth' });
+}
+
 (function(){
   const cards = document.querySelectorAll('.step-card');
   const obs = new IntersectionObserver(entries => {
@@ -569,6 +577,20 @@ document.getElementById('partner-form').addEventListener('submit', async functio
     });
   }, { threshold: 0.15 });
   cards.forEach(c => obs.observe(c));
+})();
+
+(function(){
+  const bcards = document.querySelectorAll('.benefit-card');
+  const obs2 = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const idx = Array.from(bcards).indexOf(entry.target);
+        setTimeout(() => entry.target.classList.add('slide-in'), idx * 120);
+        obs2.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  bcards.forEach(c => obs2.observe(c));
 })();
 
 (function(){
