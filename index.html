@@ -904,6 +904,41 @@ const SUPA_URL='https://bulmerqkvvrjvzjwmgkl.supabase.co';
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1bG1lcnFrdnZyanZ6andtZ2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3OTA4MTksImV4cCI6MjEwMjM2NjgxOX0.UAOqHO_lNBB6ayTa6QEj4vvzdepzNCus0CYv2EOygOGI';
 const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
 
+/* ── FORM MEMORY ── */
+const JN_FIELDS = ['jn-name','jn-email','jn-ref','jn-institution','jn-other-inst','jn-student-email','jn-year','jn-course','jn-stunum'];
+function saveFormMemory(){
+  const saved={};
+  JN_FIELDS.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) saved[id]=el.value;
+  });
+  saved['terms-chk']=document.getElementById('terms-chk')?.checked||false;
+  localStorage.setItem('sp_join_form',JSON.stringify(saved));
+}
+function restoreFormMemory(){
+  try{
+    const saved=JSON.parse(localStorage.getItem('sp_join_form')||'{}');
+    JN_FIELDS.forEach(id=>{
+      const el=document.getElementById(id);
+      if(el&&saved[id]) el.value=saved[id];
+    });
+    const chk=document.getElementById('terms-chk');
+    if(chk&&saved['terms-chk']) chk.checked=true;
+    const otherInst=document.getElementById('jn-other-inst');
+    if(otherInst&&document.getElementById('jn-institution')?.value==='other') otherInst.style.display='';
+  }catch(e){}
+}
+function clearFormMemory(){ localStorage.removeItem('sp_join_form'); }
+document.addEventListener('DOMContentLoaded',()=>{
+  restoreFormMemory();
+  JN_FIELDS.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.addEventListener('input',saveFormMemory);
+    if(el) el.addEventListener('change',saveFormMemory);
+  });
+  document.getElementById('terms-chk')?.addEventListener('change',saveFormMemory);
+});
+
 /* ── MENU ── */
 function openMenu(){ document.getElementById('menu-overlay').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeMenu(){ document.getElementById('menu-overlay').classList.remove('open'); document.body.style.overflow=''; }
@@ -1078,6 +1113,7 @@ async function submitJoin(){
     document.getElementById('step-lbl').style.display='none';
     document.getElementById('jn-success').style.display='block';
     document.getElementById('jn-switch-link').style.display='none';
+    clearFormMemory();
 
   } catch(e){
     showErr('err-3','Error: ' + (e.message || JSON.stringify(e)));
