@@ -195,10 +195,6 @@ button{cursor:pointer;border:none;font-family:var(--font)}
     <div class="login-title">Student<span style="color:var(--lime)">Perks</span></div>
     <div class="login-sub">Sign in with your administrator credentials.</div>
     <div class="lf">
-      <label>Email address</label>
-      <input type="email" id="l-email" placeholder="admin@example.com" autocomplete="email">
-    </div>
-    <div class="lf">
       <label>Password</label>
       <div class="pw-wrap">
         <input type="password" id="l-pass" placeholder="••••••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
@@ -207,7 +203,7 @@ button{cursor:pointer;border:none;font-family:var(--font)}
         </button>
       </div>
     </div>
-    <div class="login-err" id="login-err">Incorrect email or password.</div>
+    <div class="login-err" id="login-err">Incorrect password.</div>
     <button class="login-btn" id="login-btn" onclick="doLogin()">Sign in</button>
   </div>
 </div>
@@ -485,14 +481,13 @@ async function sha256(str) {
 function getPassHash() { return localStorage.getItem('sp_admin_hash') || DEFAULT_HASH; }
 
 async function doLogin() {
-  const email = document.getElementById('l-email').value.trim().toLowerCase();
-  const pass  = document.getElementById('l-pass').value;
-  const btn   = document.getElementById('login-btn');
-  const err   = document.getElementById('login-err');
+  const pass = document.getElementById('l-pass').value;
+  const btn  = document.getElementById('login-btn');
+  const err  = document.getElementById('login-err');
   err.style.display = 'none';
   btn.disabled = true; btn.textContent = 'Signing in…';
   const hash = await sha256(pass);
-  if (email !== ADMIN_EMAIL.toLowerCase() || hash !== getPassHash()) {
+  if (hash !== getPassHash()) {
     err.style.display = 'block';
     btn.disabled = false; btn.textContent = 'Sign in';
     return;
@@ -511,7 +506,7 @@ function doLogout() {
 function showAdmin() {
   document.getElementById('login-page').style.display = 'none';
   document.getElementById('admin-page').style.display = 'flex';
-  document.getElementById('admin-email-lbl').textContent = ADMIN_EMAIL;
+  document.getElementById('admin-email-lbl').textContent = 'Administrator';
   showTab('overview');
 }
 
