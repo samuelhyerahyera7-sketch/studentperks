@@ -11,6 +11,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://studentperks.co.za/dashboard</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://studentperks.co.za/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

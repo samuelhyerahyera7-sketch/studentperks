@@ -152,6 +152,10 @@ button{cursor:pointer;border:none;font-family:var(--font)}
 .detail-item span{font-size:13px;color:var(--white)}
 .notes-area{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-family:var(--font);color:var(--white);background:var(--bg3);resize:vertical;min-height:60px}
 .notes-area:focus{border-color:var(--lime)}
+.qr-preview{display:grid;justify-items:center;gap:12px;margin:12px 0 16px;padding:16px;border:1px solid var(--border);border-radius:14px;background:var(--bg3)}
+.qr-preview img{width:220px;height:220px;border-radius:10px;background:#fff;padding:10px}
+.qr-link{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--ink2);font-size:12px;line-height:1.4;word-break:break-all}
+.qr-actions{display:flex;gap:8px;flex-wrap:wrap;width:100%;justify-content:center}
 
 /* INFO BOX */
 .info-box{background:rgba(212,255,0,.06);border:1px solid rgba(212,255,0,.14);border-radius:12px;padding:12px 14px;margin-bottom:14px}
@@ -286,9 +290,10 @@ button{cursor:pointer;border:none;font-family:var(--font)}
       <div class="form-card">
         <div class="form-grid form-grid-2">
           <div class="field"><label>Vendor name</label><input type="text" id="v-name" placeholder="e.g. Nike"></div>
-          <div class="field"><label>Code prefix (max 6 chars)</label><input type="text" id="v-prefix" placeholder="e.g. NIKE" maxlength="6" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"></div>
+          <div class="field"><label>Vendor email</label><input type="email" id="v-email" placeholder="deals@brand.co.za"></div>
+          <div class="field"><label>Code prefix</label><input type="text" id="v-prefix" placeholder="e.g. STUDENTPERKS" maxlength="20" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"></div>
           <div class="field"><label>Discount description</label><input type="text" id="v-discount" placeholder="e.g. 15% off all footwear"></div>
-          <div class="field"><label>Vendor PIN (4–8 digits)</label><input type="text" id="v-pin" placeholder="e.g. 4821" maxlength="8" oninput="this.value=this.value.replace(/\D/g,'')"></div>
+          <div class="field"><label>Vendor PIN</label><input type="text" id="v-pin" placeholder="e.g. Studentperks14!" maxlength="32"></div>
         </div>
         <div class="form-err" id="v-err"></div>
         <button class="btn btn-lime" onclick="createVendor()">+ Add vendor</button>
@@ -325,8 +330,8 @@ button{cursor:pointer;border:none;font-family:var(--font)}
       </div>
       <div class="sec-rule"></div>
       <div class="data-table" id="codes-table">
-        <div class="dt-row head" style="grid-template-columns:140px 1fr 1fr 80px 110px 70px">
-          <div>Code</div><div>Assigned to</div><div>Email</div><div>Status</div><div>Used at</div><div></div>
+        <div class="dt-row head" style="grid-template-columns:140px 1fr 1fr 80px 110px 120px">
+          <div>Code</div><div>Assigned to</div><div>Email</div><div>Status</div><div>Used at</div><div>Actions</div>
         </div>
         <div class="loading-row" id="codes-loading">Select a vendor or load all above.</div>
       </div>
@@ -463,11 +468,34 @@ button{cursor:pointer;border:none;font-family:var(--font)}
   </div>
 </div>
 
+<!-- ── QR CODE MODAL ── -->
+<div class="modal-back" id="qr-modal">
+  <div class="modal" style="max-width:420px">
+    <button class="modal-close" onclick="closeModal('qr-modal')">×</button>
+    <div class="modal-title">Coupon QR code</div>
+    <div id="qr-code-display" style="font-family:monospace;font-size:18px;color:var(--lime);margin-bottom:10px;letter-spacing:.05em"></div>
+    <div class="qr-preview">
+      <img id="qr-img" src="" alt="Coupon QR code">
+      <div class="qr-link" id="qr-link"></div>
+      <div class="qr-actions">
+        <button class="btn btn-lime" onclick="downloadQr()">Download QR</button>
+        <button class="btn btn-ghost" onclick="copyQrLink()">Copy link</button>
+      </div>
+    </div>
+    <div class="info-box">
+      <div class="info-box-label">How students use it</div>
+      <div class="info-box-text">Scanning this opens the redeem page with the discount code already filled in, so the student can retrieve the offer without typing the code manually.</div>
+    </div>
+  </div>
+</div>
+
 <script>
 /* ── SUPABASE ── */
 const SB_URL = 'https://bulmerqkvvrjvzjwmgkl.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1bG1lcnFrdnZyanZ6andtZ2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3OTA4MTksImV4cCI6MjEwMjM2NjgxOX0.UAOqHO_lNBB6ayTa6QEj4vvzdepzNCu0CYv2EOygOGI';
 const _sb = supabase.createClient(SB_URL, SB_KEY);
+const PUBLIC_REDEEM_BASE = 'https://studentperks.co.za/redeem';
+let currentQrCode = '';
 
 /* ── AUTH ── */
 const ADMIN_EMAIL   = 'samuelhyera.hyera7@gmail.com';
@@ -630,10 +658,12 @@ async function loadVendors() {
           <div class="vendor-prefix">${esc(v.code_prefix)}001-XX</div>
         </div>
         <div style="display:flex;gap:6px">
+          <button class="btn btn-ghost btn-sm" onclick="updateVendorEmail('${v.id}','${esc(v.email||'')}',event)">Set email</button>
           <button class="btn btn-danger btn-sm" onclick="deleteVendor('${v.id}',event)">Delete</button>
         </div>
       </div>
       <div class="vendor-desc">${esc(v.discount_desc||'No discount description')}</div>
+      <div class="vendor-pin-row">Email: <span class="vendor-pin-val">${esc(v.email||'Not set')}</span></div>
       <div class="vendor-pin-row">PIN: <span class="vendor-pin-val">${esc(v.vendor_pin)}</span></div>
     `;
     list.appendChild(card);
@@ -643,17 +673,19 @@ async function loadVendors() {
 
 async function createVendor() {
   const name   = document.getElementById('v-name').value.trim();
+  const email  = document.getElementById('v-email').value.trim();
   const prefix = document.getElementById('v-prefix').value.trim().toUpperCase();
   const disc   = document.getElementById('v-discount').value.trim();
   const pin    = document.getElementById('v-pin').value.trim();
   const err    = document.getElementById('v-err');
   if(!name){ showFormErr(err,'Please enter a vendor name.'); return; }
+  if(!email||!email.includes('@')){ showFormErr(err,'Please enter a valid vendor email.'); return; }
   if(!prefix||prefix.length<2){ showFormErr(err,'Please enter a code prefix (min 2 characters).'); return; }
-  if(!pin||pin.length<4){ showFormErr(err,'Please enter a PIN (min 4 digits).'); return; }
-  const {error} = await _sb.from('vendors').insert({name,code_prefix:prefix,discount_desc:disc,vendor_pin:pin});
+  if(!pin||pin.length<4){ showFormErr(err,'Please enter a PIN with at least 4 characters.'); return; }
+  const {error} = await _sb.from('vendors').insert({name,email,code_prefix:prefix,discount_desc:disc,vendor_pin:pin});
   if(error){ showFormErr(err, error.code==='23505'?'That prefix is already taken. Choose a different one.':'Error saving vendor.'); return; }
   err.style.display='none';
-  ['v-name','v-prefix','v-discount','v-pin'].forEach(id=>document.getElementById(id).value='');
+  ['v-name','v-email','v-prefix','v-discount','v-pin'].forEach(id=>document.getElementById(id).value='');
   loadVendors();
 }
 
@@ -661,6 +693,23 @@ async function deleteVendor(id, e) {
   e.stopPropagation();
   if(!confirm('Delete this vendor? All their coupon codes will also be deleted.')) return;
   await _sb.from('vendors').delete().eq('id',id);
+  loadVendors();
+}
+
+async function updateVendorEmail(id, currentEmail, e) {
+  e.stopPropagation();
+  const email = prompt('Vendor notification email:', currentEmail || '');
+  if(email === null) return;
+  const nextEmail = email.trim();
+  if(!nextEmail || !nextEmail.includes('@')) {
+    alert('Please enter a valid vendor email address.');
+    return;
+  }
+  const {error} = await _sb.from('vendors').update({email: nextEmail}).eq('id', id);
+  if(error) {
+    alert('Could not update vendor email.');
+    return;
+  }
   loadVendors();
 }
 
@@ -736,7 +785,7 @@ async function loadCoupons() {
   data.forEach(c => {
     const row = document.createElement('div');
     row.className = 'dt-row';
-    row.style.gridTemplateColumns = '140px 1fr 1fr 80px 110px 70px';
+    row.style.gridTemplateColumns = '140px 1fr 1fr 80px 110px 120px';
     const statusClass = c.is_used?'pill-used':c.assigned_to_email?'pill-assigned':'pill-available';
     const statusLabel = c.is_used?'Used':c.assigned_to_email?'Assigned':'Available';
     row.innerHTML = `
@@ -745,10 +794,51 @@ async function loadCoupons() {
       <div class="dt-cell dim">${esc(c.assigned_to_email||'—')}</div>
       <div><span class="pill-status ${statusClass}">${statusLabel}</span></div>
       <div class="dt-cell dim">${c.used_at?fmtDateLong(c.used_at):'—'}</div>
-      <div>${!c.is_used?`<button class="btn btn-ghost btn-sm" onclick="openAssign('${c.id}','${esc(c.code)}')">Assign</button>`:''}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" onclick="openQr('${esc(c.code)}')">QR</button>
+        ${!c.is_used?`<button class="btn btn-ghost btn-sm" onclick="openAssign('${c.id}','${esc(c.code)}')">Assign</button>`:''}
+      </div>
     `;
     tbody.appendChild(row);
   });
+}
+
+function redeemUrl(code) {
+  return `${PUBLIC_REDEEM_BASE}?code=${encodeURIComponent(code)}`;
+}
+
+function qrImageUrl(code, size) {
+  const pixels = size || 360;
+  return `https://api.qrserver.com/v1/create-qr-code/?size=${pixels}x${pixels}&data=${encodeURIComponent(redeemUrl(code))}`;
+}
+
+function openQr(code) {
+  currentQrCode = code;
+  const url = redeemUrl(code);
+  document.getElementById('qr-code-display').textContent = code;
+  document.getElementById('qr-link').textContent = url;
+  document.getElementById('qr-img').src = qrImageUrl(code, 360);
+  openModal('qr-modal');
+}
+
+function downloadQr() {
+  if(!currentQrCode) return;
+  const a = document.createElement('a');
+  a.href = qrImageUrl(currentQrCode, 720);
+  a.download = `studentperks-${currentQrCode}-qr.png`;
+  a.target = '_blank';
+  a.click();
+}
+
+async function copyQrLink() {
+  if(!currentQrCode) return;
+  const url = redeemUrl(currentQrCode);
+  try {
+    await navigator.clipboard.writeText(url);
+    alert('QR redeem link copied.');
+  } catch {
+    prompt('Copy this QR redeem link:', url);
+  }
 }
 
 function openAssign(codeId, code) {
@@ -778,8 +868,8 @@ async function exportCodes() {
   if(vendorId) q = q.eq('vendor_id',vendorId);
   const {data} = await q;
   if(!data||!data.length){ alert('No codes to export.'); return; }
-  const hdr = 'Code,Vendor,Assigned To,Email,Status,Used At,Created At\n';
-  const rows = data.map(c=>`"${c.code}","${c.vendor_name}","${c.assigned_to_name||''}","${c.assigned_to_email||''}","${c.is_used?'Used':c.assigned_to_email?'Assigned':'Available'}","${c.used_at||''}","${c.created_at}"`).join('\n');
+  const hdr = 'Code,Vendor,Assigned To,Email,Status,Redeem URL,QR Image URL,Used At,Created At\n';
+  const rows = data.map(c=>`"${c.code}","${c.vendor_name}","${c.assigned_to_name||''}","${c.assigned_to_email||''}","${c.is_used?'Used':c.assigned_to_email?'Assigned':'Available'}","${redeemUrl(c.code)}","${qrImageUrl(c.code,720)}","${c.used_at||''}","${c.created_at}"`).join('\n');
   const blob = new Blob([hdr+rows],{type:'text/csv'});
   const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='studentperks-codes.csv'; a.click();
 }

@@ -548,6 +548,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
         <a href="#perks">Deals</a>
         <a href="#events">Events</a>
         <a href="#jobs">Jobs</a>
+        <a href="dashboard.html">Dashboard</a>
         <a href="partner.html" class="biz">For Business</a>
         <div id="nav-status-desktop"><button class="nav-verify" onclick="openModal('si')">SIGN IN</button></div>
       </div>
@@ -578,6 +579,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
     <a class="menu-item" href="#perks" onclick="closeMenu()">Deals</a>
     <a class="menu-item" href="#events" onclick="closeMenu()">Events</a>
     <a class="menu-item" href="#jobs" onclick="closeMenu()">Jobs</a>
+    <a class="menu-item" href="dashboard.html">Dashboard</a>
     <a class="menu-item" href="partner.html" style="color:var(--lime)">For Business</a>
     <a class="menu-item" onclick="closeMenu();openModal('jn')">Verify student status</a>
   </div>
@@ -1006,15 +1008,17 @@ async function checkAuthStatus(){
   const email = session.user.email;
   const { data: app } = await sb.from('student_applications')
     .select('status, full_name')
-    .eq('email', email)
+    .or(`personal_email.eq.${email},student_email.eq.${email}`)
+    .order('created_at',{ascending:false})
+    .limit(1)
     .maybeSingle();
   if(!app) return;
   _userStatus = app.status;
   const label = app.status === 'approved'
-    ? '<span class="status-chip verified">VERIFIED</span>'
+    ? '<a class="status-chip verified" href="dashboard.html">DASHBOARD</a>'
     : '<span class="status-chip pending">PENDING VERIFICATION</span>';
   document.getElementById('nav-status-desktop').innerHTML = label;
-  document.getElementById('nav-status-mobile').innerHTML = label;
+  document.getElementById('nav-status-mobile').innerHTML = label + '<button class="nav-burger" onclick="openMenu()" style="margin-left:8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>';
 }
 
 function openDeal(url){
@@ -1147,7 +1151,9 @@ async function handleSignIn(){
     const {data: app} = await sb
       .from('student_applications')
       .select('status')
-      .eq('email', email)
+      .or(`personal_email.eq.${email},student_email.eq.${email}`)
+      .order('created_at',{ascending:false})
+      .limit(1)
       .maybeSingle();
 
     if(!app){
@@ -1170,7 +1176,7 @@ async function handleSignIn(){
     document.getElementById('si-form-wrap').style.display='none';
     document.getElementById('si-success').style.display='block';
   } catch(e){
-    showErr('si-err','Failed to send sign-in link: ' + (e.message || JSON.stringify(e)));
+    showErr('si-err', friendlyError('send your sign-in link', e));
     btn.disabled=false; btn.textContent='Send sign-in link';
   }
 }
@@ -1241,6 +1247,8 @@ function handleFile(input){
 async function submitJoin(){
   const file=document.getElementById('card-file').files[0];
   const terms=document.getElementById('terms-chk').checked;
+  const personalEmail=document.getElementById('jn-email').value.trim();
+  const password=document.getElementById('jn-pass').value;
   if(!file){ showErr('err-3','Please upload a photo of your student card.'); return; }
   if(!terms){ showErr('err-3','Please agree to the terms and conditions.'); return; }
   showErr('err-3','');
@@ -1253,6 +1261,8 @@ async function submitJoin(){
     : document.getElementById('jn-institution').value;
 
   try {
+    await assertSupabaseReachable();
+
     // 1. Upload student card photo to Supabase Storage
     const ext=file.name.split('.').pop().toLowerCase();
     const fname=Date.now()+'-'+Math.random().toString(36).slice(2)+'.'+ext;
@@ -1265,7 +1275,7 @@ async function submitJoin(){
     // 3. Insert application row
     const {error:insErr}=await sb.from('student_applications').insert({
       full_name: document.getElementById('jn-name').value.trim(),
-      personal_email: document.getElementById('jn-email').value.trim(),
+      personal_email: personalEmail,
       institution: inst,
       student_email: document.getElementById('jn-student-email').value.trim(),
       year_of_study: document.getElementById('jn-year').value,
@@ -1277,7 +1287,15 @@ async function submitJoin(){
     });
     if(insErr) throw insErr;
 
-    // 4. Show success
+    // 4. Create the student's sign-in account using the password they entered.
+    const {error:authErr}=await sb.auth.signUp({
+      email: personalEmail,
+      password,
+      options:{ emailRedirectTo: 'https://studentperks.co.za/dashboard' }
+    });
+    if(authErr && !/already registered|already exists|user_already_exists/i.test(authErr.message||'')) throw authErr;
+
+    // 5. Show success
     for(let i=1;i<=3;i++) document.getElementById('step-'+i).style.display='none';
     document.getElementById('step-indicator').style.display='none';
     document.getElementById('step-lbl').style.display='none';
@@ -1286,12 +1304,44 @@ async function submitJoin(){
     clearFormMemory();
 
   } catch(e){
-    showErr('err-3','Error: ' + (e.message || JSON.stringify(e)));
+    showErr('err-3', friendlyError('submit your verification', e));
     btn.disabled=false; btn.textContent='Submit for verification';
   }
 }
 
 /* ── Helpers ── */
+async function assertSupabaseReachable(){
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),9000);
+  try{
+    const res=await fetch(SUPA_URL + '/rest/v1/', {
+      method:'HEAD',
+      headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY},
+      signal:controller.signal
+    });
+    if(!res.ok) throw new Error('Supabase returned ' + res.status);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function friendlyError(action,e){
+  const msg=(e&&e.message?e.message:String(e||'')).trim();
+  if(/failed to fetch|networkerror|load failed|abort/i.test(msg)){
+    return `We could not reach the verification server to ${action}. Check your internet connection and make sure Supabase is online, then try again.`;
+  }
+  if(/bucket|storage/i.test(msg)){
+    return `Student card upload is not ready yet. In Supabase, make sure the "student-cards" storage bucket exists and allows uploads.`;
+  }
+  if(/row-level security|policy|permission|not authorized/i.test(msg)){
+    return `The verification database rejected this request. Check the Supabase policies from setup.sql, then try again.`;
+  }
+  if(/duplicate|already registered|already exists|23505/i.test(msg)){
+    return `An application or account already exists for this email. Try signing in, or use a different email address.`;
+  }
+  return `Could not ${action}: ${msg || 'Unknown error'}`;
+}
+
 function showErr(id, msg){
   const el=document.getElementById(id);
   if(!el) return;

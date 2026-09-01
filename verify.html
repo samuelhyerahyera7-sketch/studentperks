@@ -104,7 +104,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
     <div class="card-sub">Enter your vendor code and PIN to access your coupon dashboard.</div>
     <div class="f">
       <label>Vendor code prefix</label>
-      <input type="text" id="v-prefix" placeholder="e.g. NIKE" maxlength="6" oninput="this.value=this.value.toUpperCase()">
+      <input type="text" id="v-prefix" placeholder="e.g. STUDENTPERKS" maxlength="20" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')">
     </div>
     <div class="f">
       <label>PIN</label>

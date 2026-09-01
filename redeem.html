@@ -66,6 +66,10 @@ main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 
 .result-row .val{color:#f5f5f5;font-weight:500;text-align:right;max-width:60%}
 
 .discount-badge{display:inline-block;background:#1a2e5c;color:#5b8fff;padding:4px 12px;border-radius:20px;font-size:.8rem;font-weight:600;margin-bottom:14px}
+.qr-box{display:none;margin:18px 0 4px;padding:16px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:#0e0e0e;text-align:center}
+.qr-box img{width:180px;height:180px;background:#fff;border-radius:10px;padding:8px;margin-bottom:10px}
+.qr-box p{color:#888;font-size:.78rem;line-height:1.5}
+.qr-link{display:block;margin-top:8px;color:#5b8fff;font-size:.78rem;word-break:break-all}
 
 .confirm-btn{margin-top:18px;width:100%;padding:13px;background:#1a5c35;color:#3dd68c;border:1px solid #2a7a4a;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;transition:background .2s}
 .confirm-btn:hover{background:#1e6b3e}
@@ -125,6 +129,11 @@ footer a{color:#5b8fff}
       <div class="result-row"><span class="lbl">Vendor</span><span class="val" id="rv-vendor"></span></div>
       <div class="result-row"><span class="lbl">Discount</span><span class="val" id="rv-discount"></span></div>
       <div class="result-row"><span class="lbl">Assigned to</span><span class="val" id="rv-assigned"></span></div>
+      <div class="qr-box" id="qrBox">
+        <img id="qrImg" src="" alt="QR code for this coupon">
+        <p>Show this QR at the vendor or save it as a second way to retrieve this discount.</p>
+        <a class="qr-link" id="qrLink" href="#" target="_blank" rel="noopener"></a>
+      </div>
       <button class="confirm-btn" id="redeemBtn" onclick="confirmRedeem()">✓ Mark as Redeemed</button>
     </div>
 
@@ -162,6 +171,7 @@ footer a{color:#5b8fff}
 const SUPA_URL = 'https://bulmerqkvvrjvzjwmgkl.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1bG1lcnFrdnZyanZ6andtZ2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3OTA4MTksImV4cCI6MjEwMjM2NjgxOX0.UAOqHO_lNBB6ayTa6QEj4vvzdepzNCu0CYv2EOygOGI';
 const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+const PUBLIC_REDEEM_BASE = 'https://studentperks.co.za/redeem';
 
 let currentRow = null;
 
@@ -178,6 +188,15 @@ function fmtDate(iso){
          d.toLocaleTimeString('en-ZA',{hour:'2-digit',minute:'2-digit'});
 }
 
+function redeemUrl(code) {
+  return `${PUBLIC_REDEEM_BASE}?code=${encodeURIComponent(code)}`;
+}
+
+function qrImageUrl(code, size) {
+  const pixels = size || 360;
+  return `https://api.qrserver.com/v1/create-qr-code/?size=${pixels}x${pixels}&data=${encodeURIComponent(redeemUrl(code))}`;
+}
+
 async function checkCode(){
   const raw = document.getElementById('codeInput').value.trim().toUpperCase();
   if(!raw){ flashErr('Please enter a coupon code.'); return; }
@@ -186,12 +205,13 @@ async function checkCode(){
   document.getElementById('loader').style.display='flex';
   document.getElementById('checkBtn').disabled = true;
   document.getElementById('redeemBtn').disabled = false;
+  document.getElementById('redeemBtn').textContent = '✓ Mark as Redeemed';
   currentRow = null;
 
   try {
     const {data, error} = await sb
       .from('coupon_codes')
-      .select('*, vendors(name, discount_desc)')
+      .select('*, vendors(name, email, discount_desc)')
       .eq('code', raw)
       .maybeSingle();
 
@@ -228,6 +248,11 @@ async function checkCode(){
 
     document.getElementById('discountBadgeWrap').innerHTML =
       `<div class="discount-badge">${discount}</div>`;
+    const qrUrl = redeemUrl(data.code);
+    document.getElementById('qrImg').src = qrImageUrl(data.code, 360);
+    document.getElementById('qrLink').href = qrUrl;
+    document.getElementById('qrLink').textContent = qrUrl;
+    document.getElementById('qrBox').style.display = 'block';
 
     document.getElementById('resValid').style.display='block';
 
@@ -244,14 +269,20 @@ async function confirmRedeem(){
   document.getElementById('redeemBtn').textContent = 'Marking…';
 
   const emailVal = document.getElementById('emailInput').value.trim();
+  const redeemedAt = new Date().toISOString();
 
   try {
     // Update coupon_codes
     const {error: ue} = await sb
       .from('coupon_codes')
-      .update({is_used: true, used_at: new Date().toISOString()})
+      .update({is_used: true, used_at: redeemedAt})
       .eq('id', currentRow.id);
     if(ue) throw ue;
+
+    const studentEmail = emailVal || currentRow.assigned_to_email || '';
+    const vendorName = currentRow.vendor_name || (currentRow.vendors && currentRow.vendors.name) || '';
+    const vendorEmail = currentRow.vendors && currentRow.vendors.email ? currentRow.vendors.email : '';
+    const discount = currentRow.vendors && currentRow.vendors.discount_desc ? currentRow.vendors.discount_desc : '';
 
     // Insert into redemptions
     const {error: re} = await sb
@@ -259,10 +290,20 @@ async function confirmRedeem(){
       .insert({
         code: currentRow.code,
         vendor_id: currentRow.vendor_id,
-        vendor_name: currentRow.vendor_name || (currentRow.vendors && currentRow.vendors.name) || '',
-        student_email: emailVal || currentRow.assigned_to_email || ''
+        vendor_name: vendorName,
+        student_email: studentEmail
       });
     if(re) throw re;
+
+    notifyRedemption({
+      code: currentRow.code,
+      vendorName,
+      vendorEmail,
+      studentEmail,
+      studentName: currentRow.assigned_to_name || '',
+      discount,
+      redeemedAt: fmtDate(redeemedAt)
+    });
 
     document.getElementById('resValid').style.display='none';
     document.getElementById('flashOk').style.display='block';
@@ -272,6 +313,19 @@ async function confirmRedeem(){
     document.getElementById('redeemBtn').disabled = false;
     document.getElementById('redeemBtn').textContent = '✓ Mark as Redeemed';
     flashErr('Failed to mark as redeemed: ' + (e.message || 'Unknown error'));
+  }
+}
+
+async function notifyRedemption(payload){
+  try {
+    const response = await fetch('/api/notify-redemption', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(!response.ok) console.warn('Redemption email notification failed', await response.text());
+  } catch(e) {
+    console.warn('Redemption email notification failed', e);
   }
 }
 
@@ -294,6 +348,14 @@ document.getElementById('codeInput').addEventListener('input', function(){
   let v = this.value.replace(/[^a-zA-Z0-9-]/g,'').toUpperCase();
   this.value = v;
 });
+
+(function hydrateFromQrLink(){
+  const params = new URLSearchParams(window.location.search);
+  const code = (params.get('code') || '').trim().toUpperCase();
+  if(!code) return;
+  document.getElementById('codeInput').value = code.replace(/[^a-zA-Z0-9-]/g,'').toUpperCase();
+  checkCode();
+})();
 </script>
 </body>
 </html>

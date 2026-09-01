@@ -8,12 +8,15 @@
 CREATE TABLE IF NOT EXISTS vendors (
   id               UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   name             TEXT NOT NULL,
+  email            TEXT DEFAULT '',
   code_prefix      TEXT NOT NULL UNIQUE,
   discount_desc    TEXT DEFAULT '',
   vendor_pin       TEXT NOT NULL,
   active           BOOLEAN DEFAULT TRUE,
   created_at       TIMESTAMPTZ DEFAULT NOW()
 );
+
+ALTER TABLE vendors ADD COLUMN IF NOT EXISTS email TEXT DEFAULT '';
 
 CREATE TABLE IF NOT EXISTS coupon_codes (
   id                  UUID DEFAULT gen_random_uuid() PRIMARY KEY,
