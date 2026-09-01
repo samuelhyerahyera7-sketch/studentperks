@@ -12,6 +12,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vendor Verify — StudentPerks</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="shortcut icon" href="/favicon.svg">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
@@ -19,22 +21,26 @@
 *:focus{outline:none}
 :root{--lime:#d4ff00;--bg:#0c0c0c;--bg3:#1a1a1a;--card:#161616;--border:rgba(255,255,255,.07);--white:#fff;--ink:rgba(255,255,255,.92);--ink2:rgba(255,255,255,.5);--ink3:rgba(255,255,255,.25);--red:#ff4444;--green:#22c55e;--yellow:#ffc800;--font:'Inter',sans-serif}
 body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
-.nav{background:var(--card);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:56px;gap:12px}
+.nav{background:var(--card);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;min-height:56px;gap:12px;flex-wrap:wrap}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:19px;color:var(--white);text-transform:uppercase;letter-spacing:.03em}
 .logo span{color:var(--lime)}
 .badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;background:rgba(212,255,0,.1);color:var(--lime);border:1px solid rgba(212,255,0,.2);border-radius:4px;padding:2px 7px}
 .sp{flex:1}
-.page{flex:1;display:flex;align-items:center;justify-content:center;padding:24px}
+.page{flex:1;display:flex;align-items:center;justify-content:center;padding:24px 14px}
 
 /* LOGIN */
-.login-card{background:var(--card);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:32px 28px;width:100%;max-width:360px}
+.login-card{background:var(--card);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:32px 28px;width:min(100%,420px);max-width:420px}
 .card-title{font-size:18px;font-weight:800;color:var(--white);margin-bottom:6px;letter-spacing:-.02em}
 .card-sub{font-size:13px;color:var(--ink3);margin-bottom:24px;line-height:1.5}
 .f{margin-bottom:12px}
 .f label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:5px}
-.f input,.f select{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--white);background:var(--bg3);transition:border-color .15s;appearance:none}
+.f input,.f select{width:100%;min-width:0;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--white);background:var(--bg3);transition:border-color .15s;appearance:none}
 .f input:focus,.f select:focus{border-color:var(--lime)}
 .f input::placeholder{color:var(--ink3)}
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:42px}
+.pw-eye{position:absolute;right:0;top:0;bottom:0;width:42px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:var(--ink3);transition:color .15s}
+.pw-eye:hover{color:var(--ink)}
 .btn{display:block;width:100%;background:var(--lime);color:var(--bg);font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:14px;border-radius:50px;border:none;cursor:pointer;font-family:var(--font);transition:background .15s;margin-top:6px}
 .btn:hover:not(:disabled){background:var(--white)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
@@ -52,7 +58,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .verify-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px}
 .verify-box-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:14px}
 .code-input-row{display:flex;gap:10px}
-.code-input{flex:1;padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:monospace;color:var(--white);background:var(--bg3);letter-spacing:.05em;text-transform:uppercase;transition:border-color .15s}
+.code-input{flex:1;min-width:0;padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:monospace;color:var(--white);background:var(--bg3);letter-spacing:.05em;text-transform:uppercase;transition:border-color .15s}
 .code-input:focus{border-color:var(--lime)}
 .code-input::placeholder{color:var(--ink3);font-family:var(--font);font-size:14px;letter-spacing:0;text-transform:none}
 .check-btn{background:var(--lime);color:var(--bg);font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:14px 24px;border-radius:50px;border:none;cursor:pointer;font-family:var(--font);transition:background .15s;white-space:nowrap}
@@ -86,6 +92,13 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .p-assigned{background:rgba(212,255,0,.1);color:var(--lime)}
 .p-used{background:rgba(255,68,68,.1);color:var(--red)}
 .list-empty{text-align:center;padding:28px;color:var(--ink3);font-size:13px}
+@media(max-width:520px){
+  .nav{padding:12px 14px}
+  .badge{display:none}
+  .login-card{padding:26px 18px}
+  .code-input-row{display:grid;grid-template-columns:1fr}
+  .check-btn{width:100%}
+}
 </style>
 </head>
 <body>
@@ -103,12 +116,17 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
     <div class="card-title">Vendor Sign In</div>
     <div class="card-sub">Enter your vendor code and PIN to access your coupon dashboard.</div>
     <div class="f">
-      <label>Vendor code prefix</label>
-      <input type="text" id="v-prefix" placeholder="e.g. STUDENTPERKS" maxlength="20" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')">
+      <label>Vendor sign-in code</label>
+      <input type="text" id="v-prefix" placeholder="STUDENTPERKS" autocomplete="username" spellcheck="false" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')">
     </div>
     <div class="f">
       <label>PIN</label>
-      <input type="password" id="v-pin" placeholder="Your PIN" onkeydown="if(event.key==='Enter')doVendorLogin()">
+      <div class="pw-wrap">
+        <input type="password" id="v-pin" placeholder="Your PIN" autocomplete="current-password" onkeydown="if(event.key==='Enter')doVendorLogin()">
+        <button class="pw-eye" type="button" onclick="togglePw('v-pin',this)" title="Show/hide PIN" aria-label="Show or hide PIN">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
     </div>
     <div class="err-box" id="v-err">Incorrect vendor code or PIN.</div>
     <button class="btn" id="v-login-btn" onclick="doVendorLogin()">Sign in</button>
@@ -151,6 +169,15 @@ const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 const _sb = supabase.createClient(SB_URL, SB_KEY);
 
 let currentVendor = null;
+
+function togglePw(id, btn){
+  const inp = document.getElementById(id);
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  btn.innerHTML = show
+    ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+    : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+}
 
 async function doVendorLogin() {
   const prefix = document.getElementById('v-prefix').value.trim().toUpperCase();

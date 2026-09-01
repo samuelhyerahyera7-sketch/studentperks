@@ -12,6 +12,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>List Your Student Deal — StudentPerks</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="shortcut icon" href="/favicon.svg">
 <meta name="description" content="Reach thousands of verified South African students by listing your deal on StudentPerks. Fast review, student-verified audience, simple pricing.">
 <meta name="keywords" content="advertise to students South Africa, student deal listing, reach SA students, student marketing South Africa, varsity deals partner">
 <meta name="robots" content="index, follow">
@@ -188,6 +190,10 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 .field-m input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 14px; font-family: var(--font); color: var(--white); background: var(--bg3); outline: none; transition: border-color .15s; }
 .field-m input:focus { border-color: var(--lime); }
 .field-m input::placeholder { color: var(--ink3); }
+.pw-wrap { position: relative; }
+.pw-wrap input { padding-right: 42px; }
+.pw-eye { position: absolute; right: 0; top: 0; bottom: 0; width: 42px; display: flex; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; color: var(--ink3); transition: color .15s; }
+.pw-eye:hover { color: var(--white); }
 .modal-submit { display: block; width: 100%; background: var(--lime); color: var(--bg); font-size: 14px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: 15px; text-align: center; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); margin-top: 6px; transition: background .15s; }
 .modal-submit:hover { background: var(--white); }
 .modal-form-head { margin-bottom: 18px; }
@@ -502,7 +508,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
     </div>
     <form id="form-si" onsubmit="return false">
       <div class="field-m"><input type="email" placeholder="Email address"></div>
-      <div class="field-m"><input type="password" placeholder="Password"></div>
+      <div class="field-m pw-wrap"><input type="password" id="partner-si-pass" placeholder="Password"><button class="pw-eye" type="button" onclick="togglePw('partner-si-pass',this)" title="Show/hide password" aria-label="Show or hide password"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
       <button type="submit" class="modal-submit" onclick="closeModal()">Sign in</button>
       <p class="modal-switch">Not a member? <span onclick="switchTab('jn')">Join now</span></p>
     </form>
@@ -513,8 +519,8 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       </div>
       <div class="field-m"><input type="email" placeholder="Email address"></div>
       <div class="field-m"><input type="text" placeholder="Name &amp; Surname"></div>
-      <div class="field-m"><input type="password" placeholder="Password"></div>
-      <div class="field-m"><input type="password" placeholder="Confirm Password"></div>
+      <div class="field-m pw-wrap"><input type="password" id="partner-jn-pass" placeholder="Password"><button class="pw-eye" type="button" onclick="togglePw('partner-jn-pass',this)" title="Show/hide password" aria-label="Show or hide password"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+      <div class="field-m pw-wrap"><input type="password" id="partner-jn-pass2" placeholder="Confirm Password"><button class="pw-eye" type="button" onclick="togglePw('partner-jn-pass2',this)" title="Show/hide password" aria-label="Show or hide password"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
       <div class="field-m"><input type="text" placeholder="Referral Code (optional)" style="font-size:13px"></div>
       <label class="modal-terms">
         <input type="checkbox">
@@ -537,6 +543,14 @@ function switchTab(t){
   document.getElementById('t-jn').classList.toggle('active',jn);
   document.getElementById('form-si').style.display = jn?'none':'';
   document.getElementById('form-jn').style.display = jn?'':'none';
+}
+function togglePw(id, btn){
+  const inp = document.getElementById(id);
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  btn.innerHTML = show
+    ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+    : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
 }
 document.getElementById('modal-back').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal(); });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
