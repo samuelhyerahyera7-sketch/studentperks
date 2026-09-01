@@ -3,143 +3,146 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>1Voucher Demo — StudentPerks</title>
+<title>1Voucher Student Deal - StudentPerks</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="shortcut icon" href="/favicon.svg">
-<meta name="description" content="A StudentPerks demo showing how 1Voucher can issue student discounts, QR retrieval links, and provider verification.">
+<meta name="description" content="1Voucher on StudentPerks: a live demo of student deal discovery, QR retrieval, and provider verification.">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--lime:#d4ff00;--bg:#0c0c0c;--card:#161616;--card2:#1d1d1d;--line:rgba(255,255,255,.09);--white:#fff;--ink:rgba(255,255,255,.86);--muted:rgba(255,255,255,.52);--faint:rgba(255,255,255,.28);--green:#22c55e;--yellow:#ffc800;--blue:#5b8fff;--font:'Inter',sans-serif;--display:'Bebas Neue',sans-serif}
-body{font-family:var(--font);background:var(--bg);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--lime:#d4ff00;--lime-d:#b8df00;--bg:#0c0c0c;--bg3:#1a1a1a;--card:#161616;--border:rgba(255,255,255,.08);--white:#fff;--ink:rgba(255,255,255,.92);--ink2:rgba(255,255,255,.5);--ink3:rgba(255,255,255,.28);--green:#22c55e;--font:'Inter',sans-serif;--display:'Bebas Neue',sans-serif}
+body{font-family:var(--font);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit;text-decoration:none}button{font:inherit;border:0;cursor:pointer}
-.wrap{max-width:1160px;margin:0 auto;padding:0 18px}
-nav{position:sticky;top:0;z-index:10;background:rgba(12,12,12,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
-.nav-inner{height:60px;display:flex;align-items:center;gap:14px}.logo{font-size:21px;font-weight:900;letter-spacing:-.03em;color:var(--white)}.logo span{color:var(--lime)}.spacer{flex:1}
-.nav-pill{display:inline-flex;align-items:center;border:1px solid rgba(212,255,0,.22);background:rgba(212,255,0,.08);color:var(--lime);border-radius:999px;padding:7px 12px;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:12px 18px;font-size:12px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
-.btn-lime{background:var(--lime);color:#080808}.btn-lime:hover{background:#fff}.btn-dark{background:var(--card2);border:1px solid var(--line);color:var(--ink)}.btn-dark:hover{border-color:rgba(255,255,255,.22);color:#fff}
-.hero{padding:48px 0 24px}.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);gap:24px;align-items:stretch}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--lime);font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}.eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--lime)}
-h1{font-family:var(--display);font-size:clamp(60px,10vw,128px);line-height:.88;font-weight:400;letter-spacing:.02em;text-transform:uppercase;color:var(--white);max-width:720px}
-.lead{max-width:610px;margin-top:18px;color:var(--muted);font-size:16px;line-height:1.7}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
-.brand-panel{background:linear-gradient(180deg,#202020,#121212);border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;min-height:320px}
-.brand-card{border:1px solid rgba(212,255,0,.2);background:rgba(212,255,0,.06);border-radius:14px;padding:22px}.voucher-logo{font-size:48px;font-weight:900;letter-spacing:-.05em;color:#fff}.voucher-logo span{color:var(--lime)}.brand-copy{color:var(--muted);line-height:1.6;margin-top:10px}
-.mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.mini{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:14px}.num{font-family:var(--display);font-size:38px;color:var(--lime);line-height:1}.label{font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-top:3px}
-.section{padding:24px 0}.section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:14px}.kicker{font-size:11px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:var(--faint)}h2{font-size:26px;color:var(--white);letter-spacing:-.03em;margin-top:5px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0}
-.coupon-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}.vendor{font-size:22px;font-weight:900;color:#fff;line-height:1}.discount{color:var(--muted);font-size:13px;line-height:1.45;margin-top:7px}.pill{display:inline-flex;border-radius:999px;padding:4px 10px;font-size:10px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}.ready{background:rgba(34,197,94,.11);color:var(--green)}.used{background:rgba(255,200,0,.1);color:var(--yellow)}
-.code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--lime);background:rgba(212,255,0,.08);border:1px solid rgba(212,255,0,.18);border-radius:9px;padding:9px 10px;font-size:13px;letter-spacing:.04em;overflow-wrap:anywhere}
-.qr{display:grid;place-items:center;margin:15px 0;padding:14px;border-radius:14px;background:#101010;border:1px solid var(--line)}.qr img{width:158px;height:158px;background:#fff;border-radius:10px;padding:8px}
-.actions{display:flex;gap:8px;flex-wrap:wrap}.actions .btn{flex:1;min-width:124px;padding:10px 12px}
-.dash{display:grid;grid-template-columns:.85fr 1.15fr;gap:12px}.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}.panel-title{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
-.field{display:grid;gap:6px;margin-bottom:12px}.field label{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.09em;color:var(--faint)}.fake-input{background:#101010;border:1px solid var(--line);border-radius:10px;padding:12px 13px;color:#fff;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
-.rows{border:1px solid var(--line);border-radius:12px;overflow:hidden}.row{display:grid;grid-template-columns:150px 1fr 100px;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);font-size:12px;align-items:center}.row:last-child{border-bottom:0}.row.head{background:rgba(255,255,255,.03);color:var(--faint);font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.muted{color:var(--muted)}.callout{border-left:3px solid var(--lime);background:rgba(212,255,0,.07);border-radius:12px;padding:15px 16px;color:var(--muted);line-height:1.6;font-size:14px}
-footer{padding:34px 0 44px;color:var(--faint);font-size:13px;border-top:1px solid var(--line);margin-top:24px}
-@media(max-width:900px){.hero-grid,.dash{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.brand-panel{min-height:auto}.row{grid-template-columns:1fr}.row.head{display:none}}
-@media(max-width:620px){.nav-pill{display:none}.hero{padding-top:34px}.grid,.mini-stats{grid-template-columns:1fr}.hero-actions .btn,.actions .btn{width:100%}h1{font-size:64px}}
+.wrap{max-width:480px;margin:0 auto;padding:0 18px}@media(min-width:860px){.wrap{max-width:1100px}}
+nav{background:var(--bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20}
+.nav-inner{display:flex;align-items:center;height:60px;gap:10px}.logo-word{font-size:21px;font-weight:900;letter-spacing:-.03em;color:var(--white);white-space:nowrap}.logo-word span{color:var(--lime)}.nav-spacer{flex:1}
+.nav-desktop{display:none;align-items:center;gap:24px}.nav-desktop a{font-size:13px;font-weight:500;color:var(--ink2)}.nav-desktop a:hover,.nav-desktop a.active{color:var(--white)}.nav-desktop a.biz{color:var(--lime);font-weight:700}
+.nav-verify{background:var(--white);color:var(--bg);font-size:12px;font-weight:800;letter-spacing:.06em;padding:10px 22px;border-radius:50px;white-space:nowrap}.nav-verify:hover{background:var(--lime)}@media(min-width:860px){.nav-desktop{display:flex}}
+.hero{background:var(--bg);padding:36px 0 28px}.hero h1{font-family:var(--display);font-size:68px;font-weight:400;line-height:.92;letter-spacing:.01em;color:var(--white);text-transform:uppercase;margin-bottom:16px}.hero h1 em{font-style:normal;color:var(--lime);display:block}.hero-sub{font-size:15px;color:var(--ink2);margin-bottom:24px;line-height:1.5;max-width:620px}
+@media(min-width:480px){.hero h1{font-size:80px}}@media(min-width:860px){.hero h1{font-size:110px}}
+.stats-row{display:flex;gap:0;margin-bottom:28px}.stat-item{flex:1;padding:14px 0;border-right:1px solid var(--border)}.stat-item:last-child{border-right:0}.stat-val{font-family:var(--display);font-size:28px;color:var(--lime);letter-spacing:.02em;line-height:1}.stat-lbl{font-size:10px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+.search-wrap{background:#1e1e1e;border-radius:14px;display:flex;align-items:center;padding:0 18px;height:56px;gap:12px;margin-bottom:20px;border:1px solid var(--border)}.search-wrap svg{color:var(--ink3);flex-shrink:0}.search-wrap input{flex:1;background:none;border:0;outline:0;font-size:15px;color:var(--white);min-width:0}.deal-badge{font-size:13px;font-weight:700;color:var(--lime);white-space:nowrap}
+.pills-wrap{position:relative}.pills-wrap::after{content:'';position:absolute;right:0;top:0;bottom:0;width:48px;background:linear-gradient(to right,transparent,var(--bg));pointer-events:none}.pills-row{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.pill{flex-shrink:0;background:transparent;color:var(--white);border:1.5px solid rgba(255,255,255,.18);font-size:13px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:9px 20px;border-radius:50px}.pill.active{background:var(--lime);color:var(--bg);border-color:var(--lime)}
+.sec-row{display:flex;align-items:center;gap:14px;margin-bottom:16px}.sec-lbl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);white-space:nowrap}.sec-divider{flex:1;height:1px;background:var(--border)}.sec-view{font-size:12px;font-weight:700;color:var(--ink3);white-space:nowrap}.sec-view:hover{color:var(--lime)}
+.perks-sec,.demo-sec{padding:36px 0;border-top:1px solid var(--border)}.perk-card{background:var(--card);border-radius:20px;padding:20px;margin-bottom:12px;transition:transform .2s,box-shadow .2s;border:1px solid transparent}.perk-card:hover{transform:translateY(-3px);border-color:rgba(212,255,0,.2);box-shadow:0 8px 32px rgba(212,255,0,.06)}
+.perk-top-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:14px}.voucher-logo-box{background:#fff;border-radius:12px;padding:9px 14px;white-space:nowrap;font-size:18px;font-weight:900;color:#111;line-height:1;display:flex;align-items:center}.voucher-logo-box span{color:#74c600;margin-left:2px}.perk-disc-col{text-align:right}.perk-disc-val{font-family:var(--display);font-size:42px;line-height:1;color:var(--lime);letter-spacing:.02em}.perk-disc-type{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-top:2px}.perk-name-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}.perk-name{font-family:var(--display);font-size:28px;letter-spacing:.03em;color:var(--white);line-height:1}.perk-badge{font-size:9px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;background:var(--lime);color:var(--bg);padding:3px 9px;border-radius:4px}.perk-desc{font-size:14px;color:var(--ink2);line-height:1.6;margin-bottom:18px}.perk-cta{display:inline-flex;width:100%;align-items:center;justify-content:center;background:var(--white);color:var(--bg);font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:15px;text-align:center;border-radius:50px}.perk-cta:hover{background:var(--lime)}
+.demo-grid{display:grid;gap:12px}.demo-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px}.demo-card-title{font-size:18px;font-weight:900;color:var(--white);margin-bottom:5px}.demo-card-sub{font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:14px}.code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--lime);background:rgba(212,255,0,.08);border:1px solid rgba(212,255,0,.16);border-radius:8px;padding:8px 9px;font-size:13px;letter-spacing:.04em;overflow-wrap:anywhere}.qr{display:grid;place-items:center;margin:14px 0;padding:14px;border-radius:14px;background:#101010;border:1px solid var(--border)}.qr img{width:160px;height:160px;background:#fff;border-radius:10px;padding:8px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:50px;padding:11px 18px;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}.btn-lime{background:var(--lime);color:var(--bg)}.btn-lime:hover{background:var(--white)}.btn-dark{background:#222;color:var(--white);border:1px solid var(--border)}.btn-dark:hover{background:var(--lime);color:var(--bg)}
+.provider-wrap{display:grid;gap:12px}.provider-panel{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden}.provider-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:20px;border-bottom:1px solid var(--border)}.provider-name{font-size:20px;font-weight:800;color:var(--white)}.provider-discount{font-size:13px;color:var(--lime);margin-top:3px}.field-row{display:grid;grid-template-columns:150px 1fr 88px;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);font-size:12px;align-items:center}.field-row.head{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);background:rgba(255,255,255,.02)}.dim{color:var(--ink3)}.status{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;background:rgba(212,255,0,.1);color:var(--lime)}.signin{display:grid;gap:8px;margin-top:14px}.signin-row{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#101010;border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:13px}.signin-row b{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--white)}
+footer{padding:36px 0;color:var(--ink3);font-size:12px;border-top:1px solid var(--border)}@media(min-width:760px){.demo-grid{grid-template-columns:repeat(3,1fr)}.provider-wrap{grid-template-columns:330px 1fr}.hero-sub{font-size:16px}}@media(max-width:620px){.stats-row{display:grid;grid-template-columns:repeat(3,1fr)}.actions .btn{width:100%}.field-row{grid-template-columns:1fr}.field-row.head{display:none}.nav-verify{padding:10px 15px}.hero h1{font-size:64px}}
 </style>
 </head>
 <body>
 <nav>
   <div class="wrap nav-inner">
-    <a class="logo" href="/">Student<span>Perks.</span></a>
-    <div class="spacer"></div>
-    <span class="nav-pill">1Voucher pitch demo</span>
+    <a href="/" class="logo-word">Student<span>Perks.</span></a>
+    <div class="nav-spacer"></div>
+    <div class="nav-desktop">
+      <a href="/#perks" class="active">Deals</a>
+      <a href="/#events">Events</a>
+      <a href="/#jobs">Jobs</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/partner" class="biz">For Business</a>
+    </div>
+    <a class="nav-verify" href="/verify">VERIFY</a>
   </div>
 </nav>
 
-<main>
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <div class="eyebrow">Tomorrow's walkthrough</div>
-        <h1>1Voucher on StudentPerks</h1>
-        <p class="lead">A live demo flow showing how a 1Voucher student offer can be issued, retrieved by code or QR, and verified by the provider at point of redemption.</p>
-        <div class="hero-actions">
-          <a class="btn btn-lime" href="#student-view">Student view</a>
-          <a class="btn btn-dark" href="#provider-view">Provider dashboard</a>
-          <a class="btn btn-dark" href="/verify">Open live provider login</a>
-        </div>
+<section class="hero">
+  <div class="wrap">
+    <h1>1Voucher<em>Student Deal</em></h1>
+    <p class="hero-sub">A StudentPerks pitch demo that looks and behaves like the live platform: a student discovers the deal, retrieves it with a code or QR, and the provider verifies it at checkout.</p>
+    <div class="stats-row">
+      <div class="stat-item"><div class="stat-val">3</div><div class="stat-lbl">Live codes</div></div>
+      <div class="stat-item"><div class="stat-val">2</div><div class="stat-lbl">Claim paths</div></div>
+      <div class="stat-item"><div class="stat-val">1</div><div class="stat-lbl">Provider portal</div></div>
+    </div>
+    <div class="search-wrap">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" value="1Voucher" aria-label="Search brands or deals">
+      <span class="deal-badge">1 deal</span>
+    </div>
+    <div class="pills-wrap"><div class="pills-row">
+      <span class="pill active">All</span>
+      <span class="pill">Prepaid</span>
+      <span class="pill">Food</span>
+      <span class="pill">Data</span>
+      <span class="pill">Campus</span>
+    </div></div>
+  </div>
+</section>
+
+<section class="perks-sec" id="student-view">
+  <div class="wrap">
+    <div class="sec-row"><span class="sec-lbl">All Perks</span><div class="sec-divider"></div><a class="sec-view" href="/#perks">View site</a></div>
+    <article class="perk-card">
+      <div class="perk-top-row">
+        <div class="voucher-logo-box">1<span>Voucher</span></div>
+        <div class="perk-disc-col"><div class="perk-disc-val">10%</div><div class="perk-disc-type">Student reward</div></div>
       </div>
-      <aside class="brand-panel">
-        <div class="brand-card">
-          <div class="voucher-logo">1<span>Voucher</span></div>
-          <p class="brand-copy">Demo partner profile with prepaid-value rewards for verified South African students.</p>
-        </div>
-        <div class="mini-stats">
-          <div class="mini"><div class="num">3</div><div class="label">Demo codes</div></div>
-          <div class="mini"><div class="num">2</div><div class="label">Retrieval paths</div></div>
-          <div class="mini"><div class="num">1</div><div class="label">Provider view</div></div>
+      <div class="perk-name-row"><div class="perk-name">1VOUCHER</div><div class="perk-badge">DEMO</div></div>
+      <div class="perk-desc">Verified students receive a dedicated 1Voucher reward code. They can retrieve the discount from their dashboard, open the direct link, or scan the QR code in-store.</div>
+      <a class="perk-cta" href="/redeem?code=1VOUCHER001-DEMO">Retrieve Demo Deal</a>
+    </article>
+  </div>
+</section>
+
+<section class="demo-sec">
+  <div class="wrap">
+    <div class="sec-row"><span class="sec-lbl">Student Dashboard</span><div class="sec-divider"></div><a class="sec-view" href="/dashboard">Open dashboard</a></div>
+    <div class="demo-grid">
+      <article class="demo-card">
+        <div class="demo-card-title">Ready to retrieve</div>
+        <p class="demo-card-sub">Direct claim link for the pitch flow.</p>
+        <div class="code">1VOUCHER001-DEMO</div>
+        <div class="qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=360x360&data=https%3A%2F%2Fstudentperks.co.za%2Fredeem%3Fcode%3D1VOUCHER001-DEMO" alt="QR code for 1VOUCHER001-DEMO"></div>
+        <div class="actions"><a class="btn btn-lime" href="/redeem?code=1VOUCHER001-DEMO">Retrieve</a><a class="btn btn-dark" href="#provider-view">Verify</a></div>
+      </article>
+      <article class="demo-card">
+        <div class="demo-card-title">Email backed</div>
+        <p class="demo-card-sub">Assigned to the demo student profile.</p>
+        <div class="code">1VOUCHER002-PITCH</div>
+        <div class="qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=360x360&data=https%3A%2F%2Fstudentperks.co.za%2Fredeem%3Fcode%3D1VOUCHER002-PITCH" alt="QR code for 1VOUCHER002-PITCH"></div>
+        <div class="actions"><a class="btn btn-lime" href="/redeem?code=1VOUCHER002-PITCH">Retrieve</a><a class="btn btn-dark" href="/verify">Provider login</a></div>
+      </article>
+      <article class="demo-card">
+        <div class="demo-card-title">QR first</div>
+        <p class="demo-card-sub">Built for scanning at the provider counter.</p>
+        <div class="code">1VOUCHER003-QR</div>
+        <div class="qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=360x360&data=https%3A%2F%2Fstudentperks.co.za%2Fredeem%3Fcode%3D1VOUCHER003-QR" alt="QR code for 1VOUCHER003-QR"></div>
+        <div class="actions"><a class="btn btn-lime" href="/redeem?code=1VOUCHER003-QR">Retrieve</a><a class="btn btn-dark" href="/verify">Check code</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="demo-sec" id="provider-view">
+  <div class="wrap">
+    <div class="sec-row"><span class="sec-lbl">Provider Portal</span><div class="sec-divider"></div><a class="sec-view" href="/verify">Open live portal</a></div>
+    <div class="provider-wrap">
+      <aside class="demo-card">
+        <div class="demo-card-title">1Voucher sign in</div>
+        <p class="demo-card-sub">Use these demo credentials in the real provider portal.</p>
+        <div class="signin">
+          <div class="signin-row"><span>Vendor code</span><b>1VOUCHER</b></div>
+          <div class="signin-row"><span>PIN</span><b>VoucherDemo14!</b></div>
         </div>
       </aside>
-    </div>
-  </section>
-
-  <section class="section" id="student-view">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <div class="kicker">Student dashboard</div>
-          <h2>Assigned 1Voucher discounts</h2>
+      <section class="provider-panel">
+        <div class="provider-top">
+          <div><div class="provider-name">1Voucher</div><div class="provider-discount">Exclusive prepaid voucher rewards for verified students</div></div>
+          <a class="btn btn-lime" href="/verify">Sign in</a>
         </div>
-        <a class="btn btn-dark" href="/dashboard">Open student dashboard</a>
-      </div>
-      <div class="grid">
-        <article class="card">
-          <div class="coupon-head"><div><div class="vendor">1Voucher</div><div class="discount">Exclusive prepaid voucher reward for verified students</div></div><span class="pill ready">Ready</span></div>
-          <div class="code">1VOUCHER001-DEMO</div>
-          <div class="qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=360x360&data=https%3A%2F%2Fstudentperks.co.za%2Fredeem%3Fcode%3D1VOUCHER001-DEMO" alt="QR code for 1VOUCHER001-DEMO"></div>
-          <div class="actions"><a class="btn btn-lime" href="/redeem?code=1VOUCHER001-DEMO">Retrieve</a><a class="btn btn-dark" href="https://api.qrserver.com/v1/create-qr-code/?size=720x720&data=https%3A%2F%2Fstudentperks.co.za%2Fredeem%3Fcode%3D1VOUCHER001-DEMO">QR</a></div>
-        </article>
-        <article class="card">
-          <div class="coupon-head"><div><div class="vendor">1Voucher</div><div class="discount">Presentation demo code for email and QR retrieval</div></div><span class="pill ready">Ready</span></div>
-          <div class="code">1VOUCHER002-PITCH</div>
-          <div class="qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=360x360&data=https%3A%2F%2Fstudentperks.co.za%2Fredeem%3Fcode%3D1VOUCHER002-PITCH" alt="QR code for 1VOUCHER002-PITCH"></div>
-          <div class="actions"><a class="btn btn-lime" href="/redeem?code=1VOUCHER002-PITCH">Retrieve</a><a class="btn btn-dark" href="https://api.qrserver.com/v1/create-qr-code/?size=720x720&data=https%3A%2F%2Fstudentperks.co.za%2Fredeem%3Fcode%3D1VOUCHER002-PITCH">QR</a></div>
-        </article>
-        <article class="card">
-          <div class="coupon-head"><div><div class="vendor">1Voucher</div><div class="discount">Scan-first redemption path for in-store demos</div></div><span class="pill ready">Ready</span></div>
-          <div class="code">1VOUCHER003-QR</div>
-          <div class="qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=360x360&data=https%3A%2F%2Fstudentperks.co.za%2Fredeem%3Fcode%3D1VOUCHER003-QR" alt="QR code for 1VOUCHER003-QR"></div>
-          <div class="actions"><a class="btn btn-lime" href="/redeem?code=1VOUCHER003-QR">Retrieve</a><a class="btn btn-dark" href="https://api.qrserver.com/v1/create-qr-code/?size=720x720&data=https%3A%2F%2Fstudentperks.co.za%2Fredeem%3Fcode%3D1VOUCHER003-QR">QR</a></div>
-        </article>
-      </div>
+        <div class="field-row head"><div>Code</div><div>Assigned to</div><div>Status</div></div>
+        <div class="field-row"><div class="code">1VOUCHER001-DEMO</div><div>Demo Student<br><span class="dim">demo@studentperks.co.za</span></div><div><span class="status">Ready</span></div></div>
+        <div class="field-row"><div class="code">1VOUCHER002-PITCH</div><div>Demo Student<br><span class="dim">demo@studentperks.co.za</span></div><div><span class="status">Ready</span></div></div>
+        <div class="field-row"><div class="code">1VOUCHER003-QR</div><div>Demo Student<br><span class="dim">demo@studentperks.co.za</span></div><div><span class="status">Ready</span></div></div>
+      </section>
     </div>
-  </section>
-
-  <section class="section" id="provider-view">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <div class="kicker">Provider dashboard</div>
-          <h2>What 1Voucher would see</h2>
-        </div>
-        <a class="btn btn-lime" href="/verify">Open live provider portal</a>
-      </div>
-      <div class="dash">
-        <aside class="panel">
-          <div class="panel-title">Demo sign-in</div>
-          <div class="field"><label>Vendor code</label><div class="fake-input">1VOUCHER</div></div>
-          <div class="field"><label>PIN</label><div class="fake-input">VoucherDemo14!</div></div>
-          <div class="callout">Use these details in the live provider portal to show code checking, assigned students, and redemption status.</div>
-        </aside>
-        <section class="panel">
-          <div class="panel-title">Live seeded demo codes</div>
-          <div class="rows">
-            <div class="row head"><div>Code</div><div>Assigned to</div><div>Status</div></div>
-            <div class="row"><div class="code">1VOUCHER001-DEMO</div><div>Demo Student<br><span class="muted">demo@studentperks.co.za</span></div><div><span class="pill ready">Ready</span></div></div>
-            <div class="row"><div class="code">1VOUCHER002-PITCH</div><div>Demo Student<br><span class="muted">demo@studentperks.co.za</span></div><div><span class="pill ready">Ready</span></div></div>
-            <div class="row"><div class="code">1VOUCHER003-QR</div><div>Demo Student<br><span class="muted">demo@studentperks.co.za</span></div><div><span class="pill ready">Ready</span></div></div>
-          </div>
-        </section>
-      </div>
-    </div>
-  </section>
-</main>
+  </div>
+</section>
 
 <footer>
-  <div class="wrap">StudentPerks 1Voucher presentation demo. Codes are for walkthrough purposes.</div>
+  <div class="wrap">StudentPerks demo route for the 1Voucher presentation.</div>
 </footer>
 </body>
 </html>
