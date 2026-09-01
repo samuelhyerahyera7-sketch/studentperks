@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Redeem Your Coupon – StudentPerks</title>
+<title>Redeem Your Perk - StudentPerks</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="shortcut icon" href="/favicon.svg">
 <style>
@@ -102,11 +102,11 @@ footer a{color:#5b8fff}
 
 <main>
   <div class="card">
-    <h1>Redeem Your Coupon</h1>
-    <p class="sub">Enter your coupon code below to reveal your student discount.</p>
+    <h1>Redeem Your Perk</h1>
+    <p class="sub">Enter your perk code below to reveal your student discount.</p>
 
     <div class="field">
-      <label>COUPON CODE</label>
+      <label>PERK CODE</label>
       <input id="codeInput" type="text" class="upper" placeholder="SP-BRAND-XXXXXX" maxlength="20" autocomplete="off" spellcheck="false"/>
     </div>
     <div class="field">
@@ -124,7 +124,7 @@ footer a{color:#5b8fff}
     <div class="result valid" id="resValid">
       <div class="result-head">
         <span class="result-icon">✅</span>
-        <span class="result-title">Valid Coupon</span>
+        <span class="result-title">Valid Perk</span>
       </div>
       <div id="discountBadgeWrap"></div>
       <div class="result-row"><span class="lbl">Code</span><span class="val" id="rv-code"></span></div>
@@ -132,7 +132,7 @@ footer a{color:#5b8fff}
       <div class="result-row"><span class="lbl">Discount</span><span class="val" id="rv-discount"></span></div>
       <div class="result-row"><span class="lbl">Assigned to</span><span class="val" id="rv-assigned"></span></div>
       <div class="qr-box" id="qrBox">
-        <img id="qrImg" src="" alt="QR code for this coupon">
+        <img id="qrImg" src="" alt="QR code for this perk">
         <p>Show this QR at the vendor or save it as a second way to retrieve this discount.</p>
         <a class="qr-link" id="qrLink" href="#" target="_blank" rel="noopener"></a>
       </div>
@@ -201,7 +201,7 @@ function qrImageUrl(code, size) {
 
 async function checkCode(){
   const raw = document.getElementById('codeInput').value.trim().toUpperCase();
-  if(!raw){ flashErr('Please enter a coupon code.'); return; }
+  if(!raw){ flashErr('Please enter a perk code.'); return; }
 
   hideAll();
   document.getElementById('loader').style.display='flex';
