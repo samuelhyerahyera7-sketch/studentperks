@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVFNE687PD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZVFNE687PD');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1Voucher Demo — StudentPerks</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="shortcut icon" href="/favicon.svg">
+<meta name="description" content="Private 1Voucher demo on the StudentPerks platform, showing student discount retrieval and provider verification.">
+<meta name="keywords" content="student discounts South Africa, student deals SA, student perks, varsity discounts, student savings, SA student offers, student lifestyle, varsity vibe deals">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://studentperks.co.za/demo-1voucher.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://studentperks.co.za/demo-1voucher.html">
+<meta property="og:title" content="1Voucher Demo — StudentPerks">
+<meta property="og:description" content="A private StudentPerks demo for 1Voucher.">
+<meta property="og:site_name" content="StudentPerks">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="1Voucher Demo — StudentPerks">
+<meta name="twitter:description" content="A private StudentPerks demo for 1Voucher.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "StudentPerks",
+  "url": "https://studentperks.co.za",
+  "description": "South Africa's student discount and deals platform for verified students.",
+  "areaServed": "ZA",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+27813756494",
+    "email": "admin@studentperks.co.za",
+    "contactType": "customer support"
+  },
+  "sameAs": []
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "StudentPerks",
+  "url": "https://studentperks.co.za",
+  "description": "Exclusive student discounts and deals for verified South African students.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://studentperks.co.za/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+*:focus { outline: none; }
+*:focus-visible { outline: none; }
+:root {
+  --lime: #d4ff00;
+  --lime-d: #b8e000;
+  --bg: #0c0c0c;
+  --bg2: #111;
+  --bg3: #1a1a1a;
+  --card: #171717;
+  --border: rgba(255,255,255,.07);
+  --white: #fff;
+  --ink: rgba(255,255,255,.92);
+  --ink2: rgba(255,255,255,.45);
+  --ink3: rgba(255,255,255,.25);
+  --font: 'Inter', sans-serif;
+  --display: 'Bebas Neue', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; font-family: var(--font); }
+.wrap { max-width: 480px; margin: 0 auto; padding: 0 18px; }
+@media(min-width:860px){ .wrap { max-width: 1100px; } }
+
+/* ── NAV ── */
+nav {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  gap: 10px;
+}
+.nav-spacer { flex: 1; }
+.logo-word {
+  font-family: var(--font);
+  font-size: 21px;
+  font-weight: 900;
+  letter-spacing: -.03em;
+  color: var(--white);
+  white-space: nowrap;
+}
+.logo-word span { color: var(--lime); }
+.nav-desktop { display: none; align-items: center; gap: 24px; }
+.nav-desktop a { font-size: 13px; font-weight: 500; color: var(--ink2); transition: color .12s; }
+.nav-desktop a:hover { color: var(--white); }
+.nav-desktop a.biz { color: var(--lime); font-weight: 700; }
+.nav-desktop a.biz:hover { color: var(--lime-d); }
+.nav-verify {
+  background: var(--white);
+  color: var(--bg);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  padding: 10px 22px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: background .15s;
+  white-space: nowrap;
+}
+.nav-verify:hover { background: var(--lime); }
+.nav-burger { background: none; border: none; cursor: pointer; color: var(--white); display: flex; align-items: center; padding: 4px; }
+.status-chip { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 700; letter-spacing: .04em; padding: 8px 16px; border-radius: 50px; white-space: nowrap; cursor: default; }
+.status-chip.verified { background: rgba(212,255,0,.12); color: var(--lime); border: 1px solid rgba(212,255,0,.25); }
+.status-chip.pending { background: rgba(255,180,0,.1); color: #ffb400; border: 1px solid rgba(255,180,0,.25); }
+.status-chip::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+.gate-toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(.94); background: #111; border: 1.5px solid var(--lime); border-radius: 18px; padding: 28px 36px; font-size: 16px; color: var(--white); z-index: 9000; display: none; text-align: center; box-shadow: 0 0 0 6px rgba(212,255,0,.07), 0 24px 60px rgba(0,0,0,.7); max-width: min(88vw, 420px); white-space: normal; line-height: 1.5; opacity: 0; transition: opacity .18s ease, transform .18s ease; }
+.gate-toast.show { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+.gate-toast b { color: var(--lime); }
+.gate-toast .gate-sign-in { display: inline-block; margin-top: 14px; padding: 10px 22px; background: var(--lime); color: #0a0a0a; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; letter-spacing: .3px; }
+@media(min-width:860px){
+  .nav-desktop { display: flex; }
+  .nav-burger { display: none; }
+}
+
+/* ── MOBILE MENU ── */
+.menu-overlay { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 400; flex-direction: column; overflow-y: auto; }
+.menu-overlay.open { display: flex; }
+.menu-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid var(--border); }
+.menu-close { background: none; border: none; color: var(--white); cursor: pointer; }
+.menu-verify { display: block; margin: 20px; background: var(--white); color: var(--bg); font-size: 14px; font-weight: 800; letter-spacing: .05em; padding: 16px; text-align: center; border-radius: 50px; text-transform: uppercase; }
+.menu-items { padding: 0 20px; }
+.menu-item { display: block; padding: 18px 0; font-size: 18px; font-weight: 600; color: var(--ink2); border-bottom: 1px solid var(--border); cursor: pointer; transition: color .12s; }
+.menu-item:hover { color: var(--lime); }
+.menu-foot { padding: 24px 20px; margin-top: auto; }
+.menu-contact-row { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--ink3); margin-bottom: 10px; }
+.menu-contact-ico { width: 34px; height: 34px; border-radius: 8px; background: var(--bg3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.menu-social { display: flex; gap: 16px; margin: 16px 0 12px; }
+.menu-soc { color: var(--lime); }
+.menu-copy { font-size: 11px; color: var(--ink3); }
+
+/* ── HERO ── */
+.hero { background: var(--bg); padding: 36px 0 28px; }
+.hero h1 {
+  font-family: var(--display);
+  font-size: 68px;
+  font-weight: 400;
+  line-height: .92;
+  letter-spacing: .01em;
+  color: var(--white);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+@media(min-width:480px){ .hero h1 { font-size: 80px; } }
+@media(min-width:860px){ .hero h1 { font-size: 110px; } }
+.hero h1 em { font-style: normal; color: var(--lime); display: block; }
+.type-cursor { display: inline-block; color: var(--lime); animation: blink .7s step-end infinite; }
+.type-cursor.done { display: none; }
+@keyframes blink { 50% { opacity: 0; } }
+.hero-sub { font-size: 15px; color: var(--ink2); margin-bottom: 24px; line-height: 1.5; }
+
+/* ── STATS ROW ── */
+.stats-row { display: flex; gap: 0; margin-bottom: 28px; }
+.stat-item { flex: 1; padding: 14px 0; border-right: 1px solid var(--border); }
+.stat-item:last-child { border-right: none; }
+.stat-val { font-family: var(--display); font-size: 28px; color: var(--lime); letter-spacing: .02em; line-height: 1; }
+.stat-lbl { font-size: 10px; font-weight: 600; color: var(--ink3); text-transform: uppercase; letter-spacing: .08em; margin-top: 3px; }
+
+/* ── SCROLL FADE ── */
+.fade-in { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
+.fade-in.visible { opacity: 1; transform: none; }
+
+/* ── SEARCH ── */
+.search-wrap {
+  background: #1e1e1e;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  height: 56px;
+  gap: 12px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+.search-wrap svg { color: var(--ink3); flex-shrink: 0; }
+.search-wrap input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  font-family: var(--font);
+  color: var(--white);
+}
+.search-wrap input::placeholder { color: var(--ink3); }
+.deal-badge {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--lime);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── CATEGORY PILLS ── */
+.pills-wrap { position: relative; }
+.pills-wrap::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 48px;
+  background: linear-gradient(to right, transparent, var(--bg));
+  pointer-events: none;
+}
+.pills-row { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.pills-row::-webkit-scrollbar { display: none; }
+.pill {
+  flex-shrink: 0;
+  background: transparent;
+  color: var(--white);
+  border: 1.5px solid rgba(255,255,255,.18);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  padding: 9px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all .15s;
+  font-family: var(--font);
+}
+.pill:hover { border-color: rgba(255,255,255,.4); }
+.pill.active { background: var(--lime); color: var(--bg); border-color: var(--lime); }
+
+/* ── SECTION LABEL ── */
+.sec-row { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.sec-lbl { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink3); white-space: nowrap; }
+.sec-divider { flex: 1; height: 1px; background: var(--border); }
+.sec-view { font-size: 12px; font-weight: 700; color: var(--ink3); white-space: nowrap; transition: color .12s; }
+.sec-view:hover { color: var(--lime); }
+
+/* ── TRENDING CARDS ── */
+.trending-sec { padding: 36px 0; border-top: 1px solid var(--border); }
+.trend-scroll { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-right: 18px; }
+.trend-scroll::-webkit-scrollbar { display: none; }
+.trend-card {
+  flex-shrink: 0;
+  width: 72vw;
+  max-width: 320px;
+  height: 170px;
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.trend-card.small { width: 42vw; max-width: 180px; }
+.trend-img { position: absolute; inset: 0; background-size: cover; background-position: center; }
+.trend-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.88) 35%, rgba(0,0,0,.15) 100%); }
+.trend-content { position: relative; z-index: 2; padding: 14px; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; }
+.trend-tag { font-size: 9px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--lime); margin-bottom: 4px; }
+.trend-title { font-size: 13px; font-weight: 700; color: var(--white); line-height: 1.3; }
+
+/* ── PERK CARDS ── */
+.perks-sec { padding: 36px 0; border-top: 1px solid var(--border); }
+.perk-card {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  border: 1px solid transparent;
+}
+.perk-card:hover { transform: translateY(-3px); border-color: rgba(212,255,0,.2); box-shadow: 0 8px 32px rgba(212,255,0,.06); }
+.perk-top-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+.perk-logo-box { width: 54px; height: 54px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; color: var(--white); flex-shrink: 0; font-family: var(--font); }
+.perk-disc-col { text-align: right; }
+.perk-disc-val { font-family: var(--display); font-size: 42px; line-height: 1; color: var(--lime); letter-spacing: .02em; }
+.perk-disc-type { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink3); margin-top: 2px; }
+.perk-name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.perk-name { font-family: var(--display); font-size: 28px; letter-spacing: .03em; color: var(--white); line-height: 1; }
+.perk-badge { font-size: 9px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; background: var(--lime); color: var(--bg); padding: 3px 9px; border-radius: 4px; }
+.perk-desc { font-size: 14px; color: var(--ink2); line-height: 1.6; margin-bottom: 18px; }
+.perk-cta { display: block; width: 100%; background: var(--white); color: var(--bg); font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 15px; text-align: center; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); transition: background .15s; }
+.perk-cta:hover { background: var(--lime); }
+.perk-cta.dark { background: #222; color: var(--white); }
+.perk-cta.dark:hover { background: var(--lime); color: var(--bg); }
+
+/* ── BURSARIES ── */
+.burs-sec { padding: 36px 0; border-top: 1px solid var(--border); }
+.burs-list { border-radius: 16px; overflow: hidden; }
+.burs-row { background: var(--card); padding: 16px 18px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .15s; }
+.burs-row:last-child { border-bottom: none; }
+.burs-row:hover { background: var(--bg3); }
+.burs-ico { width: 42px; height: 42px; border-radius: 10px; background: var(--bg3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.burs-info { flex: 1; min-width: 0; }
+.burs-funder { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--lime); margin-bottom: 2px; }
+.burs-name { font-size: 14px; font-weight: 700; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.burs-field { font-size: 11.5px; color: var(--ink3); }
+.burs-right { flex-shrink: 0; text-align: right; }
+.burs-amount { font-size: 14px; font-weight: 800; color: var(--white); }
+.burs-dl { font-size: 11px; color: var(--ink3); margin-top: 2px; }
+.burs-dl.hot { color: #ff4444; font-weight: 600; }
+.burs-arr { width: 32px; height: 32px; background: var(--bg3); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--ink3); margin-left: 6px; transition: all .15s; }
+.burs-row:hover .burs-arr { background: var(--lime); color: var(--bg); }
+
+/* ── EVENTS ── */
+.events-sec { padding: 36px 0; border-top: 1px solid var(--border); }
+.ev-row { background: var(--card); border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: background .15s; margin-bottom: 8px; }
+.ev-row:hover { background: var(--bg3); }
+.ev-date { background: var(--bg3); border-radius: 10px; padding: 9px 13px; text-align: center; flex-shrink: 0; }
+.ev-day { font-family: var(--display); font-size: 24px; color: var(--white); line-height: 1; }
+.ev-mon { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--ink3); }
+.ev-info { flex: 1; min-width: 0; }
+.ev-type { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--lime); margin-bottom: 2px; }
+.ev-name { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+.ev-loc { font-size: 12px; color: var(--ink3); }
+.ev-badge { font-size: 10px; font-weight: 700; padding: 4px 11px; border-radius: 20px; flex-shrink: 0; }
+.free { background: rgba(212,255,0,.12); color: var(--lime); }
+.paid { background: rgba(255,200,0,.1); color: #ffc800; }
+
+/* ── JOBS ── */
+.jobs-sec { padding: 36px 0; border-top: 1px solid var(--border); }
+.job-card { background: var(--card); border-radius: 14px; padding: 16px 18px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: background .15s; margin-bottom: 8px; }
+.job-card:hover { background: var(--bg3); }
+.job-ico { width: 42px; height: 42px; border-radius: 12px; background: var(--bg3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--ink2); }
+.job-info { flex: 1; min-width: 0; }
+.job-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+.job-co { font-size: 12px; color: var(--ink3); margin-bottom: 6px; }
+.job-tags { display: flex; gap: 5px; }
+.job-tag { font-size: 10px; padding: 2px 8px; border-radius: 4px; background: var(--bg3); color: var(--ink3); font-weight: 500; }
+.job-salary { font-family: var(--display); font-size: 20px; color: var(--lime); flex-shrink: 0; letter-spacing: .02em; }
+.job-arr { width: 32px; height: 32px; background: var(--bg3); border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--ink3); margin-left: 4px; transition: all .15s; }
+.job-card:hover .job-arr { background: var(--lime); color: var(--bg); }
+
+/* ── UTILITY BUTTON ── */
+.outline-btn { display: block; width: 100%; background: transparent; color: var(--ink2); font-size: 13px; font-weight: 700; letter-spacing: .04em; padding: 15px; text-align: center; border-radius: 14px; border: 1px solid var(--border); cursor: pointer; font-family: var(--font); transition: all .15s; margin-top: 14px; text-transform: uppercase; }
+.outline-btn:hover { border-color: var(--lime); color: var(--lime); }
+
+/* ── BUSINESS CTA ── */
+.biz-cta-sec { padding: 64px 0; border-top: 1px solid var(--border); }
+.biz-cta-inner {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  overflow: hidden;
+  display: grid;
+}
+@media(min-width:860px){ .biz-cta-inner { grid-template-columns: 1fr 1fr; } }
+.biz-cta-left {
+  padding: 44px 36px;
+  position: relative;
+  overflow: hidden;
+}
+.biz-cta-blob {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: var(--lime);
+  opacity: .06;
+  filter: blur(60px);
+  top: -60px;
+  left: -60px;
+  pointer-events: none;
+}
+.biz-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--lime);
+  background: rgba(212,255,0,.08);
+  border: 1px solid rgba(212,255,0,.15);
+  padding: 6px 14px;
+  border-radius: 50px;
+  margin-bottom: 20px;
+}
+.biz-eyebrow::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--lime); }
+.biz-cta-title {
+  font-family: var(--display);
+  font-size: 54px;
+  color: var(--white);
+  text-transform: uppercase;
+  line-height: .92;
+  letter-spacing: .02em;
+  margin-bottom: 16px;
+}
+.biz-cta-title em { font-style: normal; color: var(--lime); display: block; }
+.biz-cta-desc { font-size: 14px; color: var(--ink2); line-height: 1.65; margin-bottom: 28px; max-width: 360px; }
+.biz-cta-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+.lime-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--lime); color: var(--bg); font-size: 13px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 15px 30px; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); transition: background .15s, transform .1s; }
+.lime-btn:hover { background: var(--white); transform: translateY(-2px); }
+.ghost-btn { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: var(--ink2); font-size: 13px; font-weight: 700; padding: 15px 24px; border-radius: 50px; border: 1px solid var(--border); cursor: pointer; font-family: var(--font); transition: all .15s; }
+.ghost-btn:hover { border-color: rgba(255,255,255,.3); color: var(--white); }
+.biz-cta-right {
+  padding: 36px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+@media(min-width:860px){ .biz-cta-right { border-top: none; border-left: 1px solid var(--border); justify-content: center; } }
+.biz-feature { display: flex; align-items: flex-start; gap: 14px; }
+.biz-feature-ico { width: 38px; height: 38px; border-radius: 10px; background: rgba(212,255,0,.07); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.biz-feature-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 3px; }
+.biz-feature-desc { font-size: 12px; color: var(--ink3); line-height: 1.55; }
+
+/* ── FINAL CTA ── */
+.final-cta { background: var(--bg2); border-top: 1px solid var(--border); padding: 72px 0; text-align: center; }
+.final-cta h2 {
+  font-family: var(--display);
+  font-size: clamp(64px, 18vw, 110px);
+  font-weight: 400;
+  color: var(--white);
+  text-transform: uppercase;
+  line-height: .9;
+  margin-bottom: 20px;
+  letter-spacing: .02em;
+}
+.final-cta h2 em { font-style: normal; color: var(--lime); display: block; }
+.final-cta p { font-size: 15px; color: var(--ink2); max-width: 380px; margin: 0 auto 32px; line-height: 1.65; }
+
+/* ── FOOTER ── */
+footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48px 0 28px; }
+.footer-grid { display: grid; grid-template-columns: 1fr; gap: 36px; margin-bottom: 36px; }
+@media(min-width:700px){ .footer-grid { grid-template-columns: 200px 1fr; } }
+.footer-desc { font-size: 13px; color: var(--ink3); line-height: 1.65; margin: 10px 0 18px; }
+.footer-social { display: flex; gap: 12px; }
+.f-soc { color: var(--lime); }
+.footer-cols { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+@media(min-width:700px){ .footer-cols { grid-template-columns: repeat(3,1fr); } }
+.footer-col h4 { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--ink3); margin-bottom: 14px; }
+.footer-col a { display: block; font-size: 13px; color: var(--ink3); margin-bottom: 9px; cursor: pointer; transition: color .12s; }
+.footer-col a:hover { color: var(--white); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 20px; display: flex; justify-content: space-between; font-size: 11px; color: var(--ink3); flex-wrap: wrap; gap: 8px; }
+.fbl { display: flex; gap: 14px; }
+.fbl a { color: var(--ink3); cursor: pointer; }
+.fbl a:hover { color: var(--white); }
+
+/* ── MODAL ── */
+.modal-back { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 999; align-items: center; justify-content: center; backdrop-filter: blur(8px); padding: 16px; }
+.modal-back.open { display: flex; }
+.modal { background: #141414; border: 1px solid rgba(255,255,255,.09); border-radius: 24px; padding: 30px 24px; width: 100%; max-width: 400px; position: relative; max-height: 92vh; overflow-y: auto; }
+.modal-x { position: sticky; top: 0; float: right; background: var(--bg3); border: none; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ink2); font-size: 18px; z-index: 10; margin: -10px -10px 0 0; }
+.modal-logo { display: flex; align-items: center; gap: 7px; margin-bottom: 20px; clear: both; }
+.modal-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+.modal-tab { flex: 1; padding: 11px; text-align: center; font-size: 15px; font-weight: 600; color: var(--ink3); cursor: pointer; border-bottom: 2px solid transparent; transition: all .15s; }
+.modal-tab.active { color: var(--white); border-bottom-color: var(--lime); }
+.field { margin-bottom: 10px; }
+.field input, .field select { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 14px; font-family: var(--font); color: var(--white); background: var(--bg3); outline: none; transition: border-color .15s; appearance: none; -webkit-appearance: none; }
+.field input:focus, .field select:focus { border-color: var(--lime); }
+.field input::placeholder { color: var(--ink3); }
+.field-pw { position: relative; }
+.field-pw input { padding-right: 44px; }
+.pw-eye { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--ink3); padding: 0; display: flex; align-items: center; transition: color .15s; }
+.pw-eye:hover { color: var(--white); }
+.field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,.4)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+.field select option { background: #1a1a1a; color: #fff; }
+.modal-submit { display: block; width: 100%; background: var(--lime); color: var(--bg); font-size: 14px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: 15px; text-align: center; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); margin-top: 6px; transition: background .15s; }
+.modal-submit:hover:not(:disabled) { background: var(--white); }
+.modal-submit:disabled { opacity: .6; cursor: not-allowed; }
+.modal-submit.ghost { background: var(--bg3); color: var(--ink2); }
+.modal-submit.ghost:hover:not(:disabled) { background: rgba(255,255,255,.1); color: var(--white); }
+.modal-form-head { margin-bottom: 18px; }
+.modal-form-title { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 4px; letter-spacing: -.02em; }
+.modal-form-sub { font-size: 13px; color: var(--ink3); line-height: 1.5; }
+.modal-terms { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--ink3); line-height: 1.5; margin: 12px 0; cursor: pointer; }
+.modal-terms input[type="checkbox"] { margin-top: 2px; accent-color: var(--lime); flex-shrink: 0; width: 14px; height: 14px; }
+.modal-switch { text-align: center; font-size: 13px; color: var(--ink3); margin-top: 14px; }
+.modal-switch span { color: var(--lime); cursor: pointer; font-weight: 600; }
+.modal-err { display: none; color: #ff5555; font-size: 12px; margin-bottom: 8px; padding: 8px 12px; background: rgba(255,85,85,.08); border-radius: 8px; border: 1px solid rgba(255,85,85,.2); }
+/* Step indicator */
+.step-indicator { display: flex; align-items: center; margin-bottom: 6px; }
+.step-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--bg3); border: 1.5px solid rgba(255,255,255,.15); flex-shrink: 0; transition: all .2s; }
+.step-dot.active { background: var(--lime); border-color: var(--lime); box-shadow: 0 0 0 3px rgba(212,255,0,.18); }
+.step-dot.done { background: rgba(212,255,0,.55); border-color: rgba(212,255,0,.55); }
+.step-line { flex: 1; height: 1.5px; background: rgba(255,255,255,.1); }
+.step-line.done { background: rgba(212,255,0,.35); }
+.step-lbl { font-size: 10px; color: var(--ink3); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px; }
+/* Upload zone */
+.upload-zone { border: 2px dashed rgba(212,255,0,.2); border-radius: 14px; padding: 22px 16px; text-align: center; cursor: pointer; margin-bottom: 10px; transition: border-color .2s, background .2s; }
+.upload-zone:hover { border-color: rgba(212,255,0,.5); background: rgba(212,255,0,.03); }
+.upload-zone.has-file { border-color: var(--lime); background: rgba(212,255,0,.05); }
+/* Info box */
+.info-box { background: rgba(212,255,0,.06); border: 1px solid rgba(212,255,0,.14); border-radius: 12px; padding: 11px 13px; margin-bottom: 10px; }
+.info-box-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--lime); margin-bottom: 4px; }
+.info-box-text { font-size: 12px; color: var(--ink3); line-height: 1.6; }
+/* Success state */
+.modal-success { text-align: center; padding: 24px 8px; }
+.modal-success-icon { font-size: 44px; margin-bottom: 14px; }
+.modal-success-title { font-size: 17px; font-weight: 800; color: var(--white); margin-bottom: 8px; }
+.modal-success-sub { font-size: 13px; color: var(--ink3); line-height: 1.65; }
+/* Applied banner */
+.applied-banner { display: none; background: var(--lime); color: var(--bg); padding: 14px 20px; text-align: center; font-size: 14px; font-weight: 700; position: relative; }
+.applied-banner.show { display: block; }
+.applied-banner-x { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 18px; cursor: pointer; color: var(--bg); opacity: .6; font-family: var(--font); }
+
+#no-results { display: none; text-align: center; padding: 48px 0; color: var(--ink3); font-size: 15px; }
+
+/* ── EMPTY STATE ── */
+.empty-state { text-align: center; padding: 56px 20px; }
+.empty-ico { width: 60px; height: 60px; border-radius: 16px; background: rgba(212,255,0,.08); border: 1px solid rgba(212,255,0,.12); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+.empty-title { font-family: var(--display); font-size: 28px; color: var(--white); text-transform: uppercase; letter-spacing: .02em; margin-bottom: 10px; }
+.empty-desc { font-size: 14px; color: var(--ink2); line-height: 1.65; max-width: 360px; margin: 0 auto 24px; }
+</style>
+</head>
+<body>
+
+<!-- GATE TOAST -->
+<div id="gate-backdrop" onclick="hideGateToast()" style="display:none;position:fixed;inset:0;z-index:8999;background:rgba(0,0,0,.45)"></div>
+<div class="gate-toast" id="gate-toast"></div>
+
+<!-- APPLIED BANNER -->
+<div class="applied-banner" id="applied-banner">
+  🎉 Your verification application has been submitted! We'll review it and email you within 24 hours.
+  <button class="applied-banner-x" onclick="document.getElementById('applied-banner').classList.remove('show')">×</button>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="wrap">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-word">Student<span>Perks.</span></div>
+      </a>
+      <div class="nav-spacer"></div>
+      <div class="nav-desktop">
+        <a href="#perks">Deals</a>
+        <a href="#events">Events</a>
+        <a href="#jobs">Jobs</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="partner.html" class="biz">For Business</a>
+        <div id="nav-status-desktop"><button class="nav-verify" onclick="openModal('si')">SIGN IN</button></div>
+      </div>
+      <div id="nav-status-mobile" style="display:flex;align-items:center;gap:8px"><button class="nav-verify" onclick="openModal('si')" id="mobile-verify">SIGN IN</button>
+      <button class="nav-burger" onclick="openMenu()" style="margin-left:8px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<style>
+@media(min-width:860px){ #mobile-verify { display:none !important; } .nav-burger { display:none !important; } }
+</style>
+
+<!-- MOBILE MENU -->
+<div class="menu-overlay" id="menu-overlay">
+  <div class="menu-head">
+    <div class="menu-logo">
+      <div class="logo-word" style="font-size:18px">Student<span>Perks.</span></div>
+    </div>
+    <button class="menu-close" onclick="closeMenu()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <button class="menu-verify" onclick="openModal('si');closeMenu()">Sign In</button>
+  <div class="menu-items">
+    <a class="menu-item" href="#perks" onclick="closeMenu()">Deals</a>
+    <a class="menu-item" href="#events" onclick="closeMenu()">Events</a>
+    <a class="menu-item" href="#jobs" onclick="closeMenu()">Jobs</a>
+    <a class="menu-item" href="dashboard.html">Dashboard</a>
+    <a class="menu-item" href="partner.html" style="color:var(--lime)">For Business</a>
+    <a class="menu-item" onclick="closeMenu();openModal('jn')">Verify student status</a>
+  </div>
+  <div class="menu-foot">
+    <div class="menu-contact-row">
+      <div class="menu-contact-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      Whatsapp <span style="color:var(--lime);margin-left:6px">+27 81 375 6494</span>
+    </div>
+    <div class="menu-contact-row">
+      <div class="menu-contact-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+      Email <span style="color:var(--lime);margin-left:6px">admin@studentperks.co.za</span>
+    </div>
+    <div class="menu-social">
+      <svg class="menu-soc" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      <svg class="menu-soc" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      <svg class="menu-soc" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    </div>
+    <p class="menu-copy">© 2025 Student Perks. All Rights Reserved.</p>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <h1><span id="type-line1"></span><em><span id="type-line2"></span><span class="type-cursor" id="type-cursor">|</span></em></h1>
+    <p class="hero-sub">Exclusive student deals, verified instantly.</p>
+    <div class="search-wrap">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search brands or deals..." id="search-input" oninput="filterPerks()" value="1Voucher">
+      <span class="deal-badge" id="deal-count">10 deals</span>
+    </div>
+    <div class="pills-wrap"><div class="pills-row">
+      <button class="pill active" onclick="setCat(this,'all')">All</button>
+      <button class="pill" onclick="setCat(this,'fashion')">Fashion</button>
+      <button class="pill" onclick="setCat(this,'tech')">Tech</button>
+      <button class="pill" onclick="setCat(this,'food')">Food</button>
+      <button class="pill" onclick="setCat(this,'travel')">Travel</button>
+      <button class="pill" onclick="setCat(this,'prepaid')">Prepaid</button>
+      <button class="pill" onclick="setCat(this,'software')">Software</button>
+      <button class="pill" onclick="setCat(this,'fitness')">Fitness</button>
+      <button class="pill" onclick="setCat(this,'entertainment')">Entertainment</button>
+      <button class="pill" onclick="setCat(this,'gifting')">Gifting</button>
+    </div></div>
+  </div>
+</section>
+
+
+<!-- ALL PERKS -->
+<section class="perks-sec" id="perks">
+  <div class="wrap">
+    <div class="sec-row">
+      <span class="sec-lbl">1Voucher Demo Perk</span>
+      <div class="sec-divider"></div>
+    </div>
+
+    <div class="perk-card fade-in" data-cat="prepaid" onclick="location.href='redeem.html?code=1VOUCHER001-DEMO'">
+      <div class="perk-top-row">
+        <div style="background:#fff;border-radius:12px;padding:8px 14px;white-space:nowrap;font-size:18px;font-weight:900;color:#111;line-height:1;display:flex;align-items:center;">
+          1<span style="color:#74c600;margin-left:2px;">Voucher</span>
+        </div>
+        <div class="perk-disc-col">
+          <div class="perk-disc-val">10%</div>
+          <div class="perk-disc-type">STUDENT REWARD</div>
+        </div>
+      </div>
+      <div class="perk-name-row">
+        <div class="perk-name">1VOUCHER</div>
+        <div class="perk-badge">DEMO</div>
+      </div>
+      <div class="perk-desc">A private demo reward for verified students. The student retrieves the offer through the site, while the QR is only a second path for in-store scanning or saving the same redeem link.</div>
+      <span class="perk-cta" onclick="location.href='redeem.html?code=1VOUCHER001-DEMO';event.stopPropagation()">Retrieve Demo Deal →</span>
+    </div>
+
+    <div class="perk-card fade-in" data-cat="gifting" onclick="openDeal('https://www.cratesandboxes.co.za')">
+      <div class="perk-top-row">
+        <div style="background:#fff;border-radius:12px;padding:8px 14px;white-space:nowrap;font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:700;color:#1A1A1A;line-height:1;display:flex;align-items:center;">
+          Crates <span style="color:#C9A84C;margin:0 4px;">&amp;</span> Boxes
+        </div>
+        <div class="perk-disc-col">
+          <div class="perk-disc-val">10%</div>
+          <div class="perk-disc-type">OFF SITEWIDE</div>
+        </div>
+      </div>
+      <div class="perk-name-row">
+        <div class="perk-name">CRATES &amp; BOXES</div>
+        <div class="perk-badge">NEW</div>
+      </div>
+      <div class="perk-desc">Get 10% off everything at Crates &amp; Boxes — your go-to for moving, storage and student digs. Mention your student status at checkout to claim.</div>
+      <span class="perk-cta" onclick="openDeal('https://www.cratesandboxes.co.za');event.stopPropagation()">Shop Now →</span>
+    </div>
+
+    <div class="perk-card fade-in" data-cat="gifting" onclick="openDeal('https://www.custommugs.co.za')">
+      <div class="perk-top-row">
+        <div style="background:#F5F0E4;border-radius:12px;padding:8px 16px;white-space:nowrap;font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:700;line-height:1;display:flex;align-items:center;">
+          <span style="color:#1E1B2E">Custom</span><span style="color:#B8962E">Mugs</span>
+        </div>
+        <div class="perk-disc-col">
+          <div class="perk-disc-val">10%</div>
+          <div class="perk-disc-type">OFF SITEWIDE</div>
+        </div>
+      </div>
+      <div class="perk-name-row">
+        <div class="perk-name">CUSTOM MUGS</div>
+        <div class="perk-badge">NEW</div>
+      </div>
+      <div class="perk-desc">Get 10% off custom mugs, printed your way. Perfect for res life, society merch, or gifting. Use your student discount at checkout.</div>
+      <span class="perk-cta" onclick="openDeal('https://www.custommugs.co.za');event.stopPropagation()">Shop Now →</span>
+    </div>
+    <p id="no-results" style="display:none;text-align:center;padding:48px 0;color:#888;font-size:15px;">No deals match your search.</p>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section class="events-sec" id="events">
+  <div class="wrap">
+    <div class="sec-row">
+      <span class="sec-lbl">Events</span>
+      <div class="sec-divider"></div>
+      <a class="sec-view" href="#">View all →</a>
+    </div>
+    <div class="empty-state">
+      <div class="empty-ico">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div class="empty-title">No events yet</div>
+      <p class="empty-desc">Student events are coming soon — career fairs, socials, workshops and more. Check back shortly.</p>
+    </div>
+  </div>
+</section>
+
+<!-- JOBS -->
+<section class="jobs-sec" id="jobs">
+  <div class="wrap">
+    <div class="sec-row">
+      <span class="sec-lbl">Jobs</span>
+      <div class="sec-divider"></div>
+      <a class="sec-view" href="#">View all →</a>
+    </div>
+    <div class="empty-state">
+      <div class="empty-ico">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      </div>
+      <div class="empty-title">No jobs listed yet</div>
+      <p class="empty-desc">Student internships, part-time roles and graduate opportunities are coming soon.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS CTA -->
+<section class="biz-cta-sec">
+  <div class="wrap">
+    <div class="biz-cta-inner">
+      <div class="biz-cta-left">
+        <div class="biz-cta-blob"></div>
+        <div class="biz-eyebrow">For Businesses</div>
+        <div class="biz-cta-title">GROW YOUR<em>REACH.</em></div>
+        <p class="biz-cta-desc">List your student deal on StudentPerks and tap into thousands of verified SA students. Submit your offer in 3 minutes.</p>
+        <div class="biz-cta-btns">
+          <a href="partner.html" class="lime-btn">
+            List Your Deal
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+          <a href="mailto:admin@studentperks.co.za" class="ghost-btn">Talk to us</a>
+        </div>
+      </div>
+      <div class="biz-cta-right">
+        <div class="biz-feature">
+          <div class="biz-feature-ico">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div>
+            <div class="biz-feature-title">Simple pricing</div>
+            <div class="biz-feature-desc">Affordable plans for businesses of any size. Get in front of verified students.</div>
+          </div>
+        </div>
+        <div class="biz-feature">
+          <div class="biz-feature-ico">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <div class="biz-feature-title">Verified student audience</div>
+            <div class="biz-feature-desc">Every user confirms their student status — real, active SA students looking for deals.</div>
+          </div>
+        </div>
+        <div class="biz-feature">
+          <div class="biz-feature-ico">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="biz-feature-title">Live within 24 hours</div>
+            <div class="biz-feature-desc">Fast review, no red tape. Submit today, go live tomorrow.</div>
+          </div>
+        </div>
+        <div class="biz-feature">
+          <div class="biz-feature-ico">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div>
+            <div class="biz-feature-title">High-intent traffic</div>
+            <div class="biz-feature-desc">Students come here specifically to find deals — they're already looking.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="wrap">
+    <h2>START<em>SAVING NOW.</em></h2>
+    <p>Join thousands of SA students already unlocking exclusive deals and more.</p>
+    <button class="lime-btn" onclick="openModal('jn')">Get started</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="logo-word" style="font-size:17px">Student<span>Perks.</span></div>
+        <p class="footer-desc">Exclusive student deals, events and jobs — built for SA students.</p>
+        <div class="footer-social">
+          <svg class="f-soc" width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <svg class="f-soc" width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          <svg class="f-soc" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col"><h4>Platform</h4><a href="#perks">Deals</a><a href="#events">Events</a><a href="#jobs">Jobs</a></div>
+        <div class="footer-col"><h4>Company</h4><a href="partner.html">For Business</a><a>About</a><a>News</a><a onclick="openModal('jn')" style="cursor:pointer">Recruit and earn</a><a>Contact</a></div>
+        <div class="footer-col"><h4>Contact</h4><a href="https://wa.me/27813756494">+27 81 375 6494</a><a href="mailto:admin@studentperks.co.za">admin@studentperks.co.za</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Student Perks. All Rights Reserved.</span>
+      <div class="fbl"><a href="/terms">Terms &amp; conditions</a><a href="/privacy">Privacy Policy</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-back" id="modal-back">
+  <div class="modal" id="modal-box">
+    <button class="modal-x" onclick="closeModal()">×</button>
+    <div class="modal-logo">
+      <div class="logo-word" style="font-size:17px">Student<span>Perks.</span></div>
+    </div>
+    <div class="modal-tabs">
+      <div class="modal-tab active" id="t-si" onclick="switchTab('si')">Sign in</div>
+      <div class="modal-tab" id="t-jn" onclick="switchTab('jn')">Verify &amp; Join</div>
+    </div>
+
+    <!-- ── SIGN IN ── -->
+    <div id="panel-si">
+      <div id="si-form-wrap">
+        <div class="modal-form-head">
+          <div class="modal-form-title">Welcome back</div>
+          <div class="modal-form-sub">Enter your email and we'll send you a secure sign-in link.</div>
+        </div>
+        <div class="field"><input type="email" id="si-email" placeholder="Your email address"></div>
+        <div class="modal-err" id="si-err"></div>
+        <button class="modal-submit" id="si-btn" onclick="handleSignIn()">Send sign-in link</button>
+      </div>
+      <div id="si-success" class="modal-success" style="display:none">
+        <div class="modal-success-icon">📬</div>
+        <div class="modal-success-title">Check your inbox!</div>
+        <div class="modal-success-sub">If your account is approved, you'll receive a sign-in link shortly. Check your spam folder too.</div>
+      </div>
+      <p class="modal-switch">New here? <span onclick="switchTab('jn')">Verify your student status</span></p>
+    </div>
+
+    <!-- ── JOIN / VERIFY ── -->
+    <div id="panel-jn" style="display:none">
+
+      <!-- Step indicator -->
+      <div class="step-indicator" id="step-indicator">
+        <div class="step-dot active" id="dot-1"></div>
+        <div class="step-line" id="line-1"></div>
+        <div class="step-dot" id="dot-2"></div>
+        <div class="step-line" id="line-2"></div>
+        <div class="step-dot" id="dot-3"></div>
+      </div>
+      <div class="step-lbl" id="step-lbl">Step 1 of 3 — Account details</div>
+
+      <!-- STEP 1 -->
+      <div id="step-1">
+        <div class="modal-form-head">
+          <div class="modal-form-title">Create account</div>
+          <div class="modal-form-sub">Start with your basic details. We'll verify your student status next.</div>
+        </div>
+        <div class="field"><input type="text" id="jn-name" placeholder="Full name"></div>
+        <div class="field"><input type="email" id="jn-email" placeholder="Personal email address"></div>
+        <div class="field field-pw">
+          <input type="password" id="jn-pass" placeholder="Password (min 8 characters)">
+          <button type="button" class="pw-eye" onclick="togglePw('jn-pass',this)" tabindex="-1">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="field field-pw">
+          <input type="password" id="jn-pass2" placeholder="Confirm password" oninput="checkPwMatch()">
+          <button type="button" class="pw-eye" onclick="togglePw('jn-pass2',this)" tabindex="-1">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div id="pw-match-msg" style="font-size:.78rem;margin-top:-10px;margin-bottom:4px;display:none"></div>
+        <div class="field"><input type="text" id="jn-ref" placeholder="Referral code (optional)" style="font-size:13px"></div>
+        <div class="modal-err" id="err-1"></div>
+        <button class="modal-submit" onclick="nextStep(2)">Continue →</button>
+      </div>
+
+      <!-- STEP 2 -->
+      <div id="step-2" style="display:none">
+        <div class="modal-form-head">
+          <div class="modal-form-title">Student details</div>
+          <div class="modal-form-sub">These details help us verify your enrolment.</div>
+        </div>
+        <div class="field">
+          <select id="jn-institution">
+            <option value="" disabled selected>Select your institution</option>
+            <optgroup label="Traditional Universities">
+              <option>University of Cape Town (UCT)</option>
+              <option>University of the Witwatersrand (Wits)</option>
+              <option>Stellenbosch University (SU)</option>
+              <option>University of Pretoria (UP)</option>
+              <option>University of KwaZulu-Natal (UKZN)</option>
+              <option>University of Johannesburg (UJ)</option>
+              <option>North-West University (NWU)</option>
+              <option>University of the Western Cape (UWC)</option>
+              <option>Rhodes University</option>
+              <option>University of Limpopo</option>
+              <option>University of Venda</option>
+              <option>University of Fort Hare</option>
+              <option>Walter Sisulu University (WSU)</option>
+              <option>Sol Plaatje University</option>
+              <option>Sefako Makgatho Health Sciences University (SMU)</option>
+              <option>UNISA (Distance Learning)</option>
+            </optgroup>
+            <optgroup label="Universities of Technology">
+              <option>Cape Peninsula University of Technology (CPUT)</option>
+              <option>Durban University of Technology (DUT)</option>
+              <option>Mangosuthu University of Technology (MUT)</option>
+              <option>Tshwane University of Technology (TUT)</option>
+              <option>Vaal University of Technology (VUT)</option>
+              <option>Central University of Technology (CUT)</option>
+            </optgroup>
+            <optgroup label="Private Institutions">
+              <option>IIE MSA / Varsity College</option>
+              <option>Rosebank College</option>
+              <option>Boston City Campus</option>
+              <option>DAMELIN</option>
+              <option>CTI Education Group</option>
+              <option>Richfield Graduate Institute</option>
+              <option>MANCOSA</option>
+            </optgroup>
+            <option value="other">Other institution</option>
+          </select>
+        </div>
+        <div class="field"><input type="text" id="jn-other-inst" placeholder="Institution name" style="display:none"></div>
+        <div class="field"><input type="email" id="jn-student-email" placeholder="Student email (e.g. you@myuniversity.ac.za)"></div>
+        <div class="field">
+          <select id="jn-year">
+            <option value="" disabled selected>Year of study</option>
+            <option>1st Year</option>
+            <option>2nd Year</option>
+            <option>3rd Year</option>
+            <option>4th Year</option>
+            <option>5th Year +</option>
+            <option>Postgraduate (Honours)</option>
+            <option>Postgraduate (Masters)</option>
+            <option>Postgraduate (PhD)</option>
+            <option>Part-time / Distance learning</option>
+          </select>
+        </div>
+        <div class="field"><input type="text" id="jn-course" placeholder="Degree / Course (e.g. BCom Accounting)"></div>
+        <div class="field"><input type="text" id="jn-stunum" placeholder="Student number"></div>
+        <div class="modal-err" id="err-2"></div>
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <button class="modal-submit ghost" style="flex:0 0 auto;width:auto;padding:15px 18px" onclick="goStep(1)">←</button>
+          <button class="modal-submit" style="flex:1" onclick="nextStep(3)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div id="step-3" style="display:none">
+        <div class="modal-form-head">
+          <div class="modal-form-title">Verify your identity</div>
+          <div class="modal-form-sub">Upload your student card so we can confirm your enrolment.</div>
+        </div>
+
+        <div class="upload-zone" id="upload-zone" onclick="document.getElementById('card-file').click()">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <div id="upload-lbl" style="font-size:14px;font-weight:600;color:var(--white);margin:7px 0 3px">Tap to upload student card</div>
+          <div style="font-size:11px;color:var(--ink3)">JPG, PNG or PDF · max 5 MB</div>
+        </div>
+        <input type="file" id="card-file" accept="image/*,.pdf" style="display:none" onchange="handleFile(this)">
+
+        <div class="info-box">
+          <div class="info-box-label">What we check</div>
+          <div class="info-box-text">Your name, institution and enrolment year must match what you entered. Your card is reviewed by our team and never shared with third parties.</div>
+        </div>
+        <div class="info-box">
+          <div class="info-box-label">Student email verification</div>
+          <div class="info-box-text">We'll also send a verification link to your student email address — click it to confirm you have access to that inbox.</div>
+        </div>
+
+        <label class="modal-terms">
+          <input type="checkbox" id="terms-chk" style="accent-color:var(--lime);flex-shrink:0">
+          <span>I agree to the <a href="#" style="color:var(--lime)">terms &amp; conditions</a> and <a href="#" style="color:var(--lime)">privacy statement</a>. I confirm this is my own genuine student card.</span>
+        </label>
+
+        <div class="modal-err" id="err-3"></div>
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <button class="modal-submit ghost" style="flex:0 0 auto;width:auto;padding:15px 18px" onclick="goStep(2)">←</button>
+          <button class="modal-submit" style="flex:1" id="jn-submit-btn" onclick="submitJoin()">Submit for verification</button>
+        </div>
+      </div>
+
+      <!-- JOIN SUCCESS -->
+      <div id="jn-success" class="modal-success" style="display:none">
+        <div class="modal-success-icon">🎉</div>
+        <div class="modal-success-title">Application submitted!</div>
+        <div class="modal-success-sub">We'll review your student card and email you within 24 hours. Check your student inbox for the verification link too.</div>
+      </div>
+
+      <p class="modal-switch" id="jn-switch-link">Already verified? <span onclick="switchTab('si')">Sign in</span></p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+/* ── Supabase client ── */
+const SUPA_URL='https://bulmerqkvvrjvzjwmgkl.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1bG1lcnFrdnZyanZ6andtZ2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3OTA4MTksImV4cCI6MjEwMjM2NjgxOX0.UAOqHO_lNBB6ayTa6QEj4vvzdepzNCu0CYv2EOygOGI';
+const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
+
+/* ── AUTH STATUS ── */
+let _userStatus = null;
+
+async function checkAuthStatus(){
+  const { data: { session } } = await sb.auth.getSession();
+  if(!session) return;
+  const email = session.user.email;
+  const { data: app } = await sb.from('student_applications')
+    .select('status, full_name')
+    .or(`personal_email.eq.${email},student_email.eq.${email}`)
+    .order('created_at',{ascending:false})
+    .limit(1)
+    .maybeSingle();
+  if(!app) return;
+  _userStatus = app.status;
+  const label = app.status === 'approved'
+    ? '<a class="status-chip verified" href="dashboard.html">DASHBOARD</a>'
+    : '<span class="status-chip pending">PENDING VERIFICATION</span>';
+  document.getElementById('nav-status-desktop').innerHTML = label;
+  document.getElementById('nav-status-mobile').innerHTML = label + '<button class="nav-burger" onclick="openMenu()" style="margin-left:8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>';
+}
+
+function openDeal(url){
+  if(!_userStatus){
+    showGateToast('Sign in to access student deals.', true);
+    return;
+  }
+  if(_userStatus !== 'approved'){
+    showGateToast('Your account is <b>pending verification</b>. Deals unlock once approved.', false);
+    return;
+  }
+  window.open(url, '_blank');
+}
+
+let _gateTimer;
+function showGateToast(msg, showSignIn){
+  const t = document.getElementById('gate-toast');
+  t.innerHTML = msg + (showSignIn ? '<br><span class="gate-sign-in" onclick="openModal(\'si\');hideGateToast()">Sign in →</span>' : '');
+  const bd = document.getElementById('gate-backdrop');
+  t.style.display = 'block'; bd.style.display = 'block';
+  requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ t.classList.add('show'); }); });
+  clearTimeout(_gateTimer);
+  _gateTimer = setTimeout(hideGateToast, 5000);
+}
+function hideGateToast(){
+  const t = document.getElementById('gate-toast');
+  const bd = document.getElementById('gate-backdrop');
+  t.classList.remove('show');
+  setTimeout(()=>{ t.style.display='none'; bd.style.display='none'; }, 200);
+}
+
+/* ── PASSWORD TOGGLE ── */
+function togglePw(id, btn){
+  const inp = document.getElementById(id);
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  btn.innerHTML = show
+    ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+    : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+}
+
+/* ── PASSWORD MATCH ── */
+function checkPwMatch(){
+  const p1 = document.getElementById('jn-pass').value;
+  const p2 = document.getElementById('jn-pass2').value;
+  const msg = document.getElementById('pw-match-msg');
+  if(!p2){ msg.style.display='none'; return; }
+  if(p1===p2){
+    msg.style.display='block';
+    msg.style.color='#3dd68c';
+    msg.textContent='✓ Passwords match';
+  } else {
+    msg.style.display='block';
+    msg.style.color='#ff5c5c';
+    msg.textContent='✗ Passwords do not match';
+  }
+}
+
+/* ── FORM MEMORY ── */
+const JN_FIELDS = ['jn-name','jn-email','jn-ref','jn-institution','jn-other-inst','jn-student-email','jn-year','jn-course','jn-stunum'];
+function saveFormMemory(){
+  const saved={};
+  JN_FIELDS.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) saved[id]=el.value;
+  });
+  saved['terms-chk']=document.getElementById('terms-chk')?.checked||false;
+  localStorage.setItem('sp_join_form',JSON.stringify(saved));
+}
+function restoreFormMemory(){
+  try{
+    const saved=JSON.parse(localStorage.getItem('sp_join_form')||'{}');
+    JN_FIELDS.forEach(id=>{
+      const el=document.getElementById(id);
+      if(el&&saved[id]) el.value=saved[id];
+    });
+    const chk=document.getElementById('terms-chk');
+    if(chk&&saved['terms-chk']) chk.checked=true;
+    const otherInst=document.getElementById('jn-other-inst');
+    if(otherInst&&document.getElementById('jn-institution')?.value==='other') otherInst.style.display='';
+  }catch(e){}
+}
+function clearFormMemory(){ localStorage.removeItem('sp_join_form'); }
+document.addEventListener('DOMContentLoaded',()=>{
+  checkAuthStatus();
+  restoreFormMemory();
+  JN_FIELDS.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.addEventListener('input',saveFormMemory);
+    if(el) el.addEventListener('change',saveFormMemory);
+  });
+  document.getElementById('terms-chk')?.addEventListener('change',saveFormMemory);
+});
+
+/* ── MENU ── */
+function openMenu(){ document.getElementById('menu-overlay').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeMenu(){ document.getElementById('menu-overlay').classList.remove('open'); document.body.style.overflow=''; }
+
+/* ── MODAL ── */
+function openModal(t){ document.getElementById('modal-back').classList.add('open'); document.body.style.overflow='hidden'; switchTab(t||'si'); resetModal(); }
+function closeModal(){ document.getElementById('modal-back').classList.remove('open'); document.body.style.overflow=''; }
+function switchTab(t){
+  const jn = t==='jn';
+  document.getElementById('t-si').classList.toggle('active',!jn);
+  document.getElementById('t-jn').classList.toggle('active',jn);
+  document.getElementById('panel-si').style.display = jn?'none':'';
+  document.getElementById('panel-jn').style.display = jn?'':'none';
+}
+document.getElementById('modal-back').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); closeMenu(); } });
+
+function resetModal(){
+  showErr('si-err',''); document.getElementById('si-success').style.display='none';
+  document.getElementById('si-form-wrap').style.display='';
+  document.getElementById('si-email').value='';
+  const btn=document.getElementById('si-btn'); btn.disabled=false; btn.textContent='Send sign-in link';
+  document.getElementById('jn-success').style.display='none';
+  document.getElementById('jn-switch-link').style.display='';
+  goStep(1,true);
+}
+
+/* ── SIGN IN ── */
+async function handleSignIn(){
+  const email = document.getElementById('si-email').value.trim();
+  const btn = document.getElementById('si-btn');
+  if(!email || !email.includes('@')){ showErr('si-err','Please enter a valid email address.'); return; }
+  showErr('si-err','');
+  btn.disabled=true; btn.textContent='Sending…';
+  try {
+    const {data: app} = await sb
+      .from('student_applications')
+      .select('status')
+      .or(`personal_email.eq.${email},student_email.eq.${email}`)
+      .order('created_at',{ascending:false})
+      .limit(1)
+      .maybeSingle();
+
+    if(!app){
+      showErr('si-err',"We couldn't find an account with that email. Have you applied yet?");
+      btn.disabled=false; btn.textContent='Send sign-in link';
+      return;
+    }
+    if(app.status !== 'approved'){
+      showErr('si-err','Your application is still under review. We\'ll email you once approved.');
+      btn.disabled=false; btn.textContent='Send sign-in link';
+      return;
+    }
+
+    const {error} = await sb.auth.signInWithOtp({
+      email,
+      options:{ emailRedirectTo: 'https://studentperks.co.za/' }
+    });
+    if(error) throw error;
+
+    document.getElementById('si-form-wrap').style.display='none';
+    document.getElementById('si-success').style.display='block';
+  } catch(e){
+    showErr('si-err', friendlyError('send your sign-in link', e));
+    btn.disabled=false; btn.textContent='Send sign-in link';
+  }
+}
+
+/* ── JOIN — STEPS ── */
+let step = 1;
+
+function nextStep(to){
+  if(to===2){
+    const name=document.getElementById('jn-name').value.trim();
+    const email=document.getElementById('jn-email').value.trim();
+    const pass=document.getElementById('jn-pass').value;
+    const pass2=document.getElementById('jn-pass2').value;
+    if(!name){ showErr('err-1','Please enter your full name.'); return; }
+    if(!email||!email.includes('@')){ showErr('err-1','Please enter a valid email address.'); return; }
+    if(pass.length<8){ showErr('err-1','Password must be at least 8 characters.'); return; }
+    if(pass!==pass2){ showErr('err-1','Passwords do not match.'); return; }
+    showErr('err-1','');
+  }
+  if(to===3){
+    const inst=document.getElementById('jn-institution').value;
+    const semail=document.getElementById('jn-student-email').value.trim();
+    const yr=document.getElementById('jn-year').value;
+    const course=document.getElementById('jn-course').value.trim();
+    const stunum=document.getElementById('jn-stunum').value.trim();
+    if(!inst){ showErr('err-2','Please select your institution.'); return; }
+    if(inst==='other'&&!document.getElementById('jn-other-inst').value.trim()){ showErr('err-2','Please enter your institution name.'); return; }
+    if(!semail||!semail.includes('@')){ showErr('err-2','Please enter your student email address.'); return; }
+    if(!yr){ showErr('err-2','Please select your year of study.'); return; }
+    if(!course){ showErr('err-2','Please enter your degree or course.'); return; }
+    if(!stunum){ showErr('err-2','Please enter your student number.'); return; }
+    showErr('err-2','');
+  }
+  goStep(to);
+}
+
+function goStep(to, silent){
+  document.getElementById('step-'+step).style.display='none';
+  document.getElementById('step-'+to).style.display='block';
+  for(let i=1;i<=3;i++){
+    const dot=document.getElementById('dot-'+i);
+    dot.className='step-dot'+(i<to?' done':i===to?' active':'');
+  }
+  if(document.getElementById('line-1')) document.getElementById('line-1').className='step-line'+(to>1?' done':'');
+  if(document.getElementById('line-2')) document.getElementById('line-2').className='step-line'+(to>2?' done':'');
+  const labels=['','Step 1 of 3 — Account details','Step 2 of 3 — Student details','Step 3 of 3 — Verify your identity'];
+  document.getElementById('step-lbl').textContent=labels[to];
+  step=to;
+  if(!silent) document.getElementById('modal-box').scrollTop=0;
+}
+
+/* ── "Other" institution ── */
+document.getElementById('jn-institution').addEventListener('change',function(){
+  document.getElementById('jn-other-inst').style.display=this.value==='other'?'':'none';
+});
+
+/* ── File upload ── */
+function handleFile(input){
+  if(!input.files||!input.files[0]) return;
+  const f=input.files[0];
+  if(f.size>5*1024*1024){ showErr('err-3','File is too large. Please upload a file under 5 MB.'); input.value=''; return; }
+  document.getElementById('upload-zone').classList.add('has-file');
+  document.getElementById('upload-lbl').textContent='✓ '+f.name;
+  showErr('err-3','');
+}
+
+/* ── Submit join form (Supabase) ── */
+async function submitJoin(){
+  const file=document.getElementById('card-file').files[0];
+  const terms=document.getElementById('terms-chk').checked;
+  const personalEmail=document.getElementById('jn-email').value.trim();
+  const password=document.getElementById('jn-pass').value;
+  if(!file){ showErr('err-3','Please upload a photo of your student card.'); return; }
+  if(!terms){ showErr('err-3','Please agree to the terms and conditions.'); return; }
+  showErr('err-3','');
+
+  const btn=document.getElementById('jn-submit-btn');
+  btn.disabled=true; btn.textContent='Submitting…';
+
+  const inst=document.getElementById('jn-institution').value==='other'
+    ? document.getElementById('jn-other-inst').value.trim()
+    : document.getElementById('jn-institution').value;
+
+  try {
+    // 1. Upload student card photo to Supabase Storage
+    const ext=file.name.split('.').pop().toLowerCase();
+    const fname=Date.now()+'-'+Math.random().toString(36).slice(2)+'.'+ext;
+    const {data:upData, error:upErr}=await sb.storage.from('student-cards').upload(fname,file,{contentType:file.type});
+    if(upErr) throw upErr;
+
+    // 2. Build public URL
+    const {data:{publicUrl}}=sb.storage.from('student-cards').getPublicUrl(fname);
+
+    // 3. Insert application row
+    const {error:insErr}=await sb.from('student_applications').insert({
+      full_name: document.getElementById('jn-name').value.trim(),
+      personal_email: personalEmail,
+      institution: inst,
+      student_email: document.getElementById('jn-student-email').value.trim(),
+      year_of_study: document.getElementById('jn-year').value,
+      degree_course: document.getElementById('jn-course').value.trim(),
+      student_number: document.getElementById('jn-stunum').value.trim(),
+      referral_code: document.getElementById('jn-ref').value.trim()||'',
+      card_photo_url: publicUrl,
+      status: 'pending'
+    });
+    if(insErr) throw insErr;
+
+    // 4. Create the student's sign-in account using the password they entered.
+    const {error:authErr}=await sb.auth.signUp({
+      email: personalEmail,
+      password,
+      options:{ emailRedirectTo: 'https://studentperks.co.za/dashboard' }
+    });
+    if(authErr && !/already registered|already exists|user_already_exists/i.test(authErr.message||'')) throw authErr;
+
+    // 5. Show success
+    for(let i=1;i<=3;i++) document.getElementById('step-'+i).style.display='none';
+    document.getElementById('step-indicator').style.display='none';
+    document.getElementById('step-lbl').style.display='none';
+    document.getElementById('jn-success').style.display='block';
+    document.getElementById('jn-switch-link').style.display='none';
+    clearFormMemory();
+
+  } catch(e){
+    showErr('err-3', friendlyError('submit your verification', e));
+    btn.disabled=false; btn.textContent='Submit for verification';
+  }
+}
+
+/* ── Helpers ── */
+function friendlyError(action,e){
+  const msg=(e&&e.message?e.message:String(e||'')).trim();
+  if(/failed to fetch|networkerror|load failed|abort/i.test(msg)){
+    return `We could not reach the verification server to ${action}. Check your internet connection and make sure Supabase is online, then try again.`;
+  }
+  if(/bucket|storage/i.test(msg)){
+    return `Student card upload is not ready yet. In Supabase, make sure the "student-cards" storage bucket exists and allows uploads.`;
+  }
+  if(/row-level security|policy|permission|not authorized/i.test(msg)){
+    return `The verification database rejected this request. Check the Supabase policies from setup.sql, then try again.`;
+  }
+  if(/duplicate|already registered|already exists|23505/i.test(msg)){
+    return `An application or account already exists for this email. Try signing in, or use a different email address.`;
+  }
+  return `Could not ${action}: ${msg || 'Unknown error'}`;
+}
+
+function showErr(id, msg){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.textContent=msg;
+  el.style.display=msg?'block':'none';
+}
+
+/* ── Applied banner ── */
+(function(){
+  const p=new URLSearchParams(window.location.search);
+  if(p.has('applied')) document.getElementById('applied-banner').classList.add('show');
+})();
+
+/* ── Perks filter ── */
+let activeCat = 'all';
+function setCat(el, cat){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  activeCat=cat;
+  filterPerks();
+}
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } });
+},{ threshold:0.1 });
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+function filterPerks(){
+  const q=document.getElementById('search-input').value.toLowerCase();
+  const cards=document.querySelectorAll('.perk-card');
+  let visible=0;
+  cards.forEach(card=>{
+    const catMatch=activeCat==='all'||card.dataset.cat===activeCat;
+    const textMatch=!q||card.innerText.toLowerCase().includes(q);
+    const show=catMatch&&textMatch;
+    card.style.display=show?'':'none';
+    if(show) visible++;
+  });
+  document.getElementById('deal-count').textContent=visible+' deals';
+  document.getElementById('no-results').style.display=visible===0?'':'none';
+}
+filterPerks();
+
+/* ── Typewriter ── */
+(function(){
+  const line1 = 'SPEND LESS.';
+  const line2 = 'LIVE MORE.';
+  const el1 = document.getElementById('type-line1');
+  const el2 = document.getElementById('type-line2');
+  const cur  = document.getElementById('type-cursor');
+  let i = 0;
+  function typeLine1(){
+    if(i < line1.length){ el1.textContent += line1[i++]; setTimeout(typeLine1, 68); }
+    else { setTimeout(startLine2, 180); }
+  }
+  let j = 0;
+  function startLine2(){
+    if(j < line2.length){ el2.textContent += line2[j++]; setTimeout(startLine2, 68); }
+    else { setTimeout(()=>{ cur.classList.add('done'); }, 900); }
+  }
+  setTimeout(typeLine1, 200);
+})();
+</script>
+</body>
+</html>
