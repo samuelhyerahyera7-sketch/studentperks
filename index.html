@@ -1263,8 +1263,6 @@ async function submitJoin(){
     : document.getElementById('jn-institution').value;
 
   try {
-    await assertSupabaseReachable();
-
     // 1. Upload student card photo to Supabase Storage
     const ext=file.name.split('.').pop().toLowerCase();
     const fname=Date.now()+'-'+Math.random().toString(36).slice(2)+'.'+ext;
@@ -1312,21 +1310,6 @@ async function submitJoin(){
 }
 
 /* ── Helpers ── */
-async function assertSupabaseReachable(){
-  const controller=new AbortController();
-  const timer=setTimeout(()=>controller.abort(),9000);
-  try{
-    const res=await fetch(SUPA_URL + '/rest/v1/', {
-      method:'HEAD',
-      headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY},
-      signal:controller.signal
-    });
-    if(!res.ok) throw new Error('Supabase returned ' + res.status);
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
 function friendlyError(action,e){
   const msg=(e&&e.message?e.message:String(e||'')).trim();
   if(/failed to fetch|networkerror|load failed|abort/i.test(msg)){
