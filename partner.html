@@ -433,7 +433,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
             <div class="form-row two">
               <div class="field">
                 <label>Website / Promo URL *</label>
-                <input type="url" name="website" placeholder="https://yourbrand.co.za" required>
+                <input type="text" id="website-url" name="website" placeholder="www.yourbrand.co.za" inputmode="url" autocomplete="url" onblur="normalizeWebsiteUrl(this)" required>
               </div>
               <div class="field">
                 <label>Offer Expiry Date</label>
@@ -555,9 +555,34 @@ function togglePw(id, btn){
 document.getElementById('modal-back').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal(); });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
 
+function normalizeWebsiteUrl(input){
+  const raw = input.value.trim();
+  if(!raw) return;
+  if(/^[a-z][a-z0-9+.-]*:\/\//i.test(raw)){
+    input.value = raw;
+    return;
+  }
+  input.value = `https://${raw.replace(/^\/+/, '')}`;
+}
+function isValidWebsiteUrl(value){
+  try{
+    const url = new URL(value);
+    return ['http:', 'https:'].includes(url.protocol) && url.hostname.includes('.');
+  }catch{
+    return false;
+  }
+}
+
 // Partner form submission via AJAX
 document.getElementById('partner-form').addEventListener('submit', async function(e) {
   e.preventDefault();
+  const websiteInput = document.getElementById('website-url');
+  normalizeWebsiteUrl(websiteInput);
+  if(!isValidWebsiteUrl(websiteInput.value)){
+    websiteInput.focus();
+    alert('Please enter a valid website address, for example www.ahoyamigo.co.za');
+    return;
+  }
   const btn = document.getElementById('submit-btn');
   btn.textContent = 'Sending...';
   btn.disabled = true;
