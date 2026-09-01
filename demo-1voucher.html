@@ -304,6 +304,43 @@ nav {
 .perk-cta.dark { background: #222; color: var(--white); }
 .perk-cta.dark:hover { background: var(--lime); color: var(--bg); }
 
+/* ── PROVIDER DASHBOARD DEMO ── */
+.provider-demo-sec { padding: 36px 0; border-top: 1px solid var(--border); }
+.provider-demo-shell { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+.provider-demo-head { padding: 20px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.provider-demo-name { font-size: 20px; font-weight: 900; color: var(--white); }
+.provider-demo-sub { font-size: 13px; color: var(--lime); margin-top: 4px; line-height: 1.45; }
+.provider-demo-grid { display: grid; grid-template-columns: repeat(2,1fr); border-bottom: 1px solid var(--border); }
+.provider-stat { padding: 18px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.provider-stat:nth-child(2n) { border-right: 0; }
+.provider-stat:nth-last-child(-n+2) { border-bottom: 0; }
+.provider-stat-val { font-family: var(--display); font-size: 42px; color: var(--lime); line-height: 1; letter-spacing: .02em; }
+.provider-stat-lbl { font-size: 10px; font-weight: 800; color: var(--ink3); text-transform: uppercase; letter-spacing: .09em; margin-top: 5px; }
+.provider-demo-body { display: grid; gap: 16px; padding: 18px; }
+.provider-panel-title { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; color: var(--ink3); margin-bottom: 12px; }
+.provider-code-table { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.provider-code-row { display: grid; grid-template-columns: 150px 1fr 88px; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--border); font-size: 12px; align-items: center; }
+.provider-code-row:last-child { border-bottom: 0; }
+.provider-code-row.head { background: rgba(255,255,255,.02); color: var(--ink3); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.provider-code { font-family: monospace; color: var(--lime); letter-spacing: .04em; overflow-wrap: anywhere; }
+.provider-dim { color: var(--ink3); }
+.provider-pill { display: inline-block; font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 20px; text-transform: uppercase; letter-spacing: .05em; background: rgba(212,255,0,.1); color: var(--lime); }
+.provider-demo-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.provider-mini-note { font-size: 12px; color: var(--ink2); line-height: 1.6; background: rgba(212,255,0,.06); border: 1px solid rgba(212,255,0,.13); border-radius: 14px; padding: 14px; }
+@media(min-width:860px){
+  .provider-demo-grid { grid-template-columns: repeat(4,1fr); }
+  .provider-stat { border-bottom: 0; }
+  .provider-stat:nth-child(2n) { border-right: 1px solid var(--border); }
+  .provider-stat:last-child { border-right: 0; }
+  .provider-demo-body { grid-template-columns: 1.5fr .9fr; }
+}
+@media(max-width:620px){
+  .provider-demo-head { display: block; }
+  .provider-demo-actions .perk-cta { margin-top: 10px; }
+  .provider-code-row { grid-template-columns: 1fr; gap: 5px; }
+  .provider-code-row.head { display: none; }
+}
+
 /* ── BURSARIES ── */
 .burs-sec { padding: 36px 0; border-top: 1px solid var(--border); }
 .burs-list { border-radius: 16px; overflow: hidden; }
@@ -691,6 +728,83 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       <span class="perk-cta" onclick="openDeal('https://www.custommugs.co.za');event.stopPropagation()">Shop Now →</span>
     </div>
     <p id="no-results" style="display:none;text-align:center;padding:48px 0;color:#888;font-size:15px;">No deals match your search.</p>
+  </div>
+</section>
+
+<!-- 1VOUCHER PROVIDER DASHBOARD DEMO -->
+<section class="provider-demo-sec" id="provider-dashboard">
+  <div class="wrap">
+    <div class="sec-row">
+      <span class="sec-lbl">Provider Dashboard</span>
+      <div class="sec-divider"></div>
+      <a class="sec-view" href="verify.html">Open portal →</a>
+    </div>
+
+    <div class="provider-demo-shell">
+      <div class="provider-demo-head">
+        <div>
+          <div class="provider-demo-name">1Voucher</div>
+          <div class="provider-demo-sub">Exclusive prepaid voucher rewards for verified students</div>
+        </div>
+        <a class="perk-cta dark" href="verify.html" style="width:auto;padding:11px 18px">Live Portal</a>
+      </div>
+
+      <div class="provider-demo-grid" aria-label="1Voucher demo stats">
+        <div class="provider-stat">
+          <div class="provider-stat-val">3</div>
+          <div class="provider-stat-lbl">Codes issued</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-val">2</div>
+          <div class="provider-stat-lbl">Retrieved</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-val">1</div>
+          <div class="provider-stat-lbl">QR opens</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-val">67%</div>
+          <div class="provider-stat-lbl">Demo conversion</div>
+        </div>
+      </div>
+
+      <div class="provider-demo-body">
+        <div>
+          <div class="provider-panel-title">Coupon activity</div>
+          <div class="provider-code-table">
+            <div class="provider-code-row head"><div>Code</div><div>Assigned to</div><div>Status</div></div>
+            <div class="provider-code-row">
+              <div class="provider-code">1VOUCHER001-DEMO</div>
+              <div>Demo Student<br><span class="provider-dim">demo@studentperks.co.za</span></div>
+              <div><span class="provider-pill">Ready</span></div>
+            </div>
+            <div class="provider-code-row">
+              <div class="provider-code">1VOUCHER002-PITCH</div>
+              <div>Demo Student<br><span class="provider-dim">demo@studentperks.co.za</span></div>
+              <div><span class="provider-pill">Ready</span></div>
+            </div>
+            <div class="provider-code-row">
+              <div class="provider-code">1VOUCHER003-QR</div>
+              <div>Demo Student<br><span class="provider-dim">demo@studentperks.co.za</span></div>
+              <div><span class="provider-pill">Ready</span></div>
+            </div>
+          </div>
+        </div>
+
+        <aside>
+          <div class="provider-panel-title">Demo sign in</div>
+          <div class="provider-mini-note">
+            Provider code: <b style="color:var(--white)">1VOUCHER</b><br>
+            PIN: <b style="color:var(--white)">VoucherDemo14!</b><br><br>
+            In the live portal, 1Voucher can check a student code, see who it was assigned to, and mark it as redeemed after the student claims the discount.
+          </div>
+          <div class="provider-demo-actions">
+            <a class="perk-cta" href="verify.html">Open Provider Dashboard</a>
+            <a class="perk-cta dark" href="redeem.html?code=1VOUCHER001-DEMO">Student Redeem View</a>
+          </div>
+        </aside>
+      </div>
+    </div>
   </div>
 </section>
 
