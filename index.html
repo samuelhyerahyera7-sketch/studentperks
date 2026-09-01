@@ -611,7 +611,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
     <div class="search-wrap">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" placeholder="Search brands or deals..." id="search-input" oninput="filterPerks()">
-      <span class="deal-badge" id="deal-count">9 deals</span>
+      <span class="deal-badge" id="deal-count">10 deals</span>
     </div>
     <div class="pills-wrap"><div class="pills-row">
       <button class="pill active" onclick="setCat(this,'all')">All</button>
@@ -619,6 +619,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       <button class="pill" onclick="setCat(this,'tech')">Tech</button>
       <button class="pill" onclick="setCat(this,'food')">Food</button>
       <button class="pill" onclick="setCat(this,'travel')">Travel</button>
+      <button class="pill" onclick="setCat(this,'prepaid')">Prepaid</button>
       <button class="pill" onclick="setCat(this,'software')">Software</button>
       <button class="pill" onclick="setCat(this,'fitness')">Fitness</button>
       <button class="pill" onclick="setCat(this,'entertainment')">Entertainment</button>
@@ -634,6 +635,24 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
     <div class="sec-row">
       <span class="sec-lbl">All Perks</span>
       <div class="sec-divider"></div>
+    </div>
+
+    <div class="perk-card fade-in" data-cat="prepaid" onclick="location.href='redeem.html?code=1VOUCHER001-DEMO'">
+      <div class="perk-top-row">
+        <div style="background:#fff;border-radius:12px;padding:8px 14px;white-space:nowrap;font-size:18px;font-weight:900;color:#111;line-height:1;display:flex;align-items:center;">
+          1<span style="color:#74c600;margin-left:2px;">Voucher</span>
+        </div>
+        <div class="perk-disc-col">
+          <div class="perk-disc-val">10%</div>
+          <div class="perk-disc-type">STUDENT REWARD</div>
+        </div>
+      </div>
+      <div class="perk-name-row">
+        <div class="perk-name">1VOUCHER</div>
+        <div class="perk-badge">DEMO</div>
+      </div>
+      <div class="perk-desc">A demo 1Voucher student reward with code retrieval, QR access, and provider-side verification through the StudentPerks platform.</div>
+      <span class="perk-cta" onclick="location.href='redeem.html?code=1VOUCHER001-DEMO';event.stopPropagation()">Retrieve Demo Deal →</span>
     </div>
 
     <div class="perk-card fade-in" data-cat="gifting" onclick="openDeal('https://www.cratesandboxes.co.za')">
