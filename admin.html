@@ -625,6 +625,7 @@ function openAppModal(app) {
   document.getElementById('app-detail-grid').innerHTML = `
     <div class="detail-item"><label>Personal email</label><span>${esc(app.personal_email)}</span></div>
     <div class="detail-item"><label>Student email</label><span>${esc(app.student_email||'—')}</span></div>
+    <div class="detail-item"><label>Student email verified</label><span>${app.student_email_verified?'Yes':'No'}</span></div>
     <div class="detail-item"><label>Institution</label><span>${esc(app.institution||'—')}</span></div>
     <div class="detail-item"><label>Year</label><span>${esc(app.year_of_study||'—')}</span></div>
     <div class="detail-item"><label>Degree / Course</label><span>${esc(app.degree_course||'—')}</span></div>
@@ -666,7 +667,7 @@ async function loadVendors() {
       </div>
       <div class="vendor-desc">${esc(v.discount_desc||'No discount description')}</div>
       <div class="vendor-pin-row">Email: <span class="vendor-pin-val">${esc(v.email||'Not set')}</span></div>
-      <div class="vendor-pin-row">PIN: <span class="vendor-pin-val">${esc(v.vendor_pin)}</span></div>
+      <div class="vendor-pin-row">PIN: <span class="vendor-pin-val">••••••••</span></div>
     `;
     list.appendChild(card);
   });
@@ -902,7 +903,7 @@ async function loadSettings() {
   if(loading) loading.remove();
   data.forEach(v=>{
     const row=document.createElement('div'); row.className='dt-row'; row.style.gridTemplateColumns='1fr 100px 1fr 80px';
-    row.innerHTML=`<div class="dt-cell bold">${esc(v.name)}</div><div class="dt-cell mono">${esc(v.code_prefix)}</div><div class="dt-cell dim">${esc(v.discount_desc||'—')}</div><div class="dt-cell mono" style="color:var(--lime)">${esc(v.vendor_pin)}</div>`;
+    row.innerHTML=`<div class="dt-cell bold">${esc(v.name)}</div><div class="dt-cell mono">${esc(v.code_prefix)}</div><div class="dt-cell dim">${esc(v.discount_desc||'—')}</div><div class="dt-cell mono" style="color:var(--lime)">••••••••</div>`;
     tbody.appendChild(row);
   });
 }

@@ -211,16 +211,22 @@ async function checkCode(){
   currentRow = null;
 
   try {
-    const {data, error} = await sb
-      .from('coupon_codes')
-      .select('*, vendors(name, email, discount_desc)')
-      .eq('code', raw)
-      .maybeSingle();
+    const response = await fetch('/api/redeem-code', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({action:'lookup', code: raw})
+    });
+    const payload = await response.json();
+    const data = payload.coupon;
 
     document.getElementById('loader').style.display='none';
     document.getElementById('checkBtn').disabled = false;
 
-    if(error) throw error;
+    if(response.status === 404){
+      document.getElementById('resInvalid').style.display='block';
+      return;
+    }
+    if(!response.ok) throw new Error(payload.error || 'Could not look up this code.');
 
     if(!data){
       document.getElementById('resInvalid').style.display='block';
@@ -274,38 +280,18 @@ async function confirmRedeem(){
   const redeemedAt = new Date().toISOString();
 
   try {
-    // Update coupon_codes
-    const {error: ue} = await sb
-      .from('coupon_codes')
-      .update({is_used: true, used_at: redeemedAt})
-      .eq('id', currentRow.id);
-    if(ue) throw ue;
-
     const studentEmail = emailVal || currentRow.assigned_to_email || '';
-    const vendorName = currentRow.vendor_name || (currentRow.vendors && currentRow.vendors.name) || '';
-    const vendorEmail = currentRow.vendors && currentRow.vendors.email ? currentRow.vendors.email : '';
-    const discount = currentRow.vendors && currentRow.vendors.discount_desc ? currentRow.vendors.discount_desc : '';
-
-    // Insert into redemptions
-    const {error: re} = await sb
-      .from('redemptions')
-      .insert({
+    const response = await fetch('/api/redeem-code', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        action: 'redeem',
         code: currentRow.code,
-        vendor_id: currentRow.vendor_id,
-        vendor_name: vendorName,
-        student_email: studentEmail
-      });
-    if(re) throw re;
-
-    notifyRedemption({
-      code: currentRow.code,
-      vendorName,
-      vendorEmail,
-      studentEmail,
-      studentName: currentRow.assigned_to_name || '',
-      discount,
-      redeemedAt: fmtDate(redeemedAt)
+        studentEmail
+      })
     });
+    const payload = await response.json();
+    if(!response.ok) throw new Error(payload.error || 'Could not mark this code as redeemed.');
 
     document.getElementById('resValid').style.display='none';
     document.getElementById('flashOk').style.display='block';

@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS student_applications (
   year_of_study    TEXT DEFAULT '',
   degree_course    TEXT DEFAULT '',
   student_number   TEXT DEFAULT '',
+  student_email_verified BOOLEAN DEFAULT FALSE,
   referral_code    TEXT DEFAULT '',
   card_photo_url   TEXT DEFAULT '',
   status           TEXT DEFAULT 'pending',
@@ -46,6 +47,8 @@ CREATE TABLE IF NOT EXISTS student_applications (
   created_at       TIMESTAMPTZ DEFAULT NOW(),
   reviewed_at      TIMESTAMPTZ
 );
+
+ALTER TABLE student_applications ADD COLUMN IF NOT EXISTS student_email_verified BOOLEAN DEFAULT FALSE;
 
 CREATE TABLE IF NOT EXISTS redemptions (
   id             UUID DEFAULT gen_random_uuid() PRIMARY KEY,

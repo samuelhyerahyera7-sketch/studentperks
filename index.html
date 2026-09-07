@@ -355,77 +355,10 @@ nav {
 .outline-btn { display: block; width: 100%; background: transparent; color: var(--ink2); font-size: 13px; font-weight: 700; letter-spacing: .04em; padding: 15px; text-align: center; border-radius: 14px; border: 1px solid var(--border); cursor: pointer; font-family: var(--font); transition: all .15s; margin-top: 14px; text-transform: uppercase; }
 .outline-btn:hover { border-color: var(--lime); color: var(--lime); }
 
-/* ── BUSINESS CTA ── */
-.biz-cta-sec { padding: 64px 0; border-top: 1px solid var(--border); }
-.biz-cta-inner {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 28px;
-  overflow: hidden;
-  display: grid;
-}
-@media(min-width:860px){ .biz-cta-inner { grid-template-columns: 1fr 1fr; } }
-.biz-cta-left {
-  padding: 44px 36px;
-  position: relative;
-  overflow: hidden;
-}
-.biz-cta-blob {
-  position: absolute;
-  width: 260px;
-  height: 260px;
-  border-radius: 50%;
-  background: var(--lime);
-  opacity: .06;
-  filter: blur(60px);
-  top: -60px;
-  left: -60px;
-  pointer-events: none;
-}
-.biz-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--lime);
-  background: rgba(212,255,0,.08);
-  border: 1px solid rgba(212,255,0,.15);
-  padding: 6px 14px;
-  border-radius: 50px;
-  margin-bottom: 20px;
-}
-.biz-eyebrow::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--lime); }
-.biz-cta-title {
-  font-family: var(--display);
-  font-size: 54px;
-  color: var(--white);
-  text-transform: uppercase;
-  line-height: .92;
-  letter-spacing: .02em;
-  margin-bottom: 16px;
-}
-.biz-cta-title em { font-style: normal; color: var(--lime); display: block; }
-.biz-cta-desc { font-size: 14px; color: var(--ink2); line-height: 1.65; margin-bottom: 28px; max-width: 360px; }
-.biz-cta-btns { display: flex; flex-wrap: wrap; gap: 10px; }
 .lime-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--lime); color: var(--bg); font-size: 13px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 15px 30px; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); transition: background .15s, transform .1s; }
 .lime-btn:hover { background: var(--white); transform: translateY(-2px); }
 .ghost-btn { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: var(--ink2); font-size: 13px; font-weight: 700; padding: 15px 24px; border-radius: 50px; border: 1px solid var(--border); cursor: pointer; font-family: var(--font); transition: all .15s; }
 .ghost-btn:hover { border-color: rgba(255,255,255,.3); color: var(--white); }
-.biz-cta-right {
-  padding: 36px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-@media(min-width:860px){ .biz-cta-right { border-top: none; border-left: 1px solid var(--border); justify-content: center; } }
-.biz-feature { display: flex; align-items: flex-start; gap: 14px; }
-.biz-feature-ico { width: 38px; height: 38px; border-radius: 10px; background: rgba(212,255,0,.07); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-.biz-feature-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 3px; }
-.biz-feature-desc { font-size: 12px; color: var(--ink3); line-height: 1.55; }
 
 /* ── FINAL CTA ── */
 .final-cta { background: var(--bg2); border-top: 1px solid var(--border); padding: 72px 0; text-align: center; }
@@ -711,65 +644,6 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
   </div>
 </section>
 
-<!-- BUSINESS CTA -->
-<section class="biz-cta-sec">
-  <div class="wrap">
-    <div class="biz-cta-inner">
-      <div class="biz-cta-left">
-        <div class="biz-cta-blob"></div>
-        <div class="biz-eyebrow">For Businesses</div>
-        <div class="biz-cta-title">GROW YOUR<em>REACH.</em></div>
-        <p class="biz-cta-desc">List your student deal on StudentPerks and tap into thousands of verified SA students. Submit your offer in 3 minutes.</p>
-        <div class="biz-cta-btns">
-          <a href="partner.html" class="lime-btn">
-            List Your Deal
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </a>
-          <a href="mailto:admin@studentperks.co.za" class="ghost-btn">Talk to us</a>
-        </div>
-      </div>
-      <div class="biz-cta-right">
-        <div class="biz-feature">
-          <div class="biz-feature-ico">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          </div>
-          <div>
-            <div class="biz-feature-title">Simple pricing</div>
-            <div class="biz-feature-desc">Affordable plans for businesses of any size. Get in front of verified students.</div>
-          </div>
-        </div>
-        <div class="biz-feature">
-          <div class="biz-feature-ico">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </div>
-          <div>
-            <div class="biz-feature-title">Verified student audience</div>
-            <div class="biz-feature-desc">Every user confirms their student status — real, active SA students looking for deals.</div>
-          </div>
-        </div>
-        <div class="biz-feature">
-          <div class="biz-feature-ico">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div>
-            <div class="biz-feature-title">Live within 24 hours</div>
-            <div class="biz-feature-desc">Fast review, no red tape. Submit today, go live tomorrow.</div>
-          </div>
-        </div>
-        <div class="biz-feature">
-          <div class="biz-feature-ico">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          </div>
-          <div>
-            <div class="biz-feature-title">High-intent traffic</div>
-            <div class="biz-feature-desc">Students come here specifically to find deals — they're already looking.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- FINAL CTA -->
 <section class="final-cta">
   <div class="wrap">
@@ -800,7 +674,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
     </div>
     <div class="footer-bottom">
       <span>© 2025 Student Perks. All Rights Reserved.</span>
-      <div class="fbl"><a href="/terms">Terms &amp; conditions</a><a href="/privacy">Privacy Policy</a></div>
+      <div class="fbl"><a href="/terms.html">Terms &amp; conditions</a><a href="/privacy.html">Privacy Policy</a></div>
     </div>
   </div>
 </footer>
@@ -972,7 +846,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 
         <label class="modal-terms">
           <input type="checkbox" id="terms-chk" style="accent-color:var(--lime);flex-shrink:0">
-          <span>I agree to the <a href="#" style="color:var(--lime)">terms &amp; conditions</a> and <a href="#" style="color:var(--lime)">privacy statement</a>. I confirm this is my own genuine student card.</span>
+          <span>I agree to the <a href="/terms.html" style="color:var(--lime)">terms &amp; conditions</a> and <a href="/privacy.html" style="color:var(--lime)">privacy statement</a>. I confirm this is my own genuine student card.</span>
         </label>
 
         <div class="modal-err" id="err-3"></div>
@@ -1009,12 +883,18 @@ async function checkAuthStatus(){
   if(!session) return;
   const email = session.user.email;
   const { data: app } = await sb.from('student_applications')
-    .select('status, full_name')
+    .select('id, status, full_name, student_email, student_email_verified')
     .or(`personal_email.eq.${email},student_email.eq.${email}`)
     .order('created_at',{ascending:false})
     .limit(1)
     .maybeSingle();
   if(!app) return;
+  if(email === app.student_email && !app.student_email_verified){
+    await fetch('/api/mark-student-email-verified', {
+      method: 'POST',
+      headers: {'Authorization': `Bearer ${session.access_token}`}
+    });
+  }
   _userStatus = app.status;
   const label = app.status === 'approved'
     ? '<a class="status-chip verified" href="dashboard.html">DASHBOARD</a>'
@@ -1250,6 +1130,7 @@ async function submitJoin(){
   const file=document.getElementById('card-file').files[0];
   const terms=document.getElementById('terms-chk').checked;
   const personalEmail=document.getElementById('jn-email').value.trim();
+  const studentEmail=document.getElementById('jn-student-email').value.trim();
   const password=document.getElementById('jn-pass').value;
   if(!file){ showErr('err-3','Please upload a photo of your student card.'); return; }
   if(!terms){ showErr('err-3','Please agree to the terms and conditions.'); return; }
@@ -1277,7 +1158,7 @@ async function submitJoin(){
       full_name: document.getElementById('jn-name').value.trim(),
       personal_email: personalEmail,
       institution: inst,
-      student_email: document.getElementById('jn-student-email').value.trim(),
+      student_email: studentEmail,
       year_of_study: document.getElementById('jn-year').value,
       degree_course: document.getElementById('jn-course').value.trim(),
       student_number: document.getElementById('jn-stunum').value.trim(),
@@ -1294,6 +1175,13 @@ async function submitJoin(){
       options:{ emailRedirectTo: 'https://studentperks.co.za/dashboard' }
     });
     if(authErr && !/already registered|already exists|user_already_exists/i.test(authErr.message||'')) throw authErr;
+
+    if(studentEmail && studentEmail.toLowerCase() !== personalEmail.toLowerCase()){
+      await sb.auth.signInWithOtp({
+        email: studentEmail,
+        options:{ emailRedirectTo: 'https://studentperks.co.za/' }
+      });
+    }
 
     // 5. Show success
     for(let i=1;i<=3;i++) document.getElementById('step-'+i).style.display='none';

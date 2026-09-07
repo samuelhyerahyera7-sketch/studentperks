@@ -169,6 +169,7 @@ const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 const _sb = supabase.createClient(SB_URL, SB_KEY);
 
 let currentVendor = null;
+let vendorToken = '';
 
 function togglePw(id, btn){
   const inp = document.getElementById(id);
@@ -187,18 +188,30 @@ async function doVendorLogin() {
   err.style.display='none';
   if(!prefix||!pin){ err.textContent='Please enter your vendor code and PIN.'; err.style.display='block'; return; }
   btn.disabled=true; btn.textContent='Signing in…';
-  const {data,error} = await _sb.from('vendors').select('*').eq('code_prefix',prefix).eq('vendor_pin',pin).single();
-  if(error||!data){
-    err.style.display='block'; btn.disabled=false; btn.textContent='Sign in'; return;
+  try {
+    const response = await fetch('/api/vendor-login', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({prefix, pin})
+    });
+    const payload = await response.json();
+    if(!response.ok) throw new Error(payload.error || 'Incorrect vendor code or PIN.');
+    currentVendor = payload.vendor;
+    vendorToken = payload.token;
+    sessionStorage.setItem('sp_vendor', JSON.stringify({vendor: currentVendor, token: vendorToken}));
+    showDashboard();
+  } catch(e) {
+    err.textContent = e.message || 'Incorrect vendor code or PIN.';
+    err.style.display='block';
+    btn.disabled=false;
+    btn.textContent='Sign in';
   }
-  currentVendor = data;
-  sessionStorage.setItem('sp_vendor', JSON.stringify(data));
-  showDashboard();
 }
 
 function doLogout() {
   sessionStorage.removeItem('sp_vendor');
   currentVendor = null;
+  vendorToken = '';
   document.getElementById('dashboard').style.display='none';
   document.getElementById('login-section').style.display='flex';
   document.getElementById('logout-btn').style.display='none';
@@ -223,19 +236,24 @@ async function checkCode() {
   const box  = document.getElementById('result-box');
   if(!code){ return; }
   box.style.display='none';
-  const {data,error} = await _sb.from('coupon_codes').select('*').eq('code',code).single();
+  let data;
+  try {
+    const response = await fetch('/api/vendor-check-code', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json', 'Authorization': `Bearer ${vendorToken}`},
+      body: JSON.stringify({code})
+    });
+    const payload = await response.json();
+    if(!response.ok) throw new Error(payload.error || 'Could not check this code.');
+    data = payload.coupon;
+  } catch(e) {
+    box.style.display='block';
+    box.className='result-box invalid';
+    box.innerHTML=`<div class="result-icon">❌</div><div class="result-title">Could not check code</div><div class="result-sub red">${esc(e.message || 'Please try again.')}</div>`;
+    return;
+  }
   box.style.display='block';
   box.className='result-box';
-  if(error||!data){
-    box.classList.add('invalid');
-    box.innerHTML=`<div class="result-icon">❌</div><div class="result-title">Invalid code</div><div class="result-sub red">This code does not exist. Check for typos.</div>`;
-    return;
-  }
-  if(data.vendor_id !== currentVendor.id){
-    box.classList.add('invalid');
-    box.innerHTML=`<div class="result-icon">🚫</div><div class="result-title">Wrong vendor</div><div class="result-sub red">This code belongs to a different vendor.</div>`;
-    return;
-  }
   if(data.is_used){
     box.classList.add('used');
     box.innerHTML=`<div class="result-icon">⚠️</div><div class="result-title">Already redeemed</div><div class="result-sub yellow">This code was used on <b style="color:var(--white)">${fmtLong(data.used_at)}</b></div><div class="result-detail"><b>Assigned to:</b> ${esc(data.assigned_to_name||'—')}<br><b>Email:</b> ${esc(data.assigned_to_email||'—')}</div>`;
@@ -251,14 +269,30 @@ async function checkCode() {
       <b>Email:</b> ${esc(data.assigned_to_email||'Unknown')}<br>
       <b>Discount:</b> ${esc(currentVendor.discount_desc||'—')}
     </div>
-    <button class="redeem-confirm-btn" onclick="markRedeemed('${data.id}','${esc(code)}')">✓ Mark as redeemed</button>
+    <button class="redeem-confirm-btn" onclick="markRedeemed('${esc(code)}')">✓ Mark as redeemed</button>
   `;
 }
 
-async function markRedeemed(codeId, code) {
+async function markRedeemed(code) {
   const now = new Date().toISOString();
-  await _sb.from('coupon_codes').update({is_used:true,used_at:now}).eq('id',codeId);
-  await _sb.from('redemptions').insert({code,vendor_id:currentVendor.id,vendor_name:currentVendor.name,student_email:''});
+  try {
+    const response = await fetch('/api/vendor-redeem', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json', 'Authorization': `Bearer ${vendorToken}`},
+      body: JSON.stringify({code})
+    });
+    const payload = await response.json();
+    if(!response.ok) throw new Error(payload.error || 'Could not redeem this code.');
+  } catch(e) {
+    document.getElementById('result-box').innerHTML=`
+      <div class="result-icon">❌</div>
+      <div class="result-title">Redemption failed</div>
+      <div class="result-sub red">${esc(e.message || 'Please try again.')}</div>
+    `;
+    document.getElementById('result-box').className='result-box invalid';
+    document.getElementById('result-box').style.display='block';
+    return;
+  }
   document.getElementById('result-box').innerHTML=`
     <div class="result-icon">🎉</div>
     <div class="result-title">Redeemed successfully</div>
@@ -273,7 +307,9 @@ async function loadCodeList() {
   const list    = document.getElementById('code-list');
   const loading = document.getElementById('list-loading');
   if(loading) loading.textContent='Loading…';
-  const {data} = await _sb.from('coupon_codes').select('*').eq('vendor_id',currentVendor.id).order('created_at',{ascending:false});
+  const response = await fetch('/api/vendor-codes', {headers: {'Authorization': `Bearer ${vendorToken}`}});
+  const payload = await response.json();
+  const data = response.ok ? payload.codes : [];
   [...list.querySelectorAll('.cl-row')].forEach(r=>r.remove());
   if(!data||!data.length){
     const l=document.getElementById('list-loading');
@@ -296,7 +332,7 @@ function fmtLong(ts){if(!ts)return'—';return new Date(ts).toLocaleString('en-Z
 // Restore session
 (function(){
   const saved=sessionStorage.getItem('sp_vendor');
-  if(saved){ try{ currentVendor=JSON.parse(saved); showDashboard(); }catch(e){} }
+  if(saved){ try{ const parsed=JSON.parse(saved); currentVendor=parsed.vendor||parsed; vendorToken=parsed.token||''; if(vendorToken) showDashboard(); }catch(e){} }
 })();
 </script>
 </body>
