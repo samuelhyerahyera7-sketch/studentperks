@@ -6,10 +6,10 @@ Use the real StudentPerks content and approved partner assets from the project. 
 
 ## Reference screens
 
-- `public-homepage-desktop.png`: signed-out desktop homepage direction.
-- `public-homepage-mobile.png`: signed-out mobile homepage direction.
-- `student-dashboard-mobile.png`: verified student dashboard direction.
-- `business-dashboard-desktop.png`: partner dashboard direction.
+- `public-homepage-desktop.jpg`: signed-out desktop homepage direction.
+- `public-homepage-mobile.jpg`: signed-out mobile homepage direction.
+- `student-dashboard-mobile.jpg`: verified student dashboard direction.
+- `business-dashboard-desktop.jpg`: partner dashboard direction.
 
 ## Non-negotiable visual rules
 
