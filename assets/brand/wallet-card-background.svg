@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" fill="none" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="card" x1="30" y1="20" x2="690" y2="400" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#202020"/>
+      <stop offset=".48" stop-color="#0D0D0D"/>
+      <stop offset="1" stop-color="#050505"/>
+    </linearGradient>
+    <pattern id="lines" width="70" height="70" patternUnits="userSpaceOnUse" patternTransform="rotate(-18)">
+      <path d="M0 0V70" stroke="#FFFFFF" stroke-opacity=".035" stroke-width="14"/>
+    </pattern>
+  </defs>
+  <rect width="720" height="420" rx="36" fill="url(#card)"/>
+  <rect width="720" height="420" rx="36" fill="url(#lines)"/>
+  <path d="M565 72h68M599 38v68" stroke="#B7FF19" stroke-width="10" stroke-linecap="round" opacity=".95"/>
+  <path d="M552 325c34-7 70-10 113-10" stroke="#B7FF19" stroke-width="12" stroke-linecap="round"/>
+  <path d="M574 347c24-5 49-7 77-7" stroke="#B7FF19" stroke-width="5" stroke-linecap="round" opacity=".7"/>
+</svg>

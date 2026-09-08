@@ -1,4 +1,4 @@
-const { clean, json, readBody, requireServiceKey, rest, sendRedemptionEmails } = require('./_supabase');
+const { clean, isApprovedLiveBusiness, json, readBody, requireServiceKey, rest, sendRedemptionEmails } = require('./_supabase');
 
 function formatDate(iso) {
   return new Date(iso).toLocaleString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
@@ -24,6 +24,7 @@ module.exports = async function handler(req, res) {
 
     const coupon = await findCoupon(code);
     if (!coupon) return json(res, 404, { error: 'This code does not exist.' });
+    if (!isApprovedLiveBusiness(coupon.vendors)) return json(res, 404, { error: 'This code does not exist.' });
 
     if (action === 'lookup') return json(res, 200, { coupon });
     if (action !== 'redeem') return json(res, 400, { error: 'Unknown action.' });

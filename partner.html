@@ -14,14 +14,14 @@
 <title>List Your Student Deal — StudentPerks</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="shortcut icon" href="/favicon.svg">
-<meta name="description" content="Reach thousands of verified South African students by listing your deal on StudentPerks. Fast review, student-verified audience, simple pricing.">
+<meta name="description" content="Reach verified South African students by listing your deal on StudentPerks. Student-verified audience, simple partner enquiries, and offer management.">
 <meta name="keywords" content="advertise to students South Africa, student deal listing, reach SA students, student marketing South Africa, varsity deals partner">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://studentperks.co.za/partner">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://studentperks.co.za/partner">
 <meta property="og:title" content="List Your Student Deal — StudentPerks">
-<meta property="og:description" content="Reach thousands of verified South African students. List your deal on StudentPerks today.">
+<meta property="og:description" content="Reach verified South African students. List your deal on StudentPerks today.">
 <meta property="og:site_name" content="StudentPerks">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -203,21 +203,447 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 .modal-terms input[type="checkbox"] { margin-top: 2px; accent-color: var(--lime); flex-shrink: 0; width: 14px; height: 14px; }
 .modal-switch { text-align: center; font-size: 13px; color: var(--ink3); margin-top: 14px; }
 .modal-switch span { color: var(--lime); cursor: pointer; font-weight: 600; }
+
+/* Uniform StudentPerks UI */
+body.business-redesign {
+  --lime: #9cff18;
+  --paper: #ffffff;
+  --soft: #f5f7fb;
+  --line: #e3e8f0;
+  --text: #090a10;
+  --muted: #5f6676;
+  color: var(--text);
+  background: var(--paper);
+}
+body.business-redesign .wrap { max-width: 1180px; padding: 0 24px; }
+body.business-redesign nav {
+  background: rgba(255,255,255,.96);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 6px 24px rgba(15,23,42,.05);
+}
+body.business-redesign .nav-inner { min-height: 72px; height: auto; padding: 10px 0; }
+body.business-redesign .logo-word {
+  color: var(--text);
+  font-size: 28px;
+  line-height: .92;
+  letter-spacing: -.06em;
+}
+body.business-redesign .logo-word span { color: #56e800; }
+body.business-redesign .logo-word::after {
+  content: none;
+  display: none;
+}
+body.business-redesign .nav-desktop a { color: #202435; font-weight: 700; font-size: 14px; }
+body.business-redesign .nav-desktop a.active,
+body.business-redesign .nav-desktop a:hover { color: #07851b !important; }
+body.business-redesign .nav-verify {
+  background: var(--lime);
+  color: var(--text);
+  box-shadow: 0 10px 24px rgba(156,255,24,.24);
+}
+body.business-redesign .nav-burger { color: var(--text); }
+body.business-redesign .menu-overlay { background: var(--paper); color: var(--text); }
+body.business-redesign .menu-head,
+body.business-redesign .menu-item { border-color: var(--line); }
+body.business-redesign .menu-close { color: var(--text); }
+body.business-redesign .menu-item,
+body.business-redesign .menu-contact-row,
+body.business-redesign .menu-copy { color: var(--muted); }
+body.business-redesign .menu-verify { background: var(--lime); color: var(--text); }
+body.business-redesign .partner-hero {
+  padding: 32px 0 28px;
+  border-bottom: 0;
+  background: linear-gradient(180deg,#fff,#f7faff);
+}
+body.business-redesign .partner-hero .wrap {
+  display: grid;
+  grid-template-columns: minmax(0,.86fr) minmax(420px,1.14fr);
+  gap: 22px;
+  align-items: center;
+}
+body.business-redesign .hero-eyebrow {
+  background: rgba(156,255,24,.18);
+  border-color: rgba(86,232,0,.25);
+  color: #07851b;
+}
+body.business-redesign .partner-hero h1 {
+  font-family: var(--font);
+  color: var(--text);
+  font-size: clamp(42px,5vw,64px);
+  letter-spacing: -.07em;
+  line-height: .95;
+  text-transform: none;
+  margin-bottom: 14px;
+}
+body.business-redesign .partner-hero h1 em {
+  color: #56e800;
+  display: inline;
+}
+body.business-redesign .partner-hero p {
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.45;
+  max-width: 520px;
+  margin-bottom: 22px;
+}
+body.business-redesign .lime-btn {
+  background: var(--lime);
+  color: var(--text);
+  border-radius: 14px;
+  box-shadow: 0 12px 24px rgba(156,255,24,.25);
+}
+body.business-redesign .ghost-btn {
+  background: #fff;
+  color: var(--text);
+  border-color: var(--line);
+  border-radius: 14px;
+}
+.partner-preview {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 18px 45px rgba(15,23,42,.1);
+  padding: 16px;
+}
+.preview-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.preview-top strong { font-size: 17px; letter-spacing: -.04em; }
+.preview-chip {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 9px 12px;
+  color: #202435;
+  font-size: 13px;
+  font-weight: 700;
+}
+.partner-metrics {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 9px;
+}
+.metric-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px;
+  background: #fff;
+}
+.metric-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #d5ffa0;
+  display: grid;
+  place-items: center;
+  margin-bottom: 8px;
+  font-weight: 900;
+}
+.metric-icon svg {
+  width: 21px;
+  height: 21px;
+  stroke: #050505;
+}
+.metric-icon img,
+.step-icon img,
+.benefit-ico img {
+  width: 21px;
+  height: 21px;
+  object-fit: contain;
+}
+.sp-icon {
+  width: 21px;
+  height: 21px;
+  display: inline-block;
+  background: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+.metric-icon .sp-icon { color: #050505; }
+.step-icon .sp-icon,
+.benefit-ico .sp-icon { color: var(--lime); }
+.metric-card b {
+  display: block;
+  font-size: 25px;
+  letter-spacing: -.05em;
+}
+.metric-card span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.trend-panel {
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px;
+  background: #fff;
+}
+.trend-panel h3 {
+  font-size: 18px;
+  letter-spacing: -.04em;
+  margin-bottom: 12px;
+}
+.trend-bars {
+  height: 118px;
+  display: flex;
+  align-items: end;
+  gap: 7px;
+  border-bottom: 1px solid var(--line);
+}
+.trend-bars span {
+  flex: 1;
+  border-radius: 999px 999px 0 0;
+  background: linear-gradient(180deg,#65e900,#d8ffac);
+  min-height: 20px;
+}
+.empty-analytics {
+  min-height: 118px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: var(--muted);
+  background: #f8fafc;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  line-height: 1.45;
+}
+.active-offers {
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.offer-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+.offer-row:last-child { border-bottom: 0; }
+.offer-row b { font-size: 14px; }
+.offer-row span { color: var(--muted); }
+.offer-status {
+  border-radius: 999px;
+  background: #d5ffa0;
+  color: #0b5712 !important;
+  padding: 5px 10px;
+  font-weight: 800;
+}
+body.business-redesign .how-sec,
+body.business-redesign .benefits-sec,
+body.business-redesign .apply-sec {
+  background: #fff;
+  border-bottom: 0;
+  padding: 30px 0;
+}
+body.business-redesign .sec-heading,
+body.business-redesign .form-title,
+body.business-redesign .success-title {
+  font-family: var(--font);
+  color: var(--text);
+  text-transform: none;
+  font-size: clamp(28px,4vw,42px);
+  letter-spacing: -.06em;
+  font-weight: 900;
+}
+body.business-redesign .sec-sub,
+body.business-redesign .step-desc,
+body.business-redesign .benefit-desc,
+body.business-redesign .form-sub,
+body.business-redesign .form-note,
+body.business-redesign .success-sub {
+  color: var(--muted);
+}
+body.business-redesign .steps-grid,
+body.business-redesign .benefits-grid {
+  gap: 14px;
+}
+body.business-redesign .step-card,
+body.business-redesign .benefit-card,
+body.business-redesign .form-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 28px rgba(15,23,42,.07);
+}
+body.business-redesign .step-title,
+body.business-redesign .benefit-title {
+  color: var(--text);
+}
+body.business-redesign .step-num {
+  color: rgba(86,232,0,.13);
+}
+body.business-redesign .step-icon,
+body.business-redesign .benefit-ico {
+  background: #d5ffa0;
+}
+body.business-redesign .field label { color: #4b5565; }
+body.business-redesign .field input,
+body.business-redesign .field select,
+body.business-redesign .field textarea {
+  background: #f8fafc;
+  border-color: var(--line);
+  color: var(--text);
+}
+body.business-redesign .field input::placeholder,
+body.business-redesign .field textarea::placeholder {
+  color: #8991a2;
+}
+body.business-redesign .field select option {
+  background: #fff;
+  color: var(--text);
+}
+body.business-redesign .form-submit,
+body.business-redesign .success-back {
+  background: var(--lime);
+  color: var(--text);
+  border-radius: 14px;
+}
+body.business-redesign footer {
+  background: #fff;
+  border-top: 1px solid var(--line);
+}
+body.business-redesign .footer-desc,
+body.business-redesign .footer-col a,
+body.business-redesign .footer-col h4,
+body.business-redesign .footer-bottom,
+body.business-redesign .fbl a {
+  color: var(--muted);
+}
+@media(max-width:980px) {
+  body.business-redesign .partner-hero .wrap {
+    grid-template-columns: 1fr;
+  }
+  .partner-metrics {
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+@media(max-width:620px) {
+  body.business-redesign .wrap { padding: 0 22px; }
+  body.business-redesign .partner-hero h1 { font-size: 40px; }
+  .partner-preview { border-radius: 16px; padding: 12px; }
+  .partner-metrics { grid-template-columns: repeat(2,1fr); }
+  .metric-card b { font-size: 22px; }
+  .offer-row { grid-template-columns: 1fr; gap: 4px; }
+}
+
+/* Requested brand cleanup */
+body.business-redesign .logo-word::after,
+body.business-redesign .logo-word span::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Final white UI baseline */
+body.business-redesign {
+  --bg: #f7f9fc;
+  --bg2: #ffffff;
+  --bg3: #f1f4f8;
+  --card: #ffffff;
+  --border: #dfe5ee;
+  --white: #050505;
+  --ink: #111827;
+  --ink2: #596174;
+  --ink3: #7b8494;
+  background: linear-gradient(180deg,#fff 0,#f7f9fc 100%) !important;
+  color: #111827 !important;
+}
+body.business-redesign nav,
+body.business-redesign footer,
+body.business-redesign .partner-hero,
+body.business-redesign .how-sec,
+body.business-redesign .benefits-sec,
+body.business-redesign .apply-sec {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-color: #dfe5ee !important;
+}
+body.business-redesign .partner-hero {
+  background: linear-gradient(180deg,#fff 0,#f7f9fc 100%) !important;
+}
+body.business-redesign .logo-word,
+body.business-redesign .partner-hero h1,
+body.business-redesign .sec-heading,
+body.business-redesign .step-title,
+body.business-redesign .benefit-title,
+body.business-redesign .form-title,
+body.business-redesign .success-title,
+body.business-redesign .modal-form-title,
+body.business-redesign .preview-top strong,
+body.business-redesign .trend-panel h3,
+body.business-redesign .offer-row b {
+  color: #050505 !important;
+}
+body.business-redesign .partner-hero p,
+body.business-redesign .sec-sub,
+body.business-redesign .step-desc,
+body.business-redesign .benefit-desc,
+body.business-redesign .form-sub,
+body.business-redesign .form-note,
+body.business-redesign .modal-form-sub,
+body.business-redesign .modal-terms,
+body.business-redesign .modal-switch,
+body.business-redesign .footer-desc,
+body.business-redesign .footer-col a,
+body.business-redesign .footer-col h4,
+body.business-redesign .footer-bottom,
+body.business-redesign .fbl a {
+  color: #596174 !important;
+}
+body.business-redesign .partner-preview,
+body.business-redesign .metric-card,
+body.business-redesign .trend-panel,
+body.business-redesign .active-offers,
+body.business-redesign .step-card,
+body.business-redesign .benefit-card,
+body.business-redesign .form-card,
+body.business-redesign .modal {
+  background: #ffffff !important;
+  border-color: #dfe5ee !important;
+  box-shadow: 0 10px 28px rgba(15,23,42,.07) !important;
+}
+body.business-redesign .modal-x,
+body.business-redesign .field-m input,
+body.business-redesign .field input,
+body.business-redesign .field select,
+body.business-redesign .field textarea {
+  background: #f8fafc !important;
+  color: #111827 !important;
+  border-color: #d7dee8 !important;
+}
+body.business-redesign .modal-tab.active {
+  color: #050505 !important;
+}
+body.business-redesign .ghost-btn,
+body.business-redesign .nav-verify,
+body.business-redesign .lime-btn,
+body.business-redesign .form-submit,
+body.business-redesign .modal-submit,
+body.business-redesign .success-back {
+  color: #050505 !important;
+}
 </style>
 </head>
-<body>
+<body class="business-redesign">
 
 <!-- NAV -->
 <nav>
   <div class="wrap">
     <div class="nav-inner">
-      <a href="index.html" class="logo-word">Student<span>Perks.</span></a>
+      <a href="index.html" class="logo-word">Student<span>Perks</span></a>
       <div class="nav-spacer"></div>
       <div class="nav-desktop">
         <a href="index.html#perks">Deals</a>
         <a href="index.html#events">Events</a>
         <a href="index.html#jobs">Jobs</a>
-        <a href="partner.html" class="active" style="color:var(--white)">For Business</a>
+        <a href="partner.html" class="active">For Business</a>
         <button class="nav-verify" onclick="openModal('jn')">VERIFY</button>
       </div>
       <button class="nav-verify" onclick="openModal('jn')" style="display:flex" id="mobile-verify">VERIFY</button>
@@ -232,7 +658,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 <!-- MOBILE MENU -->
 <div class="menu-overlay" id="menu-overlay">
   <div class="menu-head">
-    <a href="index.html" class="logo-word" style="font-size:18px">Student<span>Perks.</span></a>
+    <a href="index.html" class="logo-word" style="font-size:18px">Student<span>Perks</span></a>
     <button class="menu-close" onclick="closeMenu()">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
@@ -260,14 +686,56 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 <!-- HERO -->
 <section class="partner-hero">
   <div class="wrap">
-    <h1><span id="type-line1"></span><em><span id="type-line2"></span><span class="type-cursor" id="type-cursor">|</span></em></h1>
-    <p>List your student deal on StudentPerks and get discovered by thousands of verified South African students every month.</p>
-    <div class="hero-ctas">
-      <a href="#apply" class="lime-btn" onclick="goToApply(event)">
-        List Your Deal
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-      </a>
-      <a href="mailto:admin@studentperks.co.za" class="ghost-btn">Talk to us first</a>
+    <div>
+      <div class="hero-eyebrow">Partner dashboard preview</div>
+      <h1>Reach verified students and track every <em>offer.</em></h1>
+      <p>Create offers, monitor claims and redemptions, compare branch performance and keep student personal information private.</p>
+      <div class="hero-ctas">
+        <a href="#apply" class="lime-btn" onclick="goToApply(event)">
+          Create offer
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+        </a>
+        <a href="verify.html" class="ghost-btn">Open provider login</a>
+      </div>
+    </div>
+    <div class="partner-preview" aria-label="Partner dashboard concept preview">
+      <div class="preview-top">
+        <strong>Partner dashboard</strong>
+        <span class="preview-chip">Live data after launch</span>
+      </div>
+      <div class="partner-metrics">
+        <div class="metric-card">
+          <div class="metric-icon">
+            <span class="sp-icon" style="--icon:url('assets/icons/analytics.svg')" aria-hidden="true"></span>
+          </div>
+          <b>--</b><span>Offer views</span>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">
+            <span class="sp-icon" style="--icon:url('assets/icons/ticket.svg')" aria-hidden="true"></span>
+          </div>
+          <b>--</b><span>Claims</span>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">
+            <span class="sp-icon" style="--icon:url('assets/icons/redemptions.svg')" aria-hidden="true"></span>
+          </div>
+          <b>--</b><span>Redemptions</span>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">
+            <span class="sp-icon" style="--icon:url('assets/icons/analytics.svg')" aria-hidden="true"></span>
+          </div>
+          <b>--</b><span>Claim-to-redemption</span>
+        </div>
+      </div>
+      <div class="trend-panel">
+        <h3>Analytics</h3>
+        <div class="empty-analytics">Views, claims, redemptions and branch trends will appear here once partners start using the dashboard.</div>
+      </div>
+      <div class="active-offers">
+        <div class="offer-row"><b>Your offers</b><span>Business-specific offer rows appear after sign-in.</span><span class="offer-status">Private</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -281,29 +749,29 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       <div class="step-card">
         <div class="step-num">1</div>
         <div class="step-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          <span class="sp-icon" style="--icon:url('assets/icons/deals.svg')" aria-hidden="true"></span>
         </div>
         <div class="step-title">Submit your deal</div>
-        <div class="step-desc">Fill in the form below with your brand details, offer type and discount. Takes less than 3 minutes.</div>
-        <span class="step-time">Takes 3 minutes</span>
+        <div class="step-desc">Fill in the form below with your brand details, offer type and discount.</div>
+        <span class="step-time">Submit details</span>
       </div>
       <div class="step-card">
         <div class="step-num">2</div>
         <div class="step-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span class="sp-icon" style="--icon:url('assets/icons/verified.svg')" aria-hidden="true"></span>
         </div>
         <div class="step-title">We review it</div>
         <div class="step-desc">Our team checks your offer to make sure it's genuine and valuable to students. We'll contact you with any questions.</div>
-        <span class="step-time">Within 24–48 hours</span>
+        <span class="step-time">Team review</span>
       </div>
       <div class="step-card">
         <div class="step-num">3</div>
         <div class="step-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <span class="sp-icon" style="--icon:url('assets/icons/arrow-right.svg')" aria-hidden="true"></span>
         </div>
         <div class="step-title">Go live</div>
-        <div class="step-desc">Your deal goes live on StudentPerks and starts reaching thousands of verified SA students immediately.</div>
-        <span class="step-time">Instantly after approval</span>
+        <div class="step-desc">Approved deals are listed on StudentPerks for verified SA students to discover and redeem.</div>
+        <span class="step-time">After approval</span>
       </div>
     </div>
   </div>
@@ -313,46 +781,46 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 <section class="benefits-sec">
   <div class="wrap">
     <h2 class="sec-heading">Why List With Us?</h2>
-    <p class="sec-sub">The fastest way to reach South Africa's student market.</p>
+    <p class="sec-sub">A focused way to reach South Africa's student market.</p>
     <div class="benefits-grid">
       <div class="benefit-card">
         <div class="benefit-ico">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span class="sp-icon" style="--icon:url('assets/icons/profile.svg')" aria-hidden="true"></span>
         </div>
         <div class="benefit-title">Verified student audience</div>
-        <div class="benefit-desc">Every user confirms their student status — your deal reaches real, active SA students looking to save.</div>
+        <div class="benefit-desc">StudentPerks is built around student verification so partner offers can be reserved for eligible students.</div>
       </div>
       <div class="benefit-card">
         <div class="benefit-ico">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span class="sp-icon" style="--icon:url('assets/icons/deals.svg')" aria-hidden="true"></span>
         </div>
-        <div class="benefit-title">Simple pricing</div>
-        <div class="benefit-desc">Affordable plans built for SA businesses. Reach verified students and track every redemption.</div>
+        <div class="benefit-title">Partner enquiry</div>
+        <div class="benefit-desc">Share your offer details with the StudentPerks team and choose a setup that fits your business.</div>
       </div>
       <div class="benefit-card">
         <div class="benefit-ico">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span class="sp-icon" style="--icon:url('assets/icons/verified.svg')" aria-hidden="true"></span>
         </div>
-        <div class="benefit-title">Up in 24 hours</div>
-        <div class="benefit-desc">Submit today and your deal can be live by tomorrow. Fast review, no delays, no lengthy approvals.</div>
+        <div class="benefit-title">Review before listing</div>
+        <div class="benefit-desc">Submitted offers are checked before they appear publicly, so students see clear and genuine perks.</div>
       </div>
       <div class="benefit-card">
         <div class="benefit-ico">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span class="sp-icon" style="--icon:url('assets/icons/ticket.svg')" aria-hidden="true"></span>
         </div>
-        <div class="benefit-title">High-intent traffic</div>
-        <div class="benefit-desc">Students visit StudentPerks specifically to find deals — they're already looking for what you're offering.</div>
+        <div class="benefit-title">Deal-focused experience</div>
+        <div class="benefit-desc">StudentPerks presents partner offers in a dedicated deals experience for verified students.</div>
       </div>
       <div class="benefit-card">
         <div class="benefit-ico">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          <span class="sp-icon" style="--icon:url('assets/icons/deals.svg')" aria-hidden="true"></span>
         </div>
-        <div class="benefit-title">Any category welcome</div>
-        <div class="benefit-desc">Fashion, food, tech, travel, fitness, software — if students would love it, we want it listed.</div>
+        <div class="benefit-title">Offer categories</div>
+        <div class="benefit-desc">Use the partner form to share your business category and the offer you want students to see.</div>
       </div>
       <div class="benefit-card">
         <div class="benefit-ico">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91A16 16 0 0 0 13 13.91l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 15.15z"/></svg>
+          <span class="sp-icon" style="--icon:url('assets/icons/notification.svg')" aria-hidden="true"></span>
         </div>
         <div class="benefit-title">Dedicated support</div>
         <div class="benefit-desc">Reach us on WhatsApp or email anytime. We help you craft the best possible offer for students.</div>
@@ -370,7 +838,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
         <!-- Form -->
         <div id="form-wrap">
           <div class="form-title">List Your Deal</div>
-          <div class="form-sub">Fill in your details below and we'll get back to you within 24 hours.</div>
+          <div class="form-sub">Fill in your details below and the StudentPerks team will review your partner enquiry.</div>
           <form id="partner-form" action="https://formsubmit.co/ajax/admin@studentperks.co.za" method="POST">
             <input type="hidden" name="_subject" value="New Partner Application — StudentPerks">
             <input type="hidden" name="_captcha" value="false">
@@ -419,7 +887,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
               </div>
               <div class="field">
                 <label>Your Offer / Discount *</label>
-                <input type="text" name="offer" placeholder="e.g. 25% off sitewide" required>
+                <input type="text" name="offer" placeholder="Describe the student offer" required>
               </div>
             </div>
 
@@ -449,7 +917,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
             </div>
 
             <button type="submit" class="form-submit" id="submit-btn">Submit Application →</button>
-            <p class="form-note">We'll review your application and reply within 24–48 hours.<br>Questions? <a href="mailto:admin@studentperks.co.za" style="color:var(--lime)">Email us</a> or WhatsApp <a href="https://wa.me/27813756494" style="color:var(--lime)">+27 81 375 6494</a></p>
+            <p class="form-note">We'll review your application and reply by email.<br>Questions? <a href="mailto:admin@studentperks.co.za" style="color:var(--lime)">Email us</a> or WhatsApp <a href="https://wa.me/27813756494" style="color:var(--lime)">+27 81 375 6494</a></p>
           </form>
         </div>
 
@@ -459,7 +927,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           </div>
           <div class="success-title">Application Sent!</div>
-          <p class="success-sub">Thanks for applying. We'll review your deal and get back to you at your email address within 24–48 hours.</p>
+          <p class="success-sub">Thanks for applying. We'll review your deal and get back to you at your email address.</p>
           <p style="font-size:13px;color:var(--ink3);margin-bottom:24px">In the meantime, feel free to reach us on WhatsApp at <a href="https://wa.me/27813756494" style="color:var(--lime)">+27 81 375 6494</a></p>
           <a href="index.html" class="success-back">Back to StudentPerks</a>
         </div>
@@ -474,12 +942,13 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <div class="logo-word" style="font-size:17px">Student<span>Perks.</span></div>
-        <p class="footer-desc">Exclusive student deals, events and jobs — built for SA students.</p>
+        <div class="logo-word" style="font-size:17px">Student<span>Perks</span></div>
+        <p class="footer-desc">Current student offers from brands listed on StudentPerks.</p>
         <div class="footer-social">
           <svg class="f-soc" width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           <svg class="f-soc" width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
           <svg class="f-soc" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          <svg class="f-soc" width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-label="TikTok"><path d="M16.6 3c.4 2.5 1.9 4.1 4.4 4.3v3.1c-1.5.1-2.9-.4-4.3-1.3v5.8c0 5.7-6.2 7.5-9.4 4.4-2.1-2-2.2-5.4-.2-7.6 1.5-1.7 3.5-2.3 5.8-1.9v3.3c-.5-.2-1-.2-1.5-.1-1.3.3-2.1 1.4-1.9 2.7.2 1.4 1.5 2.3 2.9 1.9.9-.3 1.5-.8 1.7-1.8.1-.4.1-.8.1-1.2V3h2.4Z"/></svg>
         </div>
       </div>
       <div class="footer-cols">
@@ -500,7 +969,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
   <div class="modal">
     <button class="modal-x" onclick="closeModal()">×</button>
     <div style="display:flex;align-items:center;gap:7px;margin-bottom:20px">
-      <div class="logo-word" style="font-size:17px">Student<span>Perks.</span></div>
+      <div class="logo-word" style="font-size:17px">Student<span>Perks</span></div>
     </div>
     <div class="modal-tabs">
       <div class="modal-tab active" id="t-si" onclick="switchTab('si')">Sign in</div>
@@ -647,6 +1116,7 @@ function goToApply(e){
   const el1 = document.getElementById('type-line1');
   const el2 = document.getElementById('type-line2');
   const cur  = document.getElementById('type-cursor');
+  if(!el1 || !el2 || !cur) return;
   let i = 0;
   function typeLine1(){
     if(i < line1.length){ el1.textContent += line1[i++]; setTimeout(typeLine1, 80); }

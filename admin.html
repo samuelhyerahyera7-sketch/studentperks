@@ -190,6 +190,27 @@ button{cursor:pointer;border:none;font-family:var(--font)}
 @media(min-width:640px){.an-stat-grid{grid-template-columns:repeat(4,1fr)}}
 .ga-link-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(66,133,244,.12);color:#4285f4;border:1px solid rgba(66,133,244,.2);font-size:13px;font-weight:700;padding:10px 18px;border-radius:50px;cursor:pointer;text-decoration:none;transition:background .15s;margin-bottom:20px}
 .ga-link-btn:hover{background:rgba(66,133,244,.22)}
+
+/* White StudentPerks theme alignment */
+:root{
+  --bg:#f7f9fc;--bg2:#fff;--bg3:#f1f4f8;--card:#fff;
+  --border:#dfe5ee;--white:#050505;--ink:#111827;
+  --ink2:#596174;--ink3:#7b8494;
+}
+body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
+#login-page{background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(156,255,24,.18),transparent),#f7f9fc}
+.login-card,.admin-nav,.tab-nav,.card,.vendor-card,.chart-card{background:#fff;border-color:var(--border);box-shadow:0 10px 28px rgba(15,23,42,.06)}
+.login-title,.admin-logo,.tab-btn.active,.sec-title,.metric-value,.dt-cell.bold,.vendor-name,.vendor-pin-val{color:#050505}
+.login-sub,.lf label,.admin-user-info,.tab-btn,.metric-label,.dt-cell.dim,.vendor-desc,.vendor-pin-row,.chart-card-title{color:var(--ink2)}
+.lf input,.lf select,input,select,textarea{background:#fff!important;color:#111827!important;border-color:#d7dee8!important}
+.lf input::placeholder,input::placeholder,textarea::placeholder{color:#94a3b8!important}
+.login-btn,.primary-btn,.save-btn{background:#9cff18!important;color:#050505!important}
+.login-btn:hover:not(:disabled),.primary-btn:hover,.save-btn:hover{background:#050505!important;color:#fff!important}
+.logout-btn,.secondary-btn,.small-btn{background:#f1f4f8!important;color:#111827!important;border:1px solid var(--border)!important}
+.logout-btn:hover,.secondary-btn:hover,.small-btn:hover{background:#050505!important;color:#fff!important}
+.tab-btn.active{border-bottom-color:#9cff18}
+.dt-head{background:#f1f4f8;color:var(--ink2)}
+.dt-row{border-bottom-color:var(--border)}
 </style>
 </head>
 <body>
@@ -217,7 +238,7 @@ button{cursor:pointer;border:none;font-family:var(--font)}
 <!-- ── ADMIN DASHBOARD ── -->
 <div id="admin-page">
   <nav class="admin-nav">
-    <div class="admin-logo">Student<span>Perks.</span></div>
+    <div class="admin-logo">Student<span>Perks</span></div>
     <div class="admin-badge-nav">Admin</div>
     <div class="nav-sp"></div>
     <div class="admin-user-info"><div class="admin-dot"></div><span id="admin-email-lbl"></span></div>
@@ -258,11 +279,11 @@ button{cursor:pointer;border:none;font-family:var(--font)}
       <div class="info-box">
         <div class="info-box-label">Verification workflow</div>
         <div class="info-box-text">
-          1. Student submits application → appears in <b style="color:var(--white)">Applications</b> tab.<br>
+          1. Student submits application → appears in <b>Applications</b> tab.<br>
           2. Review photo + details → Approve or Reject (add a note).<br>
-          3. When approving, go to <b style="color:var(--white)">Coupons</b> → assign codes to the student's email.<br>
-          4. Email the student their codes — they redeem at <b style="color:var(--white)">studentperks.co.za/redeem</b>.<br>
-          5. Vendors verify codes at <b style="color:var(--white)">studentperks.co.za/verify</b> using their PIN.
+          3. When approving, go to <b>Coupons</b> → assign codes to the student's email.<br>
+          4. Email the student their codes — they redeem at <b>studentperks.co.za/redeem</b>.<br>
+          5. Vendors verify codes at <b>studentperks.co.za/verify</b> using their PIN.
         </div>
       </div>
     </div>
@@ -1042,7 +1063,7 @@ async function loadAnalytics() {
   // Redemptions chart (last 30 days)
   const redByDay    = groupByDay(redems.filter(r=>r.redeemed_at>=cutoff),'redeemed_at');
   const redData     = days.map(d=>redByDay[d]||0);
-  makeLineBar('chart-redemptions','line',appLabels,redData,'#5b8fff');
+  makeLineBar('chart-redemptions','line',appLabels,redData,'#55d900');
 
   // Top vendors
   const vendorCounts = {};

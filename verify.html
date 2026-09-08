@@ -99,11 +99,30 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
   .code-input-row{display:grid;grid-template-columns:1fr}
   .check-btn{width:100%}
 }
+
+/* White StudentPerks theme alignment */
+:root{
+  --bg:#f7f9fc;--bg3:#f1f4f8;--card:#fff;--border:#dfe5ee;
+  --white:#050505;--ink:#111827;--ink2:#596174;--ink3:#7b8494;
+}
+body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
+.nav{background:#fff;border-bottom:1px solid var(--border)}
+.logo,.card-title,.vendor-name-display,.result-title,.result-detail b{color:#050505}
+.card-sub,.f label,.vendor-discount,.verify-box-title,.result-detail,.cl-dim,.list-empty,#vendor-name-nav{color:var(--ink2)}
+.login-card,.verify-box,.code-list{background:#fff;border-color:var(--border);box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.f input,.f select,.code-input{background:#fff;color:#111827;border-color:#d7dee8}
+.f input::placeholder,.code-input::placeholder{color:#94a3b8}
+.btn,.check-btn{background:#9cff18;color:#050505}
+.btn:hover:not(:disabled),.check-btn:hover{background:#050505;color:#fff}
+.btn-ghost,#logout-btn{background:#f1f4f8;color:#111827;border:1px solid var(--border)}
+.btn-ghost:hover:not(:disabled),#logout-btn:hover{background:#050505;color:#fff}
+.cl-head{background:#f1f4f8;border-bottom-color:var(--border)}
+.cl-row{border-bottom-color:var(--border)}
 </style>
 </head>
 <body>
 <nav class="nav">
-  <div class="logo">Student<span>Perks.</span></div>
+  <div class="logo">Student<span>Perks</span></div>
   <div class="badge">Vendor Portal</div>
   <div class="sp"></div>
   <span id="vendor-name-nav" style="font-size:12px;color:var(--ink2)"></span>
@@ -171,6 +190,14 @@ const _sb = supabase.createClient(SB_URL, SB_KEY);
 let currentVendor = null;
 let vendorToken = '';
 
+function normalizeBusinessName(name){
+  return String(name||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'').trim();
+}
+function isApprovedLiveBusinessName(name){
+  const normalized=normalizeBusinessName(name);
+  return normalized==='cratesandboxes'||normalized==='custommugs'||normalized==='custommugssa';
+}
+
 function togglePw(id, btn){
   const inp = document.getElementById(id);
   const show = inp.type === 'password';
@@ -196,6 +223,9 @@ async function doVendorLogin() {
     });
     const payload = await response.json();
     if(!response.ok) throw new Error(payload.error || 'Incorrect vendor code or PIN.');
+    if(!isApprovedLiveBusinessName(payload.vendor && payload.vendor.name)){
+      throw new Error('This business dashboard is not available on the live StudentPerks site.');
+    }
     currentVendor = payload.vendor;
     vendorToken = payload.token;
     sessionStorage.setItem('sp_vendor', JSON.stringify({vendor: currentVendor, token: vendorToken}));
@@ -256,7 +286,7 @@ async function checkCode() {
   box.className='result-box';
   if(data.is_used){
     box.classList.add('used');
-    box.innerHTML=`<div class="result-icon">⚠️</div><div class="result-title">Already redeemed</div><div class="result-sub yellow">This code was used on <b style="color:var(--white)">${fmtLong(data.used_at)}</b></div><div class="result-detail"><b>Assigned to:</b> ${esc(data.assigned_to_name||'—')}<br><b>Email:</b> ${esc(data.assigned_to_email||'—')}</div>`;
+    box.innerHTML=`<div class="result-icon">⚠️</div><div class="result-title">Already redeemed</div><div class="result-sub yellow">This code was used on <b>${fmtLong(data.used_at)}</b></div><div class="result-detail"><b>Assigned to:</b> ${esc(data.assigned_to_name||'—')}<br><b>Email:</b> ${esc(data.assigned_to_email||'—')}</div>`;
     return;
   }
   box.classList.add('valid');
@@ -296,7 +326,7 @@ async function markRedeemed(code) {
   document.getElementById('result-box').innerHTML=`
     <div class="result-icon">🎉</div>
     <div class="result-title">Redeemed successfully</div>
-    <div class="result-sub green">Marked as redeemed at <b style="color:var(--white)">${fmtLong(now)}</b></div>
+    <div class="result-sub green">Marked as redeemed at <b>${fmtLong(now)}</b></div>
   `;
   document.getElementById('result-box').className='result-box valid';
   document.getElementById('result-box').style.display='block';
@@ -332,7 +362,7 @@ function fmtLong(ts){if(!ts)return'—';return new Date(ts).toLocaleString('en-Z
 // Restore session
 (function(){
   const saved=sessionStorage.getItem('sp_vendor');
-  if(saved){ try{ const parsed=JSON.parse(saved); currentVendor=parsed.vendor||parsed; vendorToken=parsed.token||''; if(vendorToken) showDashboard(); }catch(e){} }
+  if(saved){ try{ const parsed=JSON.parse(saved); currentVendor=parsed.vendor||parsed; vendorToken=parsed.token||''; if(vendorToken && isApprovedLiveBusinessName(currentVendor && currentVendor.name)) showDashboard(); else sessionStorage.removeItem('sp_vendor'); }catch(e){} }
 })();
 </script>
 </body>

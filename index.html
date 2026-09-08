@@ -11,28 +11,28 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StudentPerks — Exclusive Student Discounts in South Africa</title>
+<title>StudentPerks — Student Offers in South Africa</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="shortcut icon" href="/favicon.svg">
-<meta name="description" content="StudentPerks is South Africa's student discount platform. Get exclusive deals on fashion, food, tech, travel and more — verified SA students only. Join free today.">
+<meta name="description" content="StudentPerks is South Africa's student perks platform. Explore current student offers from brands listed on StudentPerks.">
 <meta name="keywords" content="student discounts South Africa, student deals SA, student perks, varsity discounts, student savings, SA student offers, student lifestyle, varsity vibe deals">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://studentperks.co.za/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://studentperks.co.za/">
-<meta property="og:title" content="StudentPerks — Exclusive Student Discounts in South Africa">
-<meta property="og:description" content="South Africa's student discount platform. Exclusive deals on fashion, food, tech, travel and more — for verified SA students.">
+<meta property="og:title" content="StudentPerks — Student Offers in South Africa">
+<meta property="og:description" content="South Africa's student perks platform with current student offers from listed brands.">
 <meta property="og:site_name" content="StudentPerks">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="StudentPerks — SA Student Discounts">
-<meta name="twitter:description" content="Exclusive student deals for verified South African students. Fashion, food, tech, travel and more.">
+<meta name="twitter:title" content="StudentPerks — SA Student Offers">
+<meta name="twitter:description" content="Current student offers from brands listed on StudentPerks.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "StudentPerks",
   "url": "https://studentperks.co.za",
-  "description": "South Africa's student discount and deals platform for verified students.",
+      "description": "South Africa's student perks platform for verified students.",
   "areaServed": "ZA",
   "contactPoint": {
     "@type": "ContactPoint",
@@ -49,7 +49,7 @@
   "@type": "WebSite",
   "name": "StudentPerks",
   "url": "https://studentperks.co.za",
-  "description": "Exclusive student discounts and deals for verified South African students.",
+  "description": "Current student offers from brands listed on StudentPerks.",
   "potentialAction": {
     "@type": "SearchAction",
     "target": "https://studentperks.co.za/?q={search_term_string}",
@@ -322,7 +322,7 @@ nav {
 .burs-arr { width: 32px; height: 32px; background: var(--bg3); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--ink3); margin-left: 6px; transition: all .15s; }
 .burs-row:hover .burs-arr { background: var(--lime); color: var(--bg); }
 
-/* ── EVENTS ── */
+/* EVENTS */
 .events-sec { padding: 36px 0; border-top: 1px solid var(--border); }
 .ev-row { background: var(--card); border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: background .15s; margin-bottom: 8px; }
 .ev-row:hover { background: var(--bg3); }
@@ -457,9 +457,1388 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 .empty-ico { width: 60px; height: 60px; border-radius: 16px; background: rgba(212,255,0,.08); border: 1px solid rgba(212,255,0,.12); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
 .empty-title { font-family: var(--display); font-size: 28px; color: var(--white); text-transform: uppercase; letter-spacing: .02em; margin-bottom: 10px; }
 .empty-desc { font-size: 14px; color: var(--ink2); line-height: 1.65; max-width: 360px; margin: 0 auto 24px; }
+
+/* Stage 1 redesign */
+:root {
+  --lime-soft: rgba(212,255,0,.12);
+  --surface: #151515;
+  --surface-2: #1d1d1d;
+  --stroke: rgba(255,255,255,.1);
+  --muted: rgba(255,255,255,.62);
+}
+body { background: #090909; }
+.wrap { max-width: 1180px; }
+.site-nav { background: rgba(9,9,9,.88); border-bottom: 1px solid var(--stroke); backdrop-filter: blur(18px); }
+.site-nav .nav-inner { min-height: 72px; height: auto; padding: 12px 0; }
+.nav-logo { display: inline-flex; align-items: center; gap: 10px; }
+.brand-mark { width: 34px; height: 34px; border-radius: 12px; background: var(--lime); color: #080808; display: grid; place-items: center; font-weight: 900; letter-spacing: -.06em; box-shadow: 0 0 24px rgba(212,255,0,.18); }
+.nav-actions { display: none; align-items: center; gap: 10px; }
+.nav-join { background: var(--lime); color: #050505; font-size: 12px; font-weight: 900; letter-spacing: .04em; padding: 11px 18px; border-radius: 999px; white-space: nowrap; }
+.nav-join:hover { background: var(--white); }
+.nav-verify { background: #fff; color: #050505; }
+.menu-join { display: block; margin: 0 20px 20px; background: var(--lime); color: #050505; font-size: 14px; font-weight: 900; letter-spacing: .05em; padding: 16px; text-align: center; border-radius: 999px; text-transform: uppercase; }
+@media(min-width:980px){ .nav-actions { display: flex; } }
+
+.redesign-hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--stroke); }
+.redesign-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 76% 20%, rgba(212,255,0,.18), transparent 28%), linear-gradient(135deg, rgba(255,255,255,.04), transparent 36%); pointer-events: none; }
+.hero-grid { position: relative; display: grid; gap: 26px; padding: 34px 0 30px; }
+.hero-kicker { display: inline-flex; align-items: center; gap: 8px; width: fit-content; padding: 7px 12px; border: 1px solid rgba(212,255,0,.25); border-radius: 999px; background: rgba(212,255,0,.08); color: var(--lime); font-size: 12px; font-weight: 800; }
+.hero-copy h1 { font-family: var(--font); font-size: clamp(42px, 10vw, 88px); line-height: .96; letter-spacing: -.05em; font-weight: 900; margin: 16px 0; max-width: 820px; }
+.hero-copy h1 span { color: var(--lime); }
+.hero-copy p { color: var(--muted); font-size: 17px; line-height: 1.65; max-width: 650px; }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.primary-btn,.secondary-btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 48px; padding: 0 20px; border-radius: 999px; font-size: 13px; font-weight: 900; letter-spacing: .04em; text-transform: uppercase; }
+.primary-btn { background: var(--lime); color: #050505; }
+.primary-btn:hover { background: #fff; }
+.secondary-btn { background: rgba(255,255,255,.06); color: var(--white); border: 1px solid var(--stroke); }
+.secondary-btn:hover { border-color: rgba(212,255,0,.45); color: var(--lime); }
+.hero-panel { background: linear-gradient(180deg, #1b1b1b, #111); border: 1px solid var(--stroke); border-radius: 28px; padding: 18px; box-shadow: 0 22px 70px rgba(0,0,0,.3); }
+.phone-card { border-radius: 24px; background: #050505; border: 1px solid rgba(255,255,255,.14); overflow: hidden; }
+.phone-top { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--stroke); }
+.verified-chip { color: var(--lime); background: var(--lime-soft); border: 1px solid rgba(212,255,0,.18); padding: 6px 9px; border-radius: 999px; font-size: 11px; font-weight: 800; }
+.member-card { margin: 16px; padding: 18px; min-height: 160px; border-radius: 22px; background: linear-gradient(135deg, var(--lime), #f5ff9a); color: #050505; display: flex; flex-direction: column; justify-content: space-between; }
+.member-label { font-size: 11px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.member-name { font-size: 24px; font-weight: 900; letter-spacing: -.04em; }
+.member-meta { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; font-weight: 800; }
+.qr-mini { display: grid; grid-template-columns: 86px 1fr; gap: 12px; align-items: center; margin: 16px; padding: 14px; border-radius: 18px; background: #151515; border: 1px solid var(--stroke); }
+.qr-pattern { width: 86px; aspect-ratio: 1; border-radius: 12px; background: conic-gradient(from 90deg, #fff 0 25%, #050505 0 50%, #fff 0 75%, #050505 0); border: 8px solid #fff; }
+.qr-mini strong { display: block; color: var(--white); margin-bottom: 5px; }
+.qr-mini p { color: var(--ink2); font-size: 12px; line-height: 1.5; }
+@media(min-width:940px){ .hero-grid { grid-template-columns: minmax(0,1.16fr) minmax(330px,.84fr); align-items: center; padding: 62px 0 46px; } }
+
+.quick-stats { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 22px; max-width: 560px; }
+.quick-stat { padding: 14px; border: 1px solid var(--stroke); border-radius: 18px; background: rgba(255,255,255,.04); }
+.quick-stat b { display: block; color: var(--lime); font-size: 22px; margin-bottom: 3px; }
+.quick-stat span { color: var(--ink2); font-size: 12px; font-weight: 700; }
+
+.section-band { padding: 42px 0; border-bottom: 1px solid var(--stroke); }
+.section-headline { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 20px; }
+.section-headline h2 { font-size: clamp(28px, 5vw, 52px); line-height: 1; letter-spacing: -.05em; font-weight: 900; }
+.section-headline p { color: var(--muted); font-size: 15px; line-height: 1.55; max-width: 430px; }
+.deal-tools { display: grid; gap: 12px; margin-bottom: 18px; }
+.deal-grid { display: grid; gap: 14px; }
+.perk-card { position: relative; min-height: 244px; display: flex; flex-direction: column; justify-content: space-between; border-radius: 24px; background: linear-gradient(180deg, #1b1b1b, #101010); border: 1px solid var(--stroke); padding: 18px; margin: 0; }
+.perk-card::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(135deg, rgba(212,255,0,.09), transparent 42%); pointer-events: none; }
+.deal-visual { position: relative; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; z-index: 1; }
+.deal-logo { min-width: 58px; height: 58px; border-radius: 18px; display: grid; place-items: center; padding: 0 12px; color: #050505; background: var(--lime); font-weight: 900; letter-spacing: -.04em; }
+.deal-logo.light { background: #fff; }
+.deal-logo.gold { background: #f7e7b1; color: #17120a; }
+.deal-discount { text-align: right; color: var(--lime); font-size: 34px; line-height: .9; font-weight: 900; letter-spacing: -.06em; }
+.deal-discount span { display: block; color: var(--ink3); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; margin-top: 6px; }
+.deal-body { position: relative; z-index: 1; margin-top: 22px; }
+.deal-body h3 { font-size: 24px; letter-spacing: -.04em; margin-bottom: 8px; }
+.deal-body p { color: var(--muted); font-size: 14px; line-height: 1.55; min-height: 64px; }
+.deal-tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0; }
+.deal-tags span { background: rgba(255,255,255,.07); color: var(--ink2); border: 1px solid var(--stroke); border-radius: 999px; padding: 5px 9px; font-size: 11px; font-weight: 700; }
+.perk-cta { position: relative; z-index: 1; }
+.steps-grid,.feature-grid { display: grid; gap: 14px; }
+.info-card { background: var(--surface); border: 1px solid var(--stroke); border-radius: 24px; padding: 20px; }
+.info-number { width: 34px; height: 34px; border-radius: 13px; display: grid; place-items: center; background: var(--lime); color: #050505; font-weight: 900; margin-bottom: 18px; }
+.info-card h3 { font-size: 20px; letter-spacing: -.03em; margin-bottom: 8px; }
+.info-card p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+.wallet-band { background: #f4f4f4; color: #080808; }
+.wallet-band .section-headline p { color: rgba(0,0,0,.62); }
+.wallet-layout { display: grid; gap: 16px; align-items: stretch; }
+.wallet-preview { background: #080808; color: #fff; border-radius: 26px; padding: 18px; }
+.wallet-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+.wallet-row:last-child { border-bottom: 0; }
+.wallet-row strong { display: block; font-size: 15px; }
+.wallet-row span { display: block; color: rgba(255,255,255,.48); font-size: 12px; margin-top: 3px; }
+.status-pill { border-radius: 999px; padding: 5px 9px; background: rgba(212,255,0,.12); color: var(--lime); font-size: 11px; font-weight: 900; }
+.opportunity-grid { display: grid; gap: 14px; }
+.opportunity-card { display: grid; gap: 14px; grid-template-columns: 58px 1fr; align-items: start; background: var(--surface); border: 1px solid var(--stroke); border-radius: 22px; padding: 16px; }
+.op-date { border-radius: 16px; background: var(--lime); color: #050505; display: grid; place-items: center; min-height: 58px; font-weight: 900; text-align: center; }
+.op-date span { display: block; font-size: 11px; text-transform: uppercase; }
+.opportunity-card h3 { font-size: 17px; margin-bottom: 5px; }
+.opportunity-card p { color: var(--muted); font-size: 13px; line-height: 1.5; }
+.business-panel { display: grid; gap: 18px; align-items: center; background: linear-gradient(135deg, #151515, #070707); border: 1px solid var(--stroke); border-radius: 28px; padding: 22px; }
+.analytics-card { background: rgba(255,255,255,.05); border: 1px solid var(--stroke); border-radius: 22px; padding: 16px; }
+.analytics-line { display: flex; align-items: center; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid var(--stroke); }
+.analytics-line:last-child { border-bottom: 0; }
+.analytics-line b { color: var(--lime); font-size: 22px; }
+.final-cta { background: #090909; }
+@media(min-width:760px){
+  .quick-stats,.deal-tools { grid-template-columns: repeat(4,1fr); }
+  .deal-tools .search-wrap { grid-column: span 2; }
+  .deal-grid { grid-template-columns: repeat(2,1fr); }
+  .steps-grid,.feature-grid,.opportunity-grid { grid-template-columns: repeat(3,1fr); }
+  .wallet-layout,.business-panel { grid-template-columns: 1fr 1fr; }
+}
+@media(min-width:1060px){ .deal-grid { grid-template-columns: repeat(3,1fr); } }
+@media(max-width:720px){
+  .section-headline { display: block; }
+  .section-headline p { margin-top: 10px; }
+  .quick-stats { grid-template-columns: 1fr 1fr; }
+  .deal-tools { grid-template-columns: 1fr; }
+  .search-wrap { height: auto; min-height: 56px; }
+  .primary-btn,.secondary-btn { width: 100%; }
+}
+
+/* Concept-matched public homepage */
+body.public-redesign { background: #fff; color: #101014; }
+body.public-redesign .wrap { max-width: 1080px; padding: 0 24px; }
+body.public-redesign .site-nav { background: rgba(255,255,255,.94); border-bottom: 0; color: #101014; box-shadow: 0 1px 0 rgba(15,23,42,.06); }
+body.public-redesign .site-nav .nav-inner { min-height: 78px; }
+body.public-redesign .logo-word { color: #050505; font-size: 29px; letter-spacing: -.06em; line-height: .9; }
+body.public-redesign .logo-word::after { content: none; display: none; }
+body.public-redesign .brand-mark { display: none; }
+body.public-redesign .nav-desktop a { color: #202433; font-size: 15px; font-weight: 700; }
+body.public-redesign .nav-desktop a:hover { color: #090909; }
+body.public-redesign .nav-verify { background: transparent; color: #050505; padding: 10px 14px; text-transform: none; letter-spacing: 0; font-size: 16px; font-weight: 800; }
+body.public-redesign .nav-join { background: #9cff18; color: #050505; box-shadow: 0 10px 24px rgba(156,255,24,.28); }
+body.public-redesign .nav-burger { color: #050505; }
+body.public-redesign .menu-overlay { background: #fff; color: #050505; }
+body.public-redesign .menu-head { border-color: rgba(15,23,42,.09); }
+body.public-redesign .menu-close { color: #050505; }
+body.public-redesign .menu-item { color: #161a27; border-color: rgba(15,23,42,.08); }
+body.public-redesign .menu-verify { background: #f4f6fa; color: #050505; }
+body.public-redesign .menu-join { background: #9cff18; color: #050505; }
+.mock-hero { padding: 0 0 24px; }
+.mock-hero-card { position: relative; overflow: hidden; min-height: 380px; border-radius: 18px; background: #050505; box-shadow: 0 16px 42px rgba(15,23,42,.12); }
+.mock-hero-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.88) 0%, rgba(0,0,0,.58) 38%, rgba(0,0,0,.08) 100%); }
+.mock-hero-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.mock-hero-copy { position: relative; z-index: 2; width: min(100%, 570px); padding: 52px 28px; color: #fff; }
+.mock-hero-copy h1 { font-family: var(--font); font-size: clamp(42px, 8vw, 72px); line-height: .95; letter-spacing: -.07em; font-weight: 900; margin-bottom: 16px; }
+.mock-hero-copy h1 span { color: #9cff18; }
+.mock-hero-copy p { color: rgba(255,255,255,.84); font-size: 20px; line-height: 1.25; max-width: 430px; }
+.mock-scribble { position: absolute; z-index: 2; right: 26px; top: 28px; color: #fff; font-size: 23px; line-height: 1; font-weight: 900; transform: rotate(-7deg); text-align: center; text-transform: uppercase; }
+.mock-scribble::after { content: ''; display: block; height: 6px; width: 88px; margin: 8px auto 0; border-radius: 999px; background: #9cff18; transform: rotate(-5deg); }
+.mock-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.mock-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0 28px; border-radius: 999px; font-size: 16px; font-weight: 900; }
+.mock-btn.lime { background: #9cff18; color: #050505; }
+.mock-btn.outline { background: rgba(0,0,0,.25); color: #fff; border: 2px solid rgba(255,255,255,.8); }
+.benefit-strip { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; margin-top: 22px; border-radius: 18px; background: #f6f8fb; box-shadow: 0 10px 30px rgba(15,23,42,.07); overflow: hidden; }
+.benefit { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 74px; padding: 14px; color: #101014; font-size: 15px; font-weight: 800; border-right: 1px solid rgba(15,23,42,.08); }
+.benefit:last-child { border-right: 0; }
+.benefit svg { width: 27px; height: 27px; color: #050505; stroke: #050505; filter: drop-shadow(0 0 0 #9cff18); }
+.mock-section { padding: 20px 0 26px; background: #fff; color: #101014; border: 0; }
+.mock-section-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.mock-section-head h2 { font-size: clamp(26px, 5vw, 36px); letter-spacing: -.06em; line-height: 1; font-weight: 900; }
+.see-all { color: #08801c; font-weight: 900; font-size: 15px; white-space: nowrap; }
+.mock-search { display: flex; align-items: center; gap: 12px; height: 68px; padding: 0 24px; border-radius: 20px; border: 1px solid #e3e7ee; box-shadow: 0 8px 28px rgba(15,23,42,.08); margin: 22px 0 16px; background: #fff; }
+.mock-search input { width: 100%; border: 0; background: transparent; color: #111827; font-size: 20px; outline: 0; }
+.mock-search input::placeholder { color: #72798a; }
+.mock-cats { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; padding: 2px 0 18px; }
+.mock-cats::-webkit-scrollbar { display: none; }
+.mock-cats .pill { display: inline-flex; align-items: center; gap: 8px; min-height: 50px; border: 0; background: #f1f3f6; color: #1a1f2b; padding: 0 23px; font-size: 15px; text-transform: none; letter-spacing: 0; box-shadow: 0 8px 22px rgba(15,23,42,.04); }
+.mock-cats .pill.active { background: #9cff18; color: #050505; }
+.mock-cats .pill svg,
+.join-claim svg,
+.see-all svg,
+.mock-btn svg,
+.location-line svg {
+  flex: 0 0 auto;
+}
+.sp-icon {
+  width: 1.15em;
+  height: 1.15em;
+  display: inline-block;
+  flex: 0 0 auto;
+  background: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+.approved-icon {
+  display: inline-block;
+  width: 27px;
+  height: 27px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+.mock-deal-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+.mock-deal-card.perk-card { display: block; min-height: 0; padding: 0; margin: 0; overflow: hidden; border-radius: 16px; background: #fff; border: 1px solid #e2e7ef; box-shadow: 0 8px 24px rgba(15,23,42,.08); cursor: pointer; transform: none; }
+.mock-deal-card.perk-card::after { display: none; }
+.mock-deal-card.perk-card:hover { transform: translateY(-2px); border-color: #d7dde8; box-shadow: 0 14px 32px rgba(15,23,42,.12); }
+.deal-image { position: relative; height: 190px; overflow: hidden; background: #151515; }
+.deal-image::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.42)); }
+.deal-image.crates { background: linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.38)), url('assets/layered/backgrounds/crates-boxes-food-clean.webp') center/cover; }
+.deal-image.mugs { background: #f8fafc; }
+.brand-logo-img { position: absolute; z-index: 2; left: 18px; top: 18px; width: 180px; max-width: 62%; height: auto; border-radius: 8px; box-shadow: 0 10px 24px rgba(0,0,0,.22); }
+.deal-image.mugs .brand-logo-img { left: 50%; top: 50%; width: min(70%, 230px); max-width: none; transform: translate(-50%, -50%); box-shadow: none; border-radius: 0; }
+.product-shape { position: absolute; right: 22px; bottom: 18px; width: 116px; height: 90px; border-radius: 24px 24px 42px 42px; background: linear-gradient(180deg,#fff,#dce2ec); z-index: 1; box-shadow: inset 0 -14px 26px rgba(0,0,0,.12), 0 22px 30px rgba(0,0,0,.26); }
+.product-shape.boxes { border-radius: 18px; width: 132px; height: 82px; background: linear-gradient(135deg, #caa765, #f8e9b8 45%, #8c6a29); transform: rotate(-7deg); }
+.deal-image.crates .product-shape { display: none; }
+.discount-pill { position: absolute; z-index: 3; right: 16px; bottom: 16px; background: #9cff18; color: #050505; border-radius: 999px; padding: 12px 18px; font-weight: 900; font-size: 16px; }
+.heart-btn { position: absolute; z-index: 3; right: 14px; top: 12px; width: 38px; height: 38px; border-radius: 999px; display: grid; place-items: center; background: rgba(0,0,0,.28); color: #fff; border: 2px solid rgba(255,255,255,.72); }
+.heart-btn svg { width: 20px; height: 20px; stroke: currentColor; }
+.heart-btn .sp-icon { width: 20px; height: 20px; }
+.heart-btn img { width: 34px; height: 34px; display: block; }
+.deal-content { padding: 14px 18px 16px; }
+.deal-content h3 { font-size: 21px; line-height: 1.05; letter-spacing: -.04em; color: #101014; margin-bottom: 4px; }
+.deal-content p { color: #596071; font-size: 17px; line-height: 1.24; }
+.location-line { display: flex; align-items: center; gap: 6px; color: #4b5565; margin-top: 6px; font-size: 16px; }
+.location-line svg { width: 17px; height: 17px; stroke: #101014; }
+.location-line .sp-icon { width: 17px; height: 17px; color: #101014; }
+.location-line .approved-icon { width: 17px; height: 17px; }
+.join-claim { display: flex; align-items: center; justify-content: center; gap: 9px; width: 100%; min-height: 48px; margin-top: 13px; border-radius: 13px; background: linear-gradient(90deg,#bfff73,#9cff18); color: #050505; font-weight: 900; font-size: 16px; }
+.how-card,.wallet-promo,.business-promo,.saving-cta { border-radius: 18px; background: #f6f8fb; box-shadow: 0 8px 26px rgba(15,23,42,.06); padding: 22px; }
+.how-steps { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 16px; }
+.how-step { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 12px; font-weight: 900; line-height: 1.04; }
+.num { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; background: #c9ff86; font-size: 24px; font-weight: 900; }
+.step-arrow { font-size: 24px; font-weight: 900; color: #111; }
+.wallet-promo { display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 18px; background: linear-gradient(100deg,#edffe1,#f9fff1); }
+.wallet-promo h2,.business-promo h2,.saving-cta h2 { font-size: clamp(28px,5vw,42px); line-height: .95; letter-spacing: -.06em; font-weight: 900; margin-bottom: 8px; }
+.wallet-promo p,.business-promo p,.saving-cta p { color: #596071; font-size: 17px; line-height: 1.34; max-width: 420px; margin-bottom: 18px; }
+.student-card {
+  position: relative;
+  justify-self: end;
+  width: min(100%, 330px);
+  min-height: 220px;
+  padding: 24px;
+  overflow: hidden;
+  color: #fff;
+  border-radius: 24px;
+  background: #0d0d0d url('assets/brand/wallet-card-background.svg') center/cover no-repeat;
+  box-shadow: 0 18px 45px rgba(0,0,0,.2);
+}
+.student-card__brand { font-size: 1.4rem; font-weight: 900; letter-spacing: -.05em; }
+.student-card__brand span,
+.student-card__verified { color: #b7ff19; }
+.student-card__details { display: grid; gap: 6px; margin-top: 54px; }
+.student-card__details strong { font-size: 1.35rem; line-height: 1.05; }
+.student-card__details span,
+.student-card__details small { color: rgba(255,255,255,.82); }
+.student-card__verified { font-weight: 800; }
+.student-card__qr {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 96px;
+  aspect-ratio: 1;
+  padding: 8px;
+  border-radius: 14px;
+  background:
+    linear-gradient(90deg,#111 12px,transparent 0) 0 0/24px 24px,
+    linear-gradient(#111 12px,transparent 0) 0 0/24px 24px,
+    #fff;
+}
+.lime-underlined { position: relative; display: inline-block; z-index: 0; }
+.lime-underlined::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: -2%;
+  right: -2%;
+  bottom: -.18em;
+  height: .34em;
+  background: url('assets/brand/lime-underline.svg') center/100% 100% no-repeat;
+}
+.split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.event-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.event-card,.job-row { border-radius: 14px; background: #fff; border: 1px solid #e3e7ee; box-shadow: 0 8px 22px rgba(15,23,42,.06); overflow: hidden; }
+.event-art { height: 110px; background: linear-gradient(135deg,#1a0b0b,#f15a24); position: relative; }
+.event-date { position: absolute; left: 10px; top: 10px; background: #fff; border-radius: 9px; color: #111; padding: 8px; font-weight: 900; text-align: center; line-height: .9; }
+.event-date span { display: block; font-size: 11px; margin-top: 3px; }
+.event-card h3,.job-row h3 { color: #101014; font-size: 17px; margin: 10px 12px 2px; }
+.event-card p,.job-row p { color: #596071; font-size: 14px; margin: 0 12px 12px; }
+.job-row { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; padding: 12px; margin-bottom: 12px; }
+.job-logo { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: #d9ffad; color: #050505; font-weight: 900; }
+.job-row h3 { margin: 0 0 3px; }
+.job-row p { margin: 0; }
+.job-row .chev { font-size: 24px; color: #101014; }
+.empty-tile {
+  min-height: 137px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px dashed #d7dee8;
+  box-shadow: 0 8px 22px rgba(15,23,42,.05);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.empty-tile .job-logo { margin-bottom: 12px; }
+.empty-tile h3 { color: #101014; font-size: 17px; margin: 0 0 5px; }
+.empty-tile p { color: #596071; font-size: 14px; line-height: 1.35; margin: 0; }
+.empty-icon { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: #d9ffad; color: #050505; margin-bottom: 12px; }
+.empty-icon svg { width: 24px; height: 24px; stroke: currentColor; }
+.empty-icon .sp-icon { width: 24px; height: 24px; }
+.business-promo { display: grid; grid-template-columns: .95fr 1.05fr; gap: 18px; align-items: center; }
+.business-photo { min-height: 210px; border-radius: 15px; background: linear-gradient(135deg, rgba(0,0,0,.38), rgba(0,0,0,.08)), url('assets/layered/backgrounds/partner-students-clean.webp') center/cover; }
+.saving-cta { background: #050505; color: #fff; display: grid; grid-template-columns: 190px 1fr; gap: 20px; align-items: center; }
+.saving-cta p { color: rgba(255,255,255,.75); }
+.saving-note { font-size: 24px; line-height: .95; font-weight: 900; text-transform: uppercase; transform: rotate(-8deg); text-align: center; }
+.saving-note::after { content: ''; display: block; width: 96px; height: 7px; margin: 10px auto 0; background: #9cff18; border-radius: 999px; }
+body.public-redesign footer { background: #fff; color: #111827; border-top: 1px solid #e3e7ee; }
+body.public-redesign .footer-desc, body.public-redesign .footer-col a, body.public-redesign .footer-bottom, body.public-redesign .footer-col h4, body.public-redesign .fbl a { color: #596071; }
+@media(max-width:860px){
+  body.public-redesign .wrap { padding: 0 22px; }
+  .mock-hero-card { min-height: 304px; }
+  .mock-hero-copy { padding: 36px 20px; }
+  .mock-hero-copy p { font-size: 18px; max-width: 360px; }
+  .mock-scribble { right: 16px; top: 22px; font-size: 17px; max-width: 120px; }
+  .benefit-strip { grid-template-columns: 1fr; }
+  .benefit { justify-content: flex-start; border-right: 0; border-bottom: 1px solid rgba(15,23,42,.08); }
+  .benefit:last-child { border-bottom: 0; }
+  .mock-deal-grid,.split-grid,.wallet-promo,.business-promo,.saving-cta { grid-template-columns: 1fr; }
+  .how-steps { grid-template-columns: 1fr; }
+  .step-arrow { display: none; }
+  .student-card { justify-self: start; }
+  .saving-note { display: none; }
+}
+@media(max-width:560px){
+  body.public-redesign .site-nav .nav-inner { min-height: 62px; }
+  body.public-redesign .logo-word { font-size: 25px; }
+  .mock-hero-card { border-radius: 14px; }
+  .mock-hero-card::after { background: linear-gradient(90deg, rgba(0,0,0,.86), rgba(0,0,0,.4)); }
+  .mock-hero-copy h1 { font-size: 38px; max-width: 300px; }
+  .mock-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .mock-btn { padding: 0 14px; font-size: 14px; min-height: 48px; }
+  .mock-search { height: 58px; padding: 0 17px; border-radius: 17px; }
+  .mock-search input { font-size: 17px; }
+  .mock-deal-grid,.event-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .deal-image { height: 130px; }
+  .brand-logo-img { left: 10px; top: 10px; width: 118px; }
+  .product-shape { width: 76px; height: 58px; right: 12px; bottom: 16px; }
+  .discount-pill { right: 10px; bottom: 10px; padding: 8px 12px; font-size: 14px; }
+  .heart-btn { width: 33px; height: 33px; font-size: 18px; }
+  .deal-content { padding: 11px 12px 12px; }
+  .deal-content h3 { font-size: 18px; }
+  .deal-content p,.location-line,.join-claim { font-size: 14px; }
+  .join-claim { min-height: 42px; }
+  .wallet-promo,.business-promo,.saving-cta,.how-card { padding: 18px; }
+}
+
+/* Phone concept fidelity pass */
+body.public-redesign {
+  background: #fff;
+  color: #08090d;
+}
+body.public-redesign .wrap {
+  max-width: 736px;
+  padding-left: 26px;
+  padding-right: 26px;
+}
+body.public-redesign .site-nav {
+  position: relative;
+  box-shadow: none;
+}
+body.public-redesign .site-nav .nav-inner {
+  min-height: 61px;
+  padding: 12px 0 8px;
+}
+body.public-redesign .logo-word {
+  position: relative;
+  font-size: 30px;
+  font-weight: 900;
+  display: grid;
+  gap: 2px;
+}
+body.public-redesign .logo-word small {
+  display: block;
+  color: #050505;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .34em;
+  line-height: 1;
+  margin-left: 44px;
+  text-transform: uppercase;
+}
+body.public-redesign .logo-word span {
+  color: #61e900;
+}
+body.public-redesign .logo-word span::after {
+  content: none;
+  display: none;
+}
+body.public-redesign .logo-word::after {
+  content: none;
+  display: none;
+}
+body.public-redesign .nav-desktop {
+  display: flex !important;
+  gap: 14px;
+}
+body.public-redesign .nav-desktop a,
+body.public-redesign .nav-join {
+  display: none !important;
+}
+body.public-redesign #nav-status-desktop {
+  display: none !important;
+}
+body.public-redesign #mobile-verify {
+  display: inline-flex !important;
+  background: transparent;
+  color: #090909;
+  padding: 6px 4px;
+  font-size: 17px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+body.public-redesign .nav-burger {
+  display: flex !important;
+  color: #090909;
+  padding: 7px;
+}
+.mock-hero {
+  padding-bottom: 18px;
+}
+.mock-hero-card {
+  min-height: 274px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(15,23,42,.12);
+}
+.mock-hero-card img {
+  object-position: 60% center;
+}
+.mock-hero-card::after {
+  background: linear-gradient(90deg, rgba(0,0,0,.86) 0%, rgba(0,0,0,.58) 45%, rgba(0,0,0,.12) 100%);
+}
+.mock-hero-copy {
+  width: 390px;
+  max-width: 68%;
+  padding: 39px 18px 24px;
+}
+.mock-hero-copy h1 {
+  font-size: 44px;
+  line-height: .94;
+  letter-spacing: -.065em;
+  margin-bottom: 12px;
+}
+.mock-hero-copy p {
+  font-size: 17px;
+  line-height: 1.18;
+  max-width: 330px;
+}
+.mock-scribble {
+  right: 18px;
+  top: 23px;
+  max-width: 110px;
+  font-size: 18px;
+}
+.mock-actions {
+  gap: 10px;
+  margin-top: 20px;
+}
+.mock-btn {
+  min-height: 43px;
+  padding: 0 21px;
+  font-size: 14px;
+}
+.benefit-strip {
+  margin-top: 17px;
+  border-radius: 14px;
+}
+.benefit {
+  min-height: 55px;
+  gap: 8px;
+  font-size: 14px;
+}
+.benefit svg {
+  width: 25px;
+  height: 25px;
+}
+.mock-search {
+  height: 58px;
+  border-radius: 16px;
+  margin: 17px 0 15px;
+  padding: 0 18px;
+}
+.mock-search input {
+  font-size: 18px;
+}
+.mock-cats {
+  gap: 12px;
+  padding-bottom: 12px;
+}
+.mock-cats .pill {
+  min-height: 45px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font-size: 14px;
+}
+.mock-section {
+  padding: 11px 0 19px;
+}
+.mock-section-head {
+  margin-bottom: 11px;
+}
+.mock-section-head h2 {
+  font-size: 26px;
+  letter-spacing: -.055em;
+}
+.mock-deal-grid {
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 13px;
+}
+.mock-deal-card.perk-card {
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(15,23,42,.1);
+}
+.deal-image {
+  height: 134px;
+}
+.brand-logo-img {
+  left: 12px;
+  top: 12px;
+  width: 128px;
+}
+.discount-pill {
+  right: 10px;
+  bottom: 10px;
+  padding: 8px 13px;
+  font-size: 14px;
+}
+.heart-btn {
+  right: 10px;
+  top: 9px;
+  width: 34px;
+  height: 34px;
+}
+.deal-content {
+  padding: 10px 13px 11px;
+}
+.deal-content h3 {
+  font-size: 18px;
+}
+.deal-content p,
+.location-line {
+  font-size: 15px;
+}
+.join-claim {
+  min-height: 41px;
+  margin-top: 10px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+.how-card,
+.wallet-promo,
+.business-promo,
+.saving-cta {
+  border-radius: 15px;
+  padding: 16px;
+}
+.how-steps {
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  gap: 10px;
+}
+.how-step {
+  gap: 8px;
+  font-size: 14px;
+}
+.num {
+  width: 50px;
+  height: 50px;
+}
+.wallet-promo {
+  grid-template-columns: 1.02fr .98fr;
+}
+.wallet-promo h2,
+.business-promo h2,
+.saving-cta h2 {
+  font-size: 29px;
+}
+.wallet-promo p,
+.business-promo p,
+.saving-cta p {
+  font-size: 16px;
+}
+.wallet-card-art {
+  width: 250px;
+  padding: 18px;
+}
+.split-grid {
+  grid-template-columns: 1.08fr .92fr;
+  gap: 14px;
+}
+.event-grid {
+  gap: 10px;
+}
+.event-art {
+  height: 87px;
+}
+.event-card h3,
+.job-row h3 {
+  font-size: 15px;
+}
+.job-row {
+  grid-template-columns: 48px 1fr auto;
+  padding: 10px;
+}
+.job-logo {
+  width: 42px;
+  height: 42px;
+}
+.business-promo {
+  grid-template-columns: 1fr 1fr;
+}
+.business-photo {
+  min-height: 167px;
+}
+.saving-cta {
+  grid-template-columns: 170px 1fr;
+}
+@media(max-width:640px) {
+  body.public-redesign .wrap {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+  .mock-actions {
+    display: flex;
+  }
+  .mock-btn {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .benefit-strip {
+    grid-template-columns: repeat(3,1fr);
+  }
+  .benefit {
+    justify-content: center;
+    flex-direction: row;
+    border-bottom: 0;
+    font-size: 13px;
+    text-align: center;
+  }
+  .how-steps {
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+  }
+  .step-arrow {
+    display: block;
+  }
+  .wallet-promo,
+  .business-promo,
+  .saving-cta,
+  .split-grid {
+    grid-template-columns: 1fr;
+  }
+  .saving-note {
+    display: none;
+  }
+}
+
+/* Reference-aligned index rebuild */
+body.public-redesign .logo-word::after,
+body.public-redesign .logo-word span::after,
+body.public-redesign .saving-note::after {
+  content: none !important;
+  display: none !important;
+}
+body.public-redesign .wrap {
+  max-width: 1180px;
+  width: 100%;
+}
+body.public-redesign .site-nav .wrap,
+.mock-hero .wrap,
+.mock-section .wrap,
+body.public-redesign footer .wrap {
+  max-width: 736px;
+}
+.mock-hero {
+  padding: 0 0 18px;
+}
+.mock-hero-card {
+  min-height: 0;
+  aspect-ratio: 2.08 / 1;
+  border-radius: 16px;
+}
+.mock-hero-card img {
+  object-position: 66% center;
+}
+.mock-hero-copy {
+  width: min(100%, 680px);
+  padding: clamp(28px, 4vw, 56px);
+}
+.mock-hero-copy h1 {
+  font-size: clamp(42px, 7vw, 50px);
+  max-width: 470px;
+  line-height: .94;
+}
+.lime-underlined::after {
+  left: 0;
+  right: 0;
+  bottom: -.08em;
+  height: .18em;
+}
+.benefit-strip {
+  margin-top: 18px;
+}
+.mock-search {
+  margin: 18px 0 14px;
+}
+.mock-section {
+  padding: 18px 0;
+}
+.mock-deal-grid {
+  align-items: start;
+}
+.mock-deal-card.perk-card,
+.mock-deal-card.perk-card.fade-in {
+  opacity: 1;
+  transform: none;
+  display: block;
+}
+.mock-deal-card.is-hidden {
+  display: none !important;
+}
+.deal-image {
+  height: auto;
+  aspect-ratio: 1.84 / 1;
+}
+.deal-image.placeholder {
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background:
+    radial-gradient(circle at 82% 20%, rgba(156,255,24,.32), transparent 34%),
+    linear-gradient(135deg,#111827,#050505);
+}
+.deal-image.placeholder .brand-logo-img {
+  position: static;
+  width: min(78%, 220px);
+  max-width: 220px;
+  transform: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+.deal-image.placeholder::after {
+  display: none;
+}
+.deal-list-state {
+  grid-column: 1 / -1;
+  border: 1px dashed #d7dee8;
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  color: #596071;
+  box-shadow: 0 8px 22px rgba(15,23,42,.04);
+}
+.deal-list-state strong {
+  display: block;
+  color: #101014;
+  font-size: 17px;
+  margin-bottom: 4px;
+}
+.how-card {
+  padding: 20px 22px;
+}
+.wallet-promo {
+  grid-template-columns: 1.05fr .95fr;
+}
+.student-card {
+  transform: rotate(-4deg);
+}
+.business-photo {
+  aspect-ratio: 1.8 / 1;
+  min-height: 0 !important;
+}
+@media(min-width:900px) {
+  .mock-deal-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+  .event-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:639px) {
+  body.public-redesign .wrap {
+    max-width: 736px;
+    padding: 0 24px;
+  }
+  body.public-redesign .site-nav .nav-inner {
+    min-height: 60px;
+  }
+  body.public-redesign .logo-word {
+    font-size: 28px;
+  }
+  .mock-hero-card {
+    aspect-ratio: .92 / 1;
+    border-radius: 14px;
+  }
+  .mock-hero-copy {
+    width: min(100%, 300px);
+  }
+  .mock-hero-card::after {
+    background: linear-gradient(90deg, rgba(0,0,0,.84), rgba(0,0,0,.24));
+  }
+  .mock-hero-copy {
+    padding: 28px 18px;
+  }
+  .mock-hero-copy h1 {
+    font-size: clamp(36px, 12vw, 48px);
+    max-width: 270px;
+  }
+  .mock-hero-copy p {
+    font-size: 16px;
+    max-width: 270px;
+  }
+  .mock-scribble {
+    right: 12px;
+    top: 18px;
+    font-size: 16px;
+    max-width: 116px;
+  }
+  .mock-actions {
+    display: flex;
+    gap: 10px;
+  }
+  .mock-actions .mock-btn {
+    flex: 0 1 auto;
+    width: auto;
+  }
+  .benefit-strip {
+    grid-template-columns: repeat(3,1fr);
+    border-radius: 14px;
+  }
+  .benefit {
+    justify-content: center;
+    border-bottom: 0;
+    border-right: 1px solid rgba(15,23,42,.08);
+    min-height: 58px;
+    padding: 9px 7px;
+    font-size: 12px;
+    line-height: 1.1;
+    text-align: center;
+  }
+  .benefit:last-child {
+    border-right: 0;
+  }
+  .mock-search {
+    height: 57px;
+    margin: 16px 0 12px;
+  }
+  .mock-search .deal-badge {
+    display: none !important;
+  }
+  .mock-cats {
+    padding-bottom: 14px;
+  }
+  .mock-cats .pill {
+    min-height: 46px;
+    padding: 0 17px;
+    font-size: 14px;
+  }
+  .mock-section {
+    padding: 14px 0;
+  }
+  .mock-section-head {
+    margin-bottom: 12px;
+  }
+  .mock-section-head h2 {
+    font-size: 26px;
+  }
+  .how-steps {
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    gap: 8px;
+  }
+  .how-step {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    font-size: 12px;
+  }
+  .step-arrow {
+    display: none;
+  }
+  .num {
+    width: 48px;
+    height: 48px;
+  }
+  .mock-deal-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 12px;
+  }
+  .mock-deal-card.perk-card {
+    border-radius: 12px;
+  }
+  .brand-logo-img {
+    width: 118px;
+  }
+  .deal-content h3 {
+    font-size: 17px;
+  }
+  .deal-content p,
+  .location-line,
+  .join-claim {
+    font-size: 13px;
+  }
+  .wallet-promo {
+    grid-template-columns: 1fr;
+  }
+  .student-card {
+    width: 100%;
+    transform: none;
+  }
+  .split-grid {
+    grid-template-columns: 1fr;
+  }
+  .event-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+  .business-promo,
+  .saving-cta {
+    grid-template-columns: 1fr;
+  }
+  footer .footer-grid,
+  .footer-cols {
+    grid-template-columns: 1fr 1fr;
+  }
+  footer .footer-grid > div:first-child {
+    grid-column: 1 / -1;
+  }
+}
+body.public-redesign .deal-image.mugs {
+  background:
+    radial-gradient(circle at 78% 26%, rgba(183,255,25,.24), transparent 32%),
+    linear-gradient(135deg, #fff 0 52%, #111827 52% 100%) !important;
+}
+body.public-redesign .deal-image.mugs::before {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 24% 28%, rgba(156,255,24,.25), transparent 26%),
+    linear-gradient(135deg, rgba(255,255,255,.92), rgba(248,250,252,.78));
+}
+body.public-redesign .deal-image.mugs .product-shape {
+  display: none;
+}
+body.public-redesign .business-photo {
+  min-height: 210px;
+  border-radius: 15px;
+  background: #050505 !important;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  align-content: space-between;
+  padding: 24px;
+}
+.business-photo__brand {
+  color: #fff;
+  font-size: 29px;
+  font-weight: 900;
+  letter-spacing: -.06em;
+}
+.business-photo__brand span { color: #9cff18; }
+.business-photo__label {
+  justify-self: start;
+  color: #050505;
+  background: #9cff18;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+/* Final approved-two-business homepage pass */
+body.public-redesign .site-nav .wrap,
+.mock-hero .wrap,
+.mock-section .wrap,
+body.public-redesign footer .wrap {
+  max-width: 736px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+body.public-redesign .site-nav .nav-inner {
+  min-height: 60px;
+  padding: 8px 0 6px;
+}
+body.public-redesign .logo-word {
+  display: block !important;
+  width: max-content;
+  max-width: none;
+  color: #050505;
+  font-size: 29px !important;
+  font-weight: 900;
+  letter-spacing: -.07em;
+  line-height: .86;
+  white-space: nowrap;
+}
+body.public-redesign .logo-word .logo-line {
+  display: block;
+  color: #050505 !important;
+  white-space: nowrap;
+}
+body.public-redesign .logo-word .logo-line > span {
+  color: #61e900 !important;
+}
+body.public-redesign .logo-word small {
+  display: block;
+  color: #050505;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .36em;
+  line-height: 1;
+  margin: 5px 0 0 43px;
+  text-transform: uppercase;
+}
+body.public-redesign #mobile-verify {
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: none !important;
+}
+.mock-hero { padding: 0 0 14px; }
+.mock-hero-card {
+  aspect-ratio: 2.08 / 1 !important;
+  border-radius: 14px;
+  box-shadow: 0 9px 22px rgba(15,23,42,.13);
+}
+.mock-hero-card img {
+  object-position: 66% center !important;
+}
+.mock-hero-card::after {
+  background: linear-gradient(90deg, rgba(0,0,0,.86), rgba(0,0,0,.44) 52%, rgba(0,0,0,.08)) !important;
+}
+.mock-hero-copy {
+  width: min(100%, 360px) !important;
+  max-width: 68%;
+  padding: 29px 18px 22px !important;
+}
+.mock-hero-copy h1 {
+  max-width: 315px !important;
+  font-size: 39px !important;
+  line-height: .94 !important;
+  margin-bottom: 8px;
+}
+.mock-hero-copy p {
+  max-width: 300px;
+  font-size: 16px !important;
+  line-height: 1.18 !important;
+}
+.mock-scribble {
+  top: 20px !important;
+  right: 16px !important;
+  max-width: 112px;
+  font-size: 17px !important;
+}
+.mock-actions {
+  margin-top: 18px !important;
+  gap: 10px !important;
+}
+.mock-btn {
+  min-height: 42px !important;
+  padding: 0 20px !important;
+  font-size: 14px !important;
+}
+.benefit-strip {
+  grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+  margin-top: 14px !important;
+  border-radius: 15px !important;
+}
+.benefit {
+  min-height: 58px !important;
+  padding: 9px 7px !important;
+  gap: 7px !important;
+  justify-content: center !important;
+  flex-direction: row !important;
+  border-right: 1px solid rgba(15,23,42,.08) !important;
+  border-bottom: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+.benefit .approved-icon { width: 32px; height: 32px; }
+.benefit:last-child { border-right: 0 !important; }
+.mock-search {
+  height: 57px !important;
+  margin: 14px 0 12px !important;
+  border-radius: 17px !important;
+}
+.mock-search input { font-size: 17px !important; }
+.mock-cats {
+  gap: 10px !important;
+  padding-bottom: 12px !important;
+  overflow-x: auto !important;
+}
+.mock-cats .pill {
+  min-height: 46px !important;
+  padding: 0 15px !important;
+  font-size: 13px !important;
+}
+.mock-cats .pill .approved-icon { width: 24px; height: 24px; }
+.mock-cats img[src$="travel.svg"] {
+  transform: rotate(20deg);
+  transform-origin: center;
+}
+.mock-section { padding: 13px 0 !important; }
+.mock-section-head h2 { font-size: 26px !important; }
+.mock-deal-grid {
+  grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+  gap: 12px !important;
+}
+.mock-deal-card.perk-card {
+  border-radius: 12px !important;
+}
+.deal-image {
+  aspect-ratio: 1.85 / 1 !important;
+}
+.deal-image.crates {
+  background-position: center !important;
+}
+.deal-image.crates {
+  background-image: linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.38)), url('assets/layered/backgrounds/crates-boxes-food-clean.webp') !important;
+}
+.deal-image.mugs {
+  background: radial-gradient(circle at 75% 22%, rgba(156,255,24,.3), transparent 30%), linear-gradient(135deg,#ffffff,#f1f6fb) !important;
+}
+.brand-logo-img {
+  width: 118px !important;
+}
+.deal-content h3 { font-size: 17px !important; }
+.deal-content p,
+.location-line,
+.join-claim { font-size: 13px !important; }
+.join-claim {
+  min-height: 41px !important;
+  border-radius: 12px !important;
+  margin-top: 10px !important;
+}
+.how-steps {
+  grid-template-columns: 1fr auto 1fr auto 1fr !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+.how-step {
+  grid-template-columns: auto minmax(0,1fr) !important;
+  grid-template-areas: "num icon" "num label" !important;
+  justify-content: start !important;
+  justify-items: start !important;
+  text-align: left !important;
+  gap: 2px 10px !important;
+  font-size: 13px !important;
+}
+.how-step .num { grid-area: num; }
+.how-step .how-symbol { grid-area: icon; }
+.how-step > span:last-child { grid-area: label; }
+.step-arrow {
+  display: block !important;
+}
+.how-symbol {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+.wallet-promo {
+  grid-template-columns: 1fr 322px !important;
+  overflow: hidden;
+  position: relative;
+  min-height: 160px;
+}
+.how-card,
+.wallet-promo {
+  background:
+    radial-gradient(circle at 82% 18%, rgba(156,255,24,.16), transparent 34%),
+    linear-gradient(100deg, rgba(237,255,225,.82), rgba(248,255,240,.94)) !important;
+}
+.wallet-art {
+  position: relative;
+  min-height: 154px;
+}
+.wallet-art .student-card {
+  position: relative;
+  z-index: 2;
+  transform: rotate(-7deg) translateX(-12px);
+  justify-self: start;
+  width: 214px !important;
+  min-height: 128px !important;
+  border-radius: 9px !important;
+}
+.promo-wallet-card .student-card__brand {
+  position: absolute;
+  left: 20px;
+  top: 48px;
+  font-size: 21px;
+}
+.promo-wallet-card .student-card__brand small {
+  display: block;
+  color: #fff;
+  font-size: 6px;
+  letter-spacing: .42em;
+  margin-left: 6px;
+  margin-top: 5px;
+  text-transform: uppercase;
+}
+.promo-wallet-card .student-card__qr {
+  top: auto;
+  right: 52px;
+  bottom: -34px;
+  width: 72px;
+  z-index: 5;
+  box-shadow: 0 8px 18px rgba(15,23,42,.2);
+}
+.wallet-note {
+  position: absolute;
+  z-index: 4;
+  right: -2px;
+  top: 76px;
+  width: 116px;
+  color: #111;
+  font-size: 11px;
+  line-height: .95;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+  transform: rotate(-8deg);
+}
+.wallet-note::after {
+  content: '';
+  display: block;
+  width: 68px;
+  height: 24px;
+  margin: 7px auto 0;
+  background: url('assets/brand/lime-underline.svg') center/100% 100% no-repeat;
+}
+.wallet-note::before {
+  content: '';
+  position: absolute;
+  left: -28px;
+  bottom: 4px;
+  width: 28px;
+  height: 24px;
+  border-left: 2px solid #111;
+  border-bottom: 2px solid #111;
+  border-radius: 0 0 0 20px;
+  transform: rotate(-18deg);
+}
+@media(max-width:620px){
+  .how-steps {
+    grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+  }
+  .how-step {
+    grid-template-columns: 1fr !important;
+    grid-template-areas: "num" "icon" "label" !important;
+    justify-items: center !important;
+    text-align: center !important;
+  }
+  .step-arrow { display: none !important; }
+  .wallet-promo {
+    grid-template-columns: 1fr !important;
+  }
+  .wallet-art {
+    min-height: 174px;
+  }
+  .wallet-art .student-card { transform: rotate(-7deg) translateX(0); }
+  .wallet-note {
+    right: 0;
+    top: 78px;
+  }
+}
+body.public-redesign .modal,
+body.public-redesign .gate-toast {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-color: #dfe5ee !important;
+  box-shadow: 0 18px 50px rgba(15,23,42,.16) !important;
+}
+body.public-redesign .modal-x,
+body.public-redesign .modal-submit.ghost,
+body.public-redesign input,
+body.public-redesign select,
+body.public-redesign textarea {
+  background: #f8fafc !important;
+  color: #111827 !important;
+  border-color: #d7dee8 !important;
+}
+body.public-redesign .modal-tab.active,
+body.public-redesign .modal-form-title,
+body.public-redesign .modal-success-title,
+body.public-redesign #upload-lbl {
+  color: #050505 !important;
+}
+body.public-redesign .modal-form-sub,
+body.public-redesign .modal-terms,
+body.public-redesign .modal-switch,
+body.public-redesign .modal-success-sub {
+  color: #596174 !important;
+}
+body.public-redesign .modal-submit,
+body.public-redesign .gate-toast .gate-sign-in,
+body.public-redesign .applied-banner {
+  background: #9cff18 !important;
+  color: #050505 !important;
+}
+.verify-save-section {
+  padding-bottom: 21px !important;
+}
+.verify-save {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr) 44px auto;
+  align-items: center;
+  gap: 22px;
+  min-height: 130px;
+  padding: 17px 28px;
+  overflow: hidden;
+  color: #fff;
+  border-radius: 14px;
+  background: #080909 url('assets/sections/verify-save/background.svg') center/cover no-repeat;
+}
+.verify-save__mark {
+  width: 104px;
+  height: auto;
+  display: block;
+}
+.verify-save__copy h2 {
+  margin: 0 0 6px;
+  color: #fff;
+  font-size: clamp(30px, 3vw, 42px);
+  line-height: .98;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+.verify-save__copy p {
+  max-width: 570px;
+  margin: 0;
+  color: rgba(255,255,255,.84);
+  font-size: 15px;
+  line-height: 1.3;
+}
+.verify-save__rays {
+  width: 44px;
+  height: auto;
+  display: block;
+}
+.verify-save__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 48px;
+  padding: 0 26px;
+  color: #080808;
+  background: #b7ff19;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 900;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.verify-save__button img {
+  width: 20px;
+  height: 20px;
+}
+@media(max-width:900px){
+  .verify-save {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    min-height: 0;
+    padding: 26px 22px;
+  }
+  .verify-save__mark {
+    width: 105px;
+  }
+  .verify-save__copy h2 {
+    font-size: 31px;
+  }
+  .verify-save__copy p {
+    font-size: 15px;
+  }
+  .verify-save__rays {
+    display: none;
+  }
+  .verify-save__button {
+    justify-self: start;
+    max-width: 100%;
+    margin-top: 4px;
+    padding: 0 22px;
+  }
+}
 </style>
 </head>
-<body>
+<body class="public-redesign">
 
 <!-- GATE TOAST -->
 <div id="gate-backdrop" onclick="hideGateToast()" style="display:none;position:fixed;inset:0;z-index:8999;background:rgba(0,0,0,.45)"></div>
@@ -467,27 +1846,28 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 
 <!-- APPLIED BANNER -->
 <div class="applied-banner" id="applied-banner">
-  🎉 Your verification application has been submitted! We'll review it and email you within 24 hours.
+  Your verification application has been submitted. We'll review it and email you when it is ready.
   <button class="applied-banner-x" onclick="document.getElementById('applied-banner').classList.remove('show')">×</button>
 </div>
 
 <!-- NAV -->
-<nav>
+<nav class="site-nav">
   <div class="wrap">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
-        <div class="logo-word">Student<span>Perks.</span></div>
+        <span class="brand-mark">SP</span>
+        <div class="logo-word"><span class="logo-line">Student<span>Perks</span></span></div>
       </a>
       <div class="nav-spacer"></div>
       <div class="nav-desktop">
         <a href="#perks">Deals</a>
         <a href="#events">Events</a>
         <a href="#jobs">Jobs</a>
-        <a href="dashboard.html">Dashboard</a>
         <a href="partner.html" class="biz">For Business</a>
-        <div id="nav-status-desktop"><button class="nav-verify" onclick="openModal('si')">SIGN IN</button></div>
+        <div id="nav-status-desktop"><button class="nav-verify" onclick="openModal('si')">Sign in</button></div>
+        <button class="nav-join" onclick="openModal('jn')">Join StudentPerks</button>
       </div>
-      <div id="nav-status-mobile" style="display:flex;align-items:center;gap:8px"><button class="nav-verify" onclick="openModal('si')" id="mobile-verify">SIGN IN</button>
+      <div id="nav-status-mobile" style="display:flex;align-items:center;gap:8px"><button class="nav-verify" onclick="openModal('si')" id="mobile-verify">Sign in</button>
       <button class="nav-burger" onclick="openMenu()" style="margin-left:8px">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -503,13 +1883,14 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 <div class="menu-overlay" id="menu-overlay">
   <div class="menu-head">
     <div class="menu-logo">
-      <div class="logo-word" style="font-size:18px">Student<span>Perks.</span></div>
+      <div class="logo-word" style="font-size:18px">Student<span>Perks</span></div>
     </div>
     <button class="menu-close" onclick="closeMenu()">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
   </div>
   <button class="menu-verify" onclick="openModal('si');closeMenu()">Sign In</button>
+  <button class="menu-join" onclick="openModal('jn');closeMenu()">Join StudentPerks</button>
   <div class="menu-items">
     <a class="menu-item" href="#perks" onclick="closeMenu()">Deals</a>
     <a class="menu-item" href="#events" onclick="closeMenu()">Events</a>
@@ -531,125 +1912,191 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       <svg class="menu-soc" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       <svg class="menu-soc" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
       <svg class="menu-soc" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      <svg class="menu-soc" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-label="TikTok"><path d="M16.6 3c.4 2.5 1.9 4.1 4.4 4.3v3.1c-1.5.1-2.9-.4-4.3-1.3v5.8c0 5.7-6.2 7.5-9.4 4.4-2.1-2-2.2-5.4-.2-7.6 1.5-1.7 3.5-2.3 5.8-1.9v3.3c-.5-.2-1-.2-1.5-.1-1.3.3-2.1 1.4-1.9 2.7.2 1.4 1.5 2.3 2.9 1.9.9-.3 1.5-.8 1.7-1.8.1-.4.1-.8.1-1.2V3h2.4Z"/></svg>
     </div>
     <p class="menu-copy">© 2025 Student Perks. All Rights Reserved.</p>
   </div>
 </div>
 
 <!-- HERO -->
-<section class="hero">
+<section class="mock-hero">
   <div class="wrap">
-    <h1><span id="type-line1"></span><em><span id="type-line2"></span><span class="type-cursor" id="type-cursor">|</span></em></h1>
-    <p class="hero-sub">Exclusive student deals, verified instantly.</p>
-    <div class="search-wrap">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" placeholder="Search brands or deals..." id="search-input" oninput="filterPerks()">
-      <span class="deal-badge" id="deal-count">9 deals</span>
+    <div class="mock-hero-card">
+      <img src="assets/layered/backgrounds/hero-students-clean.webp" alt="South African students smiling on campus">
+      <div class="mock-scribble">Same students<br>brighter tomorrows</div>
+      <div class="mock-hero-copy">
+        <h1>Student life costs <span class="lime-underlined">less here.</span></h1>
+        <p>Discover verified deals, events and opportunities made for South African students.</p>
+        <div class="mock-actions">
+          <button class="mock-btn lime" onclick="openModal('jn')">Join StudentPerks →</button>
+          <button class="mock-btn outline" onclick="openModal('si')">Sign in</button>
+        </div>
+      </div>
     </div>
-    <div class="pills-wrap"><div class="pills-row">
-      <button class="pill active" onclick="setCat(this,'all')">All</button>
-      <button class="pill" onclick="setCat(this,'fashion')">Fashion</button>
-      <button class="pill" onclick="setCat(this,'tech')">Tech</button>
-      <button class="pill" onclick="setCat(this,'food')">Food</button>
-      <button class="pill" onclick="setCat(this,'travel')">Travel</button>
-      <button class="pill" onclick="setCat(this,'software')">Software</button>
-      <button class="pill" onclick="setCat(this,'fitness')">Fitness</button>
-      <button class="pill" onclick="setCat(this,'entertainment')">Entertainment</button>
-      <button class="pill" onclick="setCat(this,'gifting')">Gifting</button>
-    </div></div>
+    <div class="benefit-strip" aria-label="StudentPerks benefits">
+      <div class="benefit">
+        <img class="approved-icon" src="assets/icons/approved/graduation-cap.svg" alt="" aria-hidden="true">
+        Free for students
+      </div>
+      <div class="benefit">
+        <img class="approved-icon" src="assets/icons/approved/verified-shield.svg" alt="" aria-hidden="true">
+        Verified offers
+      </div>
+      <div class="benefit">
+        <img class="approved-icon" src="assets/icons/approved/students.svg" alt="" aria-hidden="true">
+        Built for SA students
+      </div>
+    </div>
+
+    <div class="mock-search">
+      <span class="sp-icon" style="--icon:url('assets/icons/search.svg')" aria-hidden="true"></span>
+      <input type="text" placeholder="Search deals, brands or categories" id="search-input" oninput="filterPerks()">
+      <span class="deal-badge" id="deal-count" style="display:none">2 deals</span>
+    </div>
+    <div class="mock-cats">
+      <button class="pill active" type="button" onclick="setCat(this,'all')" aria-pressed="true">
+        <img class="approved-icon" src="assets/icons/approved/category-all.svg" alt="" aria-hidden="true">
+        All
+      </button>
+      <button class="pill" type="button" onclick="setCat(this,'food')" aria-pressed="false">
+        <img class="approved-icon" src="assets/icons/approved/food-v3.svg" alt="" aria-hidden="true">
+        Food
+      </button>
+      <button class="pill" type="button" onclick="setCat(this,'entertainment')" aria-pressed="false">
+        <img class="approved-icon" src="assets/icons/approved/entertainment.svg" alt="" aria-hidden="true">
+        Entertainment
+      </button>
+      <button class="pill" type="button" onclick="setCat(this,'fashion')" aria-pressed="false">
+        <img class="approved-icon" src="assets/icons/approved/fashion.svg" alt="" aria-hidden="true">
+        Fashion
+      </button>
+      <button class="pill" type="button" onclick="setCat(this,'travel')" aria-pressed="false">
+        <img class="approved-icon" src="assets/icons/approved/travel.svg" alt="" aria-hidden="true">
+        Travel
+      </button>
+    </div>
   </div>
 </section>
 
 
 <!-- ALL PERKS -->
-<section class="perks-sec" id="perks">
+<section class="mock-section" id="perks">
   <div class="wrap">
-    <div class="sec-row">
-      <span class="sec-lbl">All Perks</span>
-      <div class="sec-divider"></div>
+    <div class="mock-section-head">
+      <h2>Popular student deals</h2>
+      <a class="see-all" href="#perks">See all →</a>
     </div>
 
-    <div class="perk-card fade-in" data-cat="gifting" onclick="openDeal('https://www.cratesandboxes.co.za')">
-      <div class="perk-top-row">
-        <div style="background:#fff;border-radius:12px;padding:8px 14px;white-space:nowrap;font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:700;color:#1A1A1A;line-height:1;display:flex;align-items:center;">
-          Crates <span style="color:#C9A84C;margin:0 4px;">&amp;</span> Boxes
-        </div>
-        <div class="perk-disc-col">
-          <div class="perk-disc-val">10%</div>
-          <div class="perk-disc-type">OFF SITEWIDE</div>
-        </div>
-      </div>
-      <div class="perk-name-row">
-        <div class="perk-name">CRATES &amp; BOXES</div>
-        <div class="perk-badge">NEW</div>
-      </div>
-      <div class="perk-desc">Get 10% off everything at Crates &amp; Boxes — your go-to for moving, storage and student digs. Mention your student status at checkout to claim.</div>
-      <span class="perk-cta" onclick="openDeal('https://www.cratesandboxes.co.za');event.stopPropagation()">Shop Now →</span>
+    <div class="mock-deal-grid" id="deal-grid" aria-live="polite">
+      <article class="deal-list-state" id="deal-loading">
+        <strong>Loading current deals</strong>
+        <span>Fetching live StudentPerks offers.</span>
+      </article>
     </div>
-
-    <div class="perk-card fade-in" data-cat="gifting" onclick="openDeal('https://www.custommugs.co.za')">
-      <div class="perk-top-row">
-        <div style="background:#F5F0E4;border-radius:12px;padding:8px 16px;white-space:nowrap;font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:700;line-height:1;display:flex;align-items:center;">
-          <span style="color:#1E1B2E">Custom</span><span style="color:#B8962E">Mugs</span>
-        </div>
-        <div class="perk-disc-col">
-          <div class="perk-disc-val">10%</div>
-          <div class="perk-disc-type">OFF SITEWIDE</div>
-        </div>
-      </div>
-      <div class="perk-name-row">
-        <div class="perk-name">CUSTOM MUGS</div>
-        <div class="perk-badge">NEW</div>
-      </div>
-      <div class="perk-desc">Get 10% off custom mugs, printed your way. Perfect for res life, society merch, or gifting. Use your student discount at checkout.</div>
-      <span class="perk-cta" onclick="openDeal('https://www.custommugs.co.za');event.stopPropagation()">Shop Now →</span>
-    </div>
-    <p id="no-results" style="display:none;text-align:center;padding:48px 0;color:#888;font-size:15px;">No deals match your search.</p>
+    <p id="no-results" class="deal-list-state" style="display:none;">No deals match your search.</p>
   </div>
 </section>
 
-<!-- EVENTS -->
-<section class="events-sec" id="events">
+<!-- VERIFICATION -->
+<section class="mock-section" id="verification">
   <div class="wrap">
-    <div class="sec-row">
-      <span class="sec-lbl">Events</span>
-      <div class="sec-divider"></div>
-      <a class="sec-view" href="#">View all →</a>
-    </div>
-    <div class="empty-state">
-      <div class="empty-ico">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <div class="how-card">
+      <div class="mock-section-head">
+        <h2>How Student<span style="color:#55d900">Perks</span> works</h2>
       </div>
-      <div class="empty-title">No events yet</div>
-      <p class="empty-desc">Student events are coming soon — career fairs, socials, workshops and more. Check back shortly.</p>
+      <div class="how-steps">
+        <div class="how-step"><span class="num">1</span><img class="how-symbol" src="assets/icons/approved/how-account.svg" alt="" aria-hidden="true"><span>Create your<br>free account</span></div>
+        <div class="step-arrow">→</div>
+        <div class="how-step"><span class="num">2</span><img class="how-symbol" src="assets/icons/approved/how-verify.svg" alt="" aria-hidden="true"><span>Verify your<br>student status</span></div>
+        <div class="step-arrow">→</div>
+        <div class="how-step"><span class="num">3</span><img class="how-symbol" src="assets/icons/approved/how-claim.svg" alt="" aria-hidden="true"><span>Claim and<br>redeem your deals</span></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- JOBS -->
-<section class="jobs-sec" id="jobs">
+<!-- WALLET -->
+<section class="mock-section" id="wallet">
   <div class="wrap">
-    <div class="sec-row">
-      <span class="sec-lbl">Jobs</span>
-      <div class="sec-divider"></div>
-      <a class="sec-view" href="#">View all →</a>
-    </div>
-    <div class="empty-state">
-      <div class="empty-ico">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+    <div class="wallet-promo">
+      <div>
+        <h2>Your deals, all in one place.</h2>
+        <p>Once verified, your StudentPerks Wallet keeps your claimed offers ready to use.</p>
+        <button class="mock-btn lime" onclick="openModal('jn')">Join StudentPerks →</button>
       </div>
-      <div class="empty-title">No jobs listed yet</div>
-      <p class="empty-desc">Student internships, part-time roles and graduate opportunities are coming soon.</p>
+      <div class="wallet-art">
+        <article class="student-card promo-wallet-card" aria-label="StudentPerks wallet card preview">
+          <div class="student-card__brand">Student<span>Perks</span></div>
+          <div class="student-card__qr" data-qr-container aria-label="Membership QR code preview"></div>
+        </article>
+        <div class="wallet-note">Your student advantage always on hand</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS AND JOBS -->
+<section class="mock-section" id="events">
+  <div class="wrap">
+    <div class="split-grid">
+      <div>
+        <div class="mock-section-head"><h2>Events for students</h2><a class="see-all" href="#events">See all →</a></div>
+        <div class="event-grid">
+          <article class="empty-tile">
+            <div class="empty-icon">
+              <img class="approved-icon" src="assets/icons/approved/calendar.svg" alt="" aria-hidden="true">
+            </div>
+            <h3>No public events listed yet</h3>
+            <p>Events will appear here once they are added to StudentPerks.</p>
+          </article>
+        </div>
+      </div>
+      <div id="jobs">
+        <div class="mock-section-head"><h2>Student opportunities</h2><a class="see-all" href="#jobs">See all →</a></div>
+        <article class="empty-tile">
+          <div class="empty-icon">
+            <img class="approved-icon" src="assets/icons/approved/jobs.svg" alt="" aria-hidden="true">
+          </div>
+          <h3>No student opportunities listed yet</h3>
+          <p>Jobs and student opportunities will appear here once they are added.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS -->
+<section class="mock-section" id="business">
+  <div class="wrap">
+    <div class="business-promo">
+      <div class="business-photo">
+        <div class="business-photo__brand">Student<span>Perks</span></div>
+        <div class="business-photo__label">Partner offers</div>
+      </div>
+      <div>
+        <h2>Want to reach verified students?</h2>
+        <p>Partner with StudentPerks and connect with South Africa's next generation.</p>
+        <a class="mock-btn outline" style="color:#050505;border-color:#111;background:#fff" href="partner.html">Partner with us →</a>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- FINAL CTA -->
-<section class="final-cta">
+<section class="mock-section verify-save-section" aria-labelledby="verify-save-title">
   <div class="wrap">
-    <h2>START<em>SAVING NOW.</em></h2>
-    <p>Join thousands of SA students already unlocking exclusive deals and more.</p>
-    <button class="lime-btn" onclick="openModal('jn')">Get started</button>
+    <div class="verify-save">
+      <img class="verify-save__mark" src="assets/sections/verify-save/brighter-students-mark.png" alt="Brighter students, brighter tomorrows">
+      <div class="verify-save__copy">
+        <h2 id="verify-save-title">Verify once. Save all year.</h2>
+        <p>Join thousands of South African students unlocking exclusive deals, events and opportunities.</p>
+      </div>
+      <img class="verify-save__rays" src="assets/sections/verify-save/lime-rays.svg" alt="" aria-hidden="true">
+      <button class="verify-save__button" type="button" onclick="openModal('jn')">
+        <span>Create your free account</span>
+        <img src="assets/sections/verify-save/arrow-right.svg" alt="" aria-hidden="true">
+      </button>
+    </div>
   </div>
 </section>
 
@@ -658,17 +2105,18 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <div class="logo-word" style="font-size:17px">Student<span>Perks.</span></div>
-        <p class="footer-desc">Exclusive student deals, events and jobs — built for SA students.</p>
+        <div class="logo-word" style="font-size:17px">Student<span>Perks</span></div>
+        <p class="footer-desc">Current student offers from brands listed on StudentPerks.</p>
         <div class="footer-social">
           <svg class="f-soc" width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           <svg class="f-soc" width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
           <svg class="f-soc" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          <svg class="f-soc" width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-label="TikTok"><path d="M16.6 3c.4 2.5 1.9 4.1 4.4 4.3v3.1c-1.5.1-2.9-.4-4.3-1.3v5.8c0 5.7-6.2 7.5-9.4 4.4-2.1-2-2.2-5.4-.2-7.6 1.5-1.7 3.5-2.3 5.8-1.9v3.3c-.5-.2-1-.2-1.5-.1-1.3.3-2.1 1.4-1.9 2.7.2 1.4 1.5 2.3 2.9 1.9.9-.3 1.5-.8 1.7-1.8.1-.4.1-.8.1-1.2V3h2.4Z"/></svg>
         </div>
       </div>
       <div class="footer-cols">
-        <div class="footer-col"><h4>Platform</h4><a href="#perks">Deals</a><a href="#events">Events</a><a href="#jobs">Jobs</a></div>
-        <div class="footer-col"><h4>Company</h4><a href="partner.html">For Business</a><a>About</a><a>News</a><a onclick="openModal('jn')" style="cursor:pointer">Recruit and earn</a><a>Contact</a></div>
+        <div class="footer-col"><h4>Platform</h4><a href="#perks">Deals</a><a href="#wallet">Wallet</a><a href="#events">Events</a><a href="#jobs">Jobs</a></div>
+        <div class="footer-col"><h4>Company</h4><a href="partner.html">For Business</a><a onclick="openModal('jn')" style="cursor:pointer">Join StudentPerks</a><a>Contact</a></div>
         <div class="footer-col"><h4>Contact</h4><a href="https://wa.me/27813756494">+27 81 375 6494</a><a href="mailto:admin@studentperks.co.za">admin@studentperks.co.za</a></div>
       </div>
     </div>
@@ -684,7 +2132,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
   <div class="modal" id="modal-box">
     <button class="modal-x" onclick="closeModal()">×</button>
     <div class="modal-logo">
-      <div class="logo-word" style="font-size:17px">Student<span>Perks.</span></div>
+      <div class="logo-word" style="font-size:17px">Student<span>Perks</span></div>
     </div>
     <div class="modal-tabs">
       <div class="modal-tab active" id="t-si" onclick="switchTab('si')">Sign in</div>
@@ -860,7 +2308,7 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
       <div id="jn-success" class="modal-success" style="display:none">
         <div class="modal-success-icon">🎉</div>
         <div class="modal-success-title">Application submitted!</div>
-        <div class="modal-success-sub">We'll review your student card and email you within 24 hours. Check your student inbox for the verification link too.</div>
+        <div class="modal-success-sub">We'll review your student card and email you when your verification is ready. Check your student inbox for the verification link too.</div>
       </div>
 
       <p class="modal-switch" id="jn-switch-link">Already verified? <span onclick="switchTab('si')">Sign in</span></p>
@@ -873,12 +2321,13 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 /* ── Supabase client ── */
 const SUPA_URL='https://bulmerqkvvrjvzjwmgkl.supabase.co';
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1bG1lcnFrdnZyanZ6andtZ2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3OTA4MTksImV4cCI6MjEwMjM2NjgxOX0.UAOqHO_lNBB6ayTa6QEj4vvzdepzNCu0CYv2EOygOGI';
-const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
+const sb=window.supabase ? window.supabase.createClient(SUPA_URL,SUPA_KEY) : null;
 
 /* ── AUTH STATUS ── */
 let _userStatus = null;
 
 async function checkAuthStatus(){
+  if(!sb) return;
   const { data: { session } } = await sb.auth.getSession();
   if(!session) return;
   const email = session.user.email;
@@ -1024,6 +2473,7 @@ function resetModal(){
 
 /* ── SIGN IN ── */
 async function handleSignIn(){
+  if(!sb){ showErr('si-err','Sign in is temporarily unavailable. Please try again shortly.'); return; }
   const email = document.getElementById('si-email').value.trim();
   const btn = document.getElementById('si-btn');
   if(!email || !email.includes('@')){ showErr('si-err','Please enter a valid email address.'); return; }
@@ -1127,6 +2577,7 @@ function handleFile(input){
 
 /* ── Submit join form (Supabase) ── */
 async function submitJoin(){
+  if(!sb){ showErr('err-3','Verification is temporarily unavailable. Please try again shortly.'); return; }
   const file=document.getElementById('card-file').files[0];
   const terms=document.getElementById('terms-chk').checked;
   const personalEmail=document.getElementById('jn-email').value.trim();
@@ -1230,9 +2681,163 @@ function showErr(id, msg){
 
 /* ── Perks filter ── */
 let activeCat = 'all';
+let publicDealsLoaded = false;
+const APPROVED_REPO_OFFERS = [
+  {
+    name: 'Crates & Boxes',
+    code_prefix: 'CRATES',
+    discount_desc: '10% off your order',
+    active: true,
+    category: 'lifestyle'
+  },
+  {
+    name: 'Custom Mugs',
+    code_prefix: 'MUGS',
+    discount_desc: '10% off custom mugs',
+    active: true,
+    category: 'lifestyle'
+  }
+];
+
+function inferDealCategory(vendor){
+  if(vendor.category) return vendor.category;
+  const text=`${vendor.name||''} ${vendor.discount_desc||''} ${vendor.code_prefix||''}`.toLowerCase();
+  if(/food|meal|coffee|restaurant|burger|breakfast|crate|box|mug|drink/.test(text)) return 'food';
+  if(/movie|music|game|ticket|event|cinema|entertain/.test(text)) return 'entertainment';
+  if(/fashion|clothing|shoe|wear|style|print|gift/.test(text)) return 'fashion';
+  if(/travel|flight|hotel|trip|bus|ride/.test(text)) return 'travel';
+  return 'all';
+}
+
+function normalizeBusinessName(name){
+  return String(name||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'').trim();
+}
+
+function isApprovedLiveBusiness(vendor){
+  const normalized = normalizeBusinessName(vendor && vendor.name);
+  return normalized === 'cratesandboxes' || normalized === 'custommugs' || normalized === 'custommugssa';
+}
+
+function dealAssetFor(name){
+  const key=String(name||'').toLowerCase();
+  if(key.includes('crates') || key.includes('boxes')){
+    return { logo:'assets/logo-crates-and-boxes.svg', imageClass:'crates' };
+  }
+  if(key.includes('custom') || key.includes('mugs')){
+    return { logo:'assets/logo-custom-mugs-sa.svg', imageClass:'mugs' };
+  }
+  return { logo:'favicon.svg', imageClass:'placeholder' };
+}
+
+function discountLabel(desc){
+  const text=String(desc||'').trim();
+  const pct=text.match(/\b\d+\s*%/);
+  if(pct) return pct[0].replace(/\s+/g,'')+' OFF';
+  return 'STUDENT DEAL';
+}
+
+function escapeHtml(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderPublicDeal(vendor){
+  const name=vendor.name||'StudentPerks approved business';
+  const desc=vendor.discount_desc||'Student offer';
+  const cat=inferDealCategory(vendor);
+  const asset=dealAssetFor(name);
+  const search=[name,desc,vendor.code_prefix,cat].join(' ').toLowerCase();
+  const card=document.createElement('article');
+  card.className='mock-deal-card perk-card';
+  card.dataset.cat=cat;
+  card.dataset.search=search;
+  card.onclick=()=>showGateToast('Join StudentPerks to claim this offer.', true);
+  card.innerHTML=`
+    <div class="deal-image ${asset.imageClass}">
+      <img class="brand-logo-img" src="${asset.logo}" alt="${escapeHtml(name)} logo">
+      <button class="heart-btn" type="button" aria-label="Save ${escapeHtml(name)} offer">
+        <img src="assets/layered/overlays/heart-button.svg" alt="" aria-hidden="true">
+      </button>
+      <div class="discount-pill">${escapeHtml(discountLabel(desc))}</div>
+    </div>
+    <div class="deal-content">
+      <h3>${escapeHtml(name)}</h3>
+      <p>${escapeHtml(desc)}</p>
+      <div class="location-line">
+        <img class="approved-icon" src="assets/icons/approved/location.svg" alt="" aria-hidden="true">
+        Current StudentPerks offer
+      </div>
+      <button class="join-claim" type="button">
+        <span class="sp-icon" style="--icon:url('assets/icons/lock.svg')" aria-hidden="true"></span>
+        Join to claim
+        <span class="sp-icon" style="--icon:url('assets/icons/arrow-right.svg')" aria-hidden="true"></span>
+      </button>
+    </div>`;
+  card.querySelector('.heart-btn').addEventListener('click', event=>{
+    event.stopPropagation();
+    showGateToast('Sign in to save offers to your wallet.', true);
+  });
+  card.querySelector('.join-claim').addEventListener('click', event=>{
+    event.stopPropagation();
+    showGateToast('Join StudentPerks to claim this offer.', true);
+  });
+  return card;
+}
+
+function showDealsState(title, body){
+  const grid=document.getElementById('deal-grid');
+  if(!grid) return;
+  grid.innerHTML=`<article class="deal-list-state"><strong>${escapeHtml(title)}</strong><span>${escapeHtml(body)}</span></article>`;
+  const count=document.getElementById('deal-count');
+  if(count){ count.textContent='0 deals'; count.style.display='inline-flex'; }
+}
+
+function renderApprovedRepoOffers(){
+  const grid=document.getElementById('deal-grid');
+  if(!grid) return;
+  grid.innerHTML='';
+  APPROVED_REPO_OFFERS.forEach(v=>grid.appendChild(renderPublicDeal(v)));
+  filterPerks();
+}
+
+async function loadPublicDeals(){
+  const grid=document.getElementById('deal-grid');
+  if(!grid || publicDealsLoaded) return;
+  publicDealsLoaded=true;
+  if(!sb){
+    renderApprovedRepoOffers();
+    return;
+  }
+  try{
+    const query=sb
+      .from('vendors')
+      .select('id,name,code_prefix,discount_desc,active,created_at')
+      .eq('active', true)
+      .order('created_at', { ascending:false });
+    const timeout=new Promise((_, reject)=>{
+      setTimeout(()=>reject(new Error('Public deals request timed out')), 2200);
+    });
+    const { data, error } = await Promise.race([query, timeout]);
+    if(error) throw error;
+    const deals=(data||[]).filter(v=>v && v.name && isApprovedLiveBusiness(v));
+    if(!deals.length){
+      renderApprovedRepoOffers();
+      return;
+    }
+    grid.innerHTML='';
+    deals.forEach(v=>grid.appendChild(renderPublicDeal(v)));
+    filterPerks();
+  }catch(e){
+    renderApprovedRepoOffers();
+  }
+}
+
 function setCat(el, cat){
-  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mock-cats .pill').forEach(p=>{
+    p.classList.remove('active');
+    p.setAttribute('aria-pressed','false');
+  });
   el.classList.add('active');
+  el.setAttribute('aria-pressed','true');
   activeCat=cat;
   filterPerks();
 }
@@ -1242,20 +2847,39 @@ const observer = new IntersectionObserver(entries=>{
 document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
 
 function filterPerks(){
-  const q=document.getElementById('search-input').value.toLowerCase();
+  const search=document.getElementById('search-input');
+  if(!search) return;
+  const q=search.value.trim().toLowerCase();
   const cards=document.querySelectorAll('.perk-card');
   let visible=0;
+  if(!cards.length){
+    const count=document.getElementById('deal-count');
+    if(count){
+      count.textContent='0 deals';
+      count.style.display='inline-flex';
+    }
+    const empty=document.getElementById('no-results');
+    if(empty) empty.style.display='none';
+    return;
+  }
   cards.forEach(card=>{
-    const catMatch=activeCat==='all'||card.dataset.cat===activeCat;
-    const textMatch=!q||card.innerText.toLowerCase().includes(q);
+    const cats=(card.dataset.cat||'').split(/\s+/);
+    const catMatch=activeCat==='all'||cats.includes(activeCat);
+    const searchable=`${card.dataset.search||''} ${card.innerText||''}`.toLowerCase();
+    const textMatch=!q||searchable.includes(q);
     const show=catMatch&&textMatch;
     card.style.display=show?'':'none';
     if(show) visible++;
   });
-  document.getElementById('deal-count').textContent=visible+' deals';
-  document.getElementById('no-results').style.display=visible===0?'':'none';
+  const count=document.getElementById('deal-count');
+  if(count){
+    count.textContent=visible===1?'1 deal':visible+' deals';
+    count.style.display='inline-flex';
+  }
+  const empty=document.getElementById('no-results');
+  if(empty) empty.style.display=visible===0?'block':'none';
 }
-filterPerks();
+loadPublicDeals();
 
 /* ── Typewriter ── */
 (function(){
@@ -1264,6 +2888,7 @@ filterPerks();
   const el1 = document.getElementById('type-line1');
   const el2 = document.getElementById('type-line2');
   const cur  = document.getElementById('type-cursor');
+  if(!el1 || !el2 || !cur) return;
   let i = 0;
   function typeLine1(){
     if(i < line1.length){ el1.textContent += line1[i++]; setTimeout(typeLine1, 68); }

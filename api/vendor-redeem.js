@@ -1,4 +1,4 @@
-const { clean, json, readBody, requireServiceKey, rest, sendRedemptionEmails, verifyVendorToken } = require('./_supabase');
+const { clean, isApprovedLiveBusiness, json, readBody, requireServiceKey, rest, sendRedemptionEmails, verifyVendorToken } = require('./_supabase');
 
 function formatDate(iso) {
   return new Date(iso).toLocaleString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
@@ -16,12 +16,15 @@ module.exports = async function handler(req, res) {
   if (!vendorId) return json(res, 401, { error: 'Vendor session expired. Please sign in again.' });
 
   try {
+    const vendorRows = await rest(`vendors?id=eq.${encodeURIComponent(vendorId)}&active=eq.true&select=id,name`);
+    if (!isApprovedLiveBusiness(vendorRows && vendorRows[0])) return json(res, 403, { error: 'This business dashboard is not available on the live StudentPerks site.' });
     const body = await readBody(req);
     const code = clean(body.code).toUpperCase();
     const now = new Date().toISOString();
     const rows = await rest(`coupon_codes?code=eq.${encodeURIComponent(code)}&select=*,vendors(name,email,discount_desc)`);
     const coupon = rows && rows[0];
     if (!coupon) return json(res, 404, { error: 'This code does not exist.' });
+    if (!isApprovedLiveBusiness(coupon.vendors)) return json(res, 404, { error: 'This code does not exist.' });
     if (coupon.vendor_id !== vendorId) return json(res, 403, { error: 'This code belongs to a different vendor.' });
     if (coupon.is_used) return json(res, 409, { error: 'This code has already been redeemed.' });
 

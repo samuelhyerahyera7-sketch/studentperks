@@ -1,4 +1,4 @@
-const { clean, json, readBody, requireServiceKey, rest, verifyVendorToken } = require('./_supabase');
+const { clean, isApprovedLiveBusiness, json, readBody, requireServiceKey, rest, verifyVendorToken } = require('./_supabase');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -12,6 +12,8 @@ module.exports = async function handler(req, res) {
   if (!vendorId) return json(res, 401, { error: 'Vendor session expired. Please sign in again.' });
 
   try {
+    const vendorRows = await rest(`vendors?id=eq.${encodeURIComponent(vendorId)}&active=eq.true&select=id,name`);
+    if (!isApprovedLiveBusiness(vendorRows && vendorRows[0])) return json(res, 403, { error: 'This business dashboard is not available on the live StudentPerks site.' });
     const body = await readBody(req);
     const code = clean(body.code).toUpperCase();
     if (!code) return json(res, 400, { error: 'Code is required.' });

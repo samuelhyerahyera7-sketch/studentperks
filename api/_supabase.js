@@ -15,6 +15,19 @@ function clean(value) {
   return String(value || '').trim();
 }
 
+function normalizeBusinessName(name) {
+  return clean(name).toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '').trim();
+}
+
+function isApprovedLiveBusinessName(name) {
+  const normalized = normalizeBusinessName(name);
+  return normalized === 'cratesandboxes' || normalized === 'custommugs' || normalized === 'custommugssa';
+}
+
+function isApprovedLiveBusiness(vendor) {
+  return isApprovedLiveBusinessName(vendor && vendor.name);
+}
+
 function requireServiceKey(res) {
   if (SERVICE_KEY) return true;
   json(res, 500, { error: 'SUPABASE_SERVICE_ROLE_KEY is not configured.' });
@@ -131,7 +144,10 @@ async function sendRedemptionEmails(payload) {
 
 module.exports = {
   clean,
+  isApprovedLiveBusiness,
+  isApprovedLiveBusinessName,
   json,
+  normalizeBusinessName,
   readBody,
   requireServiceKey,
   rest,

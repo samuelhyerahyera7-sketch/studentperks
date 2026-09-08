@@ -19,13 +19,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{--lime:#d4ff00;--bg:#0c0c0c;--bg2:#111;--bg3:#1a1a1a;--card:#161616;--border:rgba(255,255,255,.08);--white:#fff;--ink:rgba(255,255,255,.92);--ink2:rgba(255,255,255,.5);--ink3:rgba(255,255,255,.28);--red:#ff4444;--green:#22c55e;--yellow:#ffc800;--blue:#5b8fff;--font:'Inter',sans-serif;--display:'Bebas Neue',sans-serif}
+:root{--lime:#d4ff00;--bg:#0c0c0c;--bg2:#111;--bg3:#1a1a1a;--card:#161616;--border:rgba(255,255,255,.08);--white:#fff;--ink:rgba(255,255,255,.92);--ink2:rgba(255,255,255,.5);--ink3:rgba(255,255,255,.28);--red:#ff4444;--green:#22c55e;--yellow:#ffc800;--font:'Inter',sans-serif;--display:'Bebas Neue',sans-serif}
 body{font-family:var(--font);background:var(--bg);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}button,input{font:inherit}button{border:0;cursor:pointer}
 .wrap{max-width:1120px;margin:0 auto;padding:0 18px}
 nav{position:sticky;top:0;z-index:50;background:rgba(12,12,12,.9);border-bottom:1px solid var(--border);backdrop-filter:blur(16px)}
 .nav-inner{height:60px;display:flex;align-items:center;gap:14px}
-.logo-word{font-size:21px;font-weight:900;letter-spacing:-.03em;color:var(--white);white-space:nowrap}.logo-word span{color:var(--lime)}
+.logo-word{font-size:29px;font-weight:900;letter-spacing:-.07em;color:var(--white);white-space:nowrap;line-height:.86}.logo-word span{color:#61e900}.logo-word small{display:block;color:#050505;font-size:10px;font-weight:900;letter-spacing:.36em;line-height:1;margin:5px 0 0 43px;text-transform:uppercase}
 .nav-spacer{flex:1}.nav-link{font-size:13px;font-weight:600;color:var(--ink2)}.nav-link:hover{color:var(--white)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:50px;padding:11px 20px;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
 .btn-lime{background:var(--lime);color:var(--bg)}.btn-lime:hover{background:var(--white)}
@@ -49,13 +49,65 @@ h1{font-family:var(--display);font-size:clamp(56px,10vw,116px);font-weight:400;l
 .history{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}.row{display:grid;grid-template-columns:140px 1fr 1fr 150px;gap:10px;padding:13px 16px;border-bottom:1px solid var(--border);font-size:13px;align-items:center}.row:last-child{border-bottom:0}.head{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);background:rgba(255,255,255,.02)}.mono{font-family:monospace;color:var(--lime)}.dim{color:var(--ink3)}
 @media(max-width:900px){.hero{display:block}.status-card{margin-top:18px}.stats-grid{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr 1fr}.row{grid-template-columns:1fr 1fr}.head{display:none}}
 @media(max-width:620px){.nav-link{display:none}.shell{padding-top:24px}.stats-grid,.grid{grid-template-columns:1fr}.actions .btn{width:100%}.row{grid-template-columns:1fr;gap:4px}}
+
+/* White StudentPerks theme alignment */
+:root{
+  --bg:#f7f9fc;--bg2:#fff;--bg3:#f1f4f8;--card:#fff;
+  --border:#dfe5ee;--white:#050505;--ink:#111827;
+  --ink2:#596174;--ink3:#7b8494;
+}
+body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
+nav{background:rgba(255,255,255,.92);border-bottom:1px solid var(--border)}
+.logo-word,.nav-link:hover,h1,.status-value,.vendor,.empty strong,.login-card h1{color:#050505}
+.nav-link,.sub,.discount,.dim,.status-label,.stat-lbl,.section-title,.field label{color:var(--ink2)}
+.login-card,.status-card,.stat,.card,.empty,.history{background:#fff;border-color:var(--border);box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.btn-lime{background:#9cff18;color:#050505}
+.btn-lime:hover{background:#050505;color:#fff}
+.btn-ghost{background:#fff;color:#111827;border-color:var(--border)}
+.btn-ghost:hover{background:#f1f4f8;color:#050505;border-color:#cbd5e1}
+.field input{background:#fff;color:#111827;border-color:#d7dee8}
+.field input::placeholder{color:#94a3b8}
+.qr{background:#f8fafc;border-color:var(--border)}
+.head{background:#f1f4f8}
+.row{border-bottom-color:var(--border)}
+.dashboard-shell{max-width:736px}
+.approved-icon{display:inline-block;width:32px;height:32px;object-fit:contain;flex:0 0 auto}
+.nav-inner{height:66px}
+.hero{align-items:flex-start;margin:22px 0 16px}
+.eyebrow{display:none}
+.hero h1{font-family:var(--font);font-size:42px;line-height:.95;letter-spacing:-.06em;text-transform:none;font-weight:900;color:#050505}
+.status-card{min-width:0;width:auto;padding:0;border:0;background:transparent;box-shadow:none}
+.status-label{display:none}
+.status-value{display:inline-flex;padding:12px 18px;border-radius:999px;background:#caff86;color:#050505;font-size:16px;font-weight:900}
+.dot{display:none}
+.sub{margin-top:8px;font-size:18px;line-height:1.25;color:#596174}
+.stats-grid{grid-template-columns:repeat(4,1fr);gap:14px}
+.stat{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:12px;min-height:88px;border-radius:12px;padding:14px}
+.stat-val{font-family:var(--font);font-size:27px;color:#050505;font-weight:900}
+.stat-lbl{margin:0;font-size:13px;line-height:1.1;text-transform:none;letter-spacing:0;color:#596174}
+.section-head{margin:26px 0 12px}
+.section-title{font-size:27px;font-weight:900;letter-spacing:-.06em;text-transform:none;color:#050505}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{border-radius:12px;overflow:hidden;padding:0}
+.coupon-top{min-height:124px;margin:0;padding:16px;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.48)),url('assets/layered/backgrounds/crates-boxes-food-clean.webp') center/cover;color:#fff}
+.card.mugs .coupon-top{background:radial-gradient(circle at 78% 18%,rgba(156,255,24,.32),transparent 32%),linear-gradient(135deg,#111827,#050505)}
+.card.crates .coupon-top{background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.48)),url('assets/layered/backgrounds/crates-boxes-food-clean.webp') center/cover}
+.vendor{color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.25)}
+.discount{color:rgba(255,255,255,.86)}
+.code{margin:14px 14px 0;color:#050505;background:#f1f4f8;border-color:#dfe5ee}
+.qr{margin:12px 14px;background:#f8fafc}
+.actions{padding:0 14px 14px}
+.actions .btn-lime{border-radius:12px;text-transform:none;letter-spacing:0;font-size:15px}
+.history{border-radius:12px}
+.empty{border-radius:12px;background:#fff}
+@media(max-width:620px){.dashboard-shell{padding:0 24px}.stats-grid{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:1fr 1fr}.stat{grid-template-columns:1fr;text-align:left}.stat:last-child{display:none}.nav-link{display:none}}
 </style>
 </head>
 <body>
 <nav>
   <div class="wrap">
     <div class="nav-inner">
-      <a href="index.html" class="logo-word">Student<span>Perks.</span></a>
+      <a href="index.html" class="logo-word">Student<span>Perks</span></a>
       <div class="nav-spacer"></div>
       <a class="nav-link" href="index.html#perks">Deals</a>
       <a class="nav-link" href="redeem.html">Redeem</a>
@@ -64,7 +116,7 @@ h1{font-family:var(--display);font-size:clamp(56px,10vw,116px);font-weight:400;l
   </div>
 </nav>
 
-<main class="wrap shell">
+<main class="wrap shell dashboard-shell">
   <section id="loginView" class="login-card" style="display:none">
     <div class="eyebrow">Student access</div>
     <h1>My Discounts</h1>
@@ -81,7 +133,7 @@ h1{font-family:var(--display);font-size:clamp(56px,10vw,116px);font-weight:400;l
     <div class="hero">
       <div>
         <div class="eyebrow">Student dashboard</div>
-        <h1>My Discounts</h1>
+        <h1 id="dashboardTitle">Hi</h1>
         <p class="sub" id="welcomeText">Your StudentPerks codes, QR passes, and redemption history in one place.</p>
       </div>
       <div class="status-card">
@@ -91,20 +143,20 @@ h1{font-family:var(--display);font-size:clamp(56px,10vw,116px);font-weight:400;l
     </div>
 
     <section class="stats-grid" aria-label="Discount summary">
-      <article class="stat"><div class="stat-val" id="totalCodes">0</div><div class="stat-lbl">Assigned codes</div></article>
-      <article class="stat"><div class="stat-val" id="availableCodes">0</div><div class="stat-lbl">Ready to use</div></article>
-      <article class="stat"><div class="stat-val" id="usedCodes">0</div><div class="stat-lbl">Redeemed</div></article>
-      <article class="stat"><div class="stat-val" id="vendorCount">0</div><div class="stat-lbl">Stores</div></article>
+      <article class="stat"><img class="approved-icon" src="assets/icons/approved/ticket-status.svg" alt="" aria-hidden="true"><div><div class="stat-val" id="totalCodes">0</div><div class="stat-lbl">claimed deals</div></div></article>
+      <article class="stat"><img class="approved-icon" src="assets/icons/approved/heart-status.svg" alt="" aria-hidden="true"><div><div class="stat-val" id="availableCodes">0</div><div class="stat-lbl">ready to use</div></div></article>
+      <article class="stat"><img class="approved-icon" src="assets/icons/approved/savings.svg" alt="" aria-hidden="true"><div><div class="stat-val" id="usedCodes">0</div><div class="stat-lbl">redeemed</div></div></article>
+      <article class="stat"><img class="approved-icon" src="assets/icons/approved/deals.svg" alt="" aria-hidden="true"><div><div class="stat-val" id="vendorCount">0</div><div class="stat-lbl">stores</div></div></article>
     </section>
 
     <div class="section-head">
-      <div class="section-title">Assigned discounts</div>
+      <div class="section-title">Your active deals</div>
       <button class="btn btn-ghost" onclick="loadDashboard()">Refresh</button>
     </div>
     <section class="grid" id="couponGrid" aria-live="polite"></section>
 
     <div class="section-head">
-      <div class="section-title">Redemption history</div>
+      <div class="section-title">Recent activity</div>
     </div>
     <section class="history" id="historyTable">
       <div class="row head"><div>Code</div><div>Store</div><div>Email</div><div>Retrieved</div></div>
@@ -120,6 +172,23 @@ const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
 const PUBLIC_REDEEM_BASE='https://studentperks.co.za/redeem';
 
 let currentEmail='';
+
+function normalizeBusinessName(name){
+  return String(name||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'').trim();
+}
+function isApprovedLiveBusinessName(name){
+  const normalized=normalizeBusinessName(name);
+  return normalized==='cratesandboxes'||normalized==='custommugs'||normalized==='custommugssa';
+}
+function couponBusinessName(coupon){
+  return coupon.vendor_name||(coupon.vendors&&coupon.vendors.name)||'';
+}
+function businessAssetClass(name){
+  const normalized=normalizeBusinessName(name);
+  if(normalized.includes('custommugs')) return 'mugs';
+  if(normalized.includes('cratesandboxes')) return 'crates';
+  return '';
+}
 
 function redeemUrl(code){return `${PUBLIC_REDEEM_BASE}?code=${encodeURIComponent(code)}`}
 function qrImageUrl(code,size){const pixels=size||360;return `https://api.qrserver.com/v1/create-qr-code/?size=${pixels}x${pixels}&data=${encodeURIComponent(redeemUrl(code))}`}
@@ -171,6 +240,9 @@ async function loadDashboard(){
   document.getElementById('welcomeText').textContent=app&&app.full_name
     ? `Welcome back, ${app.full_name}. Your assigned StudentPerks codes are below.`
     : `Signed in as ${currentEmail}. Complete verification to unlock assigned discounts.`;
+  document.getElementById('dashboardTitle').textContent=app&&app.full_name
+    ? `Hi, ${app.full_name.split(' ')[0]}`
+    : 'Hi';
   document.getElementById('statusText').textContent=status.replace(/^\w/,c=>c.toUpperCase());
   document.getElementById('statusDot').className='dot '+(status==='approved'?'ok':status==='rejected'?'bad':'');
 
@@ -178,7 +250,7 @@ async function loadDashboard(){
     .select('*, vendors(name, discount_desc)')
     .eq('assigned_to_email',currentEmail)
     .order('created_at',{ascending:false});
-  const coupons=couponRes.data||[];
+  const coupons=(couponRes.data||[]).filter(c=>isApprovedLiveBusinessName(couponBusinessName(c)));
 
   document.getElementById('totalCodes').textContent=coupons.length;
   document.getElementById('availableCodes').textContent=coupons.filter(c=>!c.is_used).length;
@@ -200,12 +272,12 @@ function renderCoupons(coupons,status){
     return;
   }
   coupons.forEach(c=>{
-    const vendor=c.vendor_name||(c.vendors&&c.vendors.name)||'StudentPerks partner';
+    const vendor=couponBusinessName(c)||'StudentPerks approved business';
     const discount=(c.vendors&&c.vendors.discount_desc)||'Student discount';
     const statusClass=c.is_used?'used':'available';
     const statusLabel=c.is_used?'Redeemed':'Ready';
     const card=document.createElement('article');
-    card.className='card';
+    card.className=`card ${businessAssetClass(vendor)}`;
     card.innerHTML=`
       <div class="coupon-top">
         <div>
@@ -229,11 +301,12 @@ async function renderHistory(){
   const table=document.getElementById('historyTable');
   table.innerHTML='<div class="row head"><div>Code</div><div>Store</div><div>Email</div><div>Retrieved</div></div>';
   const {data}=await sb.from('redemptions').select('*').eq('student_email',currentEmail).order('redeemed_at',{ascending:false}).limit(100);
-  if(!data||!data.length){
+  const history=(data||[]).filter(r=>isApprovedLiveBusinessName(r.vendor_name));
+  if(!history.length){
     table.insertAdjacentHTML('beforeend','<div class="empty">No redeemed discounts yet.</div>');
     return;
   }
-  data.forEach(r=>{
+  history.forEach(r=>{
     table.insertAdjacentHTML('beforeend',`<div class="row"><div class="mono">${esc(r.code)}</div><div>${esc(r.vendor_name||'—')}</div><div class="dim">${esc(r.student_email||'—')}</div><div class="dim">${fmt(r.redeemed_at)}</div></div>`);
   });
 }

@@ -15,6 +15,7 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="shortcut icon" href="/favicon.svg">
 <meta name="description" content="Private 1Voucher demo on the StudentPerks platform, showing student discount retrieval and provider verification.">
+<meta name="robots" content="noindex, nofollow">
 <meta name="keywords" content="student discounts South Africa, student deals SA, student perks, varsity discounts, student savings, SA student offers, student lifestyle, varsity vibe deals">
 <meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://studentperks.co.za/demo-1voucher.html">
@@ -494,6 +495,25 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 .empty-ico { width: 60px; height: 60px; border-radius: 16px; background: rgba(212,255,0,.08); border: 1px solid rgba(212,255,0,.12); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
 .empty-title { font-family: var(--display); font-size: 28px; color: var(--white); text-transform: uppercase; letter-spacing: .02em; margin-bottom: 10px; }
 .empty-desc { font-size: 14px; color: var(--ink2); line-height: 1.65; max-width: 360px; margin: 0 auto 24px; }
+
+/* White StudentPerks theme alignment */
+:root{
+  --bg:#f7f9fc;--bg2:#fff;--bg3:#f1f4f8;--card:#fff;
+  --border:#dfe5ee;--white:#050505;--ink:#111827;
+  --ink2:#596174;--ink3:#7b8494;
+}
+body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
+nav,footer,.perk-card,.how-card,.business-card,.modal-card,.empty-state,.category-card{background:#fff;border-color:var(--border)}
+.logo-word,.nav-desktop a:hover,.nav-desktop a.active,h1,h2,h3,.perk-card-title,.modal-title,.empty-title{color:#050505}
+.nav-desktop a,p,.modal-sub,.empty-desc,.perk-card-desc{color:var(--ink2)}
+input,select,textarea{background:#fff!important;color:#111827!important;border-color:#d7dee8!important}
+input::placeholder,textarea::placeholder{color:#94a3b8!important}
+.lime-btn,.mock-btn.lime,.form-submit{background:#9cff18!important;color:#050505!important}
+.lime-btn:hover,.mock-btn.lime:hover,.form-submit:hover{background:#050505!important;color:#fff!important}
+.ghost-btn,.mock-btn.outline{background:#fff!important;color:#111827!important;border-color:#d7dee8!important}
+.ghost-btn:hover,.mock-btn.outline:hover{background:#f1f4f8!important;color:#050505!important}
+.step-dot{background:#e5eaf1;border-color:#d7dee8}
+.step-line{background:#dfe5ee}
 </style>
 </head>
 <body>
@@ -727,8 +747,8 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
         <aside>
           <div class="provider-panel-title">Demo sign in</div>
           <div class="provider-mini-note">
-            Provider code: <b style="color:var(--white)">1VOUCHER</b><br>
-            PIN: <b style="color:var(--white)">VoucherDemo14!</b><br><br>
+            Provider code: <b>1VOUCHER</b><br>
+            PIN: <b>VoucherDemo14!</b><br><br>
             In the live portal, 1Voucher can check a student code, see who it was assigned to, and mark it as redeemed after the student claims the discount.
           </div>
           <div class="provider-demo-actions">
