@@ -1753,18 +1753,18 @@ body.public-redesign .applied-banner {
 }
 .verify-save {
   display: grid;
-  grid-template-columns: 132px minmax(0, 1fr) 44px auto;
+  grid-template-columns: 128px minmax(0, 1fr) 42px auto;
   align-items: center;
-  gap: 22px;
+  gap: 20px;
   min-height: 130px;
-  padding: 17px 28px;
+  padding: 15px 28px;
   overflow: hidden;
   color: #fff;
   border-radius: 14px;
-  background: #080909 url('assets/sections/verify-save/background.svg') center/cover no-repeat;
+  background: #050606 url('assets/sections/verify-save/background.svg') center/cover no-repeat;
 }
 .verify-save__mark {
-  width: 104px;
+  width: 112px;
   height: auto;
   display: block;
 }
@@ -1796,7 +1796,7 @@ body.public-redesign .applied-banner {
   min-height: 48px;
   padding: 0 26px;
   color: #080808;
-  background: #b7ff19;
+  background: #a9ff1f;
   border: 0;
   border-radius: 999px;
   font: inherit;
@@ -1811,6 +1811,65 @@ body.public-redesign .applied-banner {
   height: 20px;
 }
 @media(max-width:900px){
+  .verify-save {
+    grid-template-columns: 78px minmax(350px, 1fr) 24px auto;
+    gap: 8px;
+    min-height: 130px;
+    padding: 16px 14px;
+  }
+  .verify-save__mark {
+    width: 72px;
+  }
+  .verify-save__copy h2 {
+    font-size: 26px;
+  }
+  .verify-save__copy p {
+    max-width: 350px;
+    font-size: 11px;
+    line-height: 1.25;
+  }
+  .verify-save__rays {
+    display: block;
+    width: 24px;
+  }
+  .verify-save__button {
+    min-height: 40px;
+    gap: 8px;
+    padding: 0 12px;
+    font-size: 11px;
+  }
+  .verify-save__button img {
+    width: 17px;
+    height: 17px;
+  }
+}
+@media(max-width:760px) and (min-width:561px){
+  .verify-save {
+    grid-template-columns: 70px minmax(330px, 1fr) 20px auto;
+    gap: 8px;
+    padding: 16px 14px;
+  }
+  .verify-save__mark {
+    width: 64px;
+  }
+  .verify-save__copy h2 {
+    font-size: 24px;
+  }
+  .verify-save__copy p {
+    max-width: 330px;
+    font-size: 10px;
+  }
+  .verify-save__rays {
+    width: 20px;
+  }
+  .verify-save__button {
+    min-height: 38px;
+    gap: 8px;
+    padding: 0 11px;
+    font-size: 9px;
+  }
+}
+@media(max-width:560px){
   .verify-save {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -1834,6 +1893,8 @@ body.public-redesign .applied-banner {
     max-width: 100%;
     margin-top: 4px;
     padding: 0 22px;
+    min-height: 48px;
+    font-size: 15px;
   }
 }
 </style>
