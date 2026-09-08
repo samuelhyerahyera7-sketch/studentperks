@@ -1,0 +1,23 @@
+{
+  "hero": {
+    "heading": "Student life costs less here.",
+    "body": "Discover verified deals, events and opportunities made for South African students.",
+    "primaryAction": "Join StudentPerks",
+    "secondaryAction": "Sign in",
+    "scribble": "SAME STUDENTS BRIGHTER TOMORROWS"
+  },
+  "offers": {
+    "hungryLion": { "brand": "Hungry Lion", "badge": "MEAL DEAL", "title": "Student meal deal", "location": "Multiple locations" },
+    "terbodore": { "brand": "Terbodore Coffee", "badge": "10% OFF", "title": "Exclusive student offer", "location": "Multiple locations" },
+    "cityrock": { "brand": "CityROCK", "badge": "STUDENT PASS", "title": "Student day pass", "location": "Cape Town" },
+    "cratesBoxes": { "brand": "Crates & Boxes", "badge": "10% OFF", "title": "10% off your order", "location": "Johannesburg" },
+    "nuMetro": { "brand": "Nu Metro", "badge": "30% off student tickets", "expiry": "Expires in 3 days" },
+    "flysa": { "brand": "FlySA", "badge": "Student travel deals", "title": "Exclusive student fares", "location": "Multiple destinations" }
+  },
+  "event": { "day": "23", "month": "AUG", "title": "Cotton Fest 2025", "location": "Constitution Hill, JHB" },
+  "partner": {
+    "heading": "Want to reach verified students?",
+    "body": "Partner with StudentPerks and connect with South Africa’s next generation.",
+    "action": "Partner with us"
+  }
+}
