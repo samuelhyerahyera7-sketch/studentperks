@@ -1,4 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
-  <path d="M9 7v11c0 4.5 2.7 7 6 7s6-2.5 6-7V7M13 7v11M17 7v11M15 25v17" stroke="#0A0A0A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M39 6c-7.2 3.8-11 10-11 18v6h6v12h5V6Z" fill="#0A0A0A"/>
+  <!-- Clean four-tine fork -->
+  <path d="M8 6v12c0 5 3 8 7 8s7-3 7-8V6" stroke="#0A0A0A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12.7 6v12M17.3 6v12M15 26v16" stroke="#0A0A0A" stroke-width="2.6" stroke-linecap="round"/>
+  <!-- Outline knife on right, with cutting edge facing inward -->
+  <path d="M40 5v37h-6V29h-6v-6c0-8.4 4.2-14.4 12-18Z" stroke="#0A0A0A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
