@@ -2747,6 +2747,97 @@ body.public-redesign .business-photo__label {
     display: inline;
   }
 }
+
+body.public-redesign .deal-image.crates {
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.34)),
+    url('assets/deals/crates-boxes-blue-box.jpg') center 58% / cover no-repeat !important;
+}
+
+body.public-redesign .deal-image.mugs {
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.36)),
+    url('assets/deals/custom-mugs-hero-mug.png') center 58% / cover no-repeat !important;
+}
+
+body.public-redesign .deal-image.mugs::before {
+  display: none !important;
+}
+
+body.public-redesign .deal-image .brand-logo-img,
+body.public-redesign .deal-image.mugs .brand-logo-img {
+  left: 10px !important;
+  top: 10px !important;
+  width: 112px !important;
+  max-width: 58% !important;
+  max-height: 50px;
+  padding: 0;
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.22);
+  transform: none !important;
+}
+
+@media(min-width:701px){
+  body.public-redesign .deal-image .brand-logo-img,
+  body.public-redesign .deal-image.mugs .brand-logo-img {
+    width: 72px !important;
+    max-height: 42px;
+    border-radius: 5px;
+  }
+}
+
+@media(max-width:700px){
+  body.public-redesign .verify-save-section .verify-save {
+    display: grid !important;
+    grid-template: none !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-flow: row !important;
+    justify-items: start !important;
+    min-height: 0 !important;
+    gap: 12px !important;
+    padding: 24px 24px 26px !important;
+    overflow: hidden;
+  }
+
+  body.public-redesign .verify-save-section .verify-save__mark {
+    width: 96px !important;
+    max-width: 45%;
+    grid-area: auto !important;
+    grid-column: 1 !important;
+    grid-row: auto !important;
+  }
+
+  body.public-redesign .verify-save-section .verify-save__copy {
+    grid-area: auto !important;
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    min-width: 0;
+    width: 100%;
+  }
+
+  body.public-redesign .verify-save-section .verify-save__copy h2 {
+    max-width: 260px;
+    font-size: 38px !important;
+    line-height: .9;
+    white-space: normal !important;
+  }
+
+  body.public-redesign .verify-save-section .verify-save__copy p {
+    max-width: 270px;
+    font-size: 13px !important;
+    line-height: 1.16;
+  }
+
+  body.public-redesign .verify-save-section .verify-save__button {
+    grid-area: auto !important;
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    justify-self: stretch !important;
+    width: 100%;
+    min-width: 0 !important;
+    max-width: 100%;
+  }
+}
 </style>
 </head>
 <body class="public-redesign">
