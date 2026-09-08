@@ -19,3 +19,4 @@ Use the real StudentPerks content and approved partner assets from the project. 
 - Use the SVG files in `assets/icons/` for interface symbols.
 - Use real database content for offers, events, jobs, claims, and redemptions.
 - Keep student redemption data anonymous in partner views.
+- Follow `CARD-IMPLEMENTATION.md` for the wallet card and lime underline. Keep all wording as HTML text and use the supplied SVGs only as decorative layers.

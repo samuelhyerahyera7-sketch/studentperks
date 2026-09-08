@@ -1,0 +1,14 @@
+:root {
+  --sp-lime: #b7ff19;
+  --sp-lime-bright: #8cff00;
+  --sp-lime-soft: #d6ff91;
+  --sp-black: #0a0a0a;
+  --sp-white: #ffffff;
+  --sp-page: #f7f9fb;
+  --sp-muted: #606979;
+  --sp-border: #e5e9ef;
+  --sp-radius-card: 16px;
+  --sp-radius-panel: 20px;
+  --sp-shadow-card: 0 8px 24px rgba(10, 10, 10, .08);
+  --sp-content-width: 930px;
+}
