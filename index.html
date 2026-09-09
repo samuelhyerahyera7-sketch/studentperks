@@ -2722,6 +2722,86 @@ body.public-redesign .business-photo__label {
   color: #050505;
 }
 
+body.public-redesign #business .business-promo {
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  gap: 0;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid #e5e9ef;
+  border-radius: 16px;
+  background: #f7f9fb;
+  box-shadow: 0 8px 26px rgba(15,23,42,.06);
+}
+
+body.public-redesign #business .business-photo {
+  min-height: 182px;
+  height: 100%;
+  border-radius: 0;
+  background:
+    linear-gradient(90deg, rgba(5,5,5,.12), rgba(5,5,5,0)),
+    url('assets/layered/backgrounds/partner-students-clean.webp') center/cover !important;
+  padding: 0;
+}
+
+body.public-redesign #business .business-photo::after {
+  content: '';
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  width: 36px;
+  height: 36px;
+  background: url('assets/brand/lime-rays.svg') center/contain no-repeat;
+}
+
+body.public-redesign #business .business-photo__brand,
+body.public-redesign #business .business-photo__label {
+  display: none !important;
+}
+
+body.public-redesign #business .business-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(183,255,25,.18), transparent 38%),
+    #f7f9fb;
+}
+
+body.public-redesign #business .business-copy h2 {
+  max-width: 280px;
+  margin: 0 0 8px;
+  color: #050505;
+}
+
+body.public-redesign #business .business-copy p {
+  max-width: 330px;
+  margin: 0 0 18px;
+}
+
+body.public-redesign #business .business-copy .mock-btn {
+  align-self: flex-start;
+  min-height: 42px;
+  border-color: #111;
+  background: #fff;
+  color: #050505;
+}
+
+@media(max-width:700px){
+  body.public-redesign #business .business-promo {
+    grid-template-columns: 1fr;
+  }
+
+  body.public-redesign #business .business-photo {
+    min-height: 142px;
+    border-radius: 0;
+  }
+
+  body.public-redesign #business .business-copy {
+    padding: 20px;
+  }
+}
+
 .wallet-button-desktop {
   display: none;
 }
@@ -3211,7 +3291,7 @@ body.public-redesign .hero-underlined img {
       <img class="desktop-student-badge" src="assets/desktop/student-advantage-badge.png" alt="" aria-hidden="true">
       <div class="hero-handwritten">Same students<br>brighter tomorrows</div>
       <div class="mock-hero-copy">
-        <h1>Student life<br><span class="hero-underlined">costs less here.<img src="assets/desktop/decor/hero-green-underline.svg" alt="" aria-hidden="true"></span></h1>
+        <h1>Student life<br><span class="hero-underlined">costs less here.</span></h1>
         <p>Discover verified deals, events and opportunities made for South African students.</p>
         <div class="mock-actions">
           <button class="mock-btn lime" onclick="openModal('jn')">Join StudentPerks →</button>
@@ -3373,10 +3453,10 @@ body.public-redesign .hero-underlined img {
         <div class="business-photo__brand">Student<span>Perks</span></div>
         <div class="business-photo__label">Partner offers</div>
       </div>
-      <div>
+      <div class="business-copy">
         <h2>Want to reach verified students?</h2>
         <p>Partner with StudentPerks and connect with South Africa's next generation.</p>
-        <a class="mock-btn outline" style="color:#050505;border-color:#111;background:#fff" href="partner.html">Partner with us →</a>
+        <a class="mock-btn outline" href="partner.html">Partner with us →</a>
       </div>
     </div>
   </div>
