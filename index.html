@@ -5128,7 +5128,7 @@ body.public-redesign .modal-success-icon {
   body.public-redesign .mock-hero .wrap,
   body.public-redesign .mock-section .wrap,
   body.public-redesign footer .wrap {
-    width: calc(100vw - 56px) !important;
+    width: calc(100vw - 48px) !important;
     max-width: 688px !important;
     margin-left: auto !important;
     margin-right: auto !important;
@@ -5141,13 +5141,14 @@ body.public-redesign .modal-success-icon {
   }
 
   body.public-redesign .site-nav .nav-inner {
-    height: 62px !important;
-    min-height: 62px !important;
+    height: 80px !important;
+    min-height: 80px !important;
   }
 
   body.public-redesign .logo-word {
-    font-size: clamp(24px, 7.2vw, 32px) !important;
-    max-width: calc(100vw - 170px) !important;
+    font-size: clamp(28px, 8.8vw, 34px) !important;
+    max-width: calc(100vw - 156px) !important;
+    line-height: .86 !important;
   }
 
   body.public-redesign #nav-status-mobile {
@@ -5162,13 +5163,20 @@ body.public-redesign .modal-success-icon {
     border: 0 !important;
     background: transparent !important;
     color: #050505 !important;
-    font-size: clamp(15px, 4.2vw, 18px) !important;
+    font-size: clamp(19px, 5.8vw, 23px) !important;
+    font-weight: 500 !important;
   }
 
   body.public-redesign .nav-burger {
     display: inline-flex !important;
     color: #050505 !important;
     padding: 6px !important;
+  }
+
+  body.public-redesign .nav-burger svg {
+    width: 30px !important;
+    height: 30px !important;
+    stroke-width: 2.4 !important;
   }
 
   body.public-redesign .mock-hero {
@@ -5180,8 +5188,8 @@ body.public-redesign .modal-success-icon {
   body.public-redesign .mock-hero-card {
     position: relative !important;
     width: 100% !important;
-    height: clamp(270px, 81vw, 304px) !important;
-    min-height: clamp(270px, 81vw, 304px) !important;
+    height: clamp(306px, 86vw, 338px) !important;
+    min-height: clamp(306px, 86vw, 338px) !important;
     overflow: hidden !important;
     border-radius: 12px !important;
     background: #050505 !important;
@@ -5206,17 +5214,17 @@ body.public-redesign .modal-success-icon {
   }
 
   body.public-redesign .mock-hero-copy {
-    top: clamp(20px, 6vw, 28px) !important;
-    left: clamp(16px, 5vw, 22px) !important;
+    top: clamp(34px, 9vw, 42px) !important;
+    left: clamp(36px, 9.5vw, 42px) !important;
     width: calc(100% - 32px) !important;
     padding: 0 !important;
   }
 
   body.public-redesign .mock-hero-copy h1 {
-    max-width: min(294px, 76%) !important;
-    font-size: clamp(32px, 9.4vw, 43px) !important;
-    line-height: .94 !important;
-    margin-bottom: 9px !important;
+    max-width: min(340px, 88%) !important;
+    font-size: clamp(39px, 11.4vw, 45px) !important;
+    line-height: .96 !important;
+    margin-bottom: 10px !important;
     color: #fff !important;
   }
 
@@ -5225,40 +5233,52 @@ body.public-redesign .modal-success-icon {
   }
 
   body.public-redesign .hero-underlined img {
-    bottom: -.46em !important;
-    max-height: .2em !important;
-    width: 104% !important;
+    display: none !important;
   }
 
   body.public-redesign .mock-hero-copy p {
-    max-width: min(280px, 72%) !important;
-    margin-bottom: 16px !important;
+    max-width: min(300px, 76%) !important;
+    margin-bottom: 24px !important;
     color: rgba(255,255,255,.9) !important;
-    font-size: clamp(14px, 4vw, 17px) !important;
-    line-height: 1.18 !important;
+    font-size: clamp(19px, 5.7vw, 23px) !important;
+    line-height: 1.16 !important;
   }
 
   body.public-redesign .mock-actions {
     display: flex !important;
     gap: 10px !important;
-    flex-wrap: nowrap !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    width: min(240px, 60%) !important;
   }
 
   body.public-redesign .mock-actions .mock-btn {
-    width: auto !important;
-    min-height: 43px !important;
-    padding: 0 18px !important;
-    font-size: clamp(12px, 3.5vw, 14px) !important;
+    width: 100% !important;
+    min-height: 62px !important;
+    padding: 0 24px !important;
+    font-size: clamp(19px, 5.9vw, 24px) !important;
+    line-height: 1.12 !important;
     white-space: nowrap !important;
   }
 
+  body.public-redesign .mock-actions .mock-btn.lime {
+    white-space: normal !important;
+  }
+
+  body.public-redesign .mock-actions .mock-btn.outline {
+    width: auto !important;
+    min-width: 126px !important;
+    min-height: 56px !important;
+    padding: 0 30px !important;
+  }
+
   body.public-redesign .hero-handwritten {
-    top: 24px !important;
-    right: 8px !important;
-    width: min(104px, 28vw) !important;
-    max-width: 28vw !important;
+    top: 48px !important;
+    right: 22px !important;
+    width: min(112px, 30vw) !important;
+    max-width: 30vw !important;
     color: #fff !important;
-    font-size: clamp(13px, 3.9vw, 18px) !important;
+    font-size: clamp(15px, 4.8vw, 19px) !important;
     line-height: .9 !important;
     text-align: center !important;
   }
@@ -5267,7 +5287,7 @@ body.public-redesign .modal-success-icon {
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     width: 100% !important;
-    margin: 12px 0 0 !important;
+    margin: 20px 0 0 !important;
     border-radius: 12px !important;
     background: #f6f8fb !important;
     box-shadow: 0 10px 30px rgba(15,23,42,.07) !important;
@@ -5276,14 +5296,14 @@ body.public-redesign .modal-success-icon {
 
   body.public-redesign .benefit {
     min-width: 0 !important;
-    min-height: 58px !important;
-    padding: 8px 3px !important;
-    gap: 4px !important;
+    min-height: 78px !important;
+    padding: 8px 4px !important;
+    gap: 6px !important;
     justify-content: center !important;
     border-right: 1px solid rgba(15,23,42,.08) !important;
     color: #101014 !important;
-    font-size: clamp(8.5px, 2.55vw, 11px) !important;
-    line-height: 1.05 !important;
+    font-size: clamp(13px, 3.9vw, 16px) !important;
+    line-height: 1.04 !important;
     text-align: center !important;
     white-space: normal !important;
   }
@@ -5291,22 +5311,23 @@ body.public-redesign .modal-success-icon {
   body.public-redesign .benefit .approved-icon {
     width: 24px !important;
     height: 24px !important;
-    padding: 4px !important;
+    padding: 3px !important;
   }
 
   body.public-redesign .mock-search {
     width: 100% !important;
-    height: 57px !important;
-    min-height: 57px !important;
-    margin: 16px 0 12px !important;
-    padding: 0 16px !important;
+    height: 72px !important;
+    min-height: 72px !important;
+    margin: 28px 0 26px !important;
+    padding: 0 24px !important;
+    border-radius: 23px !important;
     overflow: hidden !important;
   }
 
   body.public-redesign .mock-search input {
     min-width: 0 !important;
     width: 100% !important;
-    font-size: clamp(14px, 4.2vw, 17px) !important;
+    font-size: clamp(22px, 6.8vw, 28px) !important;
     text-overflow: ellipsis !important;
   }
 
@@ -5314,9 +5335,9 @@ body.public-redesign .modal-success-icon {
     display: flex !important;
     width: 100% !important;
     max-width: 100% !important;
-    gap: 10px !important;
+    gap: 16px !important;
     margin: 0 !important;
-    padding: 0 0 14px !important;
+    padding: 0 0 48px !important;
     overflow-x: auto !important;
     scrollbar-width: none !important;
     scroll-padding-left: 0 !important;
@@ -5328,10 +5349,10 @@ body.public-redesign .modal-success-icon {
 
   body.public-redesign .mock-cats .pill {
     flex: 0 0 auto !important;
-    height: 45px !important;
-    min-height: 45px !important;
-    padding: 0 13px !important;
-    font-size: 12px !important;
+    height: 58px !important;
+    min-height: 58px !important;
+    padding: 0 22px !important;
+    font-size: clamp(16px, 5vw, 20px) !important;
     border-radius: 999px !important;
     white-space: nowrap !important;
   }
@@ -5347,14 +5368,14 @@ body.public-redesign .modal-success-icon {
   }
 
   body.public-redesign .mock-section-head h2 {
-    font-size: clamp(23px, 7.1vw, 30px) !important;
+    font-size: clamp(33px, 10.2vw, 40px) !important;
     line-height: 1 !important;
   }
 
   body.public-redesign .mock-deal-grid {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
+    gap: 16px !important;
     overflow: visible !important;
     padding: 0 !important;
   }
@@ -5400,13 +5421,13 @@ body.public-redesign .modal-success-icon {
   }
 
   body.public-redesign .deal-content h3 {
-    font-size: clamp(14px, 4.1vw, 17px) !important;
+    font-size: clamp(20px, 6.1vw, 24px) !important;
     line-height: 1.05 !important;
   }
 
   body.public-redesign .deal-content p,
   body.public-redesign .location-line {
-    font-size: clamp(11px, 3.2vw, 13px) !important;
+    font-size: clamp(17px, 5.3vw, 21px) !important;
     line-height: 1.16 !important;
   }
 
@@ -5414,7 +5435,7 @@ body.public-redesign .modal-success-icon {
     min-height: 40px !important;
     padding: 0 10px !important;
     gap: 7px !important;
-    font-size: clamp(11px, 3.2vw, 13px) !important;
+    font-size: clamp(16px, 5vw, 20px) !important;
   }
 
   body.public-redesign .how-card {
@@ -5423,7 +5444,7 @@ body.public-redesign .modal-success-icon {
   }
 
   body.public-redesign .how-card .mock-section-head h2 {
-    font-size: clamp(22px, 6.2vw, 28px) !important;
+    font-size: clamp(32px, 9.8vw, 39px) !important;
     white-space: normal !important;
   }
 
@@ -5463,13 +5484,13 @@ body.public-redesign .modal-success-icon {
 
   body.public-redesign .wallet-promo h2 {
     max-width: 100% !important;
-    font-size: clamp(26px, 7.2vw, 31px) !important;
+    font-size: clamp(36px, 10.8vw, 45px) !important;
     line-height: .96 !important;
   }
 
   body.public-redesign .wallet-promo p {
     max-width: 100% !important;
-    font-size: clamp(15px, 4.1vw, 18px) !important;
+    font-size: clamp(21px, 6.5vw, 27px) !important;
     line-height: 1.26 !important;
   }
 
