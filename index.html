@@ -2838,6 +2838,177 @@ body.public-redesign .deal-image.mugs .brand-logo-img {
     max-width: 100%;
   }
 }
+
+body.public-redesign .hero-handwritten {
+  position: relative;
+  z-index: 3;
+  width: max-content;
+  max-width: 180px;
+  margin-bottom: 10px;
+  color: #fff;
+  font-size: 16px;
+  line-height: .9;
+  font-weight: 900;
+  text-transform: uppercase;
+  transform: rotate(-7deg);
+  text-shadow: 0 2px 12px rgba(0,0,0,.5);
+}
+
+body.public-redesign .hero-underlined {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  color: inherit !important;
+  white-space: nowrap;
+}
+
+body.public-redesign .hero-underlined img {
+  position: absolute;
+  z-index: -1;
+  left: -3%;
+  bottom: -.13em;
+  width: 106%;
+  height: auto;
+  pointer-events: none;
+}
+
+@media(max-width:700px){
+  body.public-redesign .mock-hero {
+    height: auto !important;
+    min-height: 0 !important;
+    padding-bottom: 14px !important;
+  }
+
+  body.public-redesign .mock-hero-card {
+    min-height: 430px !important;
+    aspect-ratio: auto !important;
+  }
+
+  body.public-redesign .mock-hero-card > img:first-child {
+    height: 100% !important;
+    object-position: 58% center !important;
+  }
+
+  body.public-redesign .mock-hero-copy h1 {
+    max-width: 310px;
+    margin-bottom: 12px;
+  }
+
+  body.public-redesign .hero-handwritten {
+    margin-bottom: 12px;
+    font-size: 17px;
+  }
+
+  body.public-redesign .mock-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  body.public-redesign .mock-actions .mock-btn {
+    min-height: 44px;
+    padding: 0 18px;
+    font-size: 14px;
+  }
+}
+
+@media(min-width:701px){
+  body.public-redesign .mock-hero {
+    height: 550px;
+    min-height: 550px;
+  }
+
+  body.public-redesign .mock-hero .wrap {
+    height: 550px;
+    min-height: 550px;
+  }
+
+  body.public-redesign .mock-hero-card {
+    height: 455px;
+    min-height: 455px;
+  }
+
+  body.public-redesign .mock-hero-card > img:first-child,
+  body.public-redesign .mock-hero-card::after {
+    height: 455px;
+  }
+
+  body.public-redesign .mock-hero-copy {
+    width: 420px !important;
+    padding-top: 26px !important;
+  }
+
+  body.public-redesign .hero-handwritten {
+    max-width: 170px;
+    color: #050505;
+    font-size: 15px;
+    text-shadow: none;
+  }
+
+  body.public-redesign .mock-hero-copy h1 {
+    max-width: 430px !important;
+    margin-bottom: 9px;
+    font-size: 48px !important;
+    line-height: .92;
+  }
+
+  body.public-redesign .lime-underlined::before,
+  body.public-redesign .lime-underlined::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  body.public-redesign .mock-hero-copy p {
+    max-width: 360px;
+    margin-bottom: 14px;
+    font-size: 18px !important;
+  }
+
+  body.public-redesign .mock-actions {
+    display: flex !important;
+    gap: 12px;
+    margin-top: 0;
+  }
+
+  body.public-redesign .mock-actions .mock-btn {
+    min-height: 42px;
+    padding: 0 23px;
+    font-size: 13px;
+  }
+
+  body.public-redesign .mock-actions .mock-btn.outline {
+    background: #fff;
+    color: #050505;
+    border: 1px solid var(--sp-border);
+  }
+
+  body.public-redesign .mock-search {
+    top: 366px;
+  }
+
+  body.public-redesign .benefit-strip {
+    top: 418px;
+  }
+
+  body.public-redesign .mock-cats {
+    top: 482px;
+  }
+
+  body.public-redesign .mock-hero-card .desktop-student-badge {
+    top: 262px !important;
+  }
+}
+
+@media(min-width:901px){
+  body.public-redesign .mock-cats {
+    top: 482px;
+  }
+}
+
+@media(min-width:1200px){
+  body.public-redesign .mock-hero-copy h1 {
+    font-size: 50px !important;
+  }
+}
 </style>
 </head>
 <body class="public-redesign">
@@ -2925,11 +3096,10 @@ body.public-redesign .deal-image.mugs .brand-logo-img {
   <div class="wrap">
     <div class="mock-hero-card">
       <img src="assets/desktop/backgrounds/hero-table-mountain-clean.webp" alt="South African students with Table Mountain in the background">
-      <img class="desktop-hero-slogan" src="assets/desktop/hero-slogan.png" alt="" aria-hidden="true">
       <img class="desktop-student-badge" src="assets/desktop/student-advantage-badge.png" alt="" aria-hidden="true">
-      <div class="mock-scribble">Same students<br>brighter tomorrows</div>
       <div class="mock-hero-copy">
-        <h1>Student life<br>costs <span class="lime-underlined">less here.</span></h1>
+        <div class="hero-handwritten">Same students<br>brighter tomorrows</div>
+        <h1>Student life<br><span class="hero-underlined">costs less here.<img src="assets/desktop/decor/hero-green-underline.svg" alt="" aria-hidden="true"></span></h1>
         <p>Discover verified deals, events and opportunities made for South African students.</p>
         <div class="mock-actions">
           <button class="mock-btn lime" onclick="openModal('jn')">Join StudentPerks →</button>
