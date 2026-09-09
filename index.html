@@ -5128,8 +5128,9 @@ body.public-redesign .modal-success-icon {
   body.public-redesign .mock-hero .wrap,
   body.public-redesign .mock-section .wrap,
   body.public-redesign footer .wrap {
-    width: calc(100vw - 48px) !important;
-    max-width: 688px !important;
+    box-sizing: border-box !important;
+    width: min(calc(100vw - 48px), 688px) !important;
+    max-width: calc(100vw - 48px) !important;
     margin-left: auto !important;
     margin-right: auto !important;
     padding-left: 0 !important;
@@ -5140,14 +5141,22 @@ body.public-redesign .modal-success-icon {
     overflow: visible !important;
   }
 
+  body.public-redesign .site-nav .wrap {
+    overflow: hidden !important;
+  }
+
   body.public-redesign .site-nav .nav-inner {
     height: 80px !important;
     min-height: 80px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
   }
 
   body.public-redesign .logo-word {
-    font-size: clamp(28px, 8.8vw, 34px) !important;
-    max-width: calc(100vw - 156px) !important;
+    flex: 0 1 auto !important;
+    font-size: clamp(24px, 7.35vw, 30px) !important;
+    max-width: calc(100vw - 170px) !important;
     line-height: .86 !important;
   }
 
@@ -5163,7 +5172,7 @@ body.public-redesign .modal-success-icon {
     border: 0 !important;
     background: transparent !important;
     color: #050505 !important;
-    font-size: clamp(19px, 5.8vw, 23px) !important;
+    font-size: clamp(16px, 4.7vw, 19px) !important;
     font-weight: 500 !important;
   }
 
@@ -5188,11 +5197,12 @@ body.public-redesign .modal-success-icon {
   body.public-redesign .mock-hero-card {
     position: relative !important;
     width: 100% !important;
-    height: clamp(306px, 86vw, 338px) !important;
-    min-height: clamp(306px, 86vw, 338px) !important;
+    height: clamp(184px, 41.2vw, 284px) !important;
+    min-height: clamp(184px, 41.2vw, 284px) !important;
     overflow: hidden !important;
     border-radius: 12px !important;
     background: #050505 !important;
+    box-sizing: border-box !important;
   }
 
   body.public-redesign .mock-hero-card > img:first-child {
@@ -5202,7 +5212,7 @@ body.public-redesign .modal-success-icon {
     height: 100% !important;
     transform: none !important;
     object-fit: cover !important;
-    object-position: 59% top !important;
+    object-position: 50% center !important;
   }
 
   body.public-redesign .mock-hero-card::after {
@@ -5210,26 +5220,26 @@ body.public-redesign .modal-success-icon {
     width: 100% !important;
     height: 100% !important;
     transform: none !important;
-    background: linear-gradient(90deg, rgba(0,0,0,.86) 0%, rgba(0,0,0,.57) 48%, rgba(0,0,0,.15) 100%) !important;
+    background: linear-gradient(90deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.46) 36%, rgba(0,0,0,.08) 100%) !important;
   }
 
   body.public-redesign .mock-hero-copy {
-    top: clamp(34px, 9vw, 42px) !important;
-    left: clamp(36px, 9.5vw, 42px) !important;
-    width: calc(100% - 32px) !important;
+    top: clamp(16px, 4.7vw, 24px) !important;
+    left: clamp(28px, 7.2vw, 34px) !important;
+    width: min(58%, 262px) !important;
     padding: 0 !important;
   }
 
   body.public-redesign .mock-hero-copy h1 {
-    max-width: min(340px, 88%) !important;
-    font-size: clamp(39px, 11.4vw, 45px) !important;
-    line-height: .96 !important;
-    margin-bottom: 10px !important;
+    max-width: 100% !important;
+    font-size: clamp(23px, 6.6vw, 30px) !important;
+    line-height: .94 !important;
+    margin-bottom: 7px !important;
     color: #fff !important;
   }
 
   body.public-redesign .mock-hero-copy h1 span {
-    color: #fff !important;
+    color: #9cff18 !important;
   }
 
   body.public-redesign .hero-underlined img {
@@ -5237,50 +5247,52 @@ body.public-redesign .modal-success-icon {
   }
 
   body.public-redesign .mock-hero-copy p {
-    max-width: min(300px, 76%) !important;
-    margin-bottom: 24px !important;
+    max-width: 100% !important;
+    margin-bottom: 10px !important;
     color: rgba(255,255,255,.9) !important;
-    font-size: clamp(19px, 5.7vw, 23px) !important;
-    line-height: 1.16 !important;
+    font-size: clamp(11.5px, 3.25vw, 14px) !important;
+    line-height: 1.15 !important;
   }
 
   body.public-redesign .mock-actions {
     display: flex !important;
-    gap: 10px !important;
-    flex-wrap: wrap !important;
-    align-items: flex-start !important;
-    width: min(240px, 60%) !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    width: min(100%, 250px) !important;
   }
 
   body.public-redesign .mock-actions .mock-btn {
-    width: 100% !important;
-    min-height: 62px !important;
-    padding: 0 24px !important;
-    font-size: clamp(19px, 5.9vw, 24px) !important;
-    line-height: 1.12 !important;
+    width: auto !important;
+    min-height: 29px !important;
+    padding: 0 13px !important;
+    font-size: clamp(10px, 2.9vw, 12px) !important;
+    line-height: 1 !important;
     white-space: nowrap !important;
   }
 
   body.public-redesign .mock-actions .mock-btn.lime {
-    white-space: normal !important;
+    min-width: 112px !important;
+    white-space: nowrap !important;
   }
 
   body.public-redesign .mock-actions .mock-btn.outline {
     width: auto !important;
-    min-width: 126px !important;
-    min-height: 56px !important;
-    padding: 0 30px !important;
+    min-width: 70px !important;
+    min-height: 29px !important;
+    padding: 0 13px !important;
   }
 
   body.public-redesign .hero-handwritten {
-    top: 48px !important;
-    right: 22px !important;
-    width: min(112px, 30vw) !important;
-    max-width: 30vw !important;
+    top: clamp(22px, 5.8vw, 28px) !important;
+    right: clamp(19px, 5vw, 24px) !important;
+    width: min(82px, 22vw) !important;
+    max-width: 22vw !important;
     color: #fff !important;
-    font-size: clamp(15px, 4.8vw, 19px) !important;
+    font-size: clamp(10px, 2.9vw, 12.5px) !important;
     line-height: .9 !important;
     text-align: center !important;
+    overflow-wrap: normal !important;
   }
 
   body.public-redesign .benefit-strip {
@@ -5292,25 +5304,26 @@ body.public-redesign .modal-success-icon {
     background: #f6f8fb !important;
     box-shadow: 0 10px 30px rgba(15,23,42,.07) !important;
     overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
   body.public-redesign .benefit {
     min-width: 0 !important;
     min-height: 78px !important;
     padding: 8px 4px !important;
-    gap: 6px !important;
+    gap: 5px !important;
     justify-content: center !important;
     border-right: 1px solid rgba(15,23,42,.08) !important;
     color: #101014 !important;
-    font-size: clamp(13px, 3.9vw, 16px) !important;
+    font-size: clamp(10.5px, 3.15vw, 13px) !important;
     line-height: 1.04 !important;
     text-align: center !important;
     white-space: normal !important;
   }
 
   body.public-redesign .benefit .approved-icon {
-    width: 24px !important;
-    height: 24px !important;
+    width: 20px !important;
+    height: 20px !important;
     padding: 3px !important;
   }
 
@@ -5451,7 +5464,7 @@ body.public-redesign .modal-success-icon {
   body.public-redesign .how-steps {
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 4px !important;
+    gap: 0 !important;
     width: 100% !important;
     overflow: hidden !important;
   }
@@ -5461,7 +5474,7 @@ body.public-redesign .modal-success-icon {
     grid-template-columns: 1fr !important;
     justify-items: center !important;
     text-align: center !important;
-    font-size: clamp(9px, 2.75vw, 11px) !important;
+    font-size: clamp(7.5px, 2.25vw, 9px) !important;
     line-height: 1.05 !important;
   }
 
@@ -5484,13 +5497,13 @@ body.public-redesign .modal-success-icon {
 
   body.public-redesign .wallet-promo h2 {
     max-width: 100% !important;
-    font-size: clamp(36px, 10.8vw, 45px) !important;
+    font-size: clamp(31px, 9.4vw, 38px) !important;
     line-height: .96 !important;
   }
 
   body.public-redesign .wallet-promo p {
     max-width: 100% !important;
-    font-size: clamp(21px, 6.5vw, 27px) !important;
+    font-size: clamp(18px, 5.4vw, 22px) !important;
     line-height: 1.26 !important;
   }
 
@@ -5616,7 +5629,7 @@ body.public-redesign .modal-success-icon {
       <img class="desktop-student-badge" src="assets/desktop/student-advantage-badge.png" alt="" aria-hidden="true">
       <div class="hero-handwritten">Same students<br>brighter tomorrows</div>
       <div class="mock-hero-copy">
-        <h1>Student life<br><span class="hero-underlined">costs less here.<img src="assets/desktop/decor/hero-green-underline.svg" alt="" aria-hidden="true"></span></h1>
+        <h1>Student life<br>costs <span class="hero-underlined">less here.<img src="assets/desktop/decor/hero-green-underline.svg" alt="" aria-hidden="true"></span></h1>
         <p>Discover verified deals, events and opportunities made for South African students.</p>
         <div class="mock-actions">
           <button class="mock-btn lime" onclick="openModal('jn')">Join StudentPerks →</button>
