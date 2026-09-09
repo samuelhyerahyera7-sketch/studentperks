@@ -3384,6 +3384,185 @@ body.public-redesign .hero-underlined img {
     font-size: 50px !important;
   }
 }
+
+/* Business CTA reference match */
+body.public-redesign #business {
+  display: block !important;
+  padding-top: clamp(18px, 2.4vw, 34px) !important;
+  padding-bottom: clamp(18px, 2.4vw, 34px) !important;
+}
+
+body.public-redesign #business .wrap {
+  width: calc(100vw - clamp(44px, 6.5vw, 136px)) !important;
+  max-width: 1968px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+body.public-redesign #business .business-promo {
+  display: grid !important;
+  grid-template-columns: 53.2% 46.8% !important;
+  gap: 0 !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  aspect-ratio: 3.78 / 1 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 2px solid #e4eaf2 !important;
+  border-radius: clamp(20px, 1.45vw, 30px) !important;
+  background: #fff !important;
+  box-shadow: 0 18px 44px rgba(15, 23, 42, .06) !important;
+}
+
+body.public-redesign #business .business-photo {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  border-radius: 0 !important;
+  background: url('assets/layered/backgrounds/partner-students-clean.webp') 44% center / cover no-repeat !important;
+}
+
+body.public-redesign #business .business-copy {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  min-height: 0 !important;
+  padding: clamp(24px, 2.8vw, 68px) clamp(34px, 5.4vw, 112px) clamp(24px, 2.8vw, 68px) clamp(44px, 4.4vw, 92px) !important;
+  background: linear-gradient(90deg, #fff 0%, #fbfdff 100%) !important;
+}
+
+body.public-redesign #business .business-copy::after {
+  content: '' !important;
+  position: absolute !important;
+  right: clamp(34px, 6.2vw, 130px) !important;
+  top: clamp(62px, 5.2vw, 108px) !important;
+  width: clamp(52px, 5.8vw, 126px) !important;
+  height: clamp(50px, 5.5vw, 120px) !important;
+  background: url('assets/brand/lime-rays.svg') center / contain no-repeat !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
+body.public-redesign #business .business-copy h2 {
+  position: relative !important;
+  z-index: 1 !important;
+  max-width: 100% !important;
+  margin: 0 0 clamp(10px, 1vw, 22px) !important;
+  color: #050505 !important;
+  font-size: clamp(38px, 3.75vw, 82px) !important;
+  line-height: .9 !important;
+  letter-spacing: -.075em !important;
+  font-weight: 900 !important;
+}
+
+body.public-redesign #business .business-copy p {
+  position: relative !important;
+  z-index: 1 !important;
+  max-width: min(720px, 92%) !important;
+  margin: 0 0 clamp(14px, 1.45vw, 30px) !important;
+  color: #293140 !important;
+  font-size: clamp(20px, 2vw, 44px) !important;
+  line-height: 1.13 !important;
+  letter-spacing: -.025em !important;
+}
+
+body.public-redesign #business .business-copy .business-cta-button {
+  position: relative !important;
+  z-index: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: flex-start !important;
+  min-width: clamp(236px, 23vw, 500px) !important;
+  height: clamp(54px, 5vw, 98px) !important;
+  min-height: 0 !important;
+  padding: 0 clamp(28px, 3vw, 58px) !important;
+  border: 3px solid #050505 !important;
+  border-radius: 999px !important;
+  background: #fff !important;
+  color: #050505 !important;
+  box-shadow: none !important;
+  font-size: clamp(22px, 2vw, 44px) !important;
+  line-height: 1 !important;
+  letter-spacing: -.04em !important;
+  font-weight: 800 !important;
+  text-transform: none !important;
+}
+
+body.public-redesign section#business div.business-copy > a.business-cta-button {
+  height: 64px !important;
+  min-height: 64px !important;
+  block-size: 64px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+body.public-redesign #business .business-photo__brand,
+body.public-redesign #business .business-photo__label {
+  display: none !important;
+}
+
+@media(max-width:700px){
+  body.public-redesign #business {
+    padding-top: 22px !important;
+    padding-bottom: 22px !important;
+  }
+
+  body.public-redesign #business .wrap {
+    width: 100% !important;
+    max-width: 736px !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  body.public-redesign #business .business-promo {
+    grid-template-columns: 1fr !important;
+    aspect-ratio: auto !important;
+    border-radius: 18px !important;
+  }
+
+  body.public-redesign #business .business-photo {
+    min-height: 184px !important;
+    background-position: center center !important;
+  }
+
+  body.public-redesign #business .business-copy {
+    padding: 26px 24px 28px !important;
+  }
+
+  body.public-redesign #business .business-copy::after {
+    right: 22px !important;
+    top: 20px !important;
+    width: 58px !important;
+    height: 58px !important;
+  }
+
+  body.public-redesign #business .business-copy h2 {
+    max-width: calc(100% - 64px) !important;
+    font-size: clamp(34px, 10vw, 46px) !important;
+    margin-bottom: 12px !important;
+  }
+
+  body.public-redesign #business .business-copy p {
+    max-width: 100% !important;
+    font-size: 19px !important;
+    line-height: 1.18 !important;
+    margin-bottom: 20px !important;
+  }
+
+  body.public-redesign #business .business-copy .business-cta-button {
+    min-width: 0 !important;
+    width: 100% !important;
+    height: 56px !important;
+    min-height: 56px !important;
+    block-size: 56px !important;
+    border-width: 2px !important;
+    font-size: 22px !important;
+  }
+}
 </style>
 </head>
 <body class="public-redesign">
@@ -3632,14 +3811,11 @@ body.public-redesign .hero-underlined img {
 <section class="mock-section" id="business">
   <div class="wrap">
     <div class="business-promo">
-      <div class="business-photo">
-        <div class="business-photo__brand">Student<span>Perks</span></div>
-        <div class="business-photo__label">Partner offers</div>
-      </div>
+      <div class="business-photo" aria-hidden="true"></div>
       <div class="business-copy">
         <h2>Want to reach verified students?</h2>
         <p>Partner with StudentPerks and connect with South Africa's next generation.</p>
-        <a class="mock-btn outline" href="partner.html">Partner with us →</a>
+        <a class="business-cta-button" href="partner.html">Partner with us →</a>
       </div>
     </div>
   </div>
