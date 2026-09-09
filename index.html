@@ -2759,6 +2759,7 @@ body.public-redesign #business .business-photo__label {
 }
 
 body.public-redesign #business .business-copy {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -2766,6 +2767,16 @@ body.public-redesign #business .business-copy {
   background:
     radial-gradient(circle at 100% 0%, rgba(183,255,25,.18), transparent 38%),
     #f7f9fb;
+}
+
+body.public-redesign #business .business-copy::after {
+  content: '';
+  position: absolute;
+  right: 22px;
+  top: 22px;
+  width: 34px;
+  height: 34px;
+  background: url('assets/brand/lime-rays.svg') center/contain no-repeat;
 }
 
 body.public-redesign #business .business-copy h2 {
@@ -2789,16 +2800,47 @@ body.public-redesign #business .business-copy .mock-btn {
 
 @media(max-width:700px){
   body.public-redesign #business .business-promo {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, .4fr) minmax(0, .6fr);
+    min-height: 176px;
   }
 
   body.public-redesign #business .business-photo {
-    min-height: 142px;
+    min-height: 176px;
     border-radius: 0;
+    background-position: 39% center !important;
   }
 
   body.public-redesign #business .business-copy {
-    padding: 20px;
+    min-height: 176px;
+    padding: 17px 14px 15px 16px;
+  }
+
+  body.public-redesign #business .business-copy::after {
+    right: 12px;
+    top: auto;
+    bottom: 12px;
+    width: 24px;
+    height: 24px;
+  }
+
+  body.public-redesign #business .business-copy h2 {
+    max-width: 190px;
+    margin-bottom: 6px;
+    font-size: clamp(21px, 6vw, 26px);
+    line-height: .92;
+  }
+
+  body.public-redesign #business .business-copy p {
+    max-width: 190px;
+    margin-bottom: 12px;
+    font-size: clamp(12px, 3.25vw, 14px);
+    line-height: 1.2;
+  }
+
+  body.public-redesign #business .business-copy .mock-btn {
+    min-height: 35px;
+    padding: 0 13px;
+    font-size: 12px;
   }
 }
 
