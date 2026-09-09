@@ -2724,6 +2724,8 @@ body.public-redesign .business-photo__label {
 
 body.public-redesign #business .business-promo {
   grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+  width: 100% !important;
+  max-width: 100% !important;
   gap: 0;
   overflow: hidden;
   padding: 0;
@@ -2735,6 +2737,13 @@ body.public-redesign #business .business-promo {
 
 body.public-redesign #business {
   display: block !important;
+}
+
+body.public-redesign #business .wrap {
+  width: calc(100vw - 48px) !important;
+  max-width: 1789px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 body.public-redesign #business .business-photo {
@@ -2816,7 +2825,115 @@ body.public-redesign #business .business-copy .mock-btn {
   box-shadow: none;
 }
 
+@media(min-width:701px) and (max-width:899px){
+  body.public-redesign #business .wrap {
+    width: 100% !important;
+    max-width: 736px !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  body.public-redesign #business .business-promo {
+    grid-template-columns: minmax(0, .47fr) minmax(0, .53fr);
+    min-height: 176px;
+    aspect-ratio: auto;
+    border-radius: 13px;
+  }
+
+  body.public-redesign #business .business-photo {
+    min-height: 176px;
+    aspect-ratio: auto !important;
+    background-position: 43% center !important;
+  }
+
+  body.public-redesign #business .business-copy {
+    min-height: 176px;
+    padding: 18px 13px 15px 16px;
+  }
+
+  body.public-redesign #business .business-copy::after {
+    right: 12px;
+    top: 11px;
+    width: 34px;
+    height: 34px;
+  }
+
+  body.public-redesign #business .business-copy h2 {
+    max-width: 176px;
+    margin-bottom: 7px;
+    padding-right: 18px;
+    font-size: clamp(23px, 4vw, 29px);
+    line-height: .88;
+  }
+
+  body.public-redesign #business .business-copy p {
+    max-width: 178px;
+    margin-bottom: 13px;
+    font-size: 13px;
+    line-height: 1.13;
+  }
+
+  body.public-redesign #business .business-copy .mock-btn {
+    height: 38px !important;
+    min-height: 38px !important;
+    padding: 0 14px;
+    border-width: 2px;
+    font-size: 12px;
+  }
+}
+
+@media(min-width:900px){
+  body.public-redesign #business .business-promo {
+    grid-template-columns: minmax(0, 1.06fr) minmax(0, .94fr);
+    align-items: stretch;
+    aspect-ratio: auto !important;
+    min-height: clamp(230px, 24vw, 460px);
+  }
+
+  body.public-redesign #business .business-photo {
+    min-height: 100%;
+  }
+
+  body.public-redesign #business .business-copy {
+    padding-left: clamp(42px, 4.2vw, 82px);
+    padding-right: clamp(38px, 4.2vw, 82px);
+  }
+
+  body.public-redesign #business .business-copy::after {
+    right: clamp(34px, 5.5vw, 96px);
+    top: clamp(24px, 3.4vw, 64px);
+    width: clamp(58px, 6vw, 116px);
+    height: clamp(58px, 6vw, 116px);
+  }
+
+  body.public-redesign #business .business-copy h2 {
+    max-width: 680px;
+    font-size: clamp(38px, 3.65vw, 72px);
+    line-height: .9;
+  }
+
+  body.public-redesign #business .business-copy p {
+    max-width: 650px;
+    font-size: clamp(20px, 2.15vw, 38px);
+    line-height: 1.12;
+  }
+
+  body.public-redesign #business .business-copy .mock-btn {
+    height: clamp(50px, 5.2vw, 82px) !important;
+    min-height: clamp(50px, 5.2vw, 82px) !important;
+    padding: 0 clamp(30px, 4.5vw, 70px) !important;
+    font-size: clamp(18px, 2.1vw, 33px) !important;
+  }
+}
+
 @media(max-width:700px){
+  body.public-redesign #business .wrap {
+    width: 100% !important;
+    max-width: 736px;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
   body.public-redesign #business .business-promo {
     grid-template-columns: minmax(0, .47fr) minmax(0, .53fr);
     min-height: 176px;
