@@ -2723,34 +2723,35 @@ body.public-redesign .business-photo__label {
 }
 
 body.public-redesign #business .business-promo {
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
   gap: 0;
   overflow: hidden;
   padding: 0;
-  border: 1px solid #e5e9ef;
-  border-radius: 16px;
-  background: #f7f9fb;
-  box-shadow: 0 8px 26px rgba(15,23,42,.06);
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 12px 36px rgba(15,23,42,.07);
+}
+
+body.public-redesign #business {
+  display: block !important;
 }
 
 body.public-redesign #business .business-photo {
-  min-height: 182px;
+  width: 100%;
+  min-width: 0;
+  min-height: 218px;
   height: 100%;
+  aspect-ratio: auto !important;
   border-radius: 0;
   background:
-    linear-gradient(90deg, rgba(5,5,5,.12), rgba(5,5,5,0)),
     url('assets/layered/backgrounds/partner-students-clean.webp') center/cover !important;
   padding: 0;
 }
 
 body.public-redesign #business .business-photo::after {
-  content: '';
-  position: absolute;
-  right: 18px;
-  top: 18px;
-  width: 36px;
-  height: 36px;
-  background: url('assets/brand/lime-rays.svg') center/contain no-repeat;
+  content: none;
+  display: none;
 }
 
 body.public-redesign #business .business-photo__brand,
@@ -2763,83 +2764,106 @@ body.public-redesign #business .business-copy {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 24px;
+  padding: 28px 40px 28px 42px;
   background:
-    radial-gradient(circle at 100% 0%, rgba(183,255,25,.18), transparent 38%),
-    #f7f9fb;
+    linear-gradient(90deg, #fff 0%, #fafcff 100%);
 }
 
 body.public-redesign #business .business-copy::after {
   content: '';
   position: absolute;
-  right: 22px;
-  top: 22px;
-  width: 34px;
-  height: 34px;
+  right: 42px;
+  top: 28px;
+  width: 58px;
+  height: 58px;
   background: url('assets/brand/lime-rays.svg') center/contain no-repeat;
 }
 
 body.public-redesign #business .business-copy h2 {
-  max-width: 280px;
-  margin: 0 0 8px;
+  position: relative;
+  z-index: 1;
+  max-width: 330px;
+  margin: 0 0 12px;
   color: #050505;
+  font-size: clamp(32px, 3.7vw, 38px);
+  line-height: .88;
+  letter-spacing: -.06em;
 }
 
 body.public-redesign #business .business-copy p {
-  max-width: 330px;
-  margin: 0 0 18px;
+  position: relative;
+  z-index: 1;
+  max-width: 350px;
+  margin: 0 0 20px;
+  color: #293140;
+  font-size: clamp(17px, 1.9vw, 20px);
+  line-height: 1.16;
 }
 
 body.public-redesign #business .business-copy .mock-btn {
+  position: relative;
+  z-index: 1;
   align-self: flex-start;
-  min-height: 42px;
-  border-color: #111;
+  height: 50px !important;
+  min-height: 50px !important;
+  padding: 0 30px;
+  border: 2px solid #050505;
+  border-radius: 999px;
   background: #fff;
   color: #050505;
+  font-size: 18px;
+  font-weight: 900;
+  box-shadow: none;
 }
 
 @media(max-width:700px){
   body.public-redesign #business .business-promo {
-    grid-template-columns: minmax(0, .4fr) minmax(0, .6fr);
+    grid-template-columns: minmax(0, .47fr) minmax(0, .53fr);
     min-height: 176px;
+    border-radius: 13px;
   }
 
   body.public-redesign #business .business-photo {
+    width: 100%;
     min-height: 176px;
+    aspect-ratio: auto !important;
     border-radius: 0;
-    background-position: 39% center !important;
+    background-position: 43% center !important;
   }
 
   body.public-redesign #business .business-copy {
     min-height: 176px;
-    padding: 17px 14px 15px 16px;
+    padding: 18px 13px 15px 16px;
   }
 
   body.public-redesign #business .business-copy::after {
     right: 12px;
-    top: auto;
-    bottom: 12px;
-    width: 24px;
-    height: 24px;
+    top: 11px;
+    bottom: auto;
+    width: 34px;
+    height: 34px;
   }
 
   body.public-redesign #business .business-copy h2 {
-    max-width: 190px;
-    margin-bottom: 6px;
-    font-size: clamp(21px, 6vw, 26px);
-    line-height: .92;
+    max-width: 176px;
+    margin-bottom: 7px;
+    padding-right: 18px;
+    font-size: clamp(23px, 6.7vw, 29px);
+    line-height: .88;
   }
 
   body.public-redesign #business .business-copy p {
-    max-width: 190px;
-    margin-bottom: 12px;
-    font-size: clamp(12px, 3.25vw, 14px);
-    line-height: 1.2;
+    max-width: 178px;
+    margin-bottom: 13px;
+    font-size: clamp(12px, 3.5vw, 15px);
+    line-height: 1.13;
   }
 
   body.public-redesign #business .business-copy .mock-btn {
-    min-height: 35px;
-    padding: 0 13px;
+    height: 38px !important;
+    min-height: 38px !important;
+    padding: 0 14px;
+    border-width: 2px;
     font-size: 12px;
   }
 }
