@@ -189,3 +189,110 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
     line-height: 1 !important;
   }
 }
+
+/* =========================================================
+   DARK MODE PREVIEW
+   Keeps StudentPerks lime as the accent while converting the
+   public homepage shell, cards, empty states and footer.
+   ========================================================= */
+html body.public-redesign {
+  background: #090a0b !important;
+  color: #f5f7f8 !important;
+}
+html body.public-redesign main,
+html body.public-redesign section,
+html body.public-redesign .public-page,
+html body.public-redesign .mock-page {
+  background-color: #090a0b !important;
+}
+html body.public-redesign nav,
+html body.public-redesign header,
+html body.public-redesign footer {
+  background: #0b0c0e !important;
+  color: #f5f7f8 !important;
+  border-color: #24272b !important;
+}
+html body.public-redesign h1,
+html body.public-redesign h2,
+html body.public-redesign h3,
+html body.public-redesign h4,
+html body.public-redesign .sec-title,
+html body.public-redesign .section-title,
+html body.public-redesign .empty-tile h3,
+html body.public-redesign .footer-col h4 {
+  color: #f7f8fa !important;
+}
+html body.public-redesign p,
+html body.public-redesign .empty-tile p,
+html body.public-redesign .footer-col a,
+html body.public-redesign footer a,
+html body.public-redesign .location-line {
+  color: #aeb4be !important;
+}
+html body.public-redesign .how-card,
+html body.public-redesign .wallet-promo,
+html body.public-redesign .empty-tile,
+html body.public-redesign .deal-card,
+html body.public-redesign .event-card,
+html body.public-redesign .job-card,
+html body.public-redesign .opportunity-card,
+html body.public-redesign .mock-card,
+html body.public-redesign .benefit-strip,
+html body.public-redesign .search-wrap {
+  background: #121416 !important;
+  border-color: #292d31 !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,.28) !important;
+}
+html body.public-redesign .empty-icon,
+html body.public-redesign .num {
+  background: rgba(140,255,0,.17) !important;
+  color: #b8ff55 !important;
+}
+html body.public-redesign input,
+html body.public-redesign select,
+html body.public-redesign textarea {
+  background: #151719 !important;
+  color: #f5f7f8 !important;
+  border-color: #30343a !important;
+}
+html body.public-redesign input::placeholder,
+html body.public-redesign textarea::placeholder {
+  color: #777f8a !important;
+}
+html body.public-redesign .pill {
+  color: #f5f7f8 !important;
+  border-color: #3a3f45 !important;
+}
+html body.public-redesign .pill.active {
+  background: #8cff00 !important;
+  border-color: #8cff00 !important;
+  color: #080909 !important;
+}
+html body.public-redesign .sec-divider,
+html body.public-redesign .divider,
+html body.public-redesign hr {
+  background: #262a2f !important;
+  border-color: #262a2f !important;
+}
+html body.public-redesign .saving-cta {
+  background: #050606 !important;
+  border: 1px solid #23262a !important;
+}
+html body.public-redesign footer .footer-col a:hover,
+html body.public-redesign a:hover {
+  color: #8cff00;
+}
+
+/* Keep the partner banner deliberately light, matching the approved artwork. */
+html body.public-redesign section#business div.wrap div.business-promo {
+  border-color: #34383d !important;
+}
+html body.public-redesign section#business div.wrap div.business-promo > div.business-copy {
+  background: linear-gradient(100deg, #f8fafc 0%, #f3f6fa 100%) !important;
+}
+html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > h2 {
+  color: #050505 !important;
+}
+html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > p {
+  color: #293140 !important;
+}
