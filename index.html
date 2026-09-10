@@ -6297,6 +6297,244 @@ body.public-redesign .modal-success-icon {
     height: 19px !important;
   }
 }
+
+/* Reference wallet strip: live copy with layered approved card artwork */
+body.public-redesign #wallet .wallet-promo {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(250px, .88fr) minmax(330px, 1.12fr) !important;
+  align-items: center !important;
+  gap: 18px !important;
+  min-height: 142px !important;
+  padding: 22px 24px !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  background:
+    radial-gradient(circle at 71% 47%, rgba(183,255,25,.22), transparent 30%),
+    linear-gradient(100deg, #f2ffe9 0%, #f8fff0 48%, #efffe5 100%) !important;
+  box-shadow: 0 10px 28px rgba(15,23,42,.07) !important;
+  overflow: hidden !important;
+}
+
+body.public-redesign #wallet .wallet-heading-mobile,
+body.public-redesign #wallet .wallet-copy-mobile,
+body.public-redesign #wallet .wallet-button-mobile {
+  display: inline !important;
+}
+
+body.public-redesign #wallet .wallet-heading-desktop,
+body.public-redesign #wallet .wallet-copy-desktop,
+body.public-redesign #wallet .wallet-button-desktop,
+body.public-redesign #wallet .desktop-wallet-stats {
+  display: none !important;
+}
+
+body.public-redesign #wallet .wallet-promo h2 {
+  max-width: 360px !important;
+  margin: 0 0 7px !important;
+  color: #050505 !important;
+  font-size: 32px !important;
+  line-height: .94 !important;
+  letter-spacing: -.055em !important;
+  font-weight: 900 !important;
+}
+
+body.public-redesign #wallet .wallet-promo p {
+  max-width: 430px !important;
+  margin: 0 0 14px !important;
+  color: #424a59 !important;
+  font-size: 16px !important;
+  line-height: 1.2 !important;
+}
+
+body.public-redesign #wallet .wallet-promo .mock-btn {
+  width: auto !important;
+  min-width: 222px !important;
+  min-height: 44px !important;
+  padding: 0 25px !important;
+  border-radius: 999px !important;
+  background: #a8ff17 !important;
+  color: #050505 !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  box-shadow: none !important;
+}
+
+body.public-redesign #wallet .wallet-art {
+  position: relative !important;
+  min-height: 146px !important;
+  overflow: visible !important;
+}
+
+body.public-redesign #wallet .wallet-art .student-card,
+body.public-redesign #wallet .wallet-art .promo-wallet-card {
+  position: absolute !important;
+  z-index: 2 !important;
+  right: 104px !important;
+  top: -12px !important;
+  width: 282px !important;
+  height: 128px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border-radius: 9px !important;
+  background: #050505 url('assets/brand/wallet-card-background.svg') center/cover no-repeat !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.18) !important;
+  transform: rotate(-6deg) !important;
+  overflow: hidden !important;
+}
+
+body.public-redesign #wallet .student-card__brand,
+body.public-redesign #wallet .promo-wallet-card .student-card__brand {
+  display: none !important;
+}
+
+body.public-redesign #wallet .student-card__brand-logo {
+  position: absolute !important;
+  z-index: 3 !important;
+  left: 31px !important;
+  top: 41px !important;
+  width: 132px !important;
+  height: auto !important;
+  display: block !important;
+}
+
+body.public-redesign #wallet .promo-wallet-card::after {
+  content: '' !important;
+  position: absolute !important;
+  z-index: 4 !important;
+  right: 27px !important;
+  top: 18px !important;
+  width: 58px !important;
+  height: 58px !important;
+  background: url('assets/brand/lime-rays.svg') center/contain no-repeat !important;
+}
+
+body.public-redesign #wallet .promo-wallet-card .student-card__qr,
+body.public-redesign #wallet .desktop-wallet-qr {
+  position: absolute !important;
+  z-index: 6 !important;
+  left: auto !important;
+  right: 126px !important;
+  top: 58px !important;
+  bottom: auto !important;
+  display: block !important;
+  width: 88px !important;
+  height: 88px !important;
+  aspect-ratio: 1 !important;
+  padding: 0 !important;
+  border-radius: 8px !important;
+  background:
+    linear-gradient(90deg,#111 8px,transparent 0) 0 0/16px 16px,
+    linear-gradient(#111 8px,transparent 0) 0 0/16px 16px,
+    #fff !important;
+  box-shadow: 0 10px 24px rgba(15,23,42,.14) !important;
+}
+
+body.public-redesign #wallet .desktop-wallet-qr span {
+  display: none !important;
+}
+
+body.public-redesign #wallet .desktop-wallet-slogan {
+  position: absolute !important;
+  z-index: 5 !important;
+  display: block !important;
+  right: 10px !important;
+  top: 30px !important;
+  width: 112px !important;
+  height: auto !important;
+  transform: rotate(-4deg) !important;
+}
+
+body.public-redesign #wallet .wallet-note {
+  display: none !important;
+}
+
+@media(max-width:860px) {
+  body.public-redesign #wallet .wallet-promo {
+    grid-template-columns: minmax(0, 47%) minmax(0, 53%) !important;
+    gap: 0 !important;
+    min-height: 0 !important;
+    aspect-ratio: 650 / 161 !important;
+    padding: clamp(13px, 3.4vw, 21px) clamp(12px, 3.2vw, 20px) !important;
+    border-radius: 12px !important;
+  }
+
+  body.public-redesign #wallet .wallet-promo h2 {
+    max-width: 100% !important;
+    margin-bottom: clamp(3px, .9vw, 6px) !important;
+    font-size: clamp(17px, 5.05vw, 31px) !important;
+    line-height: .94 !important;
+  }
+
+  body.public-redesign #wallet .wallet-promo p {
+    max-width: 100% !important;
+    margin-bottom: clamp(8px, 2.2vw, 13px) !important;
+    font-size: clamp(9.4px, 2.95vw, 18px) !important;
+    line-height: 1.18 !important;
+  }
+
+  body.public-redesign #wallet .wallet-promo .mock-btn {
+    min-width: clamp(128px, 38vw, 232px) !important;
+    min-height: clamp(28px, 8vw, 44px) !important;
+    padding: 0 clamp(14px, 4vw, 25px) !important;
+    font-size: clamp(9.5px, 2.85vw, 15px) !important;
+  }
+
+  body.public-redesign #wallet .wallet-art {
+    min-height: 0 !important;
+    height: 100% !important;
+    overflow: visible !important;
+  }
+
+  body.public-redesign #wallet .wallet-art .student-card,
+  body.public-redesign #wallet .wallet-art .promo-wallet-card {
+    right: clamp(-8px, -1vw, 0px) !important;
+    top: clamp(-11px, -2.3vw, -5px) !important;
+    width: clamp(132px, 36vw, 250px) !important;
+    height: clamp(61px, 16.4vw, 116px) !important;
+    border-radius: clamp(5px, 1.5vw, 9px) !important;
+  }
+
+  body.public-redesign #wallet .student-card__brand-logo {
+    left: clamp(13px, 3.9vw, 27px) !important;
+    top: clamp(19px, 5.2vw, 36px) !important;
+    width: clamp(62px, 16.8vw, 116px) !important;
+  }
+
+  body.public-redesign #wallet .promo-wallet-card::after {
+    right: clamp(11px, 3.3vw, 23px) !important;
+    top: clamp(7px, 2.2vw, 16px) !important;
+    width: clamp(27px, 7.4vw, 52px) !important;
+    height: clamp(27px, 7.4vw, 52px) !important;
+  }
+
+  body.public-redesign #wallet .promo-wallet-card .student-card__qr,
+  body.public-redesign #wallet .desktop-wallet-qr {
+    right: clamp(42px, 12vw, 76px) !important;
+    top: clamp(33px, 8.9vw, 58px) !important;
+    width: clamp(42px, 11.5vw, 76px) !important;
+    height: clamp(42px, 11.5vw, 76px) !important;
+    border-radius: clamp(5px, 1.2vw, 8px) !important;
+    background:
+      linear-gradient(90deg,#111 5px,transparent 0) 0 0/10px 10px,
+      linear-gradient(#111 5px,transparent 0) 0 0/10px 10px,
+      #fff !important;
+  }
+
+  body.public-redesign #wallet .desktop-wallet-slogan {
+    right: 0 !important;
+    top: clamp(23px, 6vw, 42px) !important;
+    width: clamp(54px, 15.5vw, 102px) !important;
+  }
+}
+
+body.public-redesign #wallet .promo-wallet-card .student-card__qr {
+  display: none !important;
+}
+
+body.public-redesign #wallet .desktop-wallet-qr {
+  display: block !important;
+}
 </style>
 </head>
 <body class="public-redesign">
@@ -6500,7 +6738,7 @@ body.public-redesign .modal-success-icon {
       </div>
       <div class="wallet-art">
         <article class="student-card promo-wallet-card" aria-label="StudentPerks wallet card preview">
-          <div class="student-card__brand">Student<span>Perks</span></div>
+          <img class="student-card__brand-logo" src="assets/brand/studentperks-logo-dark.svg" alt="StudentPerks">
           <div class="student-card__qr" data-qr-container aria-label="Membership QR code preview"></div>
         </article>
         <div class="desktop-wallet-qr" data-qr-container aria-label="Wallet QR preview"><span>Scan to redeem<br>your deals</span></div>
