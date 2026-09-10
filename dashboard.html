@@ -29,9 +29,8 @@ button,input{font:inherit}
 button{border:0;cursor:pointer;background:none;color:inherit}
 .app{width:min(100%,736px);margin:0 auto;padding:16px 28px 104px}
 .icon{width:24px;height:24px;display:block}
-.brand{font-weight:900;font-size:29px;line-height:.82;letter-spacing:-.075em;color:#050505;display:inline-flex;align-items:flex-start;position:relative}
-.brand span{color:#55e600}
-.brand::after{content:'';width:22px;height:20px;margin-left:3px;margin-top:-2px;background:url("assets/sections/verify-save/lime-rays.svg") center/contain no-repeat}
+.brand{display:inline-flex;align-items:center}
+.brand img{height:28px;width:auto;border-radius:6px;display:block}
 .topbar{display:flex;align-items:center;gap:18px;min-height:48px;margin-bottom:20px}
 .topbar-actions{margin-left:auto;display:flex;align-items:center;gap:18px}
 .bell{position:relative;width:34px;height:34px;display:grid;place-items:center;color:#050505}
@@ -138,7 +137,7 @@ button{border:0;cursor:pointer;background:none;color:inherit}
 }
 @media (max-width:620px){
   .app{padding:14px 24px 96px}
-  .brand{font-size:26px}
+  .brand img{height:24px}
   .topbar{margin-bottom:18px}
   .signout{display:none}
   .greeting h1{font-size:39px}
@@ -204,7 +203,7 @@ button{border:0;cursor:pointer;background:none;color:inherit}
 
   <section id="dashboardView" style="display:none">
     <header class="topbar">
-      <a href="index.html" class="brand" aria-label="StudentPerks">Student<span>Perks</span></a>
+      <a href="index.html" class="brand" aria-label="StudentPerks"><img src="assets/brand/studentperks-logo-dark.svg" alt="StudentPerks"></a>
       <div class="topbar-actions">
         <button class="bell" type="button" aria-label="Notifications">
           <svg class="icon"><use href="assets/icons/approved/dashboard-symbols.svg#sp-bell"></use></svg>

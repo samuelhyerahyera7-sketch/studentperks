@@ -38,8 +38,7 @@ a { color: var(--lime); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: var(--bg2); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
-.logo-word { font-family: var(--display); font-size: 22px; letter-spacing: .5px; color: var(--white); }
-.logo-word span { color: var(--lime); }
+.logo-word img { height: 26px; width: auto; border-radius: 6px; display: block; }
 .nav-back { font-size: .85rem; color: var(--ink2); padding: 7px 16px; border: 1px solid #333; border-radius: 6px; transition: border-color .2s, color .2s; }
 .nav-back:hover { border-color: var(--lime); color: var(--lime); text-decoration: none; }
 
@@ -81,7 +80,7 @@ footer{border-top-color:var(--border)}
 <body>
 
 <nav>
-  <a href="/" class="logo-word">Student<span>Perks</span></a>
+  <a href="/" class="logo-word"><img src="assets/brand/studentperks-logo-dark.svg" alt="StudentPerks"></a>
   <a href="/" class="nav-back">← Back to home</a>
 </nav>
 

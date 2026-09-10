@@ -55,8 +55,8 @@ button{cursor:pointer;border:none;font-family:var(--font)}
 /* ADMIN SHELL */
 #admin-page{display:none;min-height:100vh;flex-direction:column}
 .admin-nav{background:var(--card);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:60px;gap:14px;position:sticky;top:0;z-index:100}
-.admin-logo{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--white);text-transform:uppercase;letter-spacing:.03em}
-.admin-logo span{color:var(--lime)}
+.admin-logo img{height:26px;width:auto;border-radius:6px;display:block}
+.login-title img{height:34px;width:auto;border-radius:7px;display:block}
 .admin-badge-nav{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;background:rgba(212,255,0,.12);color:var(--lime);border:1px solid rgba(212,255,0,.2);border-radius:4px;padding:2px 7px}
 .nav-sp{flex:1}
 .admin-user-info{font-size:12px;color:var(--ink2);display:flex;align-items:center;gap:7px}
@@ -219,7 +219,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 <div id="login-page">
   <div class="login-card">
     <div class="login-badge">Admin Access</div>
-    <div class="login-title">Student<span style="color:var(--lime)">Perks</span></div>
+    <div class="login-title"><img src="assets/brand/studentperks-logo-dark.svg" alt="StudentPerks"></div>
     <div class="login-sub">Sign in with your administrator credentials.</div>
     <div class="lf">
       <label>Password</label>
@@ -238,7 +238,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 <!-- ── ADMIN DASHBOARD ── -->
 <div id="admin-page">
   <nav class="admin-nav">
-    <div class="admin-logo">Student<span>Perks</span></div>
+    <div class="admin-logo"><img src="assets/brand/studentperks-logo-dark.svg" alt="StudentPerks"></div>
     <div class="admin-badge-nav">Admin</div>
     <div class="nav-sp"></div>
     <div class="admin-user-info"><div class="admin-dot"></div><span id="admin-email-lbl"></span></div>
