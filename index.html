@@ -6535,6 +6535,216 @@ body.public-redesign #wallet .promo-wallet-card .student-card__qr {
 body.public-redesign #wallet .desktop-wallet-qr {
   display: block !important;
 }
+
+/* Final ratio repair for the approved compact wallet and verify banners */
+body.public-redesign .verify-save-section {
+  padding-top: 20px !important;
+  padding-bottom: 18px !important;
+}
+
+body.public-redesign .verify-save-section .wrap {
+  max-width: 930px !important;
+}
+
+body.public-redesign .verify-save {
+  background: #050606 url('assets/sections/verify-save/background.svg') center/cover no-repeat !important;
+}
+
+@media(min-width:861px) {
+  body.public-redesign .verify-save {
+    grid-template-columns: 150px minmax(0, 1fr) 74px !important;
+    min-height: 118px !important;
+    padding: 12px 30px !important;
+    column-gap: 28px !important;
+  }
+
+  body.public-redesign .verify-save__mark {
+    width: 126px !important;
+    max-height: 92px !important;
+    object-fit: contain !important;
+    align-self: center !important;
+  }
+
+  body.public-redesign .verify-save__copy h2 {
+    font-size: 31px !important;
+  }
+
+  body.public-redesign .verify-save__copy p {
+    font-size: 14px !important;
+    max-width: 540px !important;
+  }
+
+  body.public-redesign .verify-save__button {
+    min-width: 218px !important;
+    min-height: 36px !important;
+    margin-left: 30px !important;
+  }
+
+  body.public-redesign #wallet .wallet-promo {
+    grid-template-columns: minmax(320px, .96fr) minmax(360px, 1.04fr) !important;
+    min-height: 142px !important;
+    padding: 16px 24px !important;
+  }
+
+  body.public-redesign #wallet .wallet-promo h2 {
+    font-size: 31px !important;
+    max-width: 360px !important;
+  }
+
+  body.public-redesign #wallet .wallet-promo p {
+    font-size: 15px !important;
+    max-width: 410px !important;
+  }
+
+  body.public-redesign #wallet .wallet-art .student-card,
+  body.public-redesign #wallet .wallet-art .promo-wallet-card {
+    right: 126px !important;
+    top: 0 !important;
+    width: 236px !important;
+    height: 106px !important;
+  }
+
+  body.public-redesign #wallet .student-card__brand-logo {
+    left: 27px !important;
+    top: 36px !important;
+    width: 112px !important;
+  }
+
+  body.public-redesign #wallet .promo-wallet-card::after {
+    right: 23px !important;
+    top: 16px !important;
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  body.public-redesign #wallet .desktop-wallet-qr {
+    right: 136px !important;
+    top: 54px !important;
+    width: 68px !important;
+    height: 68px !important;
+  }
+
+  body.public-redesign #wallet .desktop-wallet-slogan {
+    right: 10px !important;
+    top: 34px !important;
+    width: 90px !important;
+  }
+}
+
+@media(max-width:860px) {
+  body.public-redesign .verify-save-section .wrap {
+    width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 24px) !important;
+  }
+
+  body.public-redesign .verify-save {
+    grid-template-columns: clamp(78px, 22vw, 122px) minmax(0, 1fr) clamp(30px, 8.5vw, 54px) !important;
+    aspect-ratio: 5.05 / 1 !important;
+    min-height: clamp(66px, 17.5vw, 106px) !important;
+    padding: clamp(7px, 1.9vw, 12px) clamp(10px, 2.7vw, 18px) !important;
+    column-gap: clamp(8px, 2.3vw, 15px) !important;
+    row-gap: 3px !important;
+    overflow: hidden !important;
+  }
+
+  body.public-redesign .verify-save__mark {
+    width: clamp(64px, 17.8vw, 98px) !important;
+    max-height: 86% !important;
+    object-fit: contain !important;
+    align-self: center !important;
+  }
+
+  body.public-redesign .verify-save__copy h2 {
+    font-size: clamp(15px, 4.1vw, 25px) !important;
+    line-height: .94 !important;
+  }
+
+  body.public-redesign .verify-save__copy p {
+    font-size: clamp(7.5px, 2vw, 12px) !important;
+    line-height: 1.12 !important;
+  }
+
+  body.public-redesign .verify-save__rays {
+    width: clamp(28px, 7.7vw, 48px) !important;
+  }
+
+  body.public-redesign .verify-save__button {
+    min-width: clamp(104px, 29vw, 176px) !important;
+    height: clamp(22px, 5.9vw, 32px) !important;
+    margin-left: clamp(7px, 2.8vw, 22px) !important;
+    padding: 0 clamp(10px, 2.8vw, 18px) !important;
+    gap: clamp(5px, 1.5vw, 10px) !important;
+    font-size: clamp(8px, 2.1vw, 12px) !important;
+  }
+
+  body.public-redesign .verify-save__button img {
+    width: clamp(11px, 2.8vw, 17px) !important;
+    height: clamp(11px, 2.8vw, 17px) !important;
+  }
+
+  body.public-redesign #wallet .wallet-promo {
+    grid-template-columns: minmax(0, 50%) minmax(0, 50%) !important;
+    aspect-ratio: 650 / 150 !important;
+    min-height: 0 !important;
+    padding: clamp(10px, 2.8vw, 16px) clamp(10px, 2.8vw, 17px) !important;
+    gap: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.public-redesign #wallet .wallet-promo h2 {
+    font-size: clamp(15px, 4.45vw, 27px) !important;
+    line-height: .94 !important;
+    margin-bottom: clamp(3px, .8vw, 6px) !important;
+  }
+
+  body.public-redesign #wallet .wallet-promo p {
+    font-size: clamp(8px, 2.45vw, 14px) !important;
+    line-height: 1.14 !important;
+    margin-bottom: clamp(7px, 1.9vw, 11px) !important;
+  }
+
+  body.public-redesign #wallet .wallet-promo .mock-btn {
+    min-width: clamp(112px, 32vw, 182px) !important;
+    min-height: clamp(24px, 6.4vw, 36px) !important;
+    padding: 0 clamp(10px, 3vw, 18px) !important;
+    font-size: clamp(8px, 2.2vw, 12px) !important;
+  }
+
+  body.public-redesign #wallet .wallet-art .student-card,
+  body.public-redesign #wallet .wallet-art .promo-wallet-card {
+    right: clamp(25px, 7vw, 48px) !important;
+    top: clamp(0px, .4vw, 3px) !important;
+    width: clamp(102px, 28.5vw, 180px) !important;
+    height: clamp(47px, 12.9vw, 82px) !important;
+    border-radius: clamp(5px, 1.3vw, 8px) !important;
+  }
+
+  body.public-redesign #wallet .student-card__brand-logo {
+    left: clamp(11px, 3vw, 20px) !important;
+    top: clamp(15px, 4.2vw, 26px) !important;
+    width: clamp(50px, 14vw, 86px) !important;
+  }
+
+  body.public-redesign #wallet .promo-wallet-card::after {
+    right: clamp(9px, 2.5vw, 17px) !important;
+    top: clamp(5px, 1.6vw, 11px) !important;
+    width: clamp(23px, 6.2vw, 40px) !important;
+    height: clamp(23px, 6.2vw, 40px) !important;
+  }
+
+  body.public-redesign #wallet .desktop-wallet-qr {
+    right: clamp(43px, 12vw, 72px) !important;
+    top: clamp(25px, 7vw, 43px) !important;
+    width: clamp(32px, 8.9vw, 56px) !important;
+    height: clamp(32px, 8.9vw, 56px) !important;
+  }
+
+  body.public-redesign #wallet .desktop-wallet-slogan {
+    right: clamp(0px, 1vw, 8px) !important;
+    top: clamp(24px, 6.5vw, 40px) !important;
+    width: clamp(38px, 10.8vw, 68px) !important;
+  }
+}
 </style>
 </head>
 <body class="public-redesign">
