@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard Preview — StudentPerks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--lime:#9cff18;--ink:#050505;--muted:#606979;--border:#e6ebf1;--soft:#f6f8fb}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,Arial,sans-serif;background:#fff;color:var(--ink)}
+.wrap{width:min(100%,736px);margin:0 auto;padding:0 24px}
+.nav{height:64px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:28px;font-weight:900;letter-spacing:-.07em}.logo span{color:#63e600}
+.nav-icons{display:flex;align-items:center;gap:18px}.bell{width:28px;height:28px;background:url('assets/icons/approved/notification.svg') center/contain no-repeat}.avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#caff76,#222)}
+.hello{padding:8px 0 14px}.hello-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.hello h1{font-size:42px;line-height:.95;font-weight:900;letter-spacing:-.06em}.verified{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 15px;border-radius:999px;background:#cfff8a;font-weight:900}.verified img{width:20px;height:20px}.hello p{margin-top:4px;color:#424957;font-size:18px;line-height:1.25}
+.wallet{position:relative;overflow:hidden;min-height:238px;border-radius:14px;background:#050505;color:#fff;padding:30px;display:grid;grid-template-columns:1fr 160px;gap:18px;align-items:center}.wallet:after{content:'';position:absolute;right:28px;top:28px;width:70px;height:70px;background:url('assets/brand/lime-rays.svg') center/contain no-repeat}.wallet-brand{font-size:33px;font-weight:900;letter-spacing:-.06em}.wallet-brand span{color:#72ff10}.wallet h2{margin-top:28px;font-size:30px;line-height:1;font-weight:900}.wallet p{margin-top:7px;color:rgba(255,255,255,.8);font-size:17px}.qr{position:relative;z-index:2;justify-self:end;width:132px;height:132px;padding:10px;border-radius:14px;background:#fff}.qr img{width:100%;height:100%;object-fit:contain}.open-wallet{position:relative;z-index:2;display:inline-flex;align-items:center;justify-content:center;margin-top:20px;min-height:48px;padding:0 26px;border-radius:999px;background:var(--lime);color:#050505;font-weight:900;text-decoration:none}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0 22px}.stat{display:flex;align-items:center;gap:14px;min-height:86px;padding:16px;border:1px solid var(--border);border-radius:12px;background:#fff;box-shadow:0 8px 24px rgba(15,23,42,.06)}.stat img{width:44px;height:44px;padding:10px;border-radius:50%;background:#cfff8a}.stat strong{display:block;font-size:28px;line-height:1;font-weight:900}.stat span{color:#5c6473;font-weight:700}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:22px 0 12px}.section-head h2{font-size:27px;line-height:1;font-weight:900;letter-spacing:-.055em}.see{color:#138013;text-decoration:none;font-weight:900}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.deal{overflow:hidden;border:1px solid var(--border);border-radius:12px;background:#fff;box-shadow:0 10px 28px rgba(15,23,42,.08)}.deal-img{position:relative;height:135px;background:#123b82}.deal.mugs .deal-img{background:linear-gradient(90deg,#d4c2a8,#f7f7f7)}.deal-img img{width:100%;height:100%;object-fit:cover}.heart{position:absolute;right:9px;top:8px;width:34px;height:34px;border:2px solid rgba(255,255,255,.8);border-radius:50%;background:rgba(0,0,0,.18)}.tag{position:absolute;right:12px;bottom:12px;padding:9px 14px;border-radius:999px;background:var(--lime);font-weight:900}.deal-body{padding:12px 14px}.deal h3{font-size:18px;font-weight:900}.deal p{color:#5b6372;line-height:1.25}.deal .action{display:flex;align-items:center;justify-content:center;margin-top:12px;min-height:42px;border-radius:10px;background:var(--lime);color:#050505;text-decoration:none;font-weight:900}
+.notice{margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 18px;border-radius:12px;background:linear-gradient(90deg,#eaffd1,#f7fff0)}.notice strong{font-size:20px}.notice a{white-space:nowrap;display:inline-flex;align-items:center;min-height:42px;padding:0 18px;border-radius:999px;background:var(--lime);color:#050505;text-decoration:none;font-weight:900}
+.empty{padding:22px;border:1px dashed #d7dee8;border-radius:12px;background:#fff;color:#5e6675}.activity{display:grid;border:1px solid var(--border);border-radius:12px;overflow:hidden}.activity-row{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:12px;padding:14px;background:#fff;border-bottom:1px solid var(--border)}.activity-row:last-child{border-bottom:0}.activity-row img{width:36px;height:36px;padding:8px;border-radius:50%;background:#cfff8a}.activity-row strong{display:block}.activity-row span{color:#5d6574}.bottom-nav{position:sticky;bottom:0;margin-top:28px;background:#fff;border-top:1px solid var(--border)}.bottom-nav .wrap{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding-top:10px;padding-bottom:10px}.bottom-nav a{text-align:center;color:#596172;text-decoration:none;font-weight:800}.bottom-nav a:first-child{color:#050505}
+@media(max-width:520px){.hello h1{font-size:38px}.wallet{grid-template-columns:1fr;min-height:0;padding:24px}.qr{position:absolute;right:24px;top:24px;width:96px;height:96px}.wallet h2{max-width:200px}.stats{grid-template-columns:repeat(3,1fr)}.stat{display:grid;place-items:center;text-align:center;padding:12px 8px}.stat img{width:42px;height:42px}.grid{gap:12px}.deal-img{height:112px}.notice{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="wrap nav">
+  <div class="logo">Student<span>Perks</span></div>
+  <div class="nav-icons"><div class="bell"></div><div class="avatar"></div></div>
+</header>
+<main class="wrap">
+  <section class="hello">
+    <div class="hello-row"><h1>Hi, Thando</h1><div class="verified"><img src="assets/icons/approved/verified-shield.svg" alt="">Verified student</div></div>
+    <p>University of Cape Town<br>Your verification is valid until 28 Feb 2027.</p>
+  </section>
+  <section class="wallet">
+    <div>
+      <div class="wallet-brand">Student<span>Perks</span></div>
+      <h2>Thando Mokoena</h2>
+      <p>University of Cape Town</p>
+      <p>Verified student</p>
+      <a class="open-wallet" href="redeem.html">Open wallet →</a>
+    </div>
+    <div class="qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https%3A%2F%2Fstudentperks.co.za%2Fredeem" alt="Wallet QR code"></div>
+  </section>
+  <section class="stats">
+    <article class="stat"><img src="assets/icons/approved/savings.svg" alt=""><div><strong>R0</strong><span>saved</span></div></article>
+    <article class="stat"><img src="assets/icons/approved/ticket-status.svg" alt=""><div><strong>2</strong><span>claimed deals</span></div></article>
+    <article class="stat"><img src="assets/icons/approved/heart-status.svg" alt=""><div><strong>0</strong><span>saved offers</span></div></article>
+  </section>
+  <div class="section-head"><h2>Your active deals</h2><a class="see" href="#">See all →</a></div>
+  <section class="grid">
+    <article class="deal crates"><div class="deal-img"><img src="assets/deals/crates-boxes-blue-box.jpg" alt=""><span class="heart"></span><span class="tag">10% OFF</span></div><div class="deal-body"><h3>Crates &amp; Boxes</h3><p>10% off your order</p><a class="action" href="redeem.html">Redeem →</a></div></article>
+    <article class="deal mugs"><div class="deal-img"><img src="assets/deals/custom-mugs-hero-mug.png" alt=""><span class="heart"></span><span class="tag">10% OFF</span></div><div class="deal-body"><h3>Custom Mugs</h3><p>10% off custom mugs</p><a class="action" href="redeem.html">View code →</a></div></article>
+  </section>
+  <div class="notice"><div><strong>No deals expiring soon</strong><p>Current claimed offers will appear here when they have an expiry date.</p></div><a href="#">View active deals →</a></div>
+  <div class="section-head"><h2>Recommended for you</h2><a class="see" href="index.html#perks">See all →</a></div>
+  <section class="grid">
+    <article class="deal crates"><div class="deal-img"><img src="assets/deals/crates-boxes-blue-box.jpg" alt=""><span class="heart"></span><span class="tag">10% OFF</span></div><div class="deal-body"><h3>Crates &amp; Boxes</h3><p>10% off your order</p><a class="action" href="index.html#perks">View deal →</a></div></article>
+    <article class="deal mugs"><div class="deal-img"><img src="assets/deals/custom-mugs-hero-mug.png" alt=""><span class="heart"></span><span class="tag">10% OFF</span></div><div class="deal-body"><h3>Custom Mugs</h3><p>10% off custom mugs</p><a class="action" href="index.html#perks">View deal →</a></div></article>
+  </section>
+  <div class="section-head"><h2>Upcoming for you</h2></div>
+  <section class="empty"><strong>No upcoming events or opportunities yet</strong><br>Real events and student opportunities will appear here once they are added.</section>
+  <div class="section-head"><h2>Recent activity</h2></div>
+  <section class="activity">
+    <div class="activity-row"><img src="assets/icons/approved/ticket-status.svg" alt=""><div><strong>Crates &amp; Boxes — 10% off</strong><span>Offer claimed</span></div><span>Today</span></div>
+    <div class="activity-row"><img src="assets/icons/approved/heart-status.svg" alt=""><div><strong>Custom Mugs — 10% off</strong><span>Offer saved</span></div><span>Today</span></div>
+  </section>
+</main>
+<nav class="bottom-nav"><div class="wrap"><a href="#">Home</a><a href="#">Deals</a><a href="#">Wallet</a><a href="#">Saved</a><a href="#">Profile</a></div></nav>
+</body>
+</html>
