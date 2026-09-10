@@ -679,7 +679,26 @@ body.public-redesign .menu-join { background: #9cff18; color: #050505; }
 .num { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; background: #c9ff86; font-size: 24px; font-weight: 900; }
 .step-arrow { font-size: 24px; font-weight: 900; color: #111; }
 .wallet-promo { display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 18px; background: linear-gradient(100deg,#edffe1,#f9fff1); }
-.wallet-art img { width: 100%; height: auto; display: block; }
+.wallet-art { position: relative; aspect-ratio: 340/168; }
+.wa-card {
+  position: absolute; left: 0; top: 10%; width: 68%; height: 78%;
+  background: #0a0a0a; border-radius: 5%/9%; overflow: hidden;
+  transform: rotate(6deg); box-shadow: 0 10px 22px rgba(0,0,0,.22);
+}
+.wa-card__logo { position: absolute; left: 8%; top: 20%; width: 62%; height: auto; }
+.wa-card__region { position: absolute; left: 8%; top: 62%; color: rgba(255,255,255,.8); font-size: clamp(7px, 1.5vw, 10px); font-weight: 700; letter-spacing: .16em; }
+.wa-rays { position: absolute; left: 42%; top: 8%; width: 13%; height: auto; z-index: 1; }
+.wa-qr {
+  position: absolute; right: 20%; bottom: 2%; width: 25%; aspect-ratio: 1; z-index: 2;
+  background: #fff url('assets/icons/qr-pattern.svg') center/72% 72% no-repeat;
+  border-radius: 14%; box-shadow: 0 8px 18px rgba(0,0,0,.16);
+}
+.wa-arrow { position: absolute; right: 13%; top: 48%; width: 9%; height: auto; z-index: 2; }
+.wa-note { position: absolute; right: 0; top: 0; text-align: right; text-transform: uppercase; font-weight: 800; letter-spacing: .01em; line-height: 1.22; color: #0a0a0a; font-size: clamp(10px, 2.6vw, 13px); }
+.wa-underline { position: absolute; right: 0; top: 33%; width: 26%; height: 3%; }
+@media(max-width:760px){
+  .wa-note { font-size: clamp(9px, 3.2vw, 12px); }
+}
 .wallet-promo h2,.business-promo h2,.saving-cta h2 { font-size: clamp(28px,5vw,42px); line-height: .95; letter-spacing: -.06em; font-weight: 900; margin-bottom: 8px; }
 .wallet-promo p,.business-promo p,.saving-cta p { color: #596071; font-size: 17px; line-height: 1.34; max-width: 420px; margin-bottom: 18px; }
 .student-card {
@@ -6898,7 +6917,15 @@ body.public-redesign .verify-save {
         <button class="mock-btn lime" onclick="openModal('jn')">Join StudentPerks →</button>
       </div>
       <div class="wallet-art">
-        <img src="assets/ui-approved/public/wallet-art-approved.png" alt="StudentPerks membership card with QR code" loading="lazy">
+        <div class="wa-card">
+          <img class="wa-card__logo" src="assets/brand/studentperks-logo-dark.svg" alt="StudentPerks">
+          <span class="wa-card__region">SOUTH AFRICA</span>
+        </div>
+        <img class="wa-rays" src="assets/brand/lime-rays.svg" alt="" aria-hidden="true">
+        <div class="wa-qr" role="img" aria-label="Wallet QR code preview"></div>
+        <svg class="wa-arrow" viewBox="0 0 44 40" aria-hidden="true"><path d="M37 7c3 13-3 21-16 23" stroke="#050505" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M14 25l7 5-1 8" stroke="#050505" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>
+        <div class="wa-note">Your<br>student<br>advantage<br>always on hand</div>
+        <img class="wa-underline" src="assets/brand/lime-underline.svg" alt="" aria-hidden="true">
       </div>
     </div>
   </div>
