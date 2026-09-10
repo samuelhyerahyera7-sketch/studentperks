@@ -162,7 +162,7 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
   html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > p {
     position: absolute !important;
     left: 7.5% !important;
-    top: 48% !important;
+    top: 44% !important;
     width: 89% !important;
     margin: 0 !important;
     font-size: clamp(7px, 1.62vw, 10px) !important;
