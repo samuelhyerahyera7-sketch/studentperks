@@ -62,8 +62,8 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
   background: none !important;
   color: #050505 !important;
   font-family: 'Inter', Arial, sans-serif !important;
-  font-size: clamp(17px, 3.65vw, 41px) !important;
-  line-height: .95 !important;
+  font-size: clamp(16px, 3.28vw, 37px) !important;
+  line-height: .97 !important;
   font-weight: 900 !important;
   letter-spacing: -0.045em !important;
   text-align: left !important;
@@ -81,8 +81,8 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
   background: none !important;
   color: #293140 !important;
   font-family: 'Inter', Arial, sans-serif !important;
-  font-size: clamp(9px, 1.52vw, 17px) !important;
-  line-height: 1.18 !important;
+  font-size: clamp(8.5px, 1.35vw, 15px) !important;
+  line-height: 1.2 !important;
   font-weight: 400 !important;
   letter-spacing: -0.025em !important;
   text-align: left !important;
@@ -126,7 +126,7 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
   background: rgba(255,255,255,.55) !important;
   color: #050505 !important;
   font-family: 'Inter', Arial, sans-serif !important;
-  font-size: clamp(10px, 1.45vw, 16px) !important;
+  font-size: clamp(9px, 1.32vw, 15px) !important;
   font-weight: 600 !important;
   line-height: 1 !important;
   letter-spacing: -0.02em !important;
@@ -161,13 +161,13 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
   html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > h2 {
     width: 80% !important;
     margin-bottom: 2.6% !important;
-    font-size: clamp(15px, 4.05vw, 24px) !important;
+    font-size: clamp(14px, 3.55vw, 21px) !important;
   }
   html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > p {
     width: 94% !important;
     margin-bottom: 4.2% !important;
-    font-size: clamp(7.5px, 2.15vw, 13px) !important;
-    line-height: 1.14 !important;
+    font-size: clamp(7px, 1.9vw, 11px) !important;
+    line-height: 1.16 !important;
   }
   html body.public-redesign section#business div.wrap div.business-promo > div.business-copy::after {
     right: 6.5% !important;
@@ -178,6 +178,6 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
   html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > a.business-cta-button {
     width: 59% !important;
     border-width: 1.5px !important;
-    font-size: clamp(8px, 2.15vw, 12px) !important;
+    font-size: clamp(7.5px, 1.9vw, 11px) !important;
   }
 }
