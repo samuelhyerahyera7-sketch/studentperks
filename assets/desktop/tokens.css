@@ -2,59 +2,135 @@
   --sp-lime: #8cff00;
 }
 
-/* Partner banner: render the approved artwork as one exact composition. */
+/* Partner banner: keep the approved student photo on the left, render the right side as crisp HTML/CSS. */
 html body.public-redesign section#business div.wrap div.business-promo {
   position: relative !important;
-  display: block !important;
+  display: grid !important;
+  grid-template-columns: 51.2% 48.8% !important;
+  gap: 0 !important;
   width: 100% !important;
   min-height: 0 !important;
   aspect-ratio: 1913 / 466 !important;
   padding: 0 !important;
   overflow: hidden !important;
-  border: 0 !important;
+  border: 1px solid #e0e6ee !important;
   border-radius: 22px !important;
-  background: url('../ui-approved/public/partner-banner-approved.png?v=20260910-master') center / 100% 100% no-repeat !important;
+  background: #f5f7fa !important;
   box-shadow: none !important;
 }
 
-/* The approved PNG already contains the exact photo, heading, copy, rays and button artwork. */
-html body.public-redesign section#business div.wrap div.business-promo > div.business-photo,
-html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > h2,
-html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > p,
-html body.public-redesign section#business div.wrap div.business-promo > div.business-copy::after {
-  display: none !important;
-}
-
-html body.public-redesign section#business div.wrap div.business-promo > div.business-copy {
-  position: absolute !important;
-  inset: 0 !important;
+/* Use the exact approved artwork only as the source for the LEFT photo crop. */
+html body.public-redesign section#business div.wrap div.business-promo > div.business-photo {
   display: block !important;
+  position: relative !important;
   width: 100% !important;
   height: 100% !important;
   min-height: 0 !important;
+  border-radius: 0 !important;
+  background-image: url('../ui-approved/public/partner-banner-approved.png?v=20260910-live-right') !important;
+  background-repeat: no-repeat !important;
+  background-size: 195.3% 100% !important;
+  background-position: left center !important;
+}
+
+/* Crisp, unpixelated right panel. */
+html body.public-redesign section#business div.wrap div.business-promo > div.business-copy {
+  position: relative !important;
+  inset: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: 7.5% 7.5% 7% 9.2% !important;
+  overflow: hidden !important;
+  background: linear-gradient(100deg, #f8fafc 0%, #f3f6fa 100%) !important;
+  pointer-events: auto !important;
+}
+
+html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > h2 {
+  display: block !important;
+  position: relative !important;
+  z-index: 3 !important;
+  width: 78% !important;
+  height: auto !important;
+  margin: 0 0 3.2% !important;
   padding: 0 !important;
-  background: transparent !important;
+  overflow: visible !important;
+  background: none !important;
+  color: #050505 !important;
+  font-family: 'Inter', Arial, sans-serif !important;
+  font-size: clamp(17px, 3.65vw, 41px) !important;
+  line-height: .95 !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.045em !important;
+  text-align: left !important;
+}
+
+html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > p {
+  display: block !important;
+  position: relative !important;
+  z-index: 3 !important;
+  width: 92% !important;
+  height: auto !important;
+  margin: 0 0 4.8% !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  background: none !important;
+  color: #293140 !important;
+  font-family: 'Inter', Arial, sans-serif !important;
+  font-size: clamp(9px, 1.52vw, 17px) !important;
+  line-height: 1.18 !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.025em !important;
+  text-align: left !important;
+}
+
+/* Bright lime accent rays, kept vector-sharp. */
+html body.public-redesign section#business div.wrap div.business-promo > div.business-copy::after {
+  content: '' !important;
+  display: block !important;
+  position: absolute !important;
+  z-index: 4 !important;
+  right: 10.5% !important;
+  top: 6.2% !important;
+  width: 15.5% !important;
+  height: 31% !important;
+  background: url('../sections/partner/partner-rays.svg?v=20260910-live-right') center / contain no-repeat !important;
   pointer-events: none !important;
 }
 
-/* Keep the visible button in the artwork clickable without drawing another button over it. */
+/* Real HTML button, not an image. */
 html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > a.business-cta-button {
-  display: block !important;
-  position: absolute !important;
+  display: inline-flex !important;
+  position: relative !important;
   z-index: 5 !important;
-  left: 55.8% !important;
-  top: 69.4% !important;
-  width: 24.7% !important;
-  height: 21.7% !important;
+  left: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 54% !important;
   min-width: 0 !important;
+  height: auto !important;
   min-height: 0 !important;
+  aspect-ratio: 4.7 / 1 !important;
   margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
+  padding: 0 6% !important;
+  overflow: visible !important;
+  border: 2px solid #0a0a0a !important;
   border-radius: 999px !important;
-  background: transparent !important;
-  color: transparent !important;
-  font-size: 0 !important;
+  background: rgba(255,255,255,.55) !important;
+  color: #050505 !important;
+  font-family: 'Inter', Arial, sans-serif !important;
+  font-size: clamp(10px, 1.45vw, 16px) !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.02em !important;
+  white-space: nowrap !important;
   box-shadow: none !important;
   opacity: 1 !important;
   pointer-events: auto !important;
@@ -71,8 +147,37 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
     padding: 0 !important;
   }
   html body.public-redesign section#business div.wrap div.business-promo {
+    grid-template-columns: 51.2% 48.8% !important;
     aspect-ratio: 1913 / 466 !important;
     border-radius: 13px !important;
-    background-size: 100% 100% !important;
+  }
+  html body.public-redesign section#business div.wrap div.business-promo > div.business-photo {
+    background-size: 195.3% 100% !important;
+    background-position: left center !important;
+  }
+  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy {
+    padding: 6.5% 5.8% 6% 7.5% !important;
+  }
+  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > h2 {
+    width: 80% !important;
+    margin-bottom: 2.6% !important;
+    font-size: clamp(15px, 4.05vw, 24px) !important;
+  }
+  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > p {
+    width: 94% !important;
+    margin-bottom: 4.2% !important;
+    font-size: clamp(7.5px, 2.15vw, 13px) !important;
+    line-height: 1.14 !important;
+  }
+  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy::after {
+    right: 6.5% !important;
+    top: 4.5% !important;
+    width: 17% !important;
+    height: 33% !important;
+  }
+  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > a.business-cta-button {
+    width: 59% !important;
+    border-width: 1.5px !important;
+    font-size: clamp(8px, 2.15vw, 12px) !important;
   }
 }
