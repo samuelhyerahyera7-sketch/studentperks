@@ -2,110 +2,62 @@
   --sp-lime: #8cff00;
 }
 
-/* Partner banner matched directly to the supplied reference. */
+/* Partner banner: render the approved artwork as one exact composition. */
 html body.public-redesign section#business div.wrap div.business-promo {
   position: relative !important;
-  display: grid !important;
-  grid-template-columns: 51.2% 48.8% !important;
-  gap: 0 !important;
+  display: block !important;
   width: 100% !important;
   min-height: 0 !important;
-  aspect-ratio: 4.10 / 1 !important;
+  aspect-ratio: 1913 / 466 !important;
   padding: 0 !important;
   overflow: hidden !important;
-  border: 1px solid #dfe5ec !important;
+  border: 0 !important;
   border-radius: 22px !important;
-  background: #f4f7fb !important;
-  box-shadow: 0 10px 30px rgba(15,23,42,.06) !important;
+  background: url('../ui-approved/public/partner-banner-approved.png?v=20260910-master') center / 100% 100% no-repeat !important;
+  box-shadow: none !important;
 }
-html body.public-redesign section#business div.wrap div.business-promo > div.business-photo {
-  display: block !important;
-  position: relative !important;
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  border-radius: 0 !important;
-  background-image: url('../ui-approved/public/partner-banner-approved.png?v=20260910b') !important;
-  background-repeat: no-repeat !important;
-  background-size: 172% 100% !important;
-  background-position: left center !important;
-}
-html body.public-redesign section#business div.wrap div.business-promo > div.business-copy {
-  position: relative !important;
-  inset: auto !important;
-  display: block !important;
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  background: linear-gradient(90deg,#f8fafc 0%,#f3f6fa 100%) !important;
-}
-html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > h2 {
-  display: block !important;
-  position: absolute !important;
-  z-index: 3 !important;
-  left: 8.2% !important;
-  top: 7.5% !important;
-  width: 76% !important;
-  height: 37% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  background: url('../sections/partner/partner-title.svg?v=20260910b') left top / contain no-repeat !important;
-  color: transparent !important;
-  font-size: 0 !important;
-  line-height: 0 !important;
-}
-html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > p {
-  display: block !important;
-  position: absolute !important;
-  z-index: 3 !important;
-  left: 8.2% !important;
-  top: 45.5% !important;
-  width: 84% !important;
-  height: 23% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  background: url('../sections/partner/partner-copy.svg?v=20260910b') left top / contain no-repeat !important;
-  color: transparent !important;
-  font-size: 0 !important;
-  line-height: 0 !important;
-}
+
+/* The approved PNG already contains the exact photo, heading, copy, rays and button artwork. */
+html body.public-redesign section#business div.wrap div.business-promo > div.business-photo,
+html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > h2,
+html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > p,
 html body.public-redesign section#business div.wrap div.business-promo > div.business-copy::after {
-  content: '' !important;
-  display: block !important;
+  display: none !important;
+}
+
+html body.public-redesign section#business div.wrap div.business-promo > div.business-copy {
   position: absolute !important;
-  z-index: 4 !important;
-  right: 7.5% !important;
-  top: 4% !important;
-  width: 16% !important;
-  height: 35% !important;
-  background: url('../sections/partner/partner-rays.svg?v=20260910b') center / contain no-repeat !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
   pointer-events: none !important;
 }
+
+/* Keep the visible button in the artwork clickable without drawing another button over it. */
 html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > a.business-cta-button {
   display: block !important;
   position: absolute !important;
   z-index: 5 !important;
-  left: 8.2% !important;
-  bottom: 6.5% !important;
-  width: 56% !important;
+  left: 55.8% !important;
+  top: 69.4% !important;
+  width: 24.7% !important;
+  height: 21.7% !important;
   min-width: 0 !important;
-  height: 25% !important;
   min-height: 0 !important;
-  block-size: auto !important;
   margin: 0 !important;
   padding: 0 !important;
-  overflow: hidden !important;
   border: 0 !important;
   border-radius: 999px !important;
-  background: url('../sections/partner/partner-button.svg?v=20260910b') center / 100% 100% no-repeat !important;
+  background: transparent !important;
   color: transparent !important;
   font-size: 0 !important;
-  opacity: 1 !important;
   box-shadow: none !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
 @media (max-width: 860px) {
@@ -119,36 +71,8 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
     padding: 0 !important;
   }
   html body.public-redesign section#business div.wrap div.business-promo {
-    grid-template-columns: 51.2% 48.8% !important;
-    aspect-ratio: 4.10 / 1 !important;
+    aspect-ratio: 1913 / 466 !important;
     border-radius: 13px !important;
-  }
-  html body.public-redesign section#business div.wrap div.business-promo > div.business-photo {
-    background-size: 172% 100% !important;
-    background-position: left center !important;
-  }
-  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > h2 {
-    left: 7.5% !important;
-    top: 7% !important;
-    width: 78% !important;
-    height: 38% !important;
-  }
-  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > p {
-    left: 7.5% !important;
-    top: 45% !important;
-    width: 86% !important;
-    height: 24% !important;
-  }
-  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy::after {
-    right: 5.5% !important;
-    top: 3.5% !important;
-    width: 17% !important;
-    height: 36% !important;
-  }
-  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > a.business-cta-button {
-    left: 7.5% !important;
-    bottom: 5.5% !important;
-    width: 58% !important;
-    height: 26% !important;
+    background-size: 100% 100% !important;
   }
 }
