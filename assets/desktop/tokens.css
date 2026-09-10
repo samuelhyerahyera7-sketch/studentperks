@@ -18,8 +18,6 @@ html body.public-redesign section#business div.wrap div.business-promo {
   background: #f5f7fa !important;
   box-shadow: none !important;
 }
-
-/* Use the exact approved artwork only as the source for the LEFT photo crop. */
 html body.public-redesign section#business div.wrap div.business-promo > div.business-photo {
   display: block !important;
   position: relative !important;
@@ -32,8 +30,6 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
   background-size: 195.3% 100% !important;
   background-position: left center !important;
 }
-
-/* Crisp, unpixelated right panel. */
 html body.public-redesign section#business div.wrap div.business-promo > div.business-copy {
   position: relative !important;
   inset: auto !important;
@@ -49,7 +45,6 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
   background: linear-gradient(100deg, #f8fafc 0%, #f3f6fa 100%) !important;
   pointer-events: auto !important;
 }
-
 html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > h2 {
   display: block !important;
   position: relative !important;
@@ -68,7 +63,6 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
   letter-spacing: -0.045em !important;
   text-align: left !important;
 }
-
 html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > p {
   display: block !important;
   position: relative !important;
@@ -87,8 +81,6 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
   letter-spacing: -0.025em !important;
   text-align: left !important;
 }
-
-/* Bright lime accent rays, kept vector-sharp. */
 html body.public-redesign section#business div.wrap div.business-promo > div.business-copy::after {
   content: '' !important;
   display: block !important;
@@ -101,8 +93,6 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
   background: url('../sections/partner/partner-rays.svg?v=20260910-live-right') center / contain no-repeat !important;
   pointer-events: none !important;
 }
-
-/* Real HTML button, not an image. */
 html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > a.business-cta-button {
   display: inline-flex !important;
   position: relative !important;
@@ -111,16 +101,18 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
   top: auto !important;
   right: auto !important;
   bottom: auto !important;
+  flex: 0 0 auto !important;
   align-items: center !important;
   justify-content: center !important;
   width: 54% !important;
   min-width: 0 !important;
-  height: auto !important;
-  min-height: 0 !important;
-  aspect-ratio: 4.7 / 1 !important;
+  height: 20% !important;
+  min-height: 24px !important;
+  max-height: 54px !important;
+  aspect-ratio: auto !important;
   margin: 0 !important;
   padding: 0 6% !important;
-  overflow: visible !important;
+  overflow: hidden !important;
   border: 2px solid #0a0a0a !important;
   border-radius: 999px !important;
   background: rgba(255,255,255,.55) !important;
@@ -134,6 +126,7 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
   box-shadow: none !important;
   opacity: 1 !important;
   pointer-events: auto !important;
+  box-sizing: border-box !important;
 }
 
 @media (max-width: 860px) {
@@ -156,28 +149,35 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
     background-position: left center !important;
   }
   html body.public-redesign section#business div.wrap div.business-promo > div.business-copy {
-    padding: 6.5% 5.8% 6% 7.5% !important;
+    justify-content: center !important;
+    padding: 5.5% 5.5% 5.5% 7.5% !important;
   }
   html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > h2 {
-    width: 80% !important;
-    margin-bottom: 2.6% !important;
-    font-size: clamp(14px, 3.55vw, 21px) !important;
+    width: 84% !important;
+    margin-bottom: 2.5% !important;
+    font-size: clamp(13px, 3.2vw, 19px) !important;
+    line-height: .98 !important;
   }
   html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > p {
-    width: 94% !important;
-    margin-bottom: 4.2% !important;
-    font-size: clamp(7px, 1.9vw, 11px) !important;
+    width: 96% !important;
+    margin-bottom: 4% !important;
+    font-size: clamp(7px, 1.72vw, 10px) !important;
     line-height: 1.16 !important;
   }
   html body.public-redesign section#business div.wrap div.business-promo > div.business-copy::after {
-    right: 6.5% !important;
-    top: 4.5% !important;
-    width: 17% !important;
-    height: 33% !important;
+    right: 5.5% !important;
+    top: 5% !important;
+    width: 16% !important;
+    height: 31% !important;
   }
   html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > a.business-cta-button {
-    width: 59% !important;
+    width: 58% !important;
+    height: 22% !important;
+    min-height: 22px !important;
+    max-height: 32px !important;
+    padding: 0 5% !important;
     border-width: 1.5px !important;
-    font-size: clamp(7.5px, 1.9vw, 11px) !important;
+    font-size: clamp(7px, 1.75vw, 10px) !important;
+    line-height: 1 !important;
   }
 }
