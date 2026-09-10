@@ -12,3 +12,301 @@
   --sp-shadow-card: 0 8px 24px rgba(10, 10, 10, .08);
   --sp-content-width: 930px;
 }
+
+/* Approved StudentPerks wallet promo */
+html body.public-redesign #wallet {
+  background: #ffffff !important;
+  padding: 22px 0 !important;
+}
+html body.public-redesign #wallet .wrap {
+  max-width: 930px !important;
+}
+html body.public-redesign #wallet .wallet-promo {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 52% 48% !important;
+  gap: 0 !important;
+  min-height: 218px !important;
+  padding: 31px 30px 29px !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 19px !important;
+  background:
+    radial-gradient(circle at 77% 55%, rgba(172,255,45,.20), transparent 30%),
+    linear-gradient(100deg,#f5fff0 0%,#f1ffe7 56%,#efffe8 100%) !important;
+  box-shadow: none !important;
+  align-items: center !important;
+}
+html body.public-redesign #wallet .wallet-promo > div:first-child {
+  position: relative !important;
+  z-index: 10 !important;
+  min-width: 0 !important;
+}
+html body.public-redesign #wallet .wallet-promo h2 {
+  max-width: none !important;
+  margin: 0 0 8px !important;
+  color: #050505 !important;
+  font-family: Inter, Arial, sans-serif !important;
+  font-size: 28px !important;
+  line-height: 1.02 !important;
+  font-weight: 900 !important;
+  letter-spacing: -1.25px !important;
+  white-space: nowrap !important;
+}
+html body.public-redesign #wallet .wallet-heading-mobile {
+  display: inline !important;
+}
+html body.public-redesign #wallet .wallet-heading-desktop {
+  display: none !important;
+}
+html body.public-redesign #wallet .wallet-promo p {
+  max-width: 420px !important;
+  margin: 0 0 17px !important;
+  color: #475063 !important;
+  font-size: 14.5px !important;
+  line-height: 1.28 !important;
+  font-weight: 400 !important;
+}
+html body.public-redesign #wallet .wallet-copy-mobile {
+  display: inline !important;
+}
+html body.public-redesign #wallet .wallet-copy-desktop,
+html body.public-redesign #wallet .desktop-wallet-stats {
+  display: none !important;
+}
+html body.public-redesign #wallet .wallet-promo .mock-btn {
+  position: relative !important;
+  z-index: 20 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 210px !important;
+  width: 210px !important;
+  min-height: 45px !important;
+  height: 45px !important;
+  padding: 0 22px !important;
+  border-radius: 999px !important;
+  background: #99ff00 !important;
+  color: #050505 !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  box-shadow: none !important;
+  white-space: nowrap !important;
+}
+html body.public-redesign #wallet .wallet-button-mobile {
+  display: inline !important;
+}
+html body.public-redesign #wallet .wallet-button-desktop {
+  display: none !important;
+}
+html body.public-redesign #wallet .wallet-art {
+  position: relative !important;
+  min-height: 156px !important;
+  height: 156px !important;
+  overflow: visible !important;
+}
+html body.public-redesign #wallet .wallet-art .student-card,
+html body.public-redesign #wallet .wallet-art .promo-wallet-card {
+  position: absolute !important;
+  z-index: 2 !important;
+  right: 96px !important;
+  top: -8px !important;
+  width: 296px !important;
+  height: 136px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  background: #050505 !important;
+  box-shadow: 0 12px 26px rgba(0,0,0,.18) !important;
+  transform: rotate(-6deg) !important;
+  overflow: hidden !important;
+}
+html body.public-redesign #wallet .student-card__brand-logo {
+  position: absolute !important;
+  z-index: 3 !important;
+  left: 26px !important;
+  top: 46px !important;
+  width: 138px !important;
+  height: auto !important;
+  display: block !important;
+}
+html body.public-redesign #wallet .promo-wallet-card::before {
+  content: none !important;
+}
+html body.public-redesign #wallet .promo-wallet-card::after {
+  content: '' !important;
+  position: absolute !important;
+  z-index: 4 !important;
+  right: 23px !important;
+  top: 18px !important;
+  width: 58px !important;
+  height: 58px !important;
+  background: url('../brand/lime-rays.svg') center/contain no-repeat !important;
+}
+html body.public-redesign #wallet .promo-wallet-card .student-card__qr {
+  display: none !important;
+}
+html body.public-redesign #wallet .desktop-wallet-qr {
+  position: absolute !important;
+  z-index: 6 !important;
+  display: block !important;
+  right: 120px !important;
+  top: 72px !important;
+  width: 82px !important;
+  height: 82px !important;
+  padding: 5px !important;
+  border-radius: 8px !important;
+  background: #fff url('../icons/wallet-qr.svg') center/92% 92% no-repeat !important;
+  box-shadow: 0 9px 18px rgba(0,0,0,.15) !important;
+}
+html body.public-redesign #wallet .desktop-wallet-qr span,
+html body.public-redesign #wallet .desktop-wallet-slogan {
+  display: none !important;
+}
+html body.public-redesign #wallet .wallet-note {
+  position: absolute !important;
+  z-index: 8 !important;
+  display: block !important;
+  right: -1px !important;
+  top: 43px !important;
+  width: 104px !important;
+  color: #050505 !important;
+  font-family: "Comic Sans MS", "Segoe Print", cursive !important;
+  font-size: 10px !important;
+  line-height: 1.08 !important;
+  font-weight: 900 !important;
+  text-align: center !important;
+  text-transform: uppercase !important;
+  transform: rotate(-4deg) !important;
+}
+html body.public-redesign #wallet .wallet-note::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 20px !important;
+  right: 2px !important;
+  bottom: -9px !important;
+  height: 4px !important;
+  border-radius: 4px !important;
+  background: #99ff00 !important;
+  transform: rotate(-7deg) !important;
+}
+html body.public-redesign #wallet .wallet-note::before {
+  content: '↶' !important;
+  position: absolute !important;
+  left: -38px !important;
+  bottom: -10px !important;
+  color: #050505 !important;
+  font-family: Arial, sans-serif !important;
+  font-size: 35px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  transform: rotate(-15deg) !important;
+}
+
+/* Dedicated phone composition: never squash the desktop banner */
+@media (max-width: 860px) {
+  html body.public-redesign #wallet {
+    padding: 18px 0 !important;
+  }
+  html body.public-redesign #wallet .wrap {
+    max-width: 480px !important;
+    padding: 0 16px !important;
+  }
+  html body.public-redesign #wallet .wallet-promo {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto 205px auto !important;
+    min-height: 500px !important;
+    height: auto !important;
+    padding: 26px 22px 22px !important;
+    border-radius: 20px !important;
+    align-items: start !important;
+    overflow: hidden !important;
+  }
+  html body.public-redesign #wallet .wallet-promo > div:first-child {
+    display: contents !important;
+  }
+  html body.public-redesign #wallet .wallet-promo h2 {
+    grid-row: 1 !important;
+    max-width: 330px !important;
+    margin: 0 0 10px !important;
+    font-size: clamp(29px, 8vw, 36px) !important;
+    line-height: .98 !important;
+    letter-spacing: -1.5px !important;
+    white-space: normal !important;
+  }
+  html body.public-redesign #wallet .wallet-promo p {
+    grid-row: 2 !important;
+    max-width: 330px !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.35 !important;
+  }
+  html body.public-redesign #wallet .desktop-wallet-stats {
+    display: none !important;
+  }
+  html body.public-redesign #wallet .wallet-art {
+    grid-row: 3 !important;
+    position: relative !important;
+    width: 100% !important;
+    height: 205px !important;
+    min-height: 205px !important;
+    margin: 8px 0 8px !important;
+    overflow: visible !important;
+  }
+  html body.public-redesign #wallet .wallet-promo .mock-btn {
+    grid-row: 4 !important;
+    justify-self: stretch !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 56px !important;
+    min-height: 56px !important;
+    margin: 0 !important;
+    font-size: 16px !important;
+  }
+  html body.public-redesign #wallet .wallet-art .student-card,
+  html body.public-redesign #wallet .wallet-art .promo-wallet-card {
+    left: 4px !important;
+    right: auto !important;
+    top: 31px !important;
+    width: 72% !important;
+    max-width: 265px !important;
+    height: 128px !important;
+    border-radius: 10px !important;
+    transform: rotate(-7deg) !important;
+  }
+  html body.public-redesign #wallet .student-card__brand-logo {
+    left: 22px !important;
+    top: 46px !important;
+    width: 125px !important;
+  }
+  html body.public-redesign #wallet .promo-wallet-card::after {
+    right: 17px !important;
+    top: 16px !important;
+    width: 52px !important;
+    height: 52px !important;
+  }
+  html body.public-redesign #wallet .desktop-wallet-qr {
+    left: 42% !important;
+    right: auto !important;
+    top: 105px !important;
+    width: 76px !important;
+    height: 76px !important;
+    border-radius: 8px !important;
+  }
+  html body.public-redesign #wallet .wallet-note {
+    right: -3px !important;
+    top: 70px !important;
+    width: 31% !important;
+    max-width: 112px !important;
+    font-size: clamp(9px, 2.7vw, 11px) !important;
+    line-height: 1.08 !important;
+  }
+  html body.public-redesign #wallet .wallet-note::before {
+    left: -28px !important;
+    bottom: -7px !important;
+    font-size: 29px !important;
+  }
+}
