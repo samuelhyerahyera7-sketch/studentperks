@@ -310,3 +310,162 @@ html body.public-redesign #wallet .wallet-note::before {
     font-size: 29px !important;
   }
 }
+
+/* Layered StudentPerks partner banner. Each visual element is its own asset. */
+html body.public-redesign section#business div.wrap div.business-promo {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 53.2% 46.8% !important;
+  gap: 0 !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  aspect-ratio: 3.78 / 1 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid #dfe5ec !important;
+  border-radius: 22px !important;
+  background: #fff !important;
+  box-shadow: 0 10px 30px rgba(15,23,42,.06) !important;
+}
+html body.public-redesign section#business div.wrap div.business-promo > div.business-photo {
+  display: block !important;
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  border-radius: 0 !important;
+  background: url('../layered/backgrounds/partner-students-clean.webp') 43% center / cover no-repeat !important;
+}
+html body.public-redesign section#business div.wrap div.business-promo > div.business-copy {
+  position: relative !important;
+  inset: auto !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: linear-gradient(90deg,#fff 0%,#fbfdff 100%) !important;
+}
+html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > h2 {
+  display: block !important;
+  position: absolute !important;
+  z-index: 3 !important;
+  left: 8.2% !important;
+  top: 12% !important;
+  width: 77% !important;
+  height: 35% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: url('../sections/partner/partner-title.svg') left top / contain no-repeat !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > p {
+  display: block !important;
+  position: absolute !important;
+  z-index: 3 !important;
+  left: 8.2% !important;
+  top: 49% !important;
+  width: 82% !important;
+  height: 23% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: url('../sections/partner/partner-copy.svg') left top / contain no-repeat !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+html body.public-redesign section#business div.wrap div.business-promo > div.business-copy::after {
+  content: '' !important;
+  display: block !important;
+  position: absolute !important;
+  z-index: 4 !important;
+  right: 7.5% !important;
+  top: 8% !important;
+  width: 12% !important;
+  height: 31% !important;
+  background: url('../sections/partner/partner-rays.svg') center / contain no-repeat !important;
+  pointer-events: none !important;
+}
+html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > a.business-cta-button {
+  display: block !important;
+  position: absolute !important;
+  z-index: 5 !important;
+  left: 8.2% !important;
+  bottom: 9% !important;
+  width: 55% !important;
+  min-width: 0 !important;
+  height: 22% !important;
+  min-height: 0 !important;
+  block-size: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: url('../sections/partner/partner-button.svg') center / 100% 100% no-repeat !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 860px) {
+  html body.public-redesign section#business {
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+  }
+  html body.public-redesign section#business div.wrap {
+    width: calc(100vw - 20px) !important;
+    max-width: calc(100vw - 20px) !important;
+    padding: 0 !important;
+  }
+  html body.public-redesign section#business div.wrap div.business-promo {
+    grid-template-columns: 52.5% 47.5% !important;
+    aspect-ratio: 650 / 142 !important;
+    border-radius: 13px !important;
+  }
+  html body.public-redesign section#business div.wrap div.business-promo > div.business-photo {
+    display: block !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    background: url('../layered/backgrounds/partner-students-clean.webp') 39% center / cover no-repeat !important;
+  }
+  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy {
+    position: relative !important;
+    inset: auto !important;
+    display: block !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    padding: 0 !important;
+  }
+  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > h2 {
+    left: 7.5% !important;
+    top: 10% !important;
+    width: 77% !important;
+    height: 37% !important;
+  }
+  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > p {
+    left: 7.5% !important;
+    top: 48% !important;
+    width: 88% !important;
+    height: 24% !important;
+  }
+  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy::after {
+    right: 4.8% !important;
+    top: 5% !important;
+    width: 14% !important;
+    height: 31% !important;
+  }
+  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > a.business-cta-button {
+    left: 7.5% !important;
+    bottom: 7.5% !important;
+    width: 52% !important;
+    height: 23% !important;
+    opacity: 1 !important;
+  }
+}
