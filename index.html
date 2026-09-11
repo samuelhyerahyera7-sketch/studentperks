@@ -1927,7 +1927,7 @@ body.public-redesign .applied-banner {
     --sp-muted: #606979;
     --sp-border: #e5e9ef;
     --sp-shadow-card: 0 8px 24px rgba(10,10,10,.08);
-    --sp-content-width: 930px;
+    --sp-content-width: 1360px;
   }
   body.public-redesign {
     background: #fff;
@@ -3317,7 +3317,8 @@ body.public-redesign .hero-underlined img {
   }
 
   body.public-redesign .mock-hero-card .desktop-student-badge {
-    top: 262px !important;
+    top: auto !important;
+    bottom: 16px !important;
   }
 }
 
@@ -3522,7 +3523,7 @@ body.public-redesign {
   --sp-panel: #ffffff;
   --sp-page: #ffffff;
   --sp-card-shadow: 0 8px 24px rgba(15,23,42,.08);
-  --sp-content-width: 930px;
+  --sp-content-width: 1360px;
   overflow-x: hidden !important;
   background: var(--sp-page) !important;
   color: var(--sp-ink) !important;
@@ -3665,8 +3666,8 @@ body.public-redesign .mock-hero .wrap {
 body.public-redesign .mock-hero-card {
   position: relative !important;
   width: 100% !important;
-  height: 273px !important;
-  min-height: 273px !important;
+  height: 455px !important;
+  min-height: 455px !important;
   aspect-ratio: auto !important;
   overflow: hidden !important;
   border-radius: 0 !important;
@@ -3679,11 +3680,11 @@ body.public-redesign .mock-hero-card > img:first-child {
   z-index: 0 !important;
   inset: 0 auto auto 50% !important;
   width: 100vw !important;
-  height: 273px !important;
+  height: 455px !important;
   max-width: none !important;
   transform: translateX(-50%) !important;
   object-fit: cover !important;
-  object-position: center top !important;
+  object-position: center center !important;
 }
 
 body.public-redesign .mock-hero-card::after {
@@ -3692,7 +3693,7 @@ body.public-redesign .mock-hero-card::after {
   z-index: 1 !important;
   inset: 0 auto auto 50% !important;
   width: 100vw !important;
-  height: 273px !important;
+  height: 455px !important;
   transform: translateX(-50%) !important;
   background: linear-gradient(90deg, rgba(255,255,255,.97) 0%, rgba(255,255,255,.86) 26%, rgba(255,255,255,.26) 51%, rgba(255,255,255,0) 100%) !important;
   pointer-events: none !important;
@@ -6697,6 +6698,7 @@ body.public-redesign .verify-save {
     width: clamp(38px, 10.8vw, 68px) !important;
   }
 }
+
 </style>
 </head>
 <body class="public-redesign">
