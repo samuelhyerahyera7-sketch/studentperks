@@ -2,151 +2,12 @@
   --sp-lime: #8cff00;
 }
 
-/* Partner banner */
-html body.public-redesign section#business div.wrap div.business-promo {
-  position: relative !important;
-  display: grid !important;
-  grid-template-columns: 51.2% 48.8% !important;
-  gap: 0 !important;
-  width: 100% !important;
-  min-height: 0 !important;
-  aspect-ratio: 1913 / 466 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  border: 1px solid #e0e6ee !important;
-  border-radius: 22px !important;
-  background: #f5f7fa !important;
-  box-shadow: none !important;
-}
-html body.public-redesign section#business div.wrap div.business-promo > div.business-photo {
-  display: block !important;
-  position: relative !important;
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  border-radius: 0 !important;
-  background-image: url('../ui-approved/public/partner-banner-approved.png?v=20260910-live-right') !important;
-  background-repeat: no-repeat !important;
-  background-size: 195.3% 100% !important;
-  background-position: left center !important;
-}
-html body.public-redesign section#business div.wrap div.business-promo > div.business-copy {
-  position: relative !important;
-  inset: auto !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  justify-content: center !important;
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  padding: 7.5% 7.5% 7% 9.2% !important;
-  overflow: hidden !important;
-  background: linear-gradient(100deg, #f8fafc 0%, #f3f6fa 100%) !important;
-  pointer-events: auto !important;
-}
-html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > h2 {
-  display: block !important;
-  position: relative !important;
-  z-index: 3 !important;
-  width: 78% !important;
-  margin: 0 0 3.2% !important;
-  color: #050505 !important;
-  font-family: 'Inter', Arial, sans-serif !important;
-  font-size: clamp(16px, 3.28vw, 37px) !important;
-  line-height: .97 !important;
-  font-weight: 900 !important;
-  letter-spacing: -0.045em !important;
-}
-html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > p {
-  position: relative !important;
-  z-index: 3 !important;
-  width: 92% !important;
-  margin: 0 0 4.8% !important;
-  color: #293140 !important;
-  font-family: 'Inter', Arial, sans-serif !important;
-  font-size: clamp(8.5px, 1.35vw, 15px) !important;
-  line-height: 1.2 !important;
-}
-html body.public-redesign section#business div.wrap div.business-promo > div.business-copy::after {
-  content: '' !important;
-  position: absolute !important;
-  z-index: 4 !important;
-  right: 10.5% !important;
-  top: 6.2% !important;
-  width: 15.5% !important;
-  height: 31% !important;
-  background: url('../sections/partner/partner-rays.svg?v=20260910-live-right') center / contain no-repeat !important;
-  pointer-events: none !important;
-}
-html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > a.business-cta-button {
-  display: inline-flex !important;
-  position: relative !important;
-  z-index: 5 !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 54% !important;
-  height: 20% !important;
-  min-height: 24px !important;
-  max-height: 54px !important;
-  padding: 0 6% !important;
-  border: 2px solid #0a0a0a !important;
-  border-radius: 999px !important;
-  background: rgba(255,255,255,.55) !important;
-  color: #050505 !important;
-  font-family: 'Inter', Arial, sans-serif !important;
-  font-size: clamp(9px, 1.32vw, 15px) !important;
-  font-weight: 600 !important;
-  white-space: nowrap !important;
+/* Keep the old benefits strip removed. */
+html body.public-redesign .benefit-strip {
+  display: none !important;
 }
 
-@media (max-width: 860px) {
-  html body.public-redesign section#business { padding-top: 18px !important; padding-bottom: 18px !important; }
-  html body.public-redesign section#business div.wrap { width: calc(100vw - 20px) !important; max-width: calc(100vw - 20px) !important; padding: 0 !important; }
-  html body.public-redesign section#business div.wrap div.business-promo { grid-template-columns: 51.2% 48.8% !important; aspect-ratio: 1913 / 466 !important; border-radius: 13px !important; }
-  html body.public-redesign section#business div.wrap div.business-promo > div.business-photo { background-size: 195.3% 100% !important; background-position: left center !important; }
-  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy { display: block !important; padding: 0 !important; }
-  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > h2 { position: absolute !important; left: 7.5% !important; top: 7.5% !important; width: 87% !important; font-size: clamp(13px, 2.85vw, 18px) !important; }
-  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > p { position: absolute !important; left: 7.5% !important; top: 44% !important; width: 89% !important; font-size: clamp(7px, 1.62vw, 10px) !important; }
-  html body.public-redesign section#business div.wrap div.business-promo > div.business-copy > a.business-cta-button { position: absolute !important; left: 7.5% !important; bottom: 8% !important; width: 58% !important; height: 23% !important; min-height: 0 !important; max-height: none !important; font-size: clamp(7px, 1.72vw, 10px) !important; }
-}
-
-/* Wallet banner */
-html body.public-redesign section#wallet div.wrap div.wallet-promo {
-  position: relative !important;
-  display: block !important;
-  width: 100% !important;
-  min-height: 0 !important;
-  aspect-ratio: 2048 / 690 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  border-radius: 18px !important;
-  background: #efffe7 url('../sections/wallet/wallet-banner-hd.svg?v=20260911-live') center / 100% 100% no-repeat !important;
-  box-shadow: none !important;
-}
-html body.public-redesign section#wallet div.wrap div.wallet-promo > div:first-child,
-html body.public-redesign section#wallet div.wrap div.wallet-promo > div.wallet-art { visibility: hidden !important; }
-html body.public-redesign section#wallet div.wrap div.wallet-promo > div:first-child { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; display: block !important; }
-html body.public-redesign section#wallet div.wrap div.wallet-promo > div:first-child > button.mock-btn {
-  visibility: visible !important;
-  position: absolute !important;
-  left: 4.6% !important;
-  top: 62.5% !important;
-  width: 32.5% !important;
-  height: 18.8% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  color: transparent !important;
-  font-size: 0 !important;
-  opacity: 1 !important;
-}
-@media (max-width: 860px) {
-  html body.public-redesign section#wallet div.wrap div.wallet-promo { aspect-ratio: 2048 / 690 !important; border-radius: 13px !important; }
-}
-
-/* Mobile category rail */
+/* Mobile category rail: full-width horizontal scroll without cutting labels. */
 @media (max-width: 700px) {
   html body.public-redesign .mock-cats {
     display: flex !important;
@@ -156,8 +17,7 @@ html body.public-redesign section#wallet div.wrap div.wallet-promo > div:first-c
     max-width: none !important;
     min-width: 0 !important;
     margin-left: calc(50% - 50vw) !important;
-    padding-left: 16px !important;
-    padding-right: 24px !important;
+    padding: 0 24px 0 16px !important;
     box-sizing: border-box !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;
@@ -165,93 +25,134 @@ html body.public-redesign section#wallet div.wrap div.wallet-promo > div:first-c
     touch-action: pan-x !important;
     white-space: nowrap !important;
     scrollbar-width: none !important;
-    scroll-padding-left: 16px !important;
-    scroll-snap-type: x proximity !important;
   }
-  html body.public-redesign .mock-cats::-webkit-scrollbar { display: none !important; }
+  html body.public-redesign .mock-cats::-webkit-scrollbar {
+    display: none !important;
+  }
   html body.public-redesign .mock-cats > .pill {
     flex: 0 0 auto !important;
     min-width: max-content !important;
-    scroll-snap-align: start !important;
   }
 }
 
-/* Final hero: clean image only, then real site text on top. */
-html body.public-redesign .benefit-strip { display: none !important; }
-html body.public-redesign .desktop-student-badge,
-html body.public-redesign .hero-handwritten { display: none !important; }
-html body.public-redesign .mock-hero-card {
+/* Hero: use the actual clean hero artwork, never the business-partner banner. */
+html body.public-redesign section.mock-hero .mock-hero-card {
   position: relative !important;
   overflow: hidden !important;
-  background:
-    linear-gradient(90deg, rgba(0,0,0,.82) 0%, rgba(0,0,0,.58) 34%, rgba(0,0,0,.14) 72%, rgba(0,0,0,.02) 100%),
-    url('../layered/backgrounds/partner-students-clean.webp?v=20260911-hero-clean') 56% center / cover no-repeat !important;
+  background: #050505 !important;
 }
-html body.public-redesign .mock-hero-card > img:first-child {
-  opacity: 0 !important;
-  visibility: hidden !important;
+
+html body.public-redesign section.mock-hero .mock-hero-card > img:first-child {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  transform: none !important;
 }
-html body.public-redesign .mock-hero-card::after {
-  content: none !important;
+
+html body.public-redesign section.mock-hero .mock-hero-card::after {
+  content: '' !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  background: linear-gradient(90deg, rgba(0,0,0,.82) 0%, rgba(0,0,0,.58) 36%, rgba(0,0,0,.12) 76%, rgba(0,0,0,0) 100%) !important;
+  pointer-events: none !important;
+}
+
+html body.public-redesign section.mock-hero .mock-hero-card .hero-handwritten,
+html body.public-redesign .desktop-student-badge {
   display: none !important;
 }
-html body.public-redesign .mock-hero-copy {
+
+html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy {
   position: absolute !important;
-  z-index: 3 !important;
+  z-index: 4 !important;
   color: #fff !important;
 }
-html body.public-redesign .mock-hero-copy h1 {
+
+/* Typewriter headline. Force the original headline transparent so it cannot duplicate. */
+html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy h1 {
   position: relative !important;
   color: transparent !important;
   text-shadow: none !important;
   overflow: visible !important;
   clip-path: none !important;
+  -webkit-clip-path: none !important;
+  -webkit-mask: none !important;
+  mask: none !important;
   animation: none !important;
-  min-height: 1.88em !important;
+  min-height: 1.9em !important;
 }
-html body.public-redesign .mock-hero-copy h1 > * { visibility: hidden !important; }
-html body.public-redesign .mock-hero-copy h1::before,
-html body.public-redesign .mock-hero-copy h1::after {
+
+html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy h1 span,
+html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy h1 img {
+  visibility: hidden !important;
+}
+
+html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy h1::before,
+html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy h1::after {
   position: absolute !important;
   display: block !important;
   overflow: hidden !important;
-  white-space: nowrap !important;
   pointer-events: none !important;
+  white-space: nowrap !important;
 }
-html body.public-redesign .mock-hero-copy h1::before {
+
+html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy h1::before {
   content: 'Student life\A costs ' !important;
   top: 0 !important;
   left: 0 !important;
   width: 0;
-  height: 1.88em !important;
+  height: 1.9em !important;
   color: #fff !important;
   white-space: pre !important;
-  animation: sp-type-prefix 1.55s steps(19, end) .3s forwards !important;
+  animation: sp-type-prefix 1.45s steps(19,end) .25s forwards !important;
 }
-html body.public-redesign .mock-hero-copy h1::after {
+
+html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy h1::after {
   content: 'less here.|' !important;
-  top: .94em !important;
-  left: 2.82em !important;
+  top: .95em !important;
+  left: 2.78em !important;
   width: 0;
   color: #9cff18 !important;
-  animation: sp-type-green 1s steps(11, end) 1.85s forwards, sp-caret-final .72s step-end 3s infinite !important;
+  animation: sp-type-green .95s steps(11,end) 1.7s forwards, sp-caret .72s step-end 2.8s infinite !important;
 }
-@keyframes sp-type-prefix { from { width: 0; } to { width: 8.25em; } }
-@keyframes sp-type-green { from { width: 0; } to { width: 5.75em; } }
-@keyframes sp-caret-final { 50% { opacity: .25; } }
+
+@keyframes sp-type-prefix {
+  from { width: 0; }
+  to { width: 8.3em; }
+}
+@keyframes sp-type-green {
+  from { width: 0; }
+  to { width: 5.8em; }
+}
+@keyframes sp-caret {
+  50% { opacity: .25; }
+}
 
 @media (max-width: 700px) {
-  html body.public-redesign .mock-hero { padding-bottom: 0 !important; }
-  html body.public-redesign .mock-hero-card {
+  html body.public-redesign section.mock-hero {
+    padding-bottom: 0 !important;
+  }
+
+  html body.public-redesign section.mock-hero .mock-hero-card {
     height: auto !important;
     min-height: 0 !important;
     aspect-ratio: 1.55 / 1 !important;
     border-radius: 12px !important;
-    background:
-      linear-gradient(90deg, rgba(0,0,0,.84) 0%, rgba(0,0,0,.58) 37%, rgba(0,0,0,.12) 76%, rgba(0,0,0,0) 100%),
-      url('../layered/backgrounds/partner-students-clean.webp?v=20260911-hero-clean') 58% center / cover no-repeat !important;
   }
-  html body.public-redesign .mock-hero-copy {
+
+  html body.public-redesign section.mock-hero .mock-hero-card > img:first-child {
+    object-position: 56% center !important;
+  }
+
+  html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy {
     inset: 0 !important;
     top: 0 !important;
     left: 0 !important;
@@ -261,46 +162,91 @@ html body.public-redesign .mock-hero-copy h1::after {
     max-width: none !important;
     height: 100% !important;
     margin: 0 !important;
-    padding: clamp(22px, 6vw, 30px) clamp(20px, 5.3vw, 26px) !important;
+    padding: 22px 20px !important;
     box-sizing: border-box !important;
   }
-  html body.public-redesign .mock-hero-copy h1 {
-    width: 57% !important;
-    max-width: 260px !important;
+
+  html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy h1 {
+    width: 58% !important;
+    max-width: 250px !important;
     margin: 0 0 10px !important;
     padding: 0 !important;
-    font-size: clamp(28px, 7.2vw, 36px) !important;
-    line-height: .94 !important;
+    font-size: clamp(27px, 7.1vw, 35px) !important;
+    line-height: .95 !important;
     letter-spacing: -.055em !important;
   }
-  html body.public-redesign .mock-hero-copy p {
-    width: 57% !important;
-    max-width: 260px !important;
+
+  html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy p {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 58% !important;
+    max-width: 250px !important;
     margin: 0 !important;
-    font-size: clamp(11px, 2.8vw, 13.5px) !important;
+    color: rgba(255,255,255,.9) !important;
+    font-size: clamp(10.5px, 2.7vw, 13px) !important;
     line-height: 1.22 !important;
   }
-  html body.public-redesign .mock-actions {
+
+  html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy .mock-actions {
     position: absolute !important;
-    left: clamp(20px, 5.3vw, 26px) !important;
-    bottom: clamp(18px, 4.8vw, 24px) !important;
-    z-index: 6 !important;
     display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    left: 20px !important;
+    bottom: 18px !important;
+    z-index: 8 !important;
     flex-wrap: nowrap !important;
     gap: 8px !important;
+    width: auto !important;
+    height: auto !important;
     margin: 0 !important;
     padding: 0 !important;
+    transform: none !important;
   }
-  html body.public-redesign .mock-actions .mock-btn {
+
+  html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy .mock-actions .mock-btn {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    align-items: center !important;
+    justify-content: center !important;
     min-height: 36px !important;
+    width: auto !important;
+    margin: 0 !important;
     padding: 0 12px !important;
+    border-radius: 999px !important;
     font-size: clamp(9px, 2.35vw, 11px) !important;
     white-space: nowrap !important;
+    transform: none !important;
   }
-  html body.public-redesign .mock-search { margin-top: 18px !important; }
+
+  html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy .mock-actions .mock-btn.primary {
+    background: #9cff18 !important;
+    color: #050505 !important;
+    border: 1px solid #9cff18 !important;
+  }
+
+  html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy .mock-actions .mock-btn.secondary {
+    background: rgba(5,5,5,.28) !important;
+    color: #fff !important;
+    border: 1.5px solid rgba(255,255,255,.9) !important;
+  }
+
+  html body.public-redesign .mock-search {
+    margin-top: 18px !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html body.public-redesign .mock-hero-copy h1::before { width: 8.25em !important; animation: none !important; }
-  html body.public-redesign .mock-hero-copy h1::after { width: 5.3em !important; animation: none !important; content: 'less here.' !important; }
+  html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy h1::before {
+    width: 8.3em !important;
+    animation: none !important;
+  }
+  html body.public-redesign section.mock-hero .mock-hero-card .mock-hero-copy h1::after {
+    width: 5.3em !important;
+    animation: none !important;
+    content: 'less here.' !important;
+  }
 }
