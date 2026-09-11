@@ -1,16 +1,16 @@
 @import url('./tokens-hero-base.css');
 
-@keyframes sp-type-line1 {
-  from { width: 0; }
-  to { width: 5.9em; }
+@keyframes sp-reveal-line1 {
+  from { clip-path: inset(0 100% 0 0); -webkit-clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); -webkit-clip-path: inset(0 0 0 0); }
 }
-@keyframes sp-type-costs {
-  from { width: 0; }
-  to { width: 2.15em; }
+@keyframes sp-reveal-costs {
+  from { clip-path: inset(0 100% 0 0); -webkit-clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); -webkit-clip-path: inset(0 0 0 0); }
 }
-@keyframes sp-type-green {
-  from { width: 0; }
-  to { width: 5.8em; }
+@keyframes sp-reveal-green {
+  from { clip-path: inset(0 100% 0 0); -webkit-clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); -webkit-clip-path: inset(0 0 0 0); }
 }
 @keyframes sp-caret {
   50% { opacity: .25; }
@@ -39,15 +39,16 @@
     pointer-events: auto !important;
   }
 
-  /* Natural type sequence: Student life, then costs, then less here. */
+  /* Natural sequence, with full text widths so no word gets cut off. */
   html body.public-redesign section.mock-hero .mock-hero-copy::before {
     content: 'Student life' !important;
     position: absolute !important;
     display: block !important;
     top: clamp(18px, 4.8vw, 24px) !important;
     left: clamp(10px, 3vw, 14px) !important;
-    width: 0;
-    overflow: hidden !important;
+    width: max-content !important;
+    max-width: 62vw !important;
+    overflow: visible !important;
     white-space: nowrap !important;
     color: #fff !important;
     font-family: 'Inter', Arial, sans-serif !important;
@@ -60,7 +61,9 @@
     opacity: 1 !important;
     z-index: 90 !important;
     pointer-events: none !important;
-    animation: sp-type-line1 1.15s steps(12, end) .2s forwards !important;
+    clip-path: inset(0 100% 0 0);
+    -webkit-clip-path: inset(0 100% 0 0);
+    animation: sp-reveal-line1 1.15s steps(12, end) .2s forwards !important;
   }
 
   html body.public-redesign section.mock-hero .mock-hero-copy h1 {
@@ -68,8 +71,8 @@
     position: absolute !important;
     top: clamp(42px, 11.1vw, 53px) !important;
     left: clamp(10px, 3vw, 14px) !important;
-    width: 62% !important;
-    max-width: 270px !important;
+    width: 70% !important;
+    max-width: 300px !important;
     height: 1em !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -93,8 +96,8 @@
     display: block !important;
     top: 0 !important;
     left: 0 !important;
-    width: 0;
-    overflow: hidden !important;
+    width: max-content !important;
+    overflow: visible !important;
     white-space: nowrap !important;
     color: #fff !important;
     font-family: 'Inter', Arial, sans-serif !important;
@@ -106,7 +109,9 @@
     visibility: visible !important;
     opacity: 1 !important;
     z-index: 92 !important;
-    animation: sp-type-costs .58s steps(6, end) 1.35s forwards !important;
+    clip-path: inset(0 100% 0 0);
+    -webkit-clip-path: inset(0 100% 0 0);
+    animation: sp-reveal-costs .58s steps(6, end) 1.35s forwards !important;
   }
 
   html body.public-redesign section.mock-hero .mock-hero-copy h1::after {
@@ -114,9 +119,9 @@
     position: absolute !important;
     display: block !important;
     top: 0 !important;
-    left: 2.12em !important;
-    width: 0;
-    overflow: hidden !important;
+    left: 2.18em !important;
+    width: max-content !important;
+    overflow: visible !important;
     white-space: nowrap !important;
     color: #9cff18 !important;
     font-family: 'Inter', Arial, sans-serif !important;
@@ -128,7 +133,9 @@
     visibility: visible !important;
     opacity: 1 !important;
     z-index: 93 !important;
-    animation: sp-type-green 1.05s steps(11, end) 1.93s forwards, sp-caret .72s step-end 3.1s infinite !important;
+    clip-path: inset(0 100% 0 0);
+    -webkit-clip-path: inset(0 100% 0 0);
+    animation: sp-reveal-green 1.05s steps(11, end) 1.93s forwards, sp-caret .72s step-end 3.1s infinite !important;
   }
 
   html body.public-redesign section.mock-hero .mock-hero-copy > p {
@@ -176,17 +183,14 @@
 }
 
 @media (max-width: 700px) and (prefers-reduced-motion: reduce) {
-  html body.public-redesign section.mock-hero .mock-hero-copy::before {
-    width: 5.9em !important;
+  html body.public-redesign section.mock-hero .mock-hero-copy::before,
+  html body.public-redesign section.mock-hero .mock-hero-copy h1::before,
+  html body.public-redesign section.mock-hero .mock-hero-copy h1::after {
     animation: none !important;
-  }
-  html body.public-redesign section.mock-hero .mock-hero-copy h1::before {
-    width: 2.15em !important;
-    animation: none !important;
+    clip-path: none !important;
+    -webkit-clip-path: none !important;
   }
   html body.public-redesign section.mock-hero .mock-hero-copy h1::after {
-    width: 5.8em !important;
-    animation: none !important;
     content: 'less here.' !important;
   }
 }
