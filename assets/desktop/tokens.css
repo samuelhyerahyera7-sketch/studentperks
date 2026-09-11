@@ -1,5 +1,18 @@
 @import url('./tokens-hero-base.css');
 
+/* Keep the hero typewriter self-contained here so it works even if imported animation rules are delayed or cached. */
+@keyframes sp-type-prefix {
+  from { width: 0; }
+  to { width: 8.25em; }
+}
+@keyframes sp-type-green {
+  from { width: 0; }
+  to { width: 5.75em; }
+}
+@keyframes sp-caret-final {
+  50% { opacity: .25; }
+}
+
 /* Mobile hero: use the exact plain student photo and keep all wording as live HTML/CSS over it. */
 @media (max-width: 700px) {
   html body.public-redesign section.mock-hero .mock-hero-card {
@@ -120,5 +133,17 @@
   html body.public-redesign section.mock-hero .mock-actions::before {
     content: none !important;
     display: none !important;
+  }
+}
+
+@media (max-width: 700px) and (prefers-reduced-motion: reduce) {
+  html body.public-redesign section.mock-hero .mock-hero-copy h1::before {
+    width: 8.25em !important;
+    animation: none !important;
+  }
+  html body.public-redesign section.mock-hero .mock-hero-copy h1::after {
+    width: 5.75em !important;
+    animation: none !important;
+    content: 'less here.' !important;
   }
 }
