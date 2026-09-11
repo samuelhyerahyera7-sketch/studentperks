@@ -63,7 +63,7 @@
     animation: sp-reveal-line1 1.15s steps(12, end) .2s forwards !important;
   }
 
-  /* Line 2: costs less here.  Kept on the same reliable host as line 1. */
+  /* Line 2: costs less here. */
   html body.public-redesign section.mock-hero .mock-hero-copy::after {
     content: 'costs less here.' !important;
     position: absolute !important;
@@ -83,7 +83,7 @@
     opacity: 1 !important;
     z-index: 91 !important;
     pointer-events: none !important;
-    background: linear-gradient(90deg, #fff 0 31%, #9cff18 31% 100%) !important;
+    background: linear-gradient(90deg, #fff 0 38%, #9cff18 38% 100%) !important;
     -webkit-background-clip: text !important;
     background-clip: text !important;
     color: transparent !important;
