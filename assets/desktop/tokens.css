@@ -1,19 +1,10 @@
 @import url('./tokens-hero-base.css');
 
-/* Keep the hero typewriter self-contained here so it works even if imported animation rules are delayed or cached. */
-@keyframes sp-type-prefix {
-  from { width: 0; }
-  to { width: 8.25em; }
-}
-@keyframes sp-type-green {
-  from { width: 0; }
-  to { width: 5.75em; }
-}
-@keyframes sp-caret-final {
-  50% { opacity: .25; }
+@keyframes sp-live-heading {
+  from { clip-path: inset(0 100% 0 0); -webkit-clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); -webkit-clip-path: inset(0 0 0 0); }
 }
 
-/* Mobile hero: use the exact plain student photo and keep all wording as live HTML/CSS over it. */
 @media (max-width: 700px) {
   html body.public-redesign section.mock-hero .mock-hero-card {
     background-image: url('../layered/backgrounds/hero-students-clean.webp?v=20260911-plain-hero') !important;
@@ -41,67 +32,44 @@
     position: absolute !important;
     top: clamp(18px, 4.8vw, 24px) !important;
     left: clamp(20px, 5.3vw, 26px) !important;
-    width: 58% !important;
-    max-width: 255px !important;
-    min-height: 1.88em !important;
+    width: 62% !important;
+    max-width: 270px !important;
+    min-height: 1.9em !important;
     margin: 0 !important;
+    padding: 0 !important;
     z-index: 70 !important;
     font-size: clamp(25px, 6.9vw, 32px) !important;
     line-height: .94 !important;
     letter-spacing: -.05em !important;
-    color: transparent !important;
+    color: #fff !important;
+    text-shadow: 0 2px 12px rgba(0,0,0,.38) !important;
     overflow: visible !important;
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
     transform: none !important;
-    clip-path: none !important;
-    -webkit-clip-path: none !important;
     -webkit-mask-image: none !important;
     mask-image: none !important;
-    animation: none !important;
+    animation: sp-live-heading 2.6s steps(28, end) .2s both !important;
   }
 
   html body.public-redesign section.mock-hero .mock-hero-copy h1 > * {
-    visibility: hidden !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  html body.public-redesign section.mock-hero .mock-hero-copy h1 .hero-underlined {
+    color: #9cff18 !important;
+  }
+
+  html body.public-redesign section.mock-hero .mock-hero-copy h1 .hero-underlined img {
+    display: none !important;
   }
 
   html body.public-redesign section.mock-hero .mock-hero-copy h1::before,
   html body.public-redesign section.mock-hero .mock-hero-copy h1::after {
-    position: absolute !important;
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    overflow: hidden !important;
-    white-space: nowrap !important;
-    text-shadow: none !important;
-    pointer-events: none !important;
-    z-index: 71 !important;
-    transform: none !important;
-    clip-path: none !important;
-    -webkit-clip-path: none !important;
-    -webkit-mask-image: none !important;
-    mask-image: none !important;
-  }
-
-  html body.public-redesign section.mock-hero .mock-hero-copy h1::before {
-    content: 'Student life\A costs ' !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 0;
-    height: 1.88em !important;
-    color: #fff !important;
-    white-space: pre !important;
-    animation: sp-type-prefix 1.65s steps(19, end) .25s forwards !important;
-  }
-
-  html body.public-redesign section.mock-hero .mock-hero-copy h1::after {
-    content: 'less here.|' !important;
-    top: .94em !important;
-    left: 2.82em !important;
-    width: 0;
-    color: #9cff18 !important;
-    animation: sp-type-green 1.05s steps(11, end) 1.9s forwards, sp-caret-final .72s step-end 3.05s infinite !important;
+    content: none !important;
+    display: none !important;
   }
 
   html body.public-redesign section.mock-hero .mock-hero-copy > p {
@@ -113,9 +81,9 @@
     display: block !important;
     position: absolute !important;
     left: clamp(20px, 5.3vw, 26px) !important;
-    top: clamp(86px, 23vw, 108px) !important;
-    width: min(62vw, 275px) !important;
-    max-width: 275px !important;
+    top: clamp(92px, 24vw, 114px) !important;
+    width: min(64vw, 285px) !important;
+    max-width: 285px !important;
     margin: 0 !important;
     padding: 0 !important;
     color: #fff !important;
@@ -130,6 +98,7 @@
     visibility: visible !important;
     pointer-events: none !important;
     z-index: 50 !important;
+    text-shadow: 0 1px 8px rgba(0,0,0,.35) !important;
   }
 
   html body.public-redesign section.mock-hero .mock-actions {
@@ -153,13 +122,9 @@
 }
 
 @media (max-width: 700px) and (prefers-reduced-motion: reduce) {
-  html body.public-redesign section.mock-hero .mock-hero-copy h1::before {
-    width: 8.25em !important;
+  html body.public-redesign section.mock-hero .mock-hero-copy h1 {
     animation: none !important;
-  }
-  html body.public-redesign section.mock-hero .mock-hero-copy h1::after {
-    width: 5.75em !important;
-    animation: none !important;
-    content: 'less here.' !important;
+    clip-path: none !important;
+    -webkit-clip-path: none !important;
   }
 }
