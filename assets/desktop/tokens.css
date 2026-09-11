@@ -4,16 +4,9 @@
   from { clip-path: inset(0 100% 0 0); -webkit-clip-path: inset(0 100% 0 0); }
   to { clip-path: inset(0 0 0 0); -webkit-clip-path: inset(0 0 0 0); }
 }
-@keyframes sp-reveal-costs {
+@keyframes sp-reveal-line2 {
   from { clip-path: inset(0 100% 0 0); -webkit-clip-path: inset(0 100% 0 0); }
   to { clip-path: inset(0 0 0 0); -webkit-clip-path: inset(0 0 0 0); }
-}
-@keyframes sp-reveal-green {
-  from { clip-path: inset(0 100% 0 0); -webkit-clip-path: inset(0 100% 0 0); }
-  to { clip-path: inset(0 0 0 0); -webkit-clip-path: inset(0 0 0 0); }
-}
-@keyframes sp-caret {
-  50% { opacity: .25; }
 }
 
 @media (max-width: 700px) {
@@ -39,12 +32,12 @@
     pointer-events: auto !important;
   }
 
-  /* Hide the original headline markup. The three typing parts below are independent layers. */
-  html body.public-redesign section.mock-hero .mock-hero-copy h1 {
+  html body.public-redesign section.mock-hero .mock-hero-copy h1,
+  html body.public-redesign section.mock-hero .mock-hero-copy > p {
     display: none !important;
   }
 
-  /* 1. Student life */
+  /* Line 1: Student life */
   html body.public-redesign section.mock-hero .mock-hero-copy::before {
     content: 'Student life' !important;
     position: absolute !important;
@@ -70,75 +63,33 @@
     animation: sp-reveal-line1 1.15s steps(12, end) .2s forwards !important;
   }
 
-  /* Use the existing paragraph only as a reliable host for line 2 of the typing headline. */
-  html body.public-redesign section.mock-hero .mock-hero-copy > p {
-    display: block !important;
+  /* Line 2: costs less here.  Kept on the same reliable host as line 1. */
+  html body.public-redesign section.mock-hero .mock-hero-copy::after {
+    content: 'costs less here.' !important;
     position: absolute !important;
+    display: block !important;
     top: clamp(42px, 11.1vw, 53px) !important;
     left: clamp(10px, 3vw, 14px) !important;
-    width: 72% !important;
-    max-width: 310px !important;
-    height: 36px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    font-size: 0 !important;
-    line-height: 1 !important;
-    color: transparent !important;
+    width: max-content !important;
     overflow: visible !important;
+    white-space: nowrap !important;
+    font-family: 'Inter', Arial, sans-serif !important;
+    font-size: clamp(25px, 6.9vw, 32px) !important;
+    line-height: .94 !important;
+    font-weight: 800 !important;
+    letter-spacing: -.05em !important;
+    text-shadow: 0 2px 12px rgba(0,0,0,.42) !important;
     visibility: visible !important;
     opacity: 1 !important;
     z-index: 91 !important;
     pointer-events: none !important;
-  }
-
-  /* 2. costs */
-  html body.public-redesign section.mock-hero .mock-hero-copy > p::before {
-    content: 'costs ' !important;
-    position: absolute !important;
-    display: block !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: max-content !important;
-    overflow: visible !important;
-    white-space: nowrap !important;
-    color: #fff !important;
-    font-family: 'Inter', Arial, sans-serif !important;
-    font-size: clamp(25px, 6.9vw, 32px) !important;
-    line-height: .94 !important;
-    font-weight: 800 !important;
-    letter-spacing: -.05em !important;
-    text-shadow: 0 2px 12px rgba(0,0,0,.42) !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    z-index: 92 !important;
+    background: linear-gradient(90deg, #fff 0 31%, #9cff18 31% 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
     clip-path: inset(0 100% 0 0);
     -webkit-clip-path: inset(0 100% 0 0);
-    animation: sp-reveal-costs .58s steps(6, end) 1.35s forwards !important;
-  }
-
-  /* 3. less here. */
-  html body.public-redesign section.mock-hero .mock-hero-copy > p::after {
-    content: 'less here.|' !important;
-    position: absolute !important;
-    display: block !important;
-    top: 0 !important;
-    left: 2.18em !important;
-    width: max-content !important;
-    overflow: visible !important;
-    white-space: nowrap !important;
-    color: #9cff18 !important;
-    font-family: 'Inter', Arial, sans-serif !important;
-    font-size: clamp(25px, 6.9vw, 32px) !important;
-    line-height: .94 !important;
-    font-weight: 800 !important;
-    letter-spacing: -.05em !important;
-    text-shadow: 0 2px 12px rgba(0,0,0,.42) !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    z-index: 93 !important;
-    clip-path: inset(0 100% 0 0);
-    -webkit-clip-path: inset(0 100% 0 0);
-    animation: sp-reveal-green 1.05s steps(11, end) 1.93s forwards, sp-caret .72s step-end 3.1s infinite !important;
+    animation: sp-reveal-line2 1.45s steps(16, end) 1.35s forwards !important;
   }
 
   html body.public-redesign section.mock-hero .mock-actions {
@@ -183,13 +134,9 @@
 
 @media (max-width: 700px) and (prefers-reduced-motion: reduce) {
   html body.public-redesign section.mock-hero .mock-hero-copy::before,
-  html body.public-redesign section.mock-hero .mock-hero-copy > p::before,
-  html body.public-redesign section.mock-hero .mock-hero-copy > p::after {
+  html body.public-redesign section.mock-hero .mock-hero-copy::after {
     animation: none !important;
     clip-path: none !important;
     -webkit-clip-path: none !important;
-  }
-  html body.public-redesign section.mock-hero .mock-hero-copy > p::after {
-    content: 'less here.' !important;
   }
 }
