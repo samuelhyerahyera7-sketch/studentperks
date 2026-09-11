@@ -35,7 +35,6 @@
     pointer-events: auto !important;
   }
 
-  /* Do not rely on the old H1 animation. Render the typing layers directly on the hero copy. */
   html body.public-redesign section.mock-hero .mock-hero-copy h1 {
     display: none !important;
   }
@@ -96,6 +95,17 @@
     max-width: 285px !important;
     margin: 0 !important;
     padding: 0 !important;
+    font-size: 0 !important;
+    line-height: 1 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 92 !important;
+    pointer-events: none !important;
+  }
+
+  html body.public-redesign section.mock-hero .mock-hero-copy > p::before {
+    content: 'Discover verified deals, events and opportunities made for South African students.' !important;
+    display: block !important;
     color: #fff !important;
     font-family: 'Inter', Arial, sans-serif !important;
     font-size: clamp(10.5px, 2.85vw, 13px) !important;
@@ -106,9 +116,7 @@
     white-space: normal !important;
     visibility: visible !important;
     opacity: 1 !important;
-    z-index: 80 !important;
     text-shadow: 0 1px 8px rgba(0,0,0,.35) !important;
-    pointer-events: none !important;
   }
 
   html body.public-redesign section.mock-hero .mock-actions {
