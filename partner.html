@@ -255,10 +255,8 @@ body.business-redesign .partner-hero {
   background: linear-gradient(180deg,#fff,#f7faff);
 }
 body.business-redesign .partner-hero .wrap {
-  display: grid;
-  grid-template-columns: minmax(0,.86fr) minmax(420px,1.14fr);
-  gap: 22px;
-  align-items: center;
+  display: block;
+  max-width: 720px;
 }
 body.business-redesign .hero-eyebrow {
   background: rgba(156,255,24,.18);
@@ -686,7 +684,7 @@ body.business-redesign .success-back {
 <section class="partner-hero">
   <div class="wrap">
     <div>
-      <div class="hero-eyebrow">Partner dashboard preview</div>
+      <div class="hero-eyebrow">Partner dashboard</div>
       <h1>Reach verified students and track every <em>offer.</em></h1>
       <p>Create offers, monitor claims and redemptions, compare branch performance and keep student personal information private.</p>
       <div class="hero-ctas">
@@ -695,45 +693,6 @@ body.business-redesign .success-back {
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
         </a>
         <a href="verify.html" class="ghost-btn">Open provider login</a>
-      </div>
-    </div>
-    <div class="partner-preview" aria-label="Partner dashboard concept preview">
-      <div class="preview-top">
-        <strong>Partner dashboard</strong>
-        <span class="preview-chip">Live data after launch</span>
-      </div>
-      <div class="partner-metrics">
-        <div class="metric-card">
-          <div class="metric-icon">
-            <span class="sp-icon" style="--icon:url('assets/icons/analytics.svg')" aria-hidden="true"></span>
-          </div>
-          <b>--</b><span>Offer views</span>
-        </div>
-        <div class="metric-card">
-          <div class="metric-icon">
-            <span class="sp-icon" style="--icon:url('assets/icons/ticket.svg')" aria-hidden="true"></span>
-          </div>
-          <b>--</b><span>Claims</span>
-        </div>
-        <div class="metric-card">
-          <div class="metric-icon">
-            <span class="sp-icon" style="--icon:url('assets/icons/redemptions.svg')" aria-hidden="true"></span>
-          </div>
-          <b>--</b><span>Redemptions</span>
-        </div>
-        <div class="metric-card">
-          <div class="metric-icon">
-            <span class="sp-icon" style="--icon:url('assets/icons/analytics.svg')" aria-hidden="true"></span>
-          </div>
-          <b>--</b><span>Claim-to-redemption</span>
-        </div>
-      </div>
-      <div class="trend-panel">
-        <h3>Analytics</h3>
-        <div class="empty-analytics">Views, claims, redemptions and branch trends will appear here once partners start using the dashboard.</div>
-      </div>
-      <div class="active-offers">
-        <div class="offer-row"><b>Your offers</b><span>Business-specific offer rows appear after sign-in.</span><span class="offer-status">Private</span></div>
       </div>
     </div>
   </div>
