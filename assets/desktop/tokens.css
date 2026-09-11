@@ -37,7 +37,6 @@
     display: none !important;
   }
 
-  /* Line 1: Student life */
   html body.public-redesign section.mock-hero .mock-hero-copy::before {
     content: 'Student life' !important;
     position: absolute !important;
@@ -63,7 +62,6 @@
     animation: sp-reveal-line1 1.15s steps(12, end) .2s forwards !important;
   }
 
-  /* Line 2: costs less here. */
   html body.public-redesign section.mock-hero .mock-hero-copy::after {
     content: 'costs less here.' !important;
     position: absolute !important;
@@ -141,19 +139,20 @@
   }
 }
 
-/* Custom Mugs card: keep the title, remove the extra offer copy, and give the product image more room. */
-html body.public-redesign .mock-deal-grid .mock-deal-card.perk-card:nth-child(2) .deal-content > p,
-html body.public-redesign .mock-deal-grid .mock-deal-card.perk-card:nth-child(2) .location-line {
+/* Deal cards: remove the repetitive offer/location copy and give the product photos more space. */
+html body.public-redesign #deal-grid .mock-deal-card.perk-card .deal-content > p,
+html body.public-redesign #deal-grid .mock-deal-card.perk-card .location-line {
   display: none !important;
 }
 
-html body.public-redesign .mock-deal-grid .mock-deal-card.perk-card:nth-child(2) .deal-image {
-  height: auto !important;
-  aspect-ratio: 1.42 / 1 !important;
+html body.public-redesign #deal-grid .mock-deal-card.perk-card .deal-image {
+  height: 220px !important;
+  aspect-ratio: auto !important;
 }
 
 @media (max-width: 700px) {
-  html body.public-redesign .mock-deal-grid .mock-deal-card.perk-card:nth-child(2) .deal-image {
-    aspect-ratio: 1.32 / 1 !important;
+  html body.public-redesign #deal-grid .mock-deal-card.perk-card .deal-image {
+    height: 160px !important;
+    aspect-ratio: auto !important;
   }
 }
