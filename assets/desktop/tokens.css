@@ -109,7 +109,7 @@
     position: absolute !important;
     display: block !important;
     left: 0 !important;
-    bottom: calc(100% + 46px) !important;
+    bottom: calc(100% + 36px) !important;
     width: min(58vw, 245px) !important;
     max-width: 245px !important;
     margin: 0 !important;
