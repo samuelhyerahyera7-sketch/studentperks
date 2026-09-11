@@ -1,25 +1,35 @@
 @import url('./tokens-hero-base.css');
 
-/* Mobile hero: keep the approved typewriter and buttons, and place the existing description cleanly between them. */
+/* Mobile hero: keep the approved typewriter and buttons, and render the description directly above the button row. */
 @media (max-width: 700px) {
   html body.public-redesign section.mock-hero .mock-hero-copy > p {
-    position: absolute !important;
-    left: clamp(20px, 5.3vw, 26px) !important;
-    top: 45% !important;
-    width: 58% !important;
-    max-width: 260px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    color: #fff !important;
-    font-size: clamp(10.5px, 2.85vw, 13px) !important;
-    line-height: 1.22 !important;
-    z-index: 19 !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: none !important;
+    display: none !important;
   }
 
   html body.public-redesign section.mock-hero .mock-actions {
     z-index: 20 !important;
+    overflow: visible !important;
+  }
+
+  html body.public-redesign section.mock-hero .mock-actions::before {
+    content: 'Discover verified deals, events and opportunities made for South African students.' !important;
+    position: absolute !important;
+    left: 0 !important;
+    bottom: calc(100% + 10px) !important;
+    width: min(62vw, 275px) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #fff !important;
+    font-family: 'Inter', Arial, sans-serif !important;
+    font-size: clamp(10.5px, 2.85vw, 13px) !important;
+    line-height: 1.22 !important;
+    font-weight: 400 !important;
+    letter-spacing: -0.02em !important;
+    text-align: left !important;
+    white-space: normal !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: none !important;
+    z-index: 22 !important;
   }
 }
