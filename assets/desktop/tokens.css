@@ -1,8 +1,15 @@
 @import url('./tokens-hero-base.css');
 
-@keyframes sp-live-heading {
-  from { clip-path: inset(0 100% 0 0); -webkit-clip-path: inset(0 100% 0 0); }
-  to { clip-path: inset(0 0 0 0); -webkit-clip-path: inset(0 0 0 0); }
+@keyframes sp-type-white {
+  from { width: 0; }
+  to { width: 8.2em; }
+}
+@keyframes sp-type-green {
+  from { width: 0; }
+  to { width: 5.8em; }
+}
+@keyframes sp-caret {
+  50% { opacity: .25; }
 }
 
 @media (max-width: 700px) {
@@ -28,56 +35,59 @@
     pointer-events: auto !important;
   }
 
+  /* Do not rely on the old H1 animation. Render the typing layers directly on the hero copy. */
   html body.public-redesign section.mock-hero .mock-hero-copy h1 {
+    display: none !important;
+  }
+
+  html body.public-redesign section.mock-hero .mock-hero-copy::before {
+    content: 'Student life\A costs ' !important;
     position: absolute !important;
+    display: block !important;
     top: clamp(18px, 4.8vw, 24px) !important;
     left: clamp(20px, 5.3vw, 26px) !important;
-    width: 62% !important;
-    max-width: 270px !important;
-    min-height: 1.9em !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    z-index: 70 !important;
+    width: 0;
+    height: 1.9em !important;
+    overflow: hidden !important;
+    white-space: pre !important;
+    color: #fff !important;
+    font-family: 'Inter', Arial, sans-serif !important;
     font-size: clamp(25px, 6.9vw, 32px) !important;
     line-height: .94 !important;
+    font-weight: 800 !important;
     letter-spacing: -.05em !important;
-    color: #fff !important;
-    text-shadow: 0 2px 12px rgba(0,0,0,.38) !important;
-    overflow: visible !important;
-    display: block !important;
+    text-shadow: 0 2px 12px rgba(0,0,0,.42) !important;
     visibility: visible !important;
     opacity: 1 !important;
-    transform: none !important;
-    -webkit-mask-image: none !important;
-    mask-image: none !important;
-    animation: sp-live-heading 2.6s steps(28, end) .2s both !important;
-  }
-
-  html body.public-redesign section.mock-hero .mock-hero-copy h1 > * {
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-
-  html body.public-redesign section.mock-hero .mock-hero-copy h1 .hero-underlined {
-    color: #9cff18 !important;
-  }
-
-  html body.public-redesign section.mock-hero .mock-hero-copy h1 .hero-underlined img {
-    display: none !important;
-  }
-
-  html body.public-redesign section.mock-hero .mock-hero-copy h1::before,
-  html body.public-redesign section.mock-hero .mock-hero-copy h1::after {
-    content: none !important;
-    display: none !important;
-  }
-
-  html body.public-redesign section.mock-hero .mock-hero-copy > p {
-    display: none !important;
+    z-index: 90 !important;
+    pointer-events: none !important;
+    animation: sp-type-white 1.65s steps(19, end) .2s forwards !important;
   }
 
   html body.public-redesign section.mock-hero .mock-hero-copy::after {
-    content: 'Discover verified deals, events and opportunities made for South African students.' !important;
+    content: 'less here.|' !important;
+    position: absolute !important;
+    display: block !important;
+    top: clamp(42px, 11.1vw, 53px) !important;
+    left: clamp(93px, 24.8vw, 118px) !important;
+    width: 0;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    color: #9cff18 !important;
+    font-family: 'Inter', Arial, sans-serif !important;
+    font-size: clamp(25px, 6.9vw, 32px) !important;
+    line-height: .94 !important;
+    font-weight: 800 !important;
+    letter-spacing: -.05em !important;
+    text-shadow: 0 2px 12px rgba(0,0,0,.42) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 91 !important;
+    pointer-events: none !important;
+    animation: sp-type-green 1.05s steps(11, end) 1.85s forwards, sp-caret .72s step-end 3s infinite !important;
+  }
+
+  html body.public-redesign section.mock-hero .mock-hero-copy > p {
     display: block !important;
     position: absolute !important;
     left: clamp(20px, 5.3vw, 26px) !important;
@@ -94,11 +104,11 @@
     letter-spacing: -0.02em !important;
     text-align: left !important;
     white-space: normal !important;
-    opacity: 1 !important;
     visibility: visible !important;
-    pointer-events: none !important;
-    z-index: 50 !important;
+    opacity: 1 !important;
+    z-index: 80 !important;
     text-shadow: 0 1px 8px rgba(0,0,0,.35) !important;
+    pointer-events: none !important;
   }
 
   html body.public-redesign section.mock-hero .mock-actions {
@@ -110,7 +120,7 @@
     gap: 8px !important;
     margin: 0 !important;
     padding: 0 !important;
-    z-index: 60 !important;
+    z-index: 100 !important;
     overflow: visible !important;
     pointer-events: auto !important;
   }
@@ -122,9 +132,13 @@
 }
 
 @media (max-width: 700px) and (prefers-reduced-motion: reduce) {
-  html body.public-redesign section.mock-hero .mock-hero-copy h1 {
+  html body.public-redesign section.mock-hero .mock-hero-copy::before {
+    width: 8.2em !important;
     animation: none !important;
-    clip-path: none !important;
-    -webkit-clip-path: none !important;
+  }
+  html body.public-redesign section.mock-hero .mock-hero-copy::after {
+    width: 5.8em !important;
+    animation: none !important;
+    content: 'less here.' !important;
   }
 }
