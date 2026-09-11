@@ -1,7 +1,19 @@
 @import url('./tokens-hero-base.css');
 
-/* Mobile hero: force the description to render visibly directly below the typewriter headline. */
+/* Mobile hero: force the exact plain student photo as the hero background, with a cache refresh. */
 @media (max-width: 700px) {
+  html body.public-redesign section.mock-hero .mock-hero-card {
+    background-image: url('../layered/backgrounds/hero-students-clean.webp?v=20260911-plain-hero') !important;
+    background-size: cover !important;
+    background-position: 50% center !important;
+    background-repeat: no-repeat !important;
+  }
+
+  html body.public-redesign section.mock-hero .mock-hero-card > img:first-child {
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
   html body.public-redesign section.mock-hero .mock-hero-copy h1 {
     margin-top: 0 !important;
   }
