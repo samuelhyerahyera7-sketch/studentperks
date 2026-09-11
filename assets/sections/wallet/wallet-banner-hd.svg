@@ -1,31 +1,43 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 690" role="img" aria-labelledby="title desc">
   <title id="title">StudentPerks Wallet banner</title>
-  <desc id="desc">StudentPerks card on a soft mint background.</desc>
+  <desc id="desc">Your deals, all in one place. StudentPerks Wallet promotional banner.</desc>
   <defs>
     <linearGradient id="mint" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#f3ffe9"/>
+      <stop offset="0" stop-color="#f4ffe9"/>
       <stop offset="1" stop-color="#e8fbdc"/>
     </linearGradient>
+    <linearGradient id="lime" x1="0" x2="1">
+      <stop offset="0" stop-color="#98ff00"/>
+      <stop offset="1" stop-color="#b6ff25"/>
+    </linearGradient>
     <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
-      <feDropShadow dx="0" dy="20" stdDeviation="22" flood-color="#0b1205" flood-opacity=".20"/>
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#0b1205" flood-opacity=".18"/>
     </filter>
   </defs>
 
-  <rect x="30" y="64" width="1988" height="562" rx="54" fill="url(#mint)"/>
+  <rect x="30" y="92" width="1988" height="508" rx="42" fill="url(#mint)"/>
 
-  <g transform="translate(454 136) rotate(-5 570 184)" filter="url(#shadow)">
-    <rect x="0" y="0" width="1140" height="368" rx="44" fill="#0c0d0d"/>
+  <g font-family="Inter, Arial, Helvetica, sans-serif">
+    <text x="96" y="242" font-size="86" font-weight="900" letter-spacing="-4" fill="#050505">Your deals, all in one place.</text>
+    <text x="98" y="330" font-size="50" font-weight="400" letter-spacing="-1.5" fill="#262d3a">Once verified, your StudentPerks Wallet</text>
+    <text x="98" y="391" font-size="50" font-weight="400" letter-spacing="-1.5" fill="#262d3a">keeps your claimed offers ready to use.</text>
 
+    <rect x="92" y="438" width="674" height="132" rx="66" fill="url(#lime)"/>
+    <text x="168" y="522" font-size="52" font-weight="800" letter-spacing="-2" fill="#050505">Join StudentPerks</text>
+    <path d="M650 505h54m-19-19 19 19-19 19" fill="none" stroke="#050505" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g transform="translate(1150 165) rotate(-6 350 180)" filter="url(#shadow)">
+    <rect x="0" y="0" width="700" height="360" rx="38" fill="#0c0d0d"/>
     <g font-family="Inter, Arial, Helvetica, sans-serif">
-      <text x="118" y="205" font-size="96" font-weight="900" fill="#fff">Student</text>
-      <text x="514" y="205" font-size="96" font-weight="900" fill="#91ff00">Perks.</text>
-      <text x="128" y="262" font-size="30" font-weight="600" letter-spacing="16" fill="#fff">SOUTH AFRICA</text>
+      <text x="82" y="187" font-size="64" font-weight="900" fill="#fff">Student</text>
+      <text x="339" y="187" font-size="64" font-weight="900" fill="#91ff00">Perks.</text>
+      <text x="95" y="235" font-size="22" font-weight="600" letter-spacing="11" fill="#fff">SOUTH AFRICA</text>
     </g>
-
     <g fill="#91ff00">
-      <rect x="890" y="62" width="28" height="108" rx="14" transform="rotate(17 904 116)"/>
-      <rect x="974" y="91" width="28" height="108" rx="14" transform="rotate(47 988 145)"/>
-      <rect x="1018" y="178" width="28" height="116" rx="14" transform="rotate(88 1032 236)"/>
+      <rect x="525" y="54" width="20" height="88" rx="10" transform="rotate(17 535 98)"/>
+      <rect x="584" y="78" width="20" height="88" rx="10" transform="rotate(48 594 122)"/>
+      <rect x="616" y="145" width="20" height="92" rx="10" transform="rotate(88 626 191)"/>
     </g>
   </g>
 </svg>
