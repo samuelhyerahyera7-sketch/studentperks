@@ -152,19 +152,28 @@ html body.public-redesign section#wallet div.wrap div.wallet-promo > div:first-c
     display: flex !important;
     flex-wrap: nowrap !important;
     justify-content: flex-start !important;
-    width: 100% !important;
-    max-width: 100% !important;
+    width: 100vw !important;
+    max-width: none !important;
     min-width: 0 !important;
+    margin-left: calc(50% - 50vw) !important;
+    padding-left: 16px !important;
+    padding-right: 24px !important;
+    box-sizing: border-box !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;
     -webkit-overflow-scrolling: touch !important;
     touch-action: pan-x !important;
     white-space: nowrap !important;
     scrollbar-width: none !important;
-    padding-right: 28px !important;
+    scroll-padding-left: 16px !important;
+    scroll-snap-type: x proximity !important;
   }
   html body.public-redesign .mock-cats::-webkit-scrollbar { display: none !important; }
-  html body.public-redesign .mock-cats > .pill { flex: 0 0 auto !important; min-width: max-content !important; }
+  html body.public-redesign .mock-cats > .pill {
+    flex: 0 0 auto !important;
+    min-width: max-content !important;
+    scroll-snap-align: start !important;
+  }
 }
 
 /* Final hero: clean image only, then real site text on top. */
@@ -243,17 +252,21 @@ html body.public-redesign .mock-hero-copy h1::after {
       url('../layered/backgrounds/partner-students-clean.webp?v=20260911-hero-clean') 58% center / cover no-repeat !important;
   }
   html body.public-redesign .mock-hero-copy {
-    top: clamp(22px, 6vw, 30px) !important;
-    left: clamp(20px, 5.3vw, 26px) !important;
-    width: 57% !important;
-    max-width: 260px !important;
-    height: auto !important;
+    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: 100% !important;
     margin: 0 !important;
-    padding: 0 !important;
+    padding: clamp(22px, 6vw, 30px) clamp(20px, 5.3vw, 26px) !important;
+    box-sizing: border-box !important;
   }
   html body.public-redesign .mock-hero-copy h1 {
-    width: 100% !important;
-    max-width: 100% !important;
+    width: 57% !important;
+    max-width: 260px !important;
     margin: 0 0 10px !important;
     padding: 0 !important;
     font-size: clamp(28px, 7.2vw, 36px) !important;
@@ -261,16 +274,22 @@ html body.public-redesign .mock-hero-copy h1::after {
     letter-spacing: -.055em !important;
   }
   html body.public-redesign .mock-hero-copy p {
-    max-width: 100% !important;
+    width: 57% !important;
+    max-width: 260px !important;
     margin: 0 !important;
     font-size: clamp(11px, 2.8vw, 13.5px) !important;
     line-height: 1.22 !important;
   }
   html body.public-redesign .mock-actions {
+    position: absolute !important;
+    left: clamp(20px, 5.3vw, 26px) !important;
+    bottom: clamp(18px, 4.8vw, 24px) !important;
+    z-index: 6 !important;
     display: flex !important;
     flex-wrap: nowrap !important;
     gap: 8px !important;
-    margin-top: 13px !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
   html body.public-redesign .mock-actions .mock-btn {
     min-height: 36px !important;
