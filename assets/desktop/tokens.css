@@ -406,3 +406,86 @@ html body.public-redesign .mock-hero-copy h1::after {
     display: none !important;
   }
 }
+
+/* Final mobile hero correction: use the existing clean student photo and render a safe CSS typewriter layer. */
+html body.public-redesign .mock-hero-copy h1 {
+  color: transparent !important;
+  text-shadow: none !important;
+  clip-path: none !important;
+  animation: none !important;
+  min-height: 1.88em !important;
+}
+html body.public-redesign .mock-hero-copy h1 > * {
+  visibility: hidden !important;
+}
+html body.public-redesign .mock-hero-copy h1::before,
+html body.public-redesign .mock-hero-copy h1::after {
+  position: absolute !important;
+  left: 0 !important;
+  display: block !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  text-shadow: none !important;
+  pointer-events: none !important;
+}
+html body.public-redesign .mock-hero-copy h1::before {
+  content: 'Student life\A costs ' !important;
+  top: 0 !important;
+  width: 0;
+  height: 1.88em !important;
+  color: #fff !important;
+  white-space: pre !important;
+  animation: sp-type-prefix 1.65s steps(19, end) .25s forwards !important;
+}
+html body.public-redesign .mock-hero-copy h1::after {
+  content: 'less here.|' !important;
+  top: .94em !important;
+  left: 2.82em !important;
+  width: 0;
+  color: #9cff18 !important;
+  animation: sp-type-green 1.05s steps(11, end) 1.9s forwards, sp-caret-final .72s step-end 3.05s infinite !important;
+}
+@keyframes sp-type-prefix {
+  from { width: 0; }
+  to { width: 8.25em; }
+}
+@keyframes sp-type-green {
+  from { width: 0; }
+  to { width: 5.75em; }
+}
+@keyframes sp-caret-final {
+  50% { opacity: .25; }
+}
+
+@media (max-width: 700px) {
+  html body.public-redesign .mock-hero-card {
+    aspect-ratio: 1.73 / 1 !important;
+  }
+  html body.public-redesign .mock-hero-card > img:first-child {
+    object-position: 50% center !important;
+  }
+  html body.public-redesign .mock-hero-copy {
+    left: 18px !important;
+    right: auto !important;
+    width: 58% !important;
+    max-width: 250px !important;
+    overflow: visible !important;
+  }
+  html body.public-redesign .mock-hero-copy h1 {
+    overflow: visible !important;
+    font-size: clamp(25px, 6.9vw, 32px) !important;
+    letter-spacing: -.05em !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body.public-redesign .mock-hero-copy h1::before {
+    width: 8.25em !important;
+    animation: none !important;
+  }
+  html body.public-redesign .mock-hero-copy h1::after {
+    width: 5.75em !important;
+    animation: none !important;
+    content: 'less here.' !important;
+  }
+}
