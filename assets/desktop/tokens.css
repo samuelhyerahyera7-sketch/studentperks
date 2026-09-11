@@ -292,19 +292,14 @@ html body.public-redesign .mock-hero-card > img:first-child {
   backface-visibility: hidden;
 }
 
-/* Visible two-line typewriter reveal. The existing green “less here.” styling is preserved. */
+/* Typewriter-style reveal without persistent masks, so the finished headline never stays clipped. */
 html body.public-redesign .mock-hero-copy h1 {
   position: relative !important;
   overflow: visible !important;
-  -webkit-mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0) !important;
-  mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0) !important;
-  -webkit-mask-repeat: no-repeat !important;
-  mask-repeat: no-repeat !important;
-  -webkit-mask-position: left top, left bottom !important;
-  mask-position: left top, left bottom !important;
-  -webkit-mask-size: 0% 50%, 0% 50%;
-  mask-size: 0% 50%, 0% 50%;
-  animation: sp-type-lines 2.9s steps(30, end) .35s both !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+  clip-path: inset(0 100% 0 0);
+  animation: sp-type-headline 2.5s steps(28, end) .25s forwards !important;
 }
 
 html body.public-redesign .mock-hero-copy h1::after {
@@ -316,23 +311,10 @@ html body.public-redesign .mock-hero-copy h1::after {
   animation: sp-caret-blink .7s step-end infinite;
 }
 
-@keyframes sp-type-lines {
-  0% {
-    -webkit-mask-size: 0% 50%, 0% 50%;
-    mask-size: 0% 50%, 0% 50%;
-  }
-  48% {
-    -webkit-mask-size: 100% 50%, 0% 50%;
-    mask-size: 100% 50%, 0% 50%;
-  }
-  50% {
-    -webkit-mask-size: 100% 50%, 0% 50%;
-    mask-size: 100% 50%, 0% 50%;
-  }
-  100% {
-    -webkit-mask-size: 100% 50%, 100% 50%;
-    mask-size: 100% 50%, 100% 50%;
-  }
+@keyframes sp-type-headline {
+  0% { clip-path: inset(0 100% 0 0); }
+  98% { clip-path: inset(0 0 0 0); }
+  100% { clip-path: none; }
 }
 
 @keyframes sp-caret-blink {
@@ -365,10 +347,11 @@ html body.public-redesign .mock-hero-copy h1::after {
     position: absolute !important;
     inset: auto !important;
     top: clamp(17px, 4.8vw, 23px) !important;
-    left: clamp(16px, 4.4vw, 21px) !important;
-    width: min(55%, 245px) !important;
+    left: clamp(18px, 4.8vw, 24px) !important;
+    width: min(56%, 250px) !important;
     max-width: none !important;
     height: auto !important;
+    margin: 0 !important;
     padding: 0 !important;
     transform: none !important;
     color: #fff !important;
@@ -378,6 +361,9 @@ html body.public-redesign .mock-hero-copy h1::after {
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 0 8px !important;
+    padding: 0 !important;
+    text-indent: 0 !important;
+    transform: none !important;
     font-size: clamp(27px, 7.6vw, 35px) !important;
     line-height: .94 !important;
     letter-spacing: -.055em !important;
@@ -412,6 +398,7 @@ html body.public-redesign .mock-hero-copy h1::after {
 @media (prefers-reduced-motion: reduce) {
   html body.public-redesign .mock-hero-copy h1 {
     animation: none !important;
+    clip-path: none !important;
     -webkit-mask-image: none !important;
     mask-image: none !important;
   }
