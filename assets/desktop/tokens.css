@@ -243,3 +243,40 @@ html body.public-redesign section#wallet div.wrap div.wallet-promo > div:first-c
     background-size: 100% 100% !important;
   }
 }
+
+/* Mobile homepage category rail: keep the existing look, but make every category reachable by touch swipe. */
+@media (max-width: 700px) {
+  html body.public-redesign .mock-cats {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: scroll !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x !important;
+    white-space: nowrap !important;
+    scrollbar-width: none !important;
+    padding-right: 28px !important;
+  }
+
+  html body.public-redesign .mock-cats::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  html body.public-redesign .mock-cats > .pill {
+    flex: 0 0 auto !important;
+    min-width: max-content !important;
+    touch-action: pan-x !important;
+  }
+
+  html body.public-redesign .mock-cats > .pill,
+  html body.public-redesign .mock-cats > .pill * {
+    pointer-events: auto;
+  }
+}
