@@ -143,6 +143,8 @@ async function sendRedemptionEmails(payload) {
 }
 
 module.exports = {
+  SUPABASE_URL,
+  SERVICE_KEY,
   clean,
   isApprovedLiveBusiness,
   isApprovedLiveBusinessName,

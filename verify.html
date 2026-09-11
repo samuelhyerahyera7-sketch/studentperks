@@ -11,128 +11,175 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vendor Verify — StudentPerks</title>
+<title>Partner Dashboard — StudentPerks</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="shortcut icon" href="/favicon.svg">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-*:focus{outline:none}
-:root{--lime:#d4ff00;--bg:#0c0c0c;--bg3:#1a1a1a;--card:#161616;--border:rgba(255,255,255,.07);--white:#fff;--ink:rgba(255,255,255,.92);--ink2:rgba(255,255,255,.5);--ink3:rgba(255,255,255,.25);--red:#ff4444;--green:#22c55e;--yellow:#ffc800;--font:'Inter',sans-serif}
-body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
-.nav{background:var(--card);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;min-height:56px;gap:12px;flex-wrap:wrap}
-.logo img{height:24px;width:auto;border-radius:6px;display:block}
-.badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;background:rgba(212,255,0,.1);color:var(--lime);border:1px solid rgba(212,255,0,.2);border-radius:4px;padding:2px 7px}
+*:focus-visible{outline:2px solid var(--lime-d);outline-offset:1px}
+:root{
+  --lime:#9cff18; --lime-d:#050505; --lime-soft:rgba(156,255,24,.16); --lime-text:#5c7a00;
+  --bg:#f7f9fc; --card:#ffffff; --border:#dfe5ee;
+  --ink:#111827; --ink2:#596174; --ink3:#7b8494;
+  --green:#22c55e; --green-bg:rgba(34,197,94,.1);
+  --amber:#c98a00; --amber-bg:rgba(255,200,0,.16);
+  --red:#ff4444; --red-bg:rgba(255,68,68,.1);
+  --grid:#e9ecf2; --shadow:0 10px 28px rgba(15,23,42,.07);
+  --font:'Inter',system-ui,sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh}
+button,input,select,textarea{font-family:inherit}
+
+/* top bar (shown on both login + dashboard) */
+.topnav{background:#fff;border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;min-height:58px;gap:12px;flex-wrap:wrap}
+.topnav .logo{height:30px;width:auto;border-radius:6px;display:block}
+.badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;background:var(--lime-soft);color:var(--lime-text);border:1px solid rgba(156,255,24,.35);border-radius:4px;padding:2px 7px}
 .sp{flex:1}
-.page{flex:1;display:flex;align-items:center;justify-content:center;padding:24px 14px}
+#logout-btn{display:none;background:var(--bg);color:var(--ink2);font-size:12px;font-weight:700;padding:8px 14px;border-radius:8px;border:1px solid var(--border);cursor:pointer;font-family:var(--font)}
+#logout-btn:hover{background:#fff;color:var(--ink);border-color:var(--ink3)}
+#vendor-name-nav{font-size:12px;color:var(--ink2);font-weight:700}
 
 /* LOGIN */
-.login-card{background:var(--card);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:32px 28px;width:min(100%,420px);max-width:420px}
-.card-title{font-size:18px;font-weight:800;color:var(--white);margin-bottom:6px;letter-spacing:-.02em}
+.page{min-height:calc(100vh - 58px);display:flex;align-items:center;justify-content:center;padding:24px 14px}
+.login-card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:32px 28px;width:min(100%,420px);box-shadow:var(--shadow)}
+.card-title{font-size:18px;font-weight:800;margin-bottom:6px;letter-spacing:-.02em}
 .card-sub{font-size:13px;color:var(--ink3);margin-bottom:24px;line-height:1.5}
 .f{margin-bottom:12px}
 .f label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:5px}
-.f input,.f select{width:100%;min-width:0;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--white);background:var(--bg3);transition:border-color .15s;appearance:none}
-.f input:focus,.f select:focus{border-color:var(--lime)}
-.f input::placeholder{color:var(--ink3)}
+.f input,.f select{width:100%;min-width:0;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;color:var(--ink);background:var(--bg);transition:border-color .15s;appearance:none}
+.f input:focus{border-color:var(--lime)}
+.f input::placeholder{color:#94a3b8}
 .pw-wrap{position:relative}
 .pw-wrap input{padding-right:42px}
-.pw-eye{position:absolute;right:0;top:0;bottom:0;width:42px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:var(--ink3);transition:color .15s}
+.pw-eye{position:absolute;right:0;top:0;bottom:0;width:42px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:var(--ink3)}
 .pw-eye:hover{color:var(--ink)}
-.btn{display:block;width:100%;background:var(--lime);color:var(--bg);font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:14px;border-radius:50px;border:none;cursor:pointer;font-family:var(--font);transition:background .15s;margin-top:6px}
-.btn:hover:not(:disabled){background:var(--white)}
+.btn{display:block;width:100%;background:var(--lime);color:#050505;font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:14px;border-radius:50px;border:none;cursor:pointer;margin-top:6px}
+.btn:hover:not(:disabled){background:#050505;color:#fff}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-.btn-ghost{background:var(--bg3);color:var(--ink2)}
-.btn-ghost:hover:not(:disabled){background:rgba(255,255,255,.08);color:var(--white)}
-.err-box{display:none;font-size:12px;color:var(--red);background:rgba(255,68,68,.08);border:1px solid rgba(255,68,68,.18);border-radius:8px;padding:9px 12px;margin-bottom:10px}
+.err-box{display:none;font-size:12px;color:var(--red);background:var(--red-bg);border:1px solid rgba(255,68,68,.2);border-radius:8px;padding:9px 12px;margin-bottom:10px}
 
-/* DASHBOARD */
-#dashboard{display:none;flex:1;padding:28px 24px;max-width:800px;margin:0 auto;width:100%}
-.vendor-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
-.vendor-name-display{font-size:20px;font-weight:800;color:var(--white)}
-.vendor-discount{font-size:13px;color:var(--lime);margin-top:3px}
-
-/* VERIFY BOX */
-.verify-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px}
-.verify-box-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:14px}
-.code-input-row{display:flex;gap:10px}
-.code-input{flex:1;min-width:0;padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:monospace;color:var(--white);background:var(--bg3);letter-spacing:.05em;text-transform:uppercase;transition:border-color .15s}
-.code-input:focus{border-color:var(--lime)}
-.code-input::placeholder{color:var(--ink3);font-family:var(--font);font-size:14px;letter-spacing:0;text-transform:none}
-.check-btn{background:var(--lime);color:var(--bg);font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:14px 24px;border-radius:50px;border:none;cursor:pointer;font-family:var(--font);transition:background .15s;white-space:nowrap}
-.check-btn:hover{background:var(--white)}
-
-/* RESULT */
-.result-box{border-radius:14px;padding:18px;margin-top:14px;display:none}
-.result-box.valid{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2)}
-.result-box.used{background:rgba(255,200,0,.07);border:1px solid rgba(255,200,0,.18)}
-.result-box.invalid{background:rgba(255,68,68,.08);border:1px solid rgba(255,68,68,.2)}
-.result-icon{font-size:28px;margin-bottom:8px}
-.result-title{font-size:15px;font-weight:800;color:var(--white);margin-bottom:4px}
-.result-sub{font-size:13px;line-height:1.6}
-.result-sub.green{color:var(--green)}
-.result-sub.yellow{color:var(--yellow)}
-.result-sub.red{color:var(--red)}
-.result-detail{margin-top:10px;font-size:12px;color:var(--ink3);line-height:1.7}
-.result-detail b{color:var(--white);font-weight:600}
-.redeem-confirm-btn{margin-top:12px;display:inline-flex;align-items:center;gap:6px;background:var(--green);color:#000;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:10px 20px;border-radius:50px;border:none;cursor:pointer;font-family:var(--font);transition:background .15s}
-.redeem-confirm-btn:hover{background:#1da54e}
-
-/* CODE LIST */
-.code-list{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-.cl-head{display:grid;grid-template-columns:160px 1fr 1fr 90px;gap:10px;padding:12px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);background:rgba(255,255,255,.02);border-bottom:1px solid var(--border)}
-.cl-row{display:grid;grid-template-columns:160px 1fr 1fr 90px;gap:10px;padding:12px 16px;font-size:12px;border-bottom:1px solid var(--border);align-items:center}
-.cl-row:last-child{border-bottom:none}
-.code-mono{font-family:monospace;color:var(--lime);letter-spacing:.04em}
-.cl-dim{color:var(--ink3)}
-.pill{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em}
-.p-available{background:rgba(34,197,94,.1);color:var(--green)}
-.p-assigned{background:rgba(212,255,0,.1);color:var(--lime)}
-.p-used{background:rgba(255,68,68,.1);color:var(--red)}
-.list-empty{text-align:center;padding:28px;color:var(--ink3);font-size:13px}
-@media(max-width:520px){
-  .nav{padding:12px 14px}
-  .badge{display:none}
-  .login-card{padding:26px 18px}
-  .code-input-row{display:grid;grid-template-columns:1fr}
-  .check-btn{width:100%}
+/* DASHBOARD SHELL */
+#dashboard{display:none}
+.shell{display:flex;align-items:flex-start;min-height:calc(100vh - 58px)}
+.sidebar{width:214px;flex:0 0 auto;background:#fff;border-right:1px solid var(--border);padding:18px 14px;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
+.side-nav{display:flex;flex-direction:column;gap:2px}
+.side-item{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:10px;border:none;background:none;color:var(--ink2);font-size:13.5px;font-weight:700;cursor:pointer;text-align:left;width:100%}
+.side-item svg{width:18px;height:18px;flex:0 0 auto}
+.side-item:hover{color:var(--ink);background:var(--bg)}
+.side-item.active{background:var(--lime);color:#050505}
+.main{flex:1;min-width:0;padding:24px 28px 56px}
+@media(max-width:880px){
+  .shell{flex-direction:column}
+  .sidebar{width:100%;position:static;height:auto;flex-direction:row;overflow-x:auto;padding:10px 12px}
+  .side-nav{flex-direction:row}
+  .main{padding:18px 16px 44px}
 }
 
-/* White StudentPerks theme alignment */
-:root{
-  --bg:#f7f9fc;--bg3:#f1f4f8;--card:#fff;--border:#dfe5ee;
-  --white:#050505;--ink:#111827;--ink2:#596174;--ink3:#7b8494;
-}
-body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
-.nav{background:#fff;border-bottom:1px solid var(--border)}
-.logo,.card-title,.vendor-name-display,.result-title,.result-detail b{color:#050505}
-.card-sub,.f label,.vendor-discount,.verify-box-title,.result-detail,.cl-dim,.list-empty,#vendor-name-nav{color:var(--ink2)}
-.login-card,.verify-box,.code-list{background:#fff;border-color:var(--border);box-shadow:0 10px 28px rgba(15,23,42,.07)}
-.f input,.f select,.code-input{background:#fff;color:#111827;border-color:#d7dee8}
-.f input::placeholder,.code-input::placeholder{color:#94a3b8}
-.btn,.check-btn{background:#9cff18;color:#050505}
-.btn:hover:not(:disabled),.check-btn:hover{background:#050505;color:#fff}
-.btn-ghost,#logout-btn{background:#f1f4f8;color:#111827;border:1px solid var(--border)}
-.btn-ghost:hover:not(:disabled),#logout-btn:hover{background:#050505;color:#fff}
-.cl-head{background:#f1f4f8;border-bottom-color:var(--border)}
-.cl-row{border-bottom-color:var(--border)}
+.page-title{font-size:24px;font-weight:900;letter-spacing:-.02em;margin-bottom:18px}
+.panel{display:none}
+.panel.active{display:block}
+.greet-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.greet p{font-size:13.5px;color:var(--ink2);margin-top:3px}
+.range-pick{position:relative;display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--border);border-radius:11px;padding:9px 14px;box-shadow:var(--shadow)}
+.range-pick svg{width:15px;height:15px;flex:0 0 auto;pointer-events:none;color:var(--ink2)}
+.range-pick select{appearance:none;background:none;border:none;font-size:12.5px;font-weight:700;color:var(--ink2);cursor:pointer}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:17px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:flex-start}
+.stat-ico{width:40px;height:40px;border-radius:50%;background:var(--lime-soft);display:grid;place-items:center;flex:0 0 auto;color:var(--lime-text)}
+.stat-ico svg{width:19px;height:19px}
+.stat-val{font-size:23px;font-weight:900;letter-spacing:-.02em;line-height:1.1}
+.stat-lbl{font-size:12px;color:var(--ink2);margin-top:2px}
+.stat-delta{font-size:11px;font-weight:800;color:var(--green);margin-top:7px}
+.stat-delta.down{color:var(--red)}
+.stat-delta span{color:var(--ink3);font-weight:600}
+
+.grid-2{display:grid;grid-template-columns:1.7fr 1fr;gap:12px;margin-bottom:14px}
+@media(max-width:880px){.grid-2{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:19px;box-shadow:var(--shadow)}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+.card-title{font-size:14.5px;font-weight:800}
+.card-sub2{font-size:11.5px;color:var(--ink3);margin-bottom:10px}
+.chart-svg{width:100%;height:auto;display:block;overflow:visible}
+.empty-note{font-size:12.5px;color:var(--ink3);text-align:center;padding:30px 10px}
+
+.today-list{display:flex;flex-direction:column;gap:11px}
+.today-row{display:flex;align-items:center;gap:11px}
+.today-ico{width:34px;height:34px;border-radius:50%;background:var(--lime-soft);display:grid;place-items:center;flex:0 0 auto;color:var(--lime-text)}
+.today-ico svg{width:16px;height:16px}
+.today-val{font-size:15px;font-weight:900}
+.today-lbl{font-size:11.5px;color:var(--ink2)}
+
+.redemp-table{width:100%;border-collapse:collapse}
+.redemp-table th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);padding:0 8px 9px}
+.redemp-table td{padding:9px 8px;font-size:12.5px;border-top:1px solid var(--border)}
+.redemp-table tr:first-child td{border-top:none}
+.code-mono{font-family:'SF Mono',ui-monospace,Menlo,monospace;color:var(--ink2);font-size:11.5px}
+.status-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;padding:4px 10px 4px 8px;border-radius:999px;background:var(--green-bg);color:var(--green)}
+.status-pill .d{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink2);margin-top:12px}
+.legend b{color:var(--ink)}
+
+.field{margin-bottom:14px}
+.field label{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin-bottom:6px}
+.field input,.field textarea{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:13.5px;color:var(--ink);background:var(--bg)}
+.field input[readonly]{color:var(--ink2)}
+.field textarea{resize:vertical;min-height:64px}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:700px){.settings-grid{grid-template-columns:1fr}}
+.save-row{display:flex;align-items:center;gap:12px;margin-top:4px}
+.save-btn{background:var(--lime);color:#050505;font-size:12.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;padding:12px 24px;border-radius:999px;border:none;cursor:pointer}
+.save-btn:hover:not(:disabled){background:#050505;color:#fff}
+.save-btn:disabled{opacity:.5;cursor:not-allowed}
+.saved-msg{font-size:12.5px;font-weight:700;color:var(--green);opacity:0;transition:opacity .2s}
+.saved-msg.show{opacity:1}
+.err-inline{font-size:12px;font-weight:700;color:var(--red);opacity:0;transition:opacity .2s}
+.err-inline.show{opacity:1}
+
+.logo-upload-row{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.logo-preview{width:64px;height:64px;border-radius:14px;background:var(--bg);border:1.5px solid var(--border);display:grid;place-items:center;overflow:hidden;flex:0 0 auto;color:var(--ink3)}
+.logo-preview svg{width:26px;height:26px}
+.logo-preview img{width:100%;height:100%;object-fit:cover}
+.upload-btn{display:inline-block;background:var(--bg);border:1.5px solid var(--border);color:var(--ink);font-size:12px;font-weight:700;padding:9px 16px;border-radius:999px;cursor:pointer}
+.upload-btn:hover{border-color:var(--ink3)}
+.upload-btn.busy{opacity:.6;pointer-events:none}
+.upload-hint{font-size:11.5px;color:var(--ink3);margin-top:4px;line-height:1.5}
+.file-input{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
+.dropzone{border:1.5px dashed var(--border);border-radius:14px;padding:28px 20px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;color:var(--ink3)}
+.dropzone:hover,.dropzone.drag{border-color:var(--lime-text);background:var(--lime-soft);color:var(--lime-text)}
+.dropzone svg{width:24px;height:24px;margin-bottom:8px}
+.dropzone p{font-size:13px;font-weight:800;color:var(--ink)}
+.dropzone span{font-size:11.5px;color:var(--ink3);display:block;margin-top:3px}
+.file-list{margin-top:13px;display:flex;flex-direction:column;gap:8px}
+.file-row{display:flex;align-items:center;gap:10px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:9px 12px;font-size:12.5px}
+.file-row svg{width:15px;height:15px;color:var(--ink3);flex:0 0 auto}
+.file-row .fname{font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-row .fmeta{color:var(--ink3);flex:0 0 auto}
+
+.help-row{padding:14px 0;border-bottom:1px solid var(--border)}
+.help-row:last-child{border-bottom:none}
+.help-q{font-size:13.5px;font-weight:700}
+.help-a{font-size:12.5px;color:var(--ink2);margin-top:3px;line-height:1.6}
 </style>
 </head>
 <body>
-<nav class="nav">
-  <div class="logo"><img src="assets/brand/studentperks-logo-dark.svg" alt="StudentPerks"></div>
-  <div class="badge">Vendor Portal</div>
+<nav class="topnav">
+  <img class="logo" src="assets/brand/studentperks-logo-dark.svg" alt="StudentPerks">
+  <div class="badge">Partner Portal</div>
   <div class="sp"></div>
-  <span id="vendor-name-nav" style="font-size:12px;color:var(--ink2)"></span>
-  <button id="logout-btn" style="display:none;background:var(--bg3);color:var(--ink2);font-size:12px;font-weight:600;padding:6px 14px;border-radius:8px;border:none;cursor:pointer;margin-left:8px" onclick="doLogout()">Sign out</button>
+  <span id="vendor-name-nav"></span>
+  <button id="logout-btn" onclick="doLogout()">Sign out</button>
 </nav>
 
 <!-- LOGIN -->
 <div class="page" id="login-section">
   <div class="login-card">
     <div class="card-title">Vendor Sign In</div>
-    <div class="card-sub">Enter your vendor code and PIN to access your coupon dashboard.</div>
+    <div class="card-sub">Enter your vendor code and PIN to access your partner dashboard.</div>
     <div class="f">
       <label>Vendor sign-in code</label>
       <input type="text" id="v-prefix" placeholder="STUDENTPERKS" autocomplete="username" spellcheck="false" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')">
@@ -153,38 +200,159 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 
 <!-- DASHBOARD -->
 <div id="dashboard">
-  <div class="vendor-header">
-    <div>
-      <div class="vendor-name-display" id="dash-vendor-name"></div>
-      <div class="vendor-discount" id="dash-vendor-discount"></div>
-    </div>
-  </div>
+  <div class="shell">
+    <aside class="sidebar">
+      <nav class="side-nav">
+        <button class="side-item active" data-panel="overview" onclick="switchPanel('overview')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Overview</button>
+        <button class="side-item" data-panel="redemptions" onclick="switchPanel('redemptions')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 11h18M8 6v3M8 15v3"/></svg>Redemptions</button>
+        <button class="side-item" data-panel="analytics" onclick="switchPanel('analytics')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>Analytics</button>
+        <button class="side-item" data-panel="profile" onclick="switchPanel('profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 4v16"/></svg>Business profile</button>
+        <button class="side-item" data-panel="help" onclick="switchPanel('help')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.9.4-1.5 1-1.5 2.2M12 17h.01"/></svg>Help</button>
+      </nav>
+    </aside>
 
-  <!-- Verify a code -->
-  <div class="verify-box">
-    <div class="verify-box-title">Check a coupon code</div>
-    <div class="code-input-row">
-      <input class="code-input" type="text" id="check-input" placeholder="Enter code e.g. SP-NIKE-X7K2M9" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkCode()">
-      <button class="check-btn" onclick="checkCode()">Check</button>
-    </div>
-    <div class="result-box" id="result-box"></div>
-  </div>
+    <main class="main">
+      <!-- OVERVIEW -->
+      <section class="panel active" id="panel-overview">
+        <div class="greet-row">
+          <div class="greet"><div class="page-title" style="margin-bottom:3px" id="greet-h1">Overview</div><p id="greet-sub">Here's how your StudentPerks codes are performing.</p></div>
+          <div class="range-pick">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+            <select id="range-select" onchange="loadStats(this.value)">
+              <option value="7">Last 7 days</option>
+              <option value="30" selected>Last 30 days</option>
+              <option value="90">Last 90 days</option>
+              <option value="365">Last 12 months</option>
+            </select>
+          </div>
+        </div>
 
-  <!-- Code list -->
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3)">Your Coupon Codes</div>
-    <button onclick="loadCodeList()" style="background:none;border:none;color:var(--lime);font-size:12px;font-weight:600;cursor:pointer">↻ Refresh</button>
-  </div>
-  <div class="code-list" id="code-list">
-    <div class="cl-head"><div>Code</div><div>Assigned to</div><div>Email</div><div>Status</div></div>
-    <div class="list-empty" id="list-loading">Loading…</div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-head"><div class="card-title">Check a code</div></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <input class="code-input" id="check-input" placeholder="e.g. SP-CRATES-X7K2M9" style="flex:1;min-width:200px;padding:12px 14px;border:1.5px solid var(--border);border-radius:11px;font-size:14px;font-family:'SF Mono',ui-monospace,Menlo,monospace;letter-spacing:.03em;color:var(--ink);background:var(--bg);text-transform:uppercase" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkCode()">
+            <button class="save-btn" onclick="checkCode()">Check</button>
+          </div>
+          <div id="result-box" style="display:none;margin-top:14px;border-radius:13px;padding:16px"></div>
+        </div>
+
+        <div class="stats">
+          <div class="stat-card"><span class="stat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.6 12.6 12.6 20.6a2 2 0 0 1-2.8 0L3 13.8V4h9.8l7.8 7.8a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.3" fill="currentColor" stroke="none"/></svg></span><div><div class="stat-val" id="stat-total">–</div><div class="stat-lbl">Total codes issued</div></div></div>
+          <div class="stat-card"><span class="stat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><div class="stat-val" id="stat-available">–</div><div class="stat-lbl">Available</div></div></div>
+          <div class="stat-card"><span class="stat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span><div><div class="stat-val" id="stat-assigned">–</div><div class="stat-lbl">Assigned, not redeemed</div></div></div>
+          <div class="stat-card"><span class="stat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 11h18M8 6v3M8 15v3"/></svg></span><div><div class="stat-val" id="stat-redeemed">–</div><div class="stat-lbl" id="stat-redeemed-lbl">Redeemed (30 days)</div><div class="stat-delta" id="delta-redeemed"></div></div></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><div class="card-title">Redemptions over time</div></div>
+            <div class="card-sub2" id="chart-sub">Loading…</div>
+            <div id="chart-wrap"><svg class="chart-svg" viewBox="0 0 640 210" preserveAspectRatio="xMidYMid meet" id="chart-svg" role="img" aria-label="Redemptions over time">
+              <g id="gridlines"></g>
+              <g id="yticks" font-size="10.5" fill="var(--ink3)"></g>
+              <path id="area-path" fill="var(--lime-soft)"/>
+              <path id="line-path" fill="none" stroke="var(--lime-text)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+              <g id="points" fill="#fff" stroke="var(--lime-text)" stroke-width="2"></g>
+              <g id="xlabels" font-size="10" fill="var(--ink3)" text-anchor="middle"></g>
+            </svg></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><div class="card-title">Your offer</div></div>
+            <div class="today-list">
+              <div class="today-row"><span class="today-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.6 12.6 12.6 20.6a2 2 0 0 1-2.8 0L3 13.8V4h9.8l7.8 7.8a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.3" fill="currentColor" stroke="none"/></svg></span><div><div class="today-val" id="offer-discount" style="font-size:13px;font-weight:700">–</div><div class="today-lbl">Student discount</div></div></div>
+              <div class="today-row"><span class="today-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></span><div><div class="today-val" id="offer-prefix">–</div><div class="today-lbl">Code prefix</div></div></div>
+              <div class="today-row"><span class="today-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><div class="today-val" id="offer-since">–</div><div class="today-lbl">Partner since</div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div class="card-title">Recent redemptions</div><a href="#" style="font-size:12.5px;font-weight:800;color:var(--lime-text)" onclick="switchPanel('redemptions');return false">View all →</a></div>
+          <div style="overflow-x:auto"><table class="redemp-table">
+            <thead><tr><th>Code</th><th>Student</th><th>Date</th></tr></thead>
+            <tbody id="overview-redemp-rows"><tr><td colspan="3" class="empty-note">Loading…</td></tr></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- REDEMPTIONS -->
+      <section class="panel" id="panel-redemptions">
+        <div class="page-title">Redemptions</div>
+        <div class="card">
+          <div style="overflow-x:auto"><table class="redemp-table">
+            <thead><tr><th>Code</th><th>Student</th><th>Date &amp; time</th><th></th></tr></thead>
+            <tbody id="full-redemp-rows"><tr><td colspan="4" class="empty-note">Loading…</td></tr></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ANALYTICS -->
+      <section class="panel" id="panel-analytics">
+        <div class="page-title">Analytics</div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">Code inventory</div></div>
+          <p style="font-size:12.5px;color:var(--ink2);line-height:1.6;margin-bottom:14px">Every coupon code StudentPerks issues you moves through one lifecycle, left to right: it starts <b style="color:var(--ink)">available</b>, a student claims it (<b style="color:var(--ink)">assigned</b>), then redeems it (<b style="color:var(--ink)">used</b>). This is where each of your codes currently sits, right now.</p>
+          <div style="display:flex;gap:2px;height:28px;border-radius:8px;overflow:hidden;margin-bottom:12px" id="inventory-bar"></div>
+          <div class="legend" id="inventory-legend"></div>
+        </div>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="panel" id="panel-profile">
+        <div class="page-title">Business profile</div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="logo-upload-row">
+            <div class="logo-preview" id="logo-preview">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7.5 12 3l9 4.5-9 4.5-9-4.5Z"/><path d="M3 7.5V16l9 4.5 9-4.5V7.5"/><path d="M12 12v8.5"/></svg>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:800;margin-bottom:3px">Business logo</div>
+              <div class="upload-hint" style="margin-top:0;margin-bottom:9px">PNG, JPG, WEBP or SVG, under 4MB.</div>
+              <label class="upload-btn" id="logo-upload-btn" for="logo-file">Upload logo</label>
+              <input class="file-input" type="file" id="logo-file" accept="image/png,image/jpeg,image/webp,image/svg+xml" onchange="uploadLogo(this)">
+              <span class="err-inline" id="logo-err" style="margin-left:8px"></span>
+            </div>
+          </div>
+          <div class="settings-grid">
+            <div class="field"><label>Business name</label><input id="p-name" readonly></div>
+            <div class="field"><label>Code prefix</label><input id="p-prefix" readonly></div>
+            <div class="field"><label>Contact email</label><input id="p-email" type="email"></div>
+            <div class="field"><label>Partner since</label><input id="p-since" readonly></div>
+          </div>
+          <div class="field"><label>Student discount description</label><textarea id="p-discount"></textarea></div>
+          <div class="save-row"><button class="save-btn" id="save-btn" onclick="saveProfile()">Save changes</button><span class="saved-msg" id="saved-msg">✓ Saved</span><span class="err-inline" id="save-err"></span></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div class="card-title">Upload your own data</div></div>
+          <p style="font-size:12.5px;color:var(--ink2);line-height:1.6;margin-bottom:14px">Have in-store sales, till records or redemption logs of your own? Upload them here (CSV, XLSX or PDF, under 4MB) and your account manager will factor them into your reporting alongside your StudentPerks code data.</p>
+          <div class="dropzone" id="dropzone" onclick="document.getElementById('data-file').click()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 16V4M12 4 7 9M12 4l5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+            <p>Drag a file here, or click to browse</p>
+            <span>CSV, XLSX or PDF — up to 4MB</span>
+          </div>
+          <input class="file-input" type="file" id="data-file" accept=".csv,text/csv,.xlsx,.xls,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.pdf,application/pdf" onchange="uploadDataFile(this.files[0])">
+          <span class="err-inline" id="upload-err"></span>
+          <div class="file-list" id="file-list"></div>
+        </div>
+      </section>
+
+      <!-- HELP -->
+      <section class="panel" id="panel-help">
+        <div class="page-title">Help</div>
+        <div class="card">
+          <div class="help-row"><div class="help-q">How do students redeem my offer?</div><div class="help-a">They show their StudentPerks code at checkout, or your staff enter it under Overview's "Check a code" — reachable any time from your account manager's instructions. Marking it redeemed updates this dashboard immediately.</div></div>
+          <div class="help-row"><div class="help-q">Why don't I see "offer views" or store locations?</div><div class="help-a">Those aren't tracked yet — this dashboard only shows numbers backed by real data (codes issued, claimed and redeemed). Ask your account manager if you'd like view-tracking or multi-branch reporting added.</div></div>
+          <div class="help-row"><div class="help-q">Still stuck?</div><div class="help-a">partners@studentperks.co.za — we usually reply same business day.</div></div>
+        </div>
+      </section>
+    </main>
   </div>
 </div>
 
 <script>
 const SB_URL = 'https://bulmerqkvvrjvzjwmgkl.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1bG1lcnFrdnZyanZ6andtZ2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3OTA4MTksImV4cCI6MjEwMjM2NjgxOX0.UAOqHO_lNBB6ayTa6QEj4vvzdepzNCu0CYv2EOygOGI';
-const _sb = supabase.createClient(SB_URL, SB_KEY);
 
 let currentVendor = null;
 let vendorToken = '';
@@ -196,14 +364,14 @@ function isApprovedLiveBusinessName(name){
   const normalized=normalizeBusinessName(name);
   return normalized==='cratesandboxes'||normalized==='custommugs'||normalized==='custommugssa';
 }
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function fmtShort(ts){if(!ts)return'—';return new Date(ts).toLocaleDateString('en-ZA',{day:'2-digit',month:'short'})}
+function fmtLong(ts){if(!ts)return'—';return new Date(ts).toLocaleString('en-ZA',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}
 
 function togglePw(id, btn){
   const inp = document.getElementById(id);
   const show = inp.type === 'password';
   inp.type = show ? 'text' : 'password';
-  btn.innerHTML = show
-    ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
-    : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
 }
 
 async function doVendorLogin() {
@@ -247,7 +415,6 @@ function doLogout() {
   document.getElementById('vendor-name-nav').textContent='';
   document.getElementById('v-prefix').value='';
   document.getElementById('v-pin').value='';
-  document.getElementById('result-box').style.display='none';
 }
 
 function showDashboard() {
@@ -255,9 +422,14 @@ function showDashboard() {
   document.getElementById('dashboard').style.display='block';
   document.getElementById('logout-btn').style.display='inline-block';
   document.getElementById('vendor-name-nav').textContent = currentVendor.name;
-  document.getElementById('dash-vendor-name').textContent = currentVendor.name;
-  document.getElementById('dash-vendor-discount').textContent = currentVendor.discount_desc || '';
-  loadCodeList();
+  document.getElementById('greet-h1').textContent = 'Good day, ' + currentVendor.name;
+  loadStats(30);
+}
+
+function switchPanel(name){
+  document.querySelectorAll('.side-item').forEach(b=>b.classList.toggle('active', b.dataset.panel===name));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active', p.id==='panel-'+name));
+  if(name==='profile') fillProfileForm();
 }
 
 async function checkCode() {
@@ -277,33 +449,30 @@ async function checkCode() {
     data = payload.coupon;
   } catch(e) {
     box.style.display='block';
-    box.className='result-box invalid';
-    box.innerHTML=`<div class="result-icon">❌</div><div class="result-title">Could not check code</div><div class="result-sub red">${esc(e.message || 'Please try again.')}</div>`;
+    box.style.background='var(--red-bg)'; box.style.border='1px solid rgba(255,68,68,.2)';
+    box.innerHTML=`<div style="font-weight:800;color:var(--ink)">Could not check code</div><div style="font-size:13px;color:var(--red);margin-top:4px">${esc(e.message || 'Please try again.')}</div>`;
     return;
   }
   box.style.display='block';
-  box.className='result-box';
   if(data.is_used){
-    box.classList.add('used');
-    box.innerHTML=`<div class="result-icon">⚠️</div><div class="result-title">Already redeemed</div><div class="result-sub yellow">This code was used on <b>${fmtLong(data.used_at)}</b></div><div class="result-detail"><b>Assigned to:</b> ${esc(data.assigned_to_name||'—')}<br><b>Email:</b> ${esc(data.assigned_to_email||'—')}</div>`;
+    box.style.background='var(--amber-bg)'; box.style.border='1px solid rgba(201,138,0,.25)';
+    box.innerHTML=`<div style="font-weight:800;color:var(--ink)">⚠️ Already redeemed</div><div style="font-size:13px;color:var(--amber);margin:4px 0 10px">Used on <b>${esc(fmtLong(data.used_at))}</b></div><div style="font-size:12.5px;color:var(--ink2);line-height:1.8"><b style="color:var(--ink)">Assigned to:</b> ${esc(data.assigned_to_name||'—')}<br><b style="color:var(--ink)">Email:</b> ${esc(data.assigned_to_email||'—')}</div>`;
     return;
   }
-  box.classList.add('valid');
+  box.style.background='var(--green-bg)'; box.style.border='1px solid rgba(34,197,94,.25)';
   box.innerHTML=`
-    <div class="result-icon">✅</div>
-    <div class="result-title">Valid — not yet redeemed</div>
-    <div class="result-sub green">This code is valid and ready to use.</div>
-    <div class="result-detail">
-      <b>Student:</b> ${esc(data.assigned_to_name||'Unknown')}<br>
-      <b>Email:</b> ${esc(data.assigned_to_email||'Unknown')}<br>
-      <b>Discount:</b> ${esc(currentVendor.discount_desc||'—')}
+    <div style="font-weight:800;color:var(--ink)">✅ Valid — not yet redeemed</div>
+    <div style="font-size:13px;color:var(--green);margin:4px 0 10px">This code is valid and ready to use.</div>
+    <div style="font-size:12.5px;color:var(--ink2);line-height:1.8">
+      <b style="color:var(--ink)">Student:</b> ${esc(data.assigned_to_name||'Unknown')}<br>
+      <b style="color:var(--ink)">Email:</b> ${esc(data.assigned_to_email||'Unknown')}<br>
+      <b style="color:var(--ink)">Discount:</b> ${esc((currentVendor&&currentVendor.discount_desc)||'—')}
     </div>
-    <button class="redeem-confirm-btn" onclick="markRedeemed('${esc(code)}')">✓ Mark as redeemed</button>
+    <button class="save-btn" style="margin-top:12px" onclick="markRedeemed('${esc(code)}')">✓ Mark as redeemed</button>
   `;
 }
 
 async function markRedeemed(code) {
-  const now = new Date().toISOString();
   try {
     const response = await fetch('/api/vendor-redeem', {
       method: 'POST',
@@ -313,50 +482,259 @@ async function markRedeemed(code) {
     const payload = await response.json();
     if(!response.ok) throw new Error(payload.error || 'Could not redeem this code.');
   } catch(e) {
-    document.getElementById('result-box').innerHTML=`
-      <div class="result-icon">❌</div>
-      <div class="result-title">Redemption failed</div>
-      <div class="result-sub red">${esc(e.message || 'Please try again.')}</div>
-    `;
-    document.getElementById('result-box').className='result-box invalid';
-    document.getElementById('result-box').style.display='block';
+    const box=document.getElementById('result-box');
+    box.style.background='var(--red-bg)'; box.style.border='1px solid rgba(255,68,68,.2)';
+    box.innerHTML=`<div style="font-weight:800;color:var(--ink)">Redemption failed</div><div style="font-size:13px;color:var(--red);margin-top:4px">${esc(e.message || 'Please try again.')}</div>`;
     return;
   }
-  document.getElementById('result-box').innerHTML=`
-    <div class="result-icon">🎉</div>
-    <div class="result-title">Redeemed successfully</div>
-    <div class="result-sub green">Marked as redeemed at <b>${fmtLong(now)}</b></div>
-  `;
-  document.getElementById('result-box').className='result-box valid';
-  document.getElementById('result-box').style.display='block';
-  loadCodeList();
+  const box=document.getElementById('result-box');
+  box.style.background='var(--green-bg)'; box.style.border='1px solid rgba(34,197,94,.25)';
+  box.innerHTML=`<div style="font-weight:800;color:var(--ink)">🎉 Redeemed successfully</div><div style="font-size:13px;color:var(--green);margin-top:4px">Marked as redeemed just now.</div>`;
+  document.getElementById('check-input').value='';
+  if(lastStats) loadStats(lastStats.days);
 }
 
-async function loadCodeList() {
-  const list    = document.getElementById('code-list');
-  const loading = document.getElementById('list-loading');
-  if(loading) loading.textContent='Loading…';
-  const response = await fetch('/api/vendor-codes', {headers: {'Authorization': `Bearer ${vendorToken}`}});
-  const payload = await response.json();
-  const data = response.ok ? payload.codes : [];
-  [...list.querySelectorAll('.cl-row')].forEach(r=>r.remove());
-  if(!data||!data.length){
-    const l=document.getElementById('list-loading');
-    if(l)l.textContent='No codes generated yet. Contact your StudentPerks representative.';
+async function authedFetch(url, opts={}){
+  const headers = Object.assign({}, opts.headers||{}, { Authorization: `Bearer ${vendorToken}` });
+  const response = await fetch(url, Object.assign({}, opts, { headers }));
+  const payload = await response.json().catch(()=>({}));
+  if(!response.ok) throw new Error(payload.error || 'Request failed.');
+  return payload;
+}
+
+let lastStats = null;
+
+async function loadStats(days){
+  try {
+    const data = await authedFetch(`/api/vendor-stats?days=${encodeURIComponent(days)}`);
+    lastStats = data;
+    renderStats(data);
+  } catch(e) {
+    document.getElementById('chart-sub').textContent = e.message || 'Could not load your stats.';
+  }
+}
+
+function rangeLabel(days){
+  return days==7?'7 days':days==30?'30 days':days==90?'90 days':'12 months';
+}
+
+function renderStats(data){
+  currentVendor = Object.assign({}, currentVendor, data.vendor);
+  document.getElementById('stat-total').textContent = data.inventory.total;
+  document.getElementById('stat-available').textContent = data.inventory.available;
+  document.getElementById('stat-assigned').textContent = data.inventory.assigned;
+  document.getElementById('stat-redeemed').textContent = data.redeemedInRange;
+  document.getElementById('stat-redeemed-lbl').textContent = `Redeemed (${rangeLabel(data.days)})`;
+
+  const deltaEl = document.getElementById('delta-redeemed');
+  if(data.deltaPct===null){
+    deltaEl.innerHTML = data.redeemedInRange>0 ? `<span style="color:var(--ink3);font-weight:600">First redemptions this period</span>` : '';
+  } else {
+    const up = data.deltaPct>=0;
+    deltaEl.className = 'stat-delta'+(up?'':' down');
+    deltaEl.innerHTML = `${up?'↑':'↓'} ${Math.abs(data.deltaPct)}% <span>vs previous ${rangeLabel(data.days)}</span>`;
+  }
+
+  document.getElementById('offer-discount').textContent = data.vendor.discount_desc || '—';
+  document.getElementById('offer-prefix').textContent = data.vendor.code_prefix || '—';
+  document.getElementById('offer-since').textContent = data.vendor.created_at ? new Date(data.vendor.created_at).toLocaleDateString('en-ZA',{month:'long',year:'numeric'}) : '—';
+
+  document.getElementById('chart-sub').textContent = data.redeemedInRange
+    ? `${data.redeemedInRange} redemption${data.redeemedInRange===1?'':'s'} in the last ${rangeLabel(data.days)}`
+    : `No redemptions in the last ${rangeLabel(data.days)} yet`;
+  renderChart(data.trend, data.granularity);
+
+  renderRedemptionRows('overview-redemp-rows', data.recentRedemptions.slice(0,5), false);
+  renderRedemptionRows('full-redemp-rows', data.recentRedemptions, true);
+
+  renderInventory(data.inventory);
+}
+
+function renderChart(trend, granularity){
+  const x0=44,x1=616,y0=170,y1=26;
+  if(!trend || !trend.length){
+    document.getElementById('gridlines').innerHTML='';
+    document.getElementById('yticks').innerHTML='';
+    document.getElementById('line-path').setAttribute('d','');
+    document.getElementById('area-path').setAttribute('d','');
+    document.getElementById('points').innerHTML='';
+    document.getElementById('xlabels').innerHTML=`<text x="330" y="100" text-anchor="middle" font-size="12" fill="var(--ink3)">No redemptions yet in this period</text>`;
     return;
   }
-  document.getElementById('list-loading')?.remove();
-  data.forEach(c=>{
-    const row=document.createElement('div'); row.className='cl-row';
-    const cls=c.is_used?'p-used':c.assigned_to_email?'p-assigned':'p-available';
-    const lbl=c.is_used?'Used':c.assigned_to_email?'Assigned':'Available';
-    row.innerHTML=`<div class="code-mono">${esc(c.code)}</div><div>${esc(c.assigned_to_name||'—')}</div><div class="cl-dim">${esc(c.assigned_to_email||'—')}</div><div><span class="pill ${cls}">${lbl}</span></div>`;
-    list.appendChild(row);
+  const max = Math.max(1, ...trend.map(t=>t.count));
+  const n = trend.length;
+  const xAt = i => n===1 ? (x0+x1)/2 : x0+(x1-x0)*(i/(n-1));
+  const yAt = v => y0-(y0-y1)*(v/max);
+  let d = 'M'+xAt(0)+','+yAt(trend[0].count);
+  for(let i=1;i<n;i++) d += ' L'+xAt(i)+','+yAt(trend[i].count);
+  document.getElementById('line-path').setAttribute('d', n===1 ? '' : d);
+  document.getElementById('area-path').setAttribute('d', n===1 ? '' : d+` L${xAt(n-1)},${y0} L${xAt(0)},${y0} Z`);
+
+  const grid=document.getElementById('gridlines'); grid.innerHTML='';
+  const yticks=document.getElementById('yticks'); yticks.innerHTML='';
+  const step = Math.max(1, Math.ceil(max/4));
+  for(let v=0; v<=max+0.001; v+=step){
+    const y=yAt(v);
+    grid.innerHTML+=`<line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" stroke="var(--grid)" stroke-width="1"/>`;
+    yticks.innerHTML+=`<text x="${x0-8}" y="${y+4}" text-anchor="end">${Math.round(v)}</text>`;
+  }
+  const pts=document.getElementById('points'); pts.innerHTML='';
+  trend.forEach((t,i)=>{
+    const isLast=i===n-1, r=isLast?5:3;
+    pts.innerHTML+=`<circle cx="${xAt(i)}" cy="${yAt(t.count)}" r="${r}" ${isLast?'fill=\"var(--lime-text)\"':''}><title>${esc(t.bucket)} — ${t.count}</title></circle>`;
+  });
+  const xl=document.getElementById('xlabels'); xl.innerHTML='';
+  const tickEvery = Math.max(1, Math.ceil(n/8));
+  trend.forEach((t,i)=>{ if(i%tickEvery===0 || i===n-1) xl.innerHTML+=`<text x="${xAt(i)}" y="192">${esc(granularity==='month'?t.bucket:fmtShort(t.bucket))}</text>`; });
+}
+
+function renderRedemptionRows(elId, rows, withTime){
+  const el = document.getElementById(elId);
+  if(!rows.length){ el.innerHTML = `<tr><td colspan="${withTime?4:3}" class="empty-note">No redemptions in this period yet.</td></tr>`; return; }
+  el.innerHTML = rows.map(r=>`
+    <tr>
+      <td class="code-mono">${esc(r.code)}</td>
+      <td>${esc(r.student_email||'—')}</td>
+      <td>${withTime?esc(fmtLong(r.redeemed_at)):esc(fmtShort(r.redeemed_at))}</td>
+      ${withTime?`<td><span class="status-pill"><span class="d"></span>Confirmed</span></td>`:''}
+    </tr>`).join('');
+}
+
+function renderInventory(inv){
+  const bar = document.getElementById('inventory-bar');
+  const legend = document.getElementById('inventory-legend');
+  if(inv.total===0){
+    bar.innerHTML = `<span style="flex:1;background:var(--border)"></span>`;
+    legend.innerHTML = `<span>No codes issued yet — ask your account manager to generate your first batch.</span>`;
+    return;
+  }
+  bar.innerHTML = `
+    <span style="flex:${Math.max(inv.available,0.001)};background:var(--green)" title="Available — ${inv.available}"></span>
+    <span style="flex:${Math.max(inv.assigned,0.001)};background:var(--lime)" title="Assigned — ${inv.assigned}"></span>
+    <span style="flex:${Math.max(inv.used,0.001)};background:var(--amber)" title="Used — ${inv.used}"></span>`;
+  legend.innerHTML = `
+    <span>● Available <b>${inv.available}</b> <span style="color:var(--ink3)">not yet claimed</span></span>
+    <span>● Assigned <b>${inv.assigned}</b> <span style="color:var(--ink3)">claimed, not redeemed</span></span>
+    <span>● Used <b>${inv.used}</b> <span style="color:var(--ink3)">redeemed</span></span>`;
+}
+
+function fillProfileForm(){
+  if(!currentVendor) return;
+  document.getElementById('p-name').value = currentVendor.name || '';
+  document.getElementById('p-prefix').value = currentVendor.code_prefix || '';
+  document.getElementById('p-email').value = currentVendor.email || '';
+  document.getElementById('p-since').value = currentVendor.created_at ? new Date(currentVendor.created_at).toLocaleDateString('en-ZA',{month:'long',year:'numeric'}) : '—';
+  document.getElementById('p-discount').value = currentVendor.discount_desc || '';
+  const preview = document.getElementById('logo-preview');
+  preview.innerHTML = currentVendor.logo_url
+    ? `<img src="${esc(currentVendor.logo_url)}" alt="Current logo">`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7.5 12 3l9 4.5-9 4.5-9-4.5Z"/><path d="M3 7.5V16l9 4.5 9-4.5V7.5"/><path d="M12 12v8.5"/></svg>`;
+}
+
+async function saveProfile(){
+  const btn = document.getElementById('save-btn');
+  const msg = document.getElementById('saved-msg');
+  const errEl = document.getElementById('save-err');
+  msg.classList.remove('show'); errEl.classList.remove('show');
+  btn.disabled = true;
+  try {
+    const data = await authedFetch('/api/vendor-update-profile', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email: document.getElementById('p-email').value.trim(), discount_desc: document.getElementById('p-discount').value.trim() })
+    });
+    currentVendor = Object.assign({}, currentVendor, data.vendor);
+    sessionStorage.setItem('sp_vendor', JSON.stringify({vendor: currentVendor, token: vendorToken}));
+    msg.classList.add('show');
+    setTimeout(()=>msg.classList.remove('show'), 2400);
+  } catch(e){
+    errEl.textContent = e.message || 'Could not save your changes.';
+    errEl.classList.add('show');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=> resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
   });
 }
 
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-function fmtLong(ts){if(!ts)return'—';return new Date(ts).toLocaleString('en-ZA',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}
+async function uploadLogo(input){
+  const file = input.files && input.files[0];
+  const errEl = document.getElementById('logo-err');
+  errEl.classList.remove('show');
+  if(!file) return;
+  if(file.size > 4*1024*1024){ errEl.textContent='Logo must be under 4MB.'; errEl.classList.add('show'); return; }
+  document.getElementById('logo-upload-btn').classList.add('busy');
+  try {
+    const dataBase64 = await fileToBase64(file);
+    const data = await authedFetch('/api/vendor-upload-logo', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ contentType: file.type, dataBase64 })
+    });
+    currentVendor = Object.assign({}, currentVendor, { logo_url: data.logo_url });
+    sessionStorage.setItem('sp_vendor', JSON.stringify({vendor: currentVendor, token: vendorToken}));
+    document.getElementById('logo-preview').innerHTML = `<img src="${esc(data.logo_url)}" alt="Current logo">`;
+  } catch(e){
+    errEl.textContent = e.message || 'Could not upload logo.';
+    errEl.classList.add('show');
+  } finally {
+    document.getElementById('logo-upload-btn').classList.remove('busy');
+    input.value = '';
+  }
+}
+
+async function uploadDataFile(file){
+  const errEl = document.getElementById('upload-err');
+  errEl.classList.remove('show');
+  if(!file) return;
+  if(file.size > 4*1024*1024){ errEl.textContent='File must be under 4MB.'; errEl.classList.add('show'); return; }
+  const dz = document.getElementById('dropzone');
+  dz.querySelector('p').textContent = 'Uploading…';
+  try {
+    const dataBase64 = await fileToBase64(file);
+    const data = await authedFetch('/api/vendor-upload-file', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ fileName: file.name, contentType: file.type, dataBase64 })
+    });
+    addFileRow(data.file);
+  } catch(e){
+    errEl.textContent = e.message || 'Could not upload file.';
+    errEl.classList.add('show');
+  } finally {
+    dz.querySelector('p').textContent = 'Drag a file here, or click to browse';
+    document.getElementById('data-file').value = '';
+  }
+}
+
+function fmtSize(bytes){
+  if(!bytes) return '';
+  if(bytes<1024) return bytes+' B';
+  if(bytes<1024*1024) return (bytes/1024).toFixed(0)+' KB';
+  return (bytes/(1024*1024)).toFixed(1)+' MB';
+}
+function addFileRow(f){
+  if(!f) return;
+  const el = document.getElementById('file-list');
+  const row = document.createElement('div');
+  row.className = 'file-row';
+  row.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 3v5a1 1 0 0 0 1 1h5"/><path d="M6 3h8l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/></svg><span class="fname">${esc(f.file_name)}</span><span class="fmeta">${fmtSize(f.file_size)} · uploaded</span>`;
+  el.prepend(row);
+}
+(function(){
+  const dz=document.getElementById('dropzone');
+  if(!dz) return;
+  ['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev, e=>{e.preventDefault();dz.classList.add('drag')}));
+  ['dragleave','drop'].forEach(ev=>dz.addEventListener(ev, e=>{e.preventDefault();dz.classList.remove('drag')}));
+  dz.addEventListener('drop', e=>{ if(e.dataTransfer.files.length) uploadDataFile(e.dataTransfer.files[0]); });
+})();
 
 // Restore session
 (function(){
