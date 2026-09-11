@@ -45,12 +45,21 @@
     max-width: 255px !important;
     min-height: 1.88em !important;
     margin: 0 !important;
-    z-index: 50 !important;
+    z-index: 70 !important;
     font-size: clamp(25px, 6.9vw, 32px) !important;
     line-height: .94 !important;
     letter-spacing: -.05em !important;
     color: transparent !important;
     overflow: visible !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    -webkit-clip-path: none !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+    animation: none !important;
   }
 
   html body.public-redesign section.mock-hero .mock-hero-copy h1 > * {
@@ -61,11 +70,18 @@
   html body.public-redesign section.mock-hero .mock-hero-copy h1::after {
     position: absolute !important;
     display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     overflow: hidden !important;
     white-space: nowrap !important;
     text-shadow: none !important;
     pointer-events: none !important;
-    z-index: 51 !important;
+    z-index: 71 !important;
+    transform: none !important;
+    clip-path: none !important;
+    -webkit-clip-path: none !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
   }
 
   html body.public-redesign section.mock-hero .mock-hero-copy h1::before {
