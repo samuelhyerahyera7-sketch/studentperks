@@ -139,7 +139,6 @@
   }
 }
 
-/* Deal cards: remove the repetitive offer/location copy and give the product photos more space. */
 html body.public-redesign #deal-grid .mock-deal-card.perk-card .deal-content > p,
 html body.public-redesign #deal-grid .mock-deal-card.perk-card .location-line {
   display: none !important;
@@ -148,6 +147,10 @@ html body.public-redesign #deal-grid .mock-deal-card.perk-card .location-line {
 html body.public-redesign #deal-grid .mock-deal-card.perk-card .deal-image {
   height: 220px !important;
   aspect-ratio: auto !important;
+}
+
+html body.public-redesign .mock-search {
+  display: none !important;
 }
 
 @media (max-width: 700px) {
