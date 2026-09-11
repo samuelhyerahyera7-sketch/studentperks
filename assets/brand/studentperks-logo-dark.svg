@@ -2,7 +2,7 @@
   <title id="title">StudentPerks logo</title>
   <desc id="desc">Student in white and Perks with a full stop in lime on black.</desc>
   <rect width="760" height="220" fill="#000000"/>
-  <text x="28" y="151" font-family="Inter, Arial, Helvetica, sans-serif" font-size="112" font-weight="900" letter-spacing="-6">
+  <text x="380" y="151" text-anchor="middle" font-family="Inter, Arial, Helvetica, sans-serif" font-size="112" font-weight="900" letter-spacing="-6">
     <tspan fill="#FFFFFF">Student</tspan><tspan fill="#D4FF00">Perks.</tspan>
   </text>
 </svg>
