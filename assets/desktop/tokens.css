@@ -1,26 +1,18 @@
 @import url('./tokens-hero-base.css');
 
-/* Mobile hero: place the description below the typewriter headline and above the pressable buttons. */
+/* Mobile hero: place the description directly below the typewriter headline, while keeping the real buttons pressable. */
 @media (max-width: 700px) {
-  html body.public-redesign section.mock-hero .mock-hero-copy > p {
-    display: none !important;
-  }
-
   html body.public-redesign section.mock-hero .mock-hero-copy h1 {
     margin-top: 0 !important;
   }
 
-  html body.public-redesign section.mock-hero .mock-actions {
-    z-index: 20 !important;
-    overflow: visible !important;
-  }
-
-  html body.public-redesign section.mock-hero .mock-actions::before {
-    content: 'Discover verified deals, events and opportunities made for South African students.' !important;
+  html body.public-redesign section.mock-hero .mock-hero-copy > p {
+    display: block !important;
     position: absolute !important;
-    left: 0 !important;
-    bottom: calc(100% + 10px) !important;
+    left: clamp(20px, 5.3vw, 26px) !important;
+    top: clamp(84px, 22.5vw, 104px) !important;
     width: min(62vw, 275px) !important;
+    max-width: 275px !important;
     margin: 0 !important;
     padding: 0 !important;
     color: #fff !important;
@@ -34,6 +26,16 @@
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: none !important;
-    z-index: 22 !important;
+    z-index: 19 !important;
+  }
+
+  html body.public-redesign section.mock-hero .mock-actions {
+    z-index: 20 !important;
+    overflow: visible !important;
+  }
+
+  html body.public-redesign section.mock-hero .mock-actions::before {
+    content: none !important;
+    display: none !important;
   }
 }
