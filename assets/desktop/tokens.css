@@ -140,3 +140,20 @@
     -webkit-clip-path: none !important;
   }
 }
+
+/* Custom Mugs card: keep the title, remove the extra offer copy, and give the product image more room. */
+html body.public-redesign .mock-deal-grid .mock-deal-card.perk-card:nth-child(2) .deal-content > p,
+html body.public-redesign .mock-deal-grid .mock-deal-card.perk-card:nth-child(2) .location-line {
+  display: none !important;
+}
+
+html body.public-redesign .mock-deal-grid .mock-deal-card.perk-card:nth-child(2) .deal-image {
+  height: auto !important;
+  aspect-ratio: 1.42 / 1 !important;
+}
+
+@media (max-width: 700px) {
+  html body.public-redesign .mock-deal-grid .mock-deal-card.perk-card:nth-child(2) .deal-image {
+    aspect-ratio: 1.32 / 1 !important;
+  }
+}
