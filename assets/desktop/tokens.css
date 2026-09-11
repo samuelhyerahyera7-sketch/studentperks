@@ -171,3 +171,13 @@ html body.public-redesign #deal-grid .mock-deal-card.perk-card .deal-image.crate
     background-size: 100% 100%, 82% auto !important;
   }
 }
+
+/* Search is visible again. The existing #search-input oninput handler calls filterPerks(). */
+html body.public-redesign .mock-search {
+  display: flex !important;
+  pointer-events: auto !important;
+}
+
+html body.public-redesign .mock-search input {
+  pointer-events: auto !important;
+}
