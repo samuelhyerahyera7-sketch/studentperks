@@ -280,3 +280,56 @@ html body.public-redesign section#wallet div.wrap div.wallet-promo > div:first-c
     pointer-events: auto;
   }
 }
+
+/* Homepage hero refresh: remove the benefits strip, expand the hero and keep the image crisp. */
+html body.public-redesign .benefit-strip {
+  display: none !important;
+}
+
+html body.public-redesign .mock-hero-card > img:first-child {
+  image-rendering: auto !important;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+html body.public-redesign .mock-hero-copy h1 {
+  overflow: hidden !important;
+  clip-path: inset(0 100% 0 0);
+  animation: sp-type-headline 2.25s steps(28, end) .25s forwards;
+}
+
+@keyframes sp-type-headline {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@media (max-width: 700px) {
+  html body.public-redesign .mock-hero {
+    padding-bottom: 0 !important;
+  }
+
+  html body.public-redesign .mock-hero-card {
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 1.58 / 1 !important;
+    border-radius: 12px !important;
+  }
+
+  html body.public-redesign .mock-hero-card > img:first-child {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: 55% center !important;
+  }
+
+  html body.public-redesign .mock-search {
+    margin-top: 18px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body.public-redesign .mock-hero-copy h1 {
+    animation: none !important;
+    clip-path: none !important;
+  }
+}
