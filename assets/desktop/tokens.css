@@ -153,9 +153,21 @@ html body.public-redesign .mock-search {
   display: none !important;
 }
 
+html body.public-redesign #deal-grid .mock-deal-card.perk-card .deal-image.crates {
+  background-color: #173a72 !important;
+  background-image: linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.18)), url('assets/deals/crates-boxes-blue-box.jpg') !important;
+  background-size: 100% 100%, 84% auto !important;
+  background-position: center, center 58% !important;
+  background-repeat: no-repeat, no-repeat !important;
+}
+
 @media (max-width: 700px) {
   html body.public-redesign #deal-grid .mock-deal-card.perk-card .deal-image {
     height: 160px !important;
     aspect-ratio: auto !important;
+  }
+
+  html body.public-redesign #deal-grid .mock-deal-card.perk-card .deal-image.crates {
+    background-size: 100% 100%, 82% auto !important;
   }
 }
