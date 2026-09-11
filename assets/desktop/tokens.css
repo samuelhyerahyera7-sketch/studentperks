@@ -398,3 +398,169 @@ html body.public-redesign footer .footer-bottom a {
     gap: 6px !important;
   }
 }
+
+/* StudentPerks dark mode. Follows the visitor's device/browser theme automatically. */
+@media (prefers-color-scheme: dark) {
+  html { color-scheme: dark; }
+
+  html body.public-redesign {
+    background: #090d0b !important;
+    color: #f7faf7 !important;
+  }
+
+  html body.public-redesign .site-nav,
+  html body.public-redesign nav {
+    background: rgba(9,13,11,.96) !important;
+    border-bottom-color: #202923 !important;
+    box-shadow: 0 8px 28px rgba(0,0,0,.22) !important;
+  }
+
+  html body.public-redesign .nav-desktop a,
+  html body.public-redesign .nav-burger {
+    color: #d7ded9 !important;
+  }
+
+  html body.public-redesign .mock-hero,
+  html body.public-redesign .mock-section,
+  html body.public-redesign #perks,
+  html body.public-redesign #verification,
+  html body.public-redesign #events,
+  html body.public-redesign #jobs,
+  html body.public-redesign #wallet,
+  html body.public-redesign #business {
+    background: #090d0b !important;
+    color: #f7faf7 !important;
+  }
+
+  html body.public-redesign .mock-search {
+    background: #121814 !important;
+    border-color: #29342d !important;
+    box-shadow: 0 10px 28px rgba(0,0,0,.28) !important;
+  }
+
+  html body.public-redesign .mock-search input {
+    color: #f7faf7 !important;
+  }
+
+  html body.public-redesign .mock-search input::placeholder {
+    color: #8f9a93 !important;
+  }
+
+  html body.public-redesign .mock-search .sp-icon {
+    background: #f7faf7 !important;
+  }
+
+  html body.public-redesign .mock-cats .pill {
+    background: #131915 !important;
+    color: #edf3ef !important;
+    border-color: #28332c !important;
+    box-shadow: none !important;
+  }
+
+  html body.public-redesign .mock-cats .pill.active {
+    background: #9cff18 !important;
+    color: #071006 !important;
+    border-color: #9cff18 !important;
+  }
+
+  html body.public-redesign .mock-section-head h2,
+  html body.public-redesign .deal-content h3,
+  html body.public-redesign .how-card h2,
+  html body.public-redesign .wallet-promo h2,
+  html body.public-redesign .business-copy h2 {
+    color: #f7faf7 !important;
+  }
+
+  html body.public-redesign .see-all {
+    color: #9cff18 !important;
+  }
+
+  html body.public-redesign .mock-deal-card.perk-card {
+    background: #111713 !important;
+    border-color: #273129 !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,.26) !important;
+  }
+
+  html body.public-redesign .mock-deal-card.perk-card:hover {
+    border-color: #3d4b41 !important;
+    box-shadow: 0 16px 38px rgba(0,0,0,.35) !important;
+  }
+
+  html body.public-redesign .deal-content p,
+  html body.public-redesign .location-line,
+  html body.public-redesign .deal-list-state,
+  html body.public-redesign .how-step,
+  html body.public-redesign .wallet-promo p,
+  html body.public-redesign .business-copy p {
+    color: #9da8a1 !important;
+  }
+
+  html body.public-redesign .how-card {
+    background: linear-gradient(135deg,#111713,#0d120f) !important;
+    border-color: #263129 !important;
+    box-shadow: 0 14px 30px rgba(0,0,0,.25) !important;
+  }
+
+  html body.public-redesign .how-step .num {
+    background: #18241b !important;
+    color: #9cff18 !important;
+    border-color: #37513d !important;
+  }
+
+  html body.public-redesign .step-arrow {
+    color: #516057 !important;
+  }
+
+  html body.public-redesign .benefit-strip {
+    background: #111713 !important;
+    border-color: #263129 !important;
+  }
+
+  html body.public-redesign .benefit {
+    color: #e8eee9 !important;
+    border-color: #263129 !important;
+  }
+
+  html body.public-redesign #deal-grid .mock-deal-card.perk-card .deal-image.crates {
+    background-color: #fff !important;
+  }
+
+  html body.public-redesign .wallet-promo,
+  html body.public-redesign .business-promo {
+    border-color: #263129 !important;
+  }
+
+  html body.public-redesign footer {
+    background: #080c0a !important;
+    color: #9ba69f !important;
+    border-top-color: #202923 !important;
+  }
+
+  html body.public-redesign footer .footer-desc,
+  html body.public-redesign footer .footer-col a,
+  html body.public-redesign footer .footer-bottom,
+  html body.public-redesign footer .footer-bottom a {
+    color: #9ba69f !important;
+  }
+
+  html body.public-redesign footer .footer-col h4 {
+    color: #dce4df !important;
+  }
+
+  html body.public-redesign footer .footer-col a:hover {
+    color: #fff !important;
+  }
+
+  html body.public-redesign footer .footer-bottom {
+    border-top-color: #202923 !important;
+  }
+
+  html body.public-redesign .menu-overlay {
+    background: #090d0b !important;
+  }
+
+  html body.public-redesign .menu-item {
+    color: #d5ddd7 !important;
+    border-bottom-color: #202923 !important;
+  }
+}
