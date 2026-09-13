@@ -3660,6 +3660,7 @@ body.public-redesign .mock-hero .wrap {
   min-height: 0 !important;
 }
 
+@media(min-width:901px) {
 body.public-redesign .mock-hero-card {
   position: relative !important;
   width: 100% !important;
@@ -3783,6 +3784,7 @@ body.public-redesign .mock-btn.outline {
   backdrop-filter: blur(6px) !important;
   -webkit-backdrop-filter: blur(6px) !important;
 }
+}
 
 body.public-redesign .hero-handwritten {
   position: absolute !important;
@@ -3806,10 +3808,16 @@ body.public-redesign .desktop-student-badge {
   z-index: 4 !important;
   right: 0 !important;
   top: 145px !important;
-  width: clamp(150px, 10vw, 230px) !important;
+  width: 126px !important;
   height: auto !important;
   object-fit: contain !important;
   pointer-events: none !important;
+}
+
+@media(min-width:901px) {
+  body.public-redesign .desktop-student-badge {
+    width: clamp(150px, 10vw, 230px) !important;
+  }
 }
 
 body.public-redesign .benefit-strip {
