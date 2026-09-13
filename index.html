@@ -3817,6 +3817,12 @@ body.public-redesign .desktop-student-badge {
   body.public-redesign .desktop-student-badge {
     width: clamp(150px, 10vw, 230px) !important;
   }
+
+  body.public-redesign #wallet .wallet-art .desktop-wallet-qr,
+  body.public-redesign #wallet .wallet-art .desktop-wallet-slogan,
+  body.public-redesign #wallet .wallet-art .wallet-note {
+    display: none !important;
+  }
 }
 
 body.public-redesign .benefit-strip {
@@ -4115,16 +4121,18 @@ body.public-redesign .wallet-promo {
   background: linear-gradient(100deg,#edffe1,#f9fff1) !important;
 }
 
-body.public-redesign .wallet-heading-desktop,
-body.public-redesign .wallet-copy-desktop,
-body.public-redesign .wallet-button-desktop {
-  display: none !important;
-}
+@media(max-width:700px) {
+  body.public-redesign .wallet-heading-desktop,
+  body.public-redesign .wallet-copy-desktop,
+  body.public-redesign .wallet-button-desktop {
+    display: none !important;
+  }
 
-body.public-redesign .wallet-heading-mobile,
-body.public-redesign .wallet-copy-mobile,
-body.public-redesign .wallet-button-mobile {
-  display: inline !important;
+  body.public-redesign .wallet-heading-mobile,
+  body.public-redesign .wallet-copy-mobile,
+  body.public-redesign .wallet-button-mobile {
+    display: inline !important;
+  }
 }
 
 body.public-redesign .wallet-promo h2 {
@@ -6268,17 +6276,19 @@ body.public-redesign #wallet .wallet-promo {
   overflow: hidden !important;
 }
 
-body.public-redesign #wallet .wallet-heading-mobile,
-body.public-redesign #wallet .wallet-copy-mobile,
-body.public-redesign #wallet .wallet-button-mobile {
-  display: inline !important;
-}
+@media(max-width:700px) {
+  body.public-redesign #wallet .wallet-heading-mobile,
+  body.public-redesign #wallet .wallet-copy-mobile,
+  body.public-redesign #wallet .wallet-button-mobile {
+    display: inline !important;
+  }
 
-body.public-redesign #wallet .wallet-heading-desktop,
-body.public-redesign #wallet .wallet-copy-desktop,
-body.public-redesign #wallet .wallet-button-desktop,
-body.public-redesign #wallet .desktop-wallet-stats {
-  display: none !important;
+  body.public-redesign #wallet .wallet-heading-desktop,
+  body.public-redesign #wallet .wallet-copy-desktop,
+  body.public-redesign #wallet .wallet-button-desktop,
+  body.public-redesign #wallet .desktop-wallet-stats {
+    display: none !important;
+  }
 }
 
 body.public-redesign #wallet .wallet-promo h2 {

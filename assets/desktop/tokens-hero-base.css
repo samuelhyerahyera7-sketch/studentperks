@@ -190,50 +190,52 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
   }
 }
 
-/* Wallet banner: use the committed HD SVG as the visible artwork. */
-html body.public-redesign section#wallet div.wrap div.wallet-promo {
-  position: relative !important;
-  display: block !important;
-  width: 100% !important;
-  min-height: 0 !important;
-  aspect-ratio: 2048 / 690 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  border-radius: 18px !important;
-  background: #efffe7 url('../sections/wallet/wallet-banner-hd.svg?v=20260911-live') center / 100% 100% no-repeat !important;
-  box-shadow: none !important;
-}
+/* Wallet banner: use the committed HD SVG as the visible artwork (mobile only). */
+@media (max-width: 700px) {
+  html body.public-redesign section#wallet div.wrap div.wallet-promo {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    aspect-ratio: 2048 / 690 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border-radius: 18px !important;
+    background: #efffe7 url('../sections/wallet/wallet-banner-hd.svg?v=20260911-live') center / 100% 100% no-repeat !important;
+    box-shadow: none !important;
+  }
 
-html body.public-redesign section#wallet div.wrap div.wallet-promo > div:first-child,
-html body.public-redesign section#wallet div.wrap div.wallet-promo > div.wallet-art {
-  visibility: hidden !important;
-}
+  html body.public-redesign section#wallet div.wrap div.wallet-promo > div:first-child,
+  html body.public-redesign section#wallet div.wrap div.wallet-promo > div.wallet-art {
+    visibility: hidden !important;
+  }
 
-/* Preserve the existing join action as a transparent click target over the artwork button. */
-html body.public-redesign section#wallet div.wrap div.wallet-promo > div:first-child {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  display: block !important;
-}
-html body.public-redesign section#wallet div.wrap div.wallet-promo > div:first-child > button.mock-btn {
-  visibility: visible !important;
-  position: absolute !important;
-  left: 4.6% !important;
-  top: 62.5% !important;
-  width: 32.5% !important;
-  height: 18.8% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  border-radius: 999px !important;
-  background: transparent !important;
-  color: transparent !important;
-  box-shadow: none !important;
-  font-size: 0 !important;
-  opacity: 1 !important;
-  cursor: pointer !important;
+  /* Preserve the existing join action as a transparent click target over the artwork button. */
+  html body.public-redesign section#wallet div.wrap div.wallet-promo > div:first-child {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+  }
+  html body.public-redesign section#wallet div.wrap div.wallet-promo > div:first-child > button.mock-btn {
+    visibility: visible !important;
+    position: absolute !important;
+    left: 4.6% !important;
+    top: 62.5% !important;
+    width: 32.5% !important;
+    height: 18.8% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: transparent !important;
+    color: transparent !important;
+    box-shadow: none !important;
+    font-size: 0 !important;
+    opacity: 1 !important;
+    cursor: pointer !important;
+  }
 }
 
 @media (max-width: 860px) {
