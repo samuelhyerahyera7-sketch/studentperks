@@ -292,14 +292,14 @@ html body.public-redesign .mock-hero-card > img:first-child {
   backface-visibility: hidden;
 }
 
-/* Typewriter-style reveal without persistent masks, so the finished headline never stays clipped. */
+/* Headline renders immediately and stays visible - no reveal animation to get stuck mid-clip. */
 html body.public-redesign .mock-hero-copy h1 {
   position: relative !important;
   overflow: visible !important;
   -webkit-mask-image: none !important;
   mask-image: none !important;
-  clip-path: inset(0 100% 0 0);
-  animation: sp-type-headline 2.5s steps(28, end) .25s forwards !important;
+  clip-path: none !important;
+  animation: none !important;
 }
 
 html body.public-redesign .mock-hero-copy h1::after {
