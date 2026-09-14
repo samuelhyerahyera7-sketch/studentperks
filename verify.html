@@ -92,6 +92,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .tool-card .f{margin-bottom:10px}
 .tool-card .btn{margin-top:8px}
 .tool-card select{width:100%;min-width:0;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--white);background:var(--bg3);appearance:none}
+.tool-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tool-hint{font-size:11px;line-height:1.45;color:var(--ink2);margin-top:10px}
 .form-note{display:none;margin-top:10px;font-size:12px;font-weight:700;line-height:1.35}
 .form-note.ok{display:block;color:var(--green)}
 .form-note.bad{display:block;color:var(--red)}
@@ -124,8 +126,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 
 /* CODE LIST */
 .code-list{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-.cl-head{display:grid;grid-template-columns:150px 1fr 1fr 80px 82px;gap:10px;padding:12px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);background:rgba(255,255,255,.02);border-bottom:1px solid var(--border)}
-.cl-row{display:grid;grid-template-columns:150px 1fr 1fr 80px 82px;gap:10px;padding:12px 16px;font-size:12px;border-bottom:1px solid var(--border);align-items:center}
+.cl-head{display:grid;grid-template-columns:190px minmax(140px,1fr) 120px 92px;gap:10px;padding:12px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);background:rgba(255,255,255,.02);border-bottom:1px solid var(--border)}
+.cl-row{display:grid;grid-template-columns:190px minmax(140px,1fr) 120px 92px;gap:10px;padding:12px 16px;font-size:12px;border-bottom:1px solid var(--border);align-items:center}
 .row-action{margin:0;padding:8px 10px;border-radius:999px;background:#f1f4f8;color:#111827;border:1px solid var(--border);font-size:11px;font-weight:900;text-transform:uppercase}
 .row-action:disabled{opacity:.45;cursor:not-allowed}
 .cl-row:last-child{border-bottom:none}
@@ -310,16 +312,16 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
         <div class="verify-box">
           <div class="verify-box-title">Check a code</div>
           <div class="code-input-row">
-            <input class="code-input" type="text" id="check-input" placeholder="E.g. JUSTPROTEIN001-YZ" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkCode()">
+            <input class="code-input" type="text" id="check-input" placeholder="E.g. JUSTPROTEIN15" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkCode()">
             <button class="check-btn" onclick="checkCode()">Check</button>
           </div>
           <div class="result-box" id="result-box"></div>
         </div>
 
         <section class="stats-grid" aria-label="Coupon statistics">
-          <article class="stat-card"><div class="stat-dot">#</div><div><div class="stat-number" id="stat-total">0</div><div class="stat-label">Total codes issued</div></div></article>
+          <article class="stat-card"><div class="stat-dot">#</div><div><div class="stat-number" id="stat-total">0</div><div class="stat-label">Tracked codes</div></div></article>
           <article class="stat-card"><div class="stat-dot">A</div><div><div class="stat-number" id="stat-available">0</div><div class="stat-label">Available</div></div></article>
-          <article class="stat-card"><div class="stat-dot">C</div><div><div class="stat-number" id="stat-assigned">0</div><div class="stat-label">Assigned, not redeemed</div></div></article>
+          <article class="stat-card"><div class="stat-dot">C</div><div><div class="stat-number" id="stat-assigned">0</div><div class="stat-label">Claimed, not redeemed</div></div></article>
           <article class="stat-card"><div class="stat-dot">R</div><div><div class="stat-number" id="stat-used">0</div><div class="stat-label">Redeemed</div></div></article>
         </section>
 
@@ -356,9 +358,9 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
       <section class="view-panel" id="view-analytics">
         <section class="inventory-box" aria-label="Code inventory">
           <div class="inventory-title">Code inventory</div>
-          <div class="inventory-copy">Every code moves from available, to assigned when claimed, to redeemed once used.</div>
+          <div class="inventory-copy">Every checkout code moves from available, to claimed when a student takes it from StudentPerks, to redeemed once the order is confirmed.</div>
           <div class="inventory-bar" aria-hidden="true"><span class="inventory-segment available" id="bar-available"></span><span class="inventory-segment assigned" id="bar-assigned"></span><span class="inventory-segment used" id="bar-used"></span></div>
-          <div class="inventory-legend"><span><i class="legend-dot"></i>Available <b id="legend-available">0</b></span><span><i class="legend-dot"></i>Assigned <b id="legend-assigned">0</b></span><span><i class="legend-dot"></i>Redeemed <b id="legend-used">0</b></span></div>
+          <div class="inventory-legend"><span><i class="legend-dot"></i>Available <b id="legend-available">0</b></span><span><i class="legend-dot"></i>Claimed <b id="legend-assigned">0</b></span><span><i class="legend-dot"></i>Redeemed <b id="legend-used">0</b></span></div>
         </section>
         <section class="analytics-panel open" aria-label="Analytics graph">
           <div class="analytics-head"><div><div class="analytics-title">Redemptions over time</div><div class="analytics-sub" id="analytics-sub-2">Last 14 days</div></div><div class="analytics-kpi" id="analytics-total-2">0<span>redeemed</span></div></div>
@@ -369,20 +371,22 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
       <section class="view-panel" id="view-profile">
         <section class="dashboard-tools" aria-label="Partner tools">
           <article class="tool-card">
-            <div class="tool-title">Generate codes</div>
-            <div class="tool-copy">Create fresh Just Protein coupon codes for students.</div>
-            <div class="f"><label>How many codes?</label><input type="number" id="gen-qty" min="1" max="100" value="10"></div>
-            <button class="btn" id="gen-btn" onclick="generateVendorCodes()">Generate</button>
-            <div class="form-note" id="gen-note"></div>
+            <div class="tool-title">Shared checkout code</div>
+            <div class="tool-copy">Students use one discount code at justprotein.co.za checkout. Create this exact code in Just Protein's Shopify discounts.</div>
+            <div class="f"><label>Checkout code</label><select id="share-code"><option value="">Loading code...</option></select></div>
+            <div class="tool-actions">
+              <button class="btn" id="copy-code-btn" onclick="copySelectedCode()">Copy code</button>
+              <button class="btn btn-ghost" id="copy-link-btn" onclick="copySelectedDiscountLink()">Copy link</button>
+            </div>
+            <div class="tool-hint">Stats update when codes are claimed on StudentPerks or manually marked redeemed after checkout.</div>
+            <div class="form-note" id="share-note"></div>
           </article>
           <article class="tool-card">
-            <div class="tool-title">Assign a code</div>
-            <div class="tool-copy">Choose an available code and assign it to a student.</div>
-            <div class="f"><label>Code</label><select id="assign-code"><option value="">No available codes yet</option></select></div>
-            <div class="f"><label>Student name</label><input type="text" id="assign-name" placeholder="Full name"></div>
-            <div class="f"><label>Student email</label><input type="email" id="assign-email" placeholder="student@example.com"></div>
-            <button class="btn" id="assign-btn" onclick="assignVendorCode()">Assign code</button>
-            <div class="form-note" id="assign-note"></div>
+            <div class="tool-title">Record redemption</div>
+            <div class="tool-copy">When a Just Protein order uses the StudentPerks code, record it here so the graph and redemption log update.</div>
+            <div class="f"><label>Code used at checkout</label><select id="record-code"><option value="">Loading code...</option></select></div>
+            <button class="btn" id="record-btn" onclick="recordCheckoutRedemption()">Record redemption</button>
+            <div class="form-note" id="record-note"></div>
           </article>
           <article class="tool-card">
             <div class="tool-title">Login settings</div>
@@ -395,11 +399,11 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
         </section>
 
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3)">Your coupon codes</div>
-          <button onclick="loadCodeList()" style="background:none;border:none;color:var(--lime);font-size:12px;font-weight:600;cursor:pointer">↻ Refresh</button>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3)">Optional unique codes</div>
+          <div style="display:flex;gap:12px;align-items:center"><button onclick="downloadVendorCodes()" style="background:none;border:none;color:#557500;font-size:12px;font-weight:900;text-decoration:underline;cursor:pointer">Download CSV</button><button onclick="generateVendorCodes()" style="background:none;border:none;color:#557500;font-size:12px;font-weight:900;text-decoration:underline;cursor:pointer">Generate 10</button><button onclick="loadCodeList()" style="background:none;border:none;color:var(--lime);font-size:12px;font-weight:600;cursor:pointer">↻ Refresh</button></div>
         </div>
         <div class="code-list" id="code-list">
-          <div class="cl-head"><div>Code</div><div>Assigned to</div><div>Email</div><div>Status</div><div>Action</div></div>
+          <div class="cl-head"><div>Code</div><div>Checkout note</div><div>Status</div><div>Action</div></div>
           <div class="list-empty" id="list-loading">Loading…</div>
         </div>
       </section>
@@ -407,7 +411,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
       <section class="view-panel" id="view-help">
         <div class="help-card">
           <h2>Need help?</h2>
-          <p>Use Overview to check customer codes, Business profile to generate and assign codes, and Analytics to monitor performance. Contact StudentPerks if a code or partner setting looks wrong.</p>
+          <p>Use Overview to check checkout codes, Business profile to copy the shared Shopify code, and Analytics to monitor StudentPerks-side performance. Just Protein must create the same code in Shopify before students can redeem it there.</p>
         </div>
       </section>
     </main>
@@ -422,6 +426,15 @@ const _sb = supabase.createClient(SB_URL, SB_KEY);
 let currentVendor = null;
 let vendorToken = '';
 let currentCodes = [];
+let currentRedemptions = [];
+
+function sharedCheckoutCode(){
+  const name=normalizeBusinessName(currentVendor && currentVendor.name);
+  if(name==='justprotein') return 'JUSTPROTEIN15';
+  const prefix=String(currentVendor && currentVendor.code_prefix || 'STUDENTPERKS').toUpperCase().replace(/[^A-Z0-9]/g,'');
+  const digits=String(currentVendor && currentVendor.discount_desc || '').match(/\d+/);
+  return `${prefix}${digits ? digits[0] : ''}`;
+}
 
 function normalizeBusinessName(name){
   return String(name||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'').trim();
@@ -509,13 +522,13 @@ function showVendorView(name){
     overview:[`Good day, ${currentVendor && currentVendor.name ? currentVendor.name : 'partner'}`,"Here's how your StudentPerks codes are performing."],
     redemptions:['Redemptions','Confirmed code redemptions for your offer.'],
     analytics:['Analytics','Track code inventory and redemption performance.'],
-    profile:['Business profile','Generate codes, assign them, and update partner login details.'],
+    profile:['Business profile','Copy the shared checkout code or create optional tracking codes.'],
     help:['Help','Quick guidance for managing your StudentPerks offer.']
   };
   const next=titles[name]||titles.overview;
   setText('portal-title', next[0]);
   setText('portal-subtitle', next[1]);
-  if(name==='analytics') renderAnalytics(currentCodes);
+  if(name==='analytics') renderAnalytics(currentRedemptions);
 }
 
 async function checkCode() {
@@ -543,17 +556,16 @@ async function checkCode() {
   box.className='result-box';
   if(data.is_used){
     box.classList.add('used');
-    box.innerHTML=`<div class="result-icon">⚠️</div><div class="result-title">Already redeemed</div><div class="result-sub yellow">This code was used on <b>${fmtLong(data.used_at)}</b></div><div class="result-detail"><b>Assigned to:</b> ${esc(data.assigned_to_name||'—')}<br><b>Email:</b> ${esc(data.assigned_to_email||'—')}</div>`;
+    box.innerHTML=`<div class="result-icon">⚠️</div><div class="result-title">Already redeemed</div><div class="result-sub yellow">This code was marked redeemed on <b>${fmtLong(data.used_at)}</b></div><div class="result-detail">Use the Redemptions tab for the full confirmation history.</div>`;
     return;
   }
   box.classList.add('valid');
   box.innerHTML=`
     <div class="result-icon">✅</div>
     <div class="result-title">Valid — not yet redeemed</div>
-    <div class="result-sub green">This code is valid and ready to use.</div>
+    <div class="result-sub green">This code can be accepted here after the matching discount exists in Just Protein checkout.</div>
     <div class="result-detail">
-      <b>Student:</b> ${esc(data.assigned_to_name||'Unknown')}<br>
-      <b>Email:</b> ${esc(data.assigned_to_email||'Unknown')}<br>
+      <b>Checkout:</b> justprotein.co.za<br>
       <b>Discount:</b> ${esc(currentVendor.discount_desc||'—')}
     </div>
     <button class="redeem-confirm-btn" onclick="markRedeemed('${esc(code)}')">✓ Mark as redeemed</button>
@@ -595,30 +607,39 @@ async function loadCodeList() {
   const loading = document.getElementById('list-loading');
   if(loading) loading.textContent='Loading…';
   let data = [];
+  let redemptions = [];
   try {
-    const response = await fetch('/api/vendor-codes', {headers: {'Authorization': `Bearer ${vendorToken}`}});
-    const payload = await response.json();
-    data = response.ok ? payload.codes : [];
+    const [codeResponse, redemptionResponse] = await Promise.all([
+      fetch('/api/vendor-codes', {headers: {'Authorization': `Bearer ${vendorToken}`}}),
+      fetch('/api/vendor-redemptions', {headers: {'Authorization': `Bearer ${vendorToken}`}})
+    ]);
+    const codePayload = await codeResponse.json();
+    const redemptionPayload = await redemptionResponse.json();
+    data = codeResponse.ok ? codePayload.codes : [];
+    redemptions = redemptionResponse.ok ? redemptionPayload.redemptions : [];
   } catch(e) {
     data = [];
+    redemptions = [];
   }
   currentCodes = data;
-  updateStats(data);
-  renderAnalytics(data);
-  renderRedemptionLists(data);
-  refreshAssignOptions(data);
+  currentRedemptions = redemptions;
+  updateStats(data, redemptions);
+  renderAnalytics(redemptions);
+  renderRedemptionLists(redemptions);
+  refreshShareOptions(data);
   [...list.querySelectorAll('.cl-row')].forEach(r=>r.remove());
   if(!data||!data.length){
     const l=document.getElementById('list-loading');
-    if(l)l.textContent='No codes generated yet. Contact your StudentPerks representative.';
+    if(l)l.textContent='No optional unique codes yet. Use the shared checkout code above for normal redemption.';
     return;
   }
   document.getElementById('list-loading')?.remove();
   data.forEach(c=>{
     const row=document.createElement('div'); row.className='cl-row';
     const cls=c.is_used?'p-used':c.assigned_to_email?'p-assigned':'p-available';
-    const lbl=c.is_used?'Used':c.assigned_to_email?'Assigned':'Available';
-    row.innerHTML=`<div class="code-mono">${esc(c.code)}</div><div><span class="cl-mobile-label">Assigned to</span><span class="cl-value">${esc(c.assigned_to_name||'—')}</span></div><div class="cl-dim"><span class="cl-mobile-label">Email</span><span class="cl-value">${esc(c.assigned_to_email||'—')}</span></div><div><span class="cl-mobile-label">Status</span><span class="pill ${cls}">${lbl}</span></div><div><button class="row-action" ${c.is_used?'disabled':''} onclick="prepareAssign('${esc(c.id)}')">Assign</button></div>`;
+    const lbl=c.is_used?'Redeemed':c.assigned_to_email?'Claimed':'Available';
+    const note=c.is_used?'Confirmed in StudentPerks':c.assigned_to_email?'Student has claimed this code':'Create this same code in Just Protein checkout';
+    row.innerHTML=`<div class="code-mono">${esc(c.code)}</div><div class="cl-dim"><span class="cl-mobile-label">Checkout note</span><span class="cl-value">${esc(note)}</span></div><div><span class="cl-mobile-label">Status</span><span class="pill ${cls}">${lbl}</span></div><div><button class="row-action" onclick="copyCode('${esc(c.code)}')">Copy</button></div>`;
     list.appendChild(row);
   });
 }
@@ -630,36 +651,123 @@ function note(id, message, ok){
   el.className='form-note'+(message ? (ok ? ' ok' : ' bad') : '');
 }
 
-function refreshAssignOptions(codes){
-  const select=document.getElementById('assign-code');
+function refreshShareOptions(codes){
+  const select=document.getElementById('share-code');
+  const recordSelect=document.getElementById('record-code');
   if(!select) return;
   const available=(codes||[]).filter(c=>!c.is_used);
+  const shared=sharedCheckoutCode();
   select.innerHTML='';
-  if(!available.length){
-    select.add(new Option('No available codes yet', ''));
-    document.getElementById('assign-btn').disabled=true;
-    return;
-  }
+  if(recordSelect) recordSelect.innerHTML='';
+  select.add(new Option(`${shared} - shared Shopify code`, shared));
+  if(recordSelect) recordSelect.add(new Option(`${shared} - shared Shopify code`, shared));
   available.forEach(c=>{
-    const label=c.assigned_to_email ? `${c.code} - assigned` : c.code;
-    select.add(new Option(label, c.id));
+    const label=c.assigned_to_email ? `${c.code} - claimed` : c.code;
+    select.add(new Option(label, c.code));
+    if(recordSelect) recordSelect.add(new Option(label, c.code));
   });
-  document.getElementById('assign-btn').disabled=false;
+  document.getElementById('copy-code-btn').disabled=false;
+  document.getElementById('copy-link-btn').disabled=false;
+  const recordBtn=document.getElementById('record-btn');
+  if(recordBtn) recordBtn.disabled=false;
 }
 
-function prepareAssign(codeId){
-  const select=document.getElementById('assign-code');
-  if(select) select.value=codeId;
-  showVendorView('profile');
-  document.getElementById('assign-name')?.focus();
-  document.querySelector('.dashboard-tools')?.scrollIntoView({behavior:'smooth',block:'start'});
+async function copyText(value){
+  if(!value) return false;
+  try{
+    await navigator.clipboard.writeText(value);
+    return true;
+  }catch(e){
+    const ta=document.createElement('textarea');
+    ta.value=value;
+    ta.setAttribute('readonly','');
+    ta.style.position='fixed';
+    ta.style.left='-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    const ok=document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  }
+}
+
+async function copyCode(code){
+  const ok=await copyText(code);
+  note('share-note', ok ? `Copied ${code}.` : 'Could not copy code.', ok);
+}
+
+async function copySelectedCode(){
+  const code=document.getElementById('share-code').value;
+  const ok=await copyText(code);
+  note('share-note', ok ? `Copied ${code}.` : 'Choose a code to copy.', ok);
+}
+
+async function copySelectedDiscountLink(){
+  const code=document.getElementById('share-code').value;
+  const link=code ? `https://www.justprotein.co.za/discount/${encodeURIComponent(code)}` : '';
+  const ok=await copyText(link);
+  note('share-note', ok ? 'Copied discount link.' : 'Choose a code to copy.', ok);
+}
+
+async function recordCheckoutRedemption(){
+  const code=document.getElementById('record-code').value || sharedCheckoutCode();
+  const btn=document.getElementById('record-btn');
+  note('record-note','',true);
+  btn.disabled=true;
+  btn.textContent='Recording...';
+  try{
+    const response=await fetch('/api/vendor-record-redemption',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${vendorToken}`},
+      body:JSON.stringify({code})
+    });
+    const payload=await response.json();
+    if(!response.ok) throw new Error(payload.error || 'Could not record redemption.');
+    note('record-note',`Recorded redemption for ${code}.`,true);
+    await loadCodeList();
+  }catch(e){
+    note('record-note',e.message || 'Could not record redemption.',false);
+  }finally{
+    btn.disabled=false;
+    btn.textContent='Record redemption';
+  }
+}
+
+function downloadVendorCodes(){
+  const shared=sharedCheckoutCode();
+  const rows=[{
+    code:shared,
+    status:'shared',
+    checkout_url:`https://www.justprotein.co.za/discount/${encodeURIComponent(shared)}`
+  }, ...(currentCodes||[]).map(c=>({
+    code:c.code,
+    status:c.is_used?'redeemed':c.assigned_to_email?'claimed':'available',
+    checkout_url:`https://www.justprotein.co.za/discount/${encodeURIComponent(c.code)}`
+  }))];
+  if(!rows.length){
+    note('share-note','No codes to download yet.',false);
+    return;
+  }
+  const csv=['code,status,checkout_url',...rows.map(r=>[r.code,r.status,r.checkout_url].map(csvCell).join(','))].join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`${(currentVendor.code_prefix||'studentperks').toLowerCase()}-checkout-codes.csv`;
+  document.body.appendChild(a);
+  a.click();
+  URL.revokeObjectURL(a.href);
+  a.remove();
+}
+
+function csvCell(value){
+  const s=String(value||'');
+  return /[",\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
 }
 
 async function generateVendorCodes(){
-  const qty=Math.max(1, Math.min(100, parseInt(document.getElementById('gen-qty').value,10)||10));
+  const qty=Math.max(1, Math.min(100, parseInt(document.getElementById('gen-qty')?.value,10)||10));
   const btn=document.getElementById('gen-btn');
-  note('gen-note','',true);
-  btn.disabled=true; btn.textContent='Generating...';
+  if(btn){ btn.disabled=true; btn.textContent='Generating...'; }
   try{
     const response=await fetch('/api/vendor-generate-codes',{
       method:'POST',
@@ -668,38 +776,12 @@ async function generateVendorCodes(){
     });
     const payload=await response.json();
     if(!response.ok) throw new Error(payload.error || 'Could not generate codes.');
-    note('gen-note',`Generated ${payload.generated || qty} codes.`,true);
+    note('share-note',`Generated ${payload.generated || qty} optional tracking codes.`,true);
     await loadCodeList();
   }catch(e){
-    note('gen-note',e.message || 'Could not generate codes.',false);
+    note('share-note',e.message || 'Could not generate codes.',false);
   }finally{
-    btn.disabled=false; btn.textContent='Generate';
-  }
-}
-
-async function assignVendorCode(){
-  const codeId=document.getElementById('assign-code').value;
-  const studentName=document.getElementById('assign-name').value.trim();
-  const studentEmail=document.getElementById('assign-email').value.trim();
-  const btn=document.getElementById('assign-btn');
-  note('assign-note','',true);
-  btn.disabled=true; btn.textContent='Assigning...';
-  try{
-    const response=await fetch('/api/vendor-assign-code',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':`Bearer ${vendorToken}`},
-      body:JSON.stringify({codeId,studentName,studentEmail})
-    });
-    const payload=await response.json();
-    if(!response.ok) throw new Error(payload.error || 'Could not assign code.');
-    note('assign-note','Code assigned.',true);
-    document.getElementById('assign-name').value='';
-    document.getElementById('assign-email').value='';
-    await loadCodeList();
-  }catch(e){
-    note('assign-note',e.message || 'Could not assign code.',false);
-  }finally{
-    btn.disabled=false; btn.textContent='Assign code';
+    if(btn){ btn.disabled=false; btn.textContent='Generate'; }
   }
 }
 
@@ -736,25 +818,26 @@ function setText(id, value){
   if(el) el.textContent=String(value);
 }
 
-function updateStats(codes){
+function updateStats(codes, redemptions){
   const list=Array.isArray(codes)?codes:[];
+  const redemptionList=Array.isArray(redemptions)?redemptions:[];
   const total=list.length;
-  const used=list.filter(c=>c.is_used).length;
-  const assigned=list.filter(c=>!c.is_used && c.assigned_to_email).length;
-  const available=Math.max(0,total-used-assigned);
+  const used=redemptionList.length || list.filter(c=>c.is_used).length;
+  const claimed=list.filter(c=>!c.is_used && c.assigned_to_email).length;
+  const available=Math.max(0,total-used-claimed);
   setText('stat-total', total);
   setText('stat-available', available);
-  setText('stat-assigned', assigned);
+  setText('stat-assigned', claimed);
   setText('stat-used', used);
   setText('legend-available', available);
-  setText('legend-assigned', assigned);
+  setText('legend-assigned', claimed);
   setText('legend-used', used);
-  const safeTotal=total || 1;
+  const safeTotal=Math.max(total, available + claimed + used, 1);
   const bar=document.querySelector('.inventory-bar');
   if(bar) bar.classList.toggle('empty', total === 0);
   const segments=[
     ['bar-available', available],
-    ['bar-assigned', assigned],
+    ['bar-assigned', claimed],
     ['bar-used', used]
   ];
   segments.forEach(([id,count])=>{
@@ -775,8 +858,8 @@ function toggleAnalytics(){
   }
 }
 
-function renderAnalytics(codes){
-  const list=Array.isArray(codes)?codes:[];
+function renderAnalytics(redemptions){
+  const list=Array.isArray(redemptions)?redemptions:[];
   const days=[];
   const today=new Date();
   today.setHours(0,0,0,0);
@@ -785,9 +868,10 @@ function renderAnalytics(codes){
     d.setDate(today.getDate()-i);
     days.push({date:d,count:0});
   }
-  list.forEach(code=>{
-    if(!code.is_used || !code.used_at) return;
-    const used=new Date(code.used_at);
+  list.forEach(redemption=>{
+    const stamp=redemption.redeemed_at || redemption.used_at;
+    if(!stamp) return;
+    const used=new Date(stamp);
     used.setHours(0,0,0,0);
     const hit=days.find(day=>day.date.getTime()===used.getTime());
     if(hit) hit.count+=1;
@@ -830,10 +914,9 @@ function renderAnalytics(codes){
   renderTo(document.getElementById('chart-wrap-2'));
 }
 
-function redemptionRows(codes){
-  return (codes||[])
-    .filter(c=>c.is_used)
-    .sort((a,b)=>new Date(b.used_at||0)-new Date(a.used_at||0));
+function redemptionRows(redemptions){
+  return (redemptions||[])
+    .sort((a,b)=>new Date(b.redeemed_at||b.used_at||0)-new Date(a.redeemed_at||a.used_at||0));
 }
 
 function renderRedemptionLists(codes){
@@ -849,12 +932,12 @@ function renderRedemptionList(id, rows, compact){
     el.innerHTML='<div class="list-empty">No redemptions yet.</div>';
     return;
   }
-  const head=compact ? '' : '<div class="recent-row recent-head"><div>Code</div><div>Student</div><div>Date</div></div>';
+  const head=compact ? '' : '<div class="recent-row recent-head"><div>Code</div><div>Source</div><div>Date</div></div>';
   el.innerHTML=head+rows.map(row=>`
     <div class="recent-row">
       <div class="code-mono">${esc(row.code)}</div>
-      <div>${esc(row.assigned_to_email || row.assigned_to_name || 'Student')}</div>
-      <div>${esc(fmtShort(row.used_at))}</div>
+      <div>${esc(row.assigned_to_email || 'Checkout')}</div>
+      <div>${esc(fmtShort(row.redeemed_at || row.used_at))}</div>
     </div>
   `).join('');
 }
