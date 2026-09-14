@@ -6188,16 +6188,17 @@ body.public-redesign .modal-success-icon {
     margin-left: calc(50% - 50vw) !important;
     border-radius: 0 !important;
     display: grid !important;
-    grid-template-columns: 150px minmax(0, 1fr) 76px !important;
+    grid-template-columns: 150px minmax(0, max-content) 76px !important;
     grid-template-rows: auto auto !important;
     grid-template-areas:
       "mark copy rays"
       "mark button rays" !important;
+    justify-content: center !important;
     align-items: center !important;
     column-gap: 28px !important;
     row-gap: 7px !important;
     min-height: 130px !important;
-    padding: 17px max(30px, calc((100vw - 1360px) / 2 + 30px)) !important;
+    padding: 24px 30px !important;
     border-radius: 0 !important;
     background: #050606 url('assets/sections/verify-save/background.svg') center/cover no-repeat !important;
     text-align: left !important;
@@ -6518,9 +6519,10 @@ body.public-redesign .verify-save {
 
 @media(min-width:861px) {
   body.public-redesign .verify-save {
-    grid-template-columns: 150px minmax(0, 1fr) 74px !important;
+    grid-template-columns: 150px minmax(0, max-content) 74px !important;
+    justify-content: center !important;
     min-height: 118px !important;
-    padding: 12px 30px !important;
+    padding: 24px 30px !important;
     column-gap: 28px !important;
   }
 
