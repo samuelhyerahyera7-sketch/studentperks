@@ -1061,11 +1061,15 @@ document.getElementById('partner-form').addEventListener('submit', async functio
       body: new FormData(this),
       headers: { 'Accept': 'application/json' }
     });
-    if (res.ok) {
+    const data = await res.json().catch(() => null);
+    // FormSubmit returns HTTP 200 even when it's only sent an activation
+    // email for a brand-new destination address and held the real
+    // submission back - res.ok alone can't tell the two cases apart.
+    if (res.ok && data && data.success !== 'false' && data.success !== false) {
       document.getElementById('form-wrap').style.display = 'none';
       document.getElementById('success-state').classList.add('show');
     } else {
-      throw new Error();
+      throw new Error(data && data.message ? data.message : 'Submission was not confirmed');
     }
   } catch {
     btn.textContent = 'Try Again';

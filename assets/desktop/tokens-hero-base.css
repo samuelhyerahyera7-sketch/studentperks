@@ -210,7 +210,7 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
     overflow-y: hidden !important;
     -webkit-overflow-scrolling: touch !important;
     overscroll-behavior-x: contain;
-    touch-action: pan-x !important;
+    touch-action: pan-x pan-y !important;
     white-space: nowrap !important;
     scrollbar-width: none !important;
     padding-right: 28px !important;
@@ -225,7 +225,7 @@ html body.public-redesign section#business div.wrap div.business-promo > div.bus
   html body.public-redesign .mock-cats > .pill {
     flex: 0 0 auto !important;
     min-width: max-content !important;
-    touch-action: pan-x !important;
+    touch-action: pan-x pan-y !important;
   }
 
   html body.public-redesign .mock-cats > .pill,

@@ -6599,6 +6599,107 @@ body.public-redesign .verify-save {
   }
 }
 
+/* Fill more of the full-bleed banner on wider desktop screens so the
+   content-to-black-space ratio stops thinning out as the bar stretches -
+   the 861px sizing above was tuned to just fit at that narrow edge, so it
+   couldn't simply be made bigger everywhere without overflowing there. */
+@media(min-width:1200px) {
+  body.public-redesign .verify-save {
+    grid-template-columns: 172px minmax(0, max-content) 86px !important;
+    column-gap: 34px !important;
+    min-height: 150px !important;
+    padding: 32px 40px !important;
+  }
+
+  body.public-redesign .verify-save__mark {
+    width: 150px !important;
+    max-height: 110px !important;
+  }
+
+  body.public-redesign .verify-save__copy h2 {
+    font-size: 37px !important;
+  }
+
+  body.public-redesign .verify-save__copy p {
+    font-size: 15.5px !important;
+    max-width: 600px !important;
+  }
+
+  body.public-redesign .verify-save__rays {
+    width: 78px !important;
+  }
+
+  body.public-redesign .verify-save__button {
+    min-width: 242px !important;
+    min-height: 44px !important;
+    margin-left: 34px !important;
+    padding: 0 27px !important;
+    gap: 16px !important;
+    font-size: 15px !important;
+  }
+
+  body.public-redesign .verify-save__button img {
+    width: 21px !important;
+    height: 21px !important;
+  }
+}
+
+@media(min-width:1680px) {
+  body.public-redesign .verify-save {
+    grid-template-columns: 196px minmax(0, max-content) 100px !important;
+    column-gap: 40px !important;
+    min-height: 186px !important;
+    padding: 40px 56px !important;
+  }
+
+  body.public-redesign .verify-save__mark {
+    width: 176px !important;
+    max-height: 128px !important;
+  }
+
+  body.public-redesign .verify-save__copy h2 {
+    font-size: 44px !important;
+  }
+
+  body.public-redesign .verify-save__copy p {
+    font-size: 17px !important;
+    max-width: 660px !important;
+  }
+
+  body.public-redesign .verify-save__rays {
+    width: 92px !important;
+  }
+
+  body.public-redesign .verify-save__button {
+    min-width: 270px !important;
+    min-height: 52px !important;
+    margin-left: 40px !important;
+    padding: 0 30px !important;
+    gap: 18px !important;
+    font-size: 17px !important;
+  }
+
+  body.public-redesign .verify-save__button img {
+    width: 24px !important;
+    height: 24px !important;
+  }
+}
+
+/* Wallet promo: stretch its background to full-bleed on desktop like the
+   saving CTA below it, but keep the two-column content pinned to the
+   site's normal content width so only the background reaches the edges -
+   not the heading/card too, which would just spread them apart. */
+@media(min-width:861px) {
+  body.public-redesign #wallet .wallet-promo {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin-left: calc(50% - 50vw) !important;
+    border-radius: 0 !important;
+    padding-left: max(24px, calc((100vw - var(--sp-content-width)) / 2 + 24px)) !important;
+    padding-right: max(24px, calc((100vw - var(--sp-content-width)) / 2 + 24px)) !important;
+  }
+}
+
 @media(max-width:860px) {
   body.public-redesign .verify-save-section .wrap {
     width: calc(100vw - 24px) !important;
@@ -7546,7 +7647,7 @@ function friendlyError(action,e){
     return `Student card upload is not ready yet. In Supabase, make sure the "student-cards" storage bucket exists and allows uploads.`;
   }
   if(/row-level security|policy|permission|not authorized/i.test(msg)){
-    return `The verification database rejected this request. Check the Supabase policies from setup.sql, then try again.`;
+    return `The verification database rejected this request. Run fix-student-applications-rls.sql in the Supabase SQL editor, then try again.`;
   }
   if(/duplicate|already registered|already exists|23505/i.test(msg)){
     return `An application or account already exists for this email. Try signing in, or use a different email address.`;
