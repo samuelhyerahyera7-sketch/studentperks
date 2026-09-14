@@ -43,12 +43,13 @@ module.exports = async function handler(req, res) {
     if (!isApprovedLiveBusiness(vendor)) return json(res, 403, { error: 'This business dashboard is not available on the live StudentPerks site.' });
     if (!isApprovedDisplayName(title, vendor.name)) return json(res, 400, { error: 'The public title must keep the approved business name.' });
 
+    const existingPromise = rest(`redemptions?vendor_id=eq.${encodeURIComponent(vendorId)}&code=eq.${encodeURIComponent(CONFIG_CODE)}&select=id&limit=1`);
     const updatedRows = await rest(`vendors?id=eq.${encodeURIComponent(vendorId)}&select=id,name,email,code_prefix,discount_desc,active`, {
       method: 'PATCH',
       headers: { Prefer: 'return=representation' },
       body: JSON.stringify({ name: title, discount_desc: offer })
     });
-    const existing = await rest(`redemptions?vendor_id=eq.${encodeURIComponent(vendorId)}&code=eq.${encodeURIComponent(CONFIG_CODE)}&select=id&limit=1`);
+    const existing = await existingPromise;
     const payload = {
       code: CONFIG_CODE,
       vendor_id: vendorId,
