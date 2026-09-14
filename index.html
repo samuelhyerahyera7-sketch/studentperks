@@ -7715,6 +7715,9 @@ function dealAssetFor(name){
   if(key.includes('custom') || key.includes('mugs')){
     return { logo:'assets/logo-custom-mugs-sa.svg', imageClass:'mugs' };
   }
+  if(key.includes('just protein') || key.includes('justprotein')){
+    return { logo:'assets/logo-just-protein.png', imageClass:'justprotein' };
+  }
   return { logo:'favicon.svg', imageClass:'placeholder' };
 }
 
