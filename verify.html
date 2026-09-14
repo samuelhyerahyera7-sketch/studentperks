@@ -69,6 +69,16 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .inventory-segment.used{background:#d09100}
 .inventory-legend{display:flex;flex-wrap:wrap;gap:10px 14px;margin-top:10px;font-size:11px;color:var(--ink2)}
 .legend-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;background:#647084}
+.dashboard-tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.tool-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.tool-title{font-size:13px;font-weight:900;color:var(--white);margin-bottom:6px}
+.tool-copy{font-size:12px;line-height:1.45;color:var(--ink2);margin-bottom:14px}
+.tool-card .f{margin-bottom:10px}
+.tool-card .btn{margin-top:8px}
+.tool-card select{width:100%;min-width:0;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--white);background:var(--bg3);appearance:none}
+.form-note{display:none;margin-top:10px;font-size:12px;font-weight:700;line-height:1.35}
+.form-note.ok{display:block;color:var(--green)}
+.form-note.bad{display:block;color:var(--red)}
 
 /* VERIFY BOX */
 .verify-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px}
@@ -98,8 +108,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 
 /* CODE LIST */
 .code-list{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-.cl-head{display:grid;grid-template-columns:160px 1fr 1fr 90px;gap:10px;padding:12px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);background:rgba(255,255,255,.02);border-bottom:1px solid var(--border)}
-.cl-row{display:grid;grid-template-columns:160px 1fr 1fr 90px;gap:10px;padding:12px 16px;font-size:12px;border-bottom:1px solid var(--border);align-items:center}
+.cl-head{display:grid;grid-template-columns:150px 1fr 1fr 80px 82px;gap:10px;padding:12px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);background:rgba(255,255,255,.02);border-bottom:1px solid var(--border)}
+.cl-row{display:grid;grid-template-columns:150px 1fr 1fr 80px 82px;gap:10px;padding:12px 16px;font-size:12px;border-bottom:1px solid var(--border);align-items:center}
+.row-action{margin:0;padding:8px 10px;border-radius:999px;background:#f1f4f8;color:#111827;border:1px solid var(--border);font-size:11px;font-weight:900;text-transform:uppercase}
+.row-action:disabled{opacity:.45;cursor:not-allowed}
 .cl-row:last-child{border-bottom:none}
 .cl-mobile-label{display:none}
 .code-mono{font-family:monospace;color:var(--lime);letter-spacing:.04em}
@@ -128,6 +140,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
   .inventory-copy{font-size:12px}
   .inventory-bar{height:18px}
   .inventory-legend{display:grid;grid-template-columns:1fr;gap:7px;margin-top:12px}
+  .dashboard-tools{grid-template-columns:1fr;gap:12px;margin-bottom:16px}
+  .tool-card{padding:18px 16px}
   .verify-box{padding:24px 20px}
   .code-input-row{display:grid;grid-template-columns:1fr}
   .check-btn{width:100%}
@@ -150,8 +164,8 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 .nav{background:#fff;border-bottom:1px solid var(--border)}
 .logo,.card-title,.vendor-name-display,.result-title,.result-detail b{color:#050505}
 .card-sub,.f label,.vendor-discount,.verify-box-title,.result-detail,.cl-dim,.list-empty,#vendor-name-nav{color:var(--ink2)}
-.login-card,.verify-box,.code-list,.stat-card,.inventory-box{background:#fff;border-color:var(--border);box-shadow:0 10px 28px rgba(15,23,42,.07)}
-.f input,.f select,.code-input{background:#fff;color:#111827;border-color:#d7dee8}
+.login-card,.verify-box,.code-list,.stat-card,.inventory-box,.tool-card{background:#fff;border-color:var(--border);box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.f input,.f select,.code-input,.tool-card select{background:#fff;color:#111827;border-color:#d7dee8}
 .f input::placeholder,.code-input::placeholder{color:#94a3b8}
 .btn,.check-btn{background:#9cff18;color:#050505}
 .btn:hover:not(:disabled),.check-btn:hover{background:#050505;color:#fff}
@@ -236,6 +250,53 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
     </div>
   </section>
 
+  <section class="dashboard-tools" aria-label="Partner tools">
+    <article class="tool-card">
+      <div class="tool-title">Generate codes</div>
+      <div class="tool-copy">Create fresh Just Protein coupon codes for students.</div>
+      <div class="f">
+        <label>How many codes?</label>
+        <input type="number" id="gen-qty" min="1" max="100" value="10">
+      </div>
+      <button class="btn" id="gen-btn" onclick="generateVendorCodes()">Generate</button>
+      <div class="form-note" id="gen-note"></div>
+    </article>
+
+    <article class="tool-card">
+      <div class="tool-title">Assign a code</div>
+      <div class="tool-copy">Choose an available code and assign it to a student.</div>
+      <div class="f">
+        <label>Code</label>
+        <select id="assign-code"><option value="">No available codes yet</option></select>
+      </div>
+      <div class="f">
+        <label>Student name</label>
+        <input type="text" id="assign-name" placeholder="Full name">
+      </div>
+      <div class="f">
+        <label>Student email</label>
+        <input type="email" id="assign-email" placeholder="student@example.com">
+      </div>
+      <button class="btn" id="assign-btn" onclick="assignVendorCode()">Assign code</button>
+      <div class="form-note" id="assign-note"></div>
+    </article>
+
+    <article class="tool-card">
+      <div class="tool-title">Login settings</div>
+      <div class="tool-copy">Change the partner sign-in code and PIN.</div>
+      <div class="f">
+        <label>Sign-in code</label>
+        <input type="text" id="settings-prefix" placeholder="JUSTPROTEIN" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')">
+      </div>
+      <div class="f">
+        <label>New PIN</label>
+        <input type="password" id="settings-pin" placeholder="Minimum 4 characters">
+      </div>
+      <button class="btn" id="settings-btn" onclick="updateVendorLogin()">Save login</button>
+      <div class="form-note" id="settings-note"></div>
+    </article>
+  </section>
+
   <!-- Verify a code -->
   <div class="verify-box">
     <div class="verify-box-title">Check a coupon code</div>
@@ -264,6 +325,7 @@ const _sb = supabase.createClient(SB_URL, SB_KEY);
 
 let currentVendor = null;
 let vendorToken = '';
+let currentCodes = [];
 
 function normalizeBusinessName(name){
   return String(name||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'').trim();
@@ -333,6 +395,8 @@ function showDashboard() {
   document.getElementById('vendor-name-nav').textContent = currentVendor.name;
   document.getElementById('dash-vendor-name').textContent = currentVendor.name;
   document.getElementById('dash-vendor-discount').textContent = currentVendor.discount_desc || '';
+  document.getElementById('settings-prefix').value = currentVendor.code_prefix || '';
+  document.getElementById('settings-pin').value = '';
   loadCodeList();
 }
 
@@ -420,7 +484,9 @@ async function loadCodeList() {
   } catch(e) {
     data = [];
   }
+  currentCodes = data;
   updateStats(data);
+  refreshAssignOptions(data);
   [...list.querySelectorAll('.cl-row')].forEach(r=>r.remove());
   if(!data||!data.length){
     const l=document.getElementById('list-loading');
@@ -432,9 +498,116 @@ async function loadCodeList() {
     const row=document.createElement('div'); row.className='cl-row';
     const cls=c.is_used?'p-used':c.assigned_to_email?'p-assigned':'p-available';
     const lbl=c.is_used?'Used':c.assigned_to_email?'Assigned':'Available';
-    row.innerHTML=`<div class="code-mono">${esc(c.code)}</div><div><span class="cl-mobile-label">Assigned to</span><span class="cl-value">${esc(c.assigned_to_name||'—')}</span></div><div class="cl-dim"><span class="cl-mobile-label">Email</span><span class="cl-value">${esc(c.assigned_to_email||'—')}</span></div><div><span class="cl-mobile-label">Status</span><span class="pill ${cls}">${lbl}</span></div>`;
+    row.innerHTML=`<div class="code-mono">${esc(c.code)}</div><div><span class="cl-mobile-label">Assigned to</span><span class="cl-value">${esc(c.assigned_to_name||'—')}</span></div><div class="cl-dim"><span class="cl-mobile-label">Email</span><span class="cl-value">${esc(c.assigned_to_email||'—')}</span></div><div><span class="cl-mobile-label">Status</span><span class="pill ${cls}">${lbl}</span></div><div><button class="row-action" ${c.is_used?'disabled':''} onclick="prepareAssign('${esc(c.id)}')">Assign</button></div>`;
     list.appendChild(row);
   });
+}
+
+function note(id, message, ok){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.textContent=message || '';
+  el.className='form-note'+(message ? (ok ? ' ok' : ' bad') : '');
+}
+
+function refreshAssignOptions(codes){
+  const select=document.getElementById('assign-code');
+  if(!select) return;
+  const available=(codes||[]).filter(c=>!c.is_used);
+  select.innerHTML='';
+  if(!available.length){
+    select.add(new Option('No available codes yet', ''));
+    document.getElementById('assign-btn').disabled=true;
+    return;
+  }
+  available.forEach(c=>{
+    const label=c.assigned_to_email ? `${c.code} - assigned` : c.code;
+    select.add(new Option(label, c.id));
+  });
+  document.getElementById('assign-btn').disabled=false;
+}
+
+function prepareAssign(codeId){
+  const select=document.getElementById('assign-code');
+  if(select) select.value=codeId;
+  document.getElementById('assign-name')?.focus();
+  document.querySelector('.dashboard-tools')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+async function generateVendorCodes(){
+  const qty=Math.max(1, Math.min(100, parseInt(document.getElementById('gen-qty').value,10)||10));
+  const btn=document.getElementById('gen-btn');
+  note('gen-note','',true);
+  btn.disabled=true; btn.textContent='Generating...';
+  try{
+    const response=await fetch('/api/vendor-generate-codes',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${vendorToken}`},
+      body:JSON.stringify({quantity:qty})
+    });
+    const payload=await response.json();
+    if(!response.ok) throw new Error(payload.error || 'Could not generate codes.');
+    note('gen-note',`Generated ${payload.generated || qty} codes.`,true);
+    await loadCodeList();
+  }catch(e){
+    note('gen-note',e.message || 'Could not generate codes.',false);
+  }finally{
+    btn.disabled=false; btn.textContent='Generate';
+  }
+}
+
+async function assignVendorCode(){
+  const codeId=document.getElementById('assign-code').value;
+  const studentName=document.getElementById('assign-name').value.trim();
+  const studentEmail=document.getElementById('assign-email').value.trim();
+  const btn=document.getElementById('assign-btn');
+  note('assign-note','',true);
+  btn.disabled=true; btn.textContent='Assigning...';
+  try{
+    const response=await fetch('/api/vendor-assign-code',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${vendorToken}`},
+      body:JSON.stringify({codeId,studentName,studentEmail})
+    });
+    const payload=await response.json();
+    if(!response.ok) throw new Error(payload.error || 'Could not assign code.');
+    note('assign-note','Code assigned.',true);
+    document.getElementById('assign-name').value='';
+    document.getElementById('assign-email').value='';
+    await loadCodeList();
+  }catch(e){
+    note('assign-note',e.message || 'Could not assign code.',false);
+  }finally{
+    btn.disabled=false; btn.textContent='Assign code';
+  }
+}
+
+async function updateVendorLogin(){
+  const codePrefix=document.getElementById('settings-prefix').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
+  const pin=document.getElementById('settings-pin').value.trim();
+  const btn=document.getElementById('settings-btn');
+  note('settings-note','',true);
+  btn.disabled=true; btn.textContent='Saving...';
+  try{
+    const response=await fetch('/api/vendor-update-login',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${vendorToken}`},
+      body:JSON.stringify({codePrefix,pin})
+    });
+    const payload=await response.json();
+    if(!response.ok) throw new Error(payload.error || 'Could not update login details.');
+    currentVendor=payload.vendor || currentVendor;
+    vendorToken=payload.token || vendorToken;
+    sessionStorage.setItem('sp_vendor', JSON.stringify({vendor:currentVendor, token:vendorToken}));
+    document.getElementById('vendor-name-nav').textContent=currentVendor.name;
+    document.getElementById('settings-prefix').value=currentVendor.code_prefix || codePrefix;
+    document.getElementById('settings-pin').value='';
+    note('settings-note','Login details updated. Use the new sign-in code and PIN next time.',true);
+  }catch(e){
+    note('settings-note',e.message || 'Could not update login details.',false);
+  }finally{
+    btn.disabled=false; btn.textContent='Save login';
+  }
 }
 
 function setText(id, value){
