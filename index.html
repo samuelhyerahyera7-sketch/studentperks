@@ -6819,7 +6819,7 @@ body.public-redesign .verify-save {
 body.public-redesign #perks .deal-image.justprotein {
   background:
     linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.2)),
-    url('https://www.justprotein.co.za/cdn/shop/files/Healthy_Me1.png?v=1761940686&width=1500') center 58% / cover no-repeat !important;
+    var(--tile-bg, url('https://www.justprotein.co.za/cdn/shop/files/Healthy_Me1.png?v=1761940686&width=1500')) center 58% / cover no-repeat !important;
 }
 
 body.public-redesign #perks .deal-image.justprotein::after {
@@ -6828,6 +6828,11 @@ body.public-redesign #perks .deal-image.justprotein::after {
 
 body.public-redesign #perks .deal-image.justprotein .brand-logo-img {
   display: block !important;
+}
+
+body.public-redesign #perks .deal-image.justprotein > .brand-logo-img {
+  display: block !important;
+  visibility: visible !important;
 }
 
 body.public-redesign #perks .mock-deal-card.perk-card .deal-content p,
@@ -7851,7 +7856,7 @@ function renderPublicDeal(vendor){
       </button>
     </div>`;
   if(background){
-    card.querySelector('.deal-image').style.background = `linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.22)), url("${background}") center 58% / cover no-repeat`;
+    card.querySelector('.deal-image').style.setProperty('--tile-bg', `url("${background}")`);
   }
   card.querySelector('.heart-btn').addEventListener('click', event=>{
     event.stopPropagation();
