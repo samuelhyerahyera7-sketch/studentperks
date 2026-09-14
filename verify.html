@@ -77,6 +77,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .analytics-sub{margin-top:4px;font-size:12px;color:var(--ink2);line-height:1.35}
 .analytics-kpi{font-size:24px;font-weight:900;color:var(--white);line-height:1;text-align:right}
 .analytics-kpi span{display:block;margin-top:4px;font-size:10px;font-weight:800;text-transform:uppercase;color:var(--ink2);letter-spacing:.08em}
+.analytics-filterbar{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.filter-chip{min-height:34px;padding:0 13px;border-radius:999px;border:1px solid #dfe5ee;background:#fff;color:#556076;font-size:12px;font-weight:900;cursor:pointer}
+.filter-chip.active{background:#9cff18;border-color:#9cff18;color:#050505}
 .chart-wrap{height:220px;border-radius:12px;background:linear-gradient(180deg,#fbfff5,#fff);border:1px solid #e2e9f2;padding:14px;overflow:hidden}
 .chart-svg{width:100%;height:100%;display:block}
 .chart-line{fill:none;stroke:#557500;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
@@ -208,7 +211,9 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 .portal-top{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}
 .portal-title h1{font-size:26px;line-height:1;font-weight:900;letter-spacing:-.04em;color:#050505}
 .portal-title p{margin-top:6px;color:#556076;font-size:14px}
-.date-pill{display:inline-flex;align-items:center;min-height:36px;padding:0 16px;border-radius:10px;background:#fff;border:1px solid #dfe5ee;color:#556076;font-size:13px;font-weight:800;box-shadow:0 8px 22px rgba(15,23,42,.06)}
+.date-pill{display:inline-flex;align-items:center;min-height:36px;border-radius:10px;background:#fff;border:1px solid #dfe5ee;color:#556076;font-size:13px;font-weight:800;box-shadow:0 8px 22px rgba(15,23,42,.06);overflow:hidden}
+.date-pill select{height:36px;padding:0 34px 0 14px;border:0;background:#fff;color:#556076;font:inherit;appearance:none;cursor:pointer}
+.date-pill::after{content:"⌄";margin-left:-24px;pointer-events:none;color:#7b8494;font-size:13px}
 .mobile-tabs{display:none;gap:8px;overflow-x:auto;margin:0 0 16px;padding-bottom:2px}
 .mobile-tabs .portal-tab{flex:0 0 auto;background:#fff;border:1px solid #dfe5ee}
 .mobile-tabs .portal-tab.active{background:#9cff18;border-color:#9cff18}
@@ -298,7 +303,16 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
           <h1 id="portal-title">Good day</h1>
           <p id="portal-subtitle">Here's how your StudentPerks codes are performing.</p>
         </div>
-        <div class="date-pill">All time</div>
+        <label class="date-pill" aria-label="Dashboard date range">
+          <select id="date-range" onchange="setAnalyticsRange(this.value)">
+            <option value="all">All time</option>
+            <option value="today">Today</option>
+            <option value="7">Last 7 days</option>
+            <option value="30">Last 30 days</option>
+            <option value="90">Last 90 days</option>
+            <option value="month">This month</option>
+          </select>
+        </label>
       </div>
 
       <div class="mobile-tabs" aria-label="Partner dashboard sections">
@@ -356,6 +370,14 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
       </section>
 
       <section class="view-panel" id="view-analytics">
+        <div class="analytics-filterbar" aria-label="Analytics filters">
+          <button class="filter-chip active" data-range="all" onclick="setAnalyticsRange('all')">All time</button>
+          <button class="filter-chip" data-range="today" onclick="setAnalyticsRange('today')">Today</button>
+          <button class="filter-chip" data-range="7" onclick="setAnalyticsRange('7')">7 days</button>
+          <button class="filter-chip" data-range="30" onclick="setAnalyticsRange('30')">30 days</button>
+          <button class="filter-chip" data-range="90" onclick="setAnalyticsRange('90')">90 days</button>
+          <button class="filter-chip" data-range="month" onclick="setAnalyticsRange('month')">This month</button>
+        </div>
         <section class="inventory-box" aria-label="Code inventory">
           <div class="inventory-title">Code inventory</div>
           <div class="inventory-copy">Every checkout code moves from available, to claimed when a student takes it from StudentPerks, to redeemed once the order is confirmed.</div>
@@ -365,6 +387,10 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
         <section class="analytics-panel open" aria-label="Analytics graph">
           <div class="analytics-head"><div><div class="analytics-title">Redemptions over time</div><div class="analytics-sub" id="analytics-sub-2">All recorded redemptions</div></div><div class="analytics-kpi" id="analytics-total-2">0<span>redeemed</span></div></div>
           <div class="chart-wrap" id="chart-wrap-2"></div>
+        </section>
+        <section class="analytics-panel open" aria-label="Redemptions by code">
+          <div class="analytics-head"><div><div class="analytics-title">Redemptions by code</div><div class="analytics-sub" id="code-breakdown-sub">All recorded redemptions</div></div><div class="analytics-kpi" id="code-breakdown-total">0<span>codes</span></div></div>
+          <div class="chart-wrap" id="chart-wrap-codes"></div>
         </section>
       </section>
 
@@ -427,6 +453,7 @@ let currentVendor = null;
 let vendorToken = '';
 let currentCodes = [];
 let currentRedemptions = [];
+let analyticsRange = 'all';
 
 function sharedCheckoutCode(){
   const name=normalizeBusinessName(currentVendor && currentVendor.name);
@@ -528,7 +555,7 @@ function showVendorView(name){
   const next=titles[name]||titles.overview;
   setText('portal-title', next[0]);
   setText('portal-subtitle', next[1]);
-  if(name==='analytics') renderAnalytics(currentRedemptions);
+  if(name==='analytics') applyDashboardFilters();
 }
 
 async function checkCode() {
@@ -623,9 +650,7 @@ async function loadCodeList() {
   }
   currentCodes = data;
   currentRedemptions = redemptions;
-  updateStats(data, redemptions);
-  renderAnalytics(redemptions);
-  renderRedemptionLists(redemptions);
+  applyDashboardFilters();
   refreshShareOptions(data);
   [...list.querySelectorAll('.cl-row')].forEach(r=>r.remove());
   if(!data||!data.length){
@@ -642,6 +667,56 @@ async function loadCodeList() {
     row.innerHTML=`<div class="code-mono">${esc(c.code)}</div><div class="cl-dim"><span class="cl-mobile-label">Checkout note</span><span class="cl-value">${esc(note)}</span></div><div><span class="cl-mobile-label">Status</span><span class="pill ${cls}">${lbl}</span></div><div><button class="row-action" onclick="copyCode('${esc(c.code)}')">Copy</button></div>`;
     list.appendChild(row);
   });
+}
+
+function setAnalyticsRange(range){
+  analyticsRange=String(range || 'all');
+  const select=document.getElementById('date-range');
+  if(select && select.value !== analyticsRange) select.value=analyticsRange;
+  document.querySelectorAll('.filter-chip').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.range === analyticsRange);
+  });
+  applyDashboardFilters();
+}
+
+function rangeLabel(){
+  return {
+    all:'all time',
+    today:'today',
+    '7':'last 7 days',
+    '30':'last 30 days',
+    '90':'last 90 days',
+    month:'this month'
+  }[analyticsRange] || 'all time';
+}
+
+function filterRedemptions(redemptions){
+  const list=Array.isArray(redemptions)?redemptions:[];
+  if(analyticsRange === 'all') return list;
+  const now=new Date();
+  const start=new Date(now);
+  if(analyticsRange === 'today'){
+    start.setHours(0,0,0,0);
+  } else if(analyticsRange === 'month'){
+    start.setDate(1);
+    start.setHours(0,0,0,0);
+  } else {
+    const days=parseInt(analyticsRange,10);
+    start.setDate(now.getDate() - Math.max(1, days - 1));
+    start.setHours(0,0,0,0);
+  }
+  return list.filter(row=>{
+    const stamp=row.redeemed_at || row.used_at;
+    return stamp && new Date(stamp) >= start;
+  });
+}
+
+function applyDashboardFilters(){
+  const filtered=filterRedemptions(currentRedemptions);
+  updateStats(currentCodes, filtered);
+  renderAnalytics(filtered);
+  renderCodeBreakdown(filtered);
+  renderRedemptionLists(filtered);
 }
 
 function note(id, message, ok){
@@ -821,10 +896,10 @@ function setText(id, value){
 function updateStats(codes, redemptions){
   const list=Array.isArray(codes)?codes:[];
   const redemptionList=Array.isArray(redemptions)?redemptions:[];
-  const total=list.length;
+  const total=list.length + 1;
   const used=redemptionList.length || list.filter(c=>c.is_used).length;
   const claimed=list.filter(c=>!c.is_used && c.assigned_to_email).length;
-  const available=Math.max(0,total-used-claimed);
+  const available=list.filter(c=>!c.is_used && !c.assigned_to_email).length + 1;
   setText('stat-total', total);
   setText('stat-available', available);
   setText('stat-assigned', claimed);
@@ -853,7 +928,7 @@ function toggleAnalytics(){
   panel.classList.toggle('open', open);
   btn.textContent=open ? 'Hide analytics graph' : 'Show analytics graph';
   if(open) {
-    renderAnalytics(currentRedemptions);
+    applyDashboardFilters();
     panel.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
 }
@@ -875,7 +950,7 @@ function renderAnalytics(redemptions){
     const totalEl=document.getElementById(id);
     if(totalEl) totalEl.innerHTML=`${total}<span>redeemed</span>`;
   });
-  ['analytics-sub','analytics-sub-2'].forEach(id=>setText(id, `${total} redemptions recorded all time`));
+  ['analytics-sub','analytics-sub-2'].forEach(id=>setText(id, `${total} redemptions recorded ${rangeLabel()}`));
   const renderTo=wrap=>{
     if(!wrap) return;
   if(!total){
@@ -912,6 +987,41 @@ function renderAnalytics(redemptions){
   };
   renderTo(document.getElementById('chart-wrap'));
   renderTo(document.getElementById('chart-wrap-2'));
+}
+
+function renderCodeBreakdown(redemptions){
+  const wrap=document.getElementById('chart-wrap-codes');
+  if(!wrap) return;
+  const counts=new Map();
+  (Array.isArray(redemptions)?redemptions:[]).forEach(row=>{
+    const code=row.code || sharedCheckoutCode();
+    counts.set(code, (counts.get(code) || 0) + 1);
+  });
+  const rows=[...counts.entries()].sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const total=rows.reduce((sum,row)=>sum+row[1],0);
+  const countEl=document.getElementById('code-breakdown-total');
+  if(countEl) countEl.innerHTML=`${rows.length}<span>codes</span>`;
+  setText('code-breakdown-sub', `${total} redemptions recorded ${rangeLabel()}`);
+  if(!rows.length){
+    wrap.innerHTML='<div class="chart-empty">No code redemptions in this date range.</div>';
+    return;
+  }
+  const width=640;
+  const height=210;
+  const pad={top:12,right:24,bottom:24,left:132};
+  const rowGap=8;
+  const barH=Math.max(12, Math.min(26, (height-pad.top-pad.bottom-rowGap*(rows.length-1))/rows.length));
+  const max=Math.max(1,...rows.map(row=>row[1]));
+  const bars=rows.map(([code,count],i)=>{
+    const y=pad.top+i*(barH+rowGap);
+    const w=(width-pad.left-pad.right)*(count/max);
+    return `
+      <text class="chart-label" x="${pad.left-8}" y="${(y+barH/2+4).toFixed(1)}" text-anchor="end">${esc(code)}</text>
+      <rect x="${pad.left}" y="${y.toFixed(1)}" width="${Math.max(4,w).toFixed(1)}" height="${barH.toFixed(1)}" rx="6" fill="#9cff18"></rect>
+      <text class="chart-label" x="${(pad.left+Math.max(4,w)+8).toFixed(1)}" y="${(y+barH/2+4).toFixed(1)}">${count}</text>
+    `;
+  }).join('');
+  wrap.innerHTML=`<svg class="chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Redemptions by code">${bars}</svg>`;
 }
 
 function redemptionRows(redemptions){
