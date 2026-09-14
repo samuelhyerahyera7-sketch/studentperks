@@ -1,15 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 360" role="img" aria-labelledby="title desc">
   <title id="title">StudentPerks wallet card</title>
-  <desc id="desc">Black StudentPerks membership card with South Africa mark and lime rays.</desc>
+  <desc id="desc">Black StudentPerks membership card.</desc>
   <rect width="700" height="360" rx="38" fill="#0c0d0d"/>
-  <g font-family="Inter, Arial, Helvetica, sans-serif">
-    <text x="82" y="187" font-size="64" font-weight="900" fill="#fff">Student</text>
-    <text x="343" y="187" font-size="64" font-weight="900" fill="#91ff00">Perks.</text>
-    <text x="84" y="235" font-size="22" font-weight="600" letter-spacing="11" fill="#fff">SOUTH AFRICA</text>
-  </g>
-  <g fill="#91ff00">
-    <rect x="525" y="54" width="20" height="88" rx="10" transform="rotate(17 535 98)"/>
-    <rect x="584" y="78" width="20" height="88" rx="10" transform="rotate(48 594 122)"/>
-    <rect x="616" y="145" width="20" height="92" rx="10" transform="rotate(88 626 191)"/>
-  </g>
+  <text x="350" y="200" text-anchor="middle" font-family="Inter, Arial, Helvetica, sans-serif" font-size="64" font-weight="900" letter-spacing="-1">
+    <tspan fill="#fff">Student</tspan><tspan fill="#91ff00">Perks.</tspan>
+  </text>
 </svg>
