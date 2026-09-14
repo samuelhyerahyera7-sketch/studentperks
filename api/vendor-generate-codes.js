@@ -23,7 +23,7 @@ module.exports = async function handler(req, res) {
     const vendor = vendorRows && vendorRows[0];
     if (!isApprovedLiveBusiness(vendor)) return json(res, 403, { error: 'This business dashboard is not available on the live StudentPerks site.' });
 
-    const existing = await rest(`coupon_codes?vendor_id=eq.${encodeURIComponent(vendorId)}&select=code&order=created_at.desc`);
+    const existing = await rest(`coupon_codes?vendor_id=eq.${encodeURIComponent(vendorId)}&select=code&order=created_at.desc&limit=1`);
     const prefix = String(vendor.code_prefix || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
     let startSeq = 1;
     if (existing && existing.length) {
@@ -46,7 +46,7 @@ module.exports = async function handler(req, res) {
 
     await rest('coupon_codes', {
       method: 'POST',
-      headers: { Prefer: 'return=representation' },
+      headers: { Prefer: 'return=minimal' },
       body: JSON.stringify(codes)
     });
 
