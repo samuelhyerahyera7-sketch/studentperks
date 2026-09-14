@@ -6815,6 +6815,73 @@ body.public-redesign .verify-save {
   }
 }
 
+/* Keep Claude's homepage, but make every public deal card use the same layout. */
+body.public-redesign #perks .deal-image.justprotein {
+  background: #f3f3f3 url('assets/logo-just-protein.png') center / 82% auto no-repeat !important;
+}
+
+body.public-redesign #perks .deal-image.justprotein::after {
+  display: none !important;
+}
+
+body.public-redesign #perks .deal-image.justprotein .brand-logo-img {
+  display: none !important;
+}
+
+body.public-redesign #perks .mock-deal-card.perk-card .deal-content p,
+body.public-redesign #perks .mock-deal-card.perk-card .location-line {
+  display: none !important;
+}
+
+body.public-redesign #perks .mock-deal-card.perk-card .deal-content {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: clamp(12px, 2.4vw, 18px) !important;
+  padding: clamp(13px, 2.7vw, 22px) clamp(12px, 2.6vw, 20px) clamp(13px, 2.8vw, 20px) !important;
+}
+
+body.public-redesign #perks .mock-deal-card.perk-card .deal-content h3 {
+  margin: 0 !important;
+  font-size: clamp(18px, 3vw, 38px) !important;
+  line-height: 1.02 !important;
+}
+
+body.public-redesign #perks .mock-deal-card.perk-card .join-claim {
+  min-height: clamp(42px, 5.2vw, 74px) !important;
+  margin-top: 0 !important;
+  border-radius: clamp(12px, 2vw, 22px) !important;
+  font-size: clamp(14px, 2.1vw, 28px) !important;
+}
+
+@media(max-width:560px) {
+  body.public-redesign #perks .mock-deal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+  }
+
+  body.public-redesign #perks .deal-image {
+    height: auto !important;
+    aspect-ratio: 1.08 / 1 !important;
+  }
+
+  body.public-redesign #perks .mock-deal-card.perk-card .deal-content {
+    gap: 12px !important;
+    padding: 13px 12px 12px !important;
+  }
+
+  body.public-redesign #perks .mock-deal-card.perk-card .deal-content h3 {
+    font-size: clamp(18px, 5vw, 22px) !important;
+    letter-spacing: -.05em !important;
+  }
+
+  body.public-redesign #perks .mock-deal-card.perk-card .join-claim {
+    min-height: 42px !important;
+    padding: 0 10px !important;
+    gap: 7px !important;
+    font-size: clamp(13px, 3.7vw, 16px) !important;
+    white-space: nowrap !important;
+  }
+}
 </style>
 </head>
 <body class="public-redesign">
@@ -7673,6 +7740,13 @@ let activeCat = 'all';
 let publicDealsLoaded = false;
 const APPROVED_REPO_OFFERS = [
   {
+    name: 'Just Protein',
+    code_prefix: 'JUSTPROTEIN',
+    discount_desc: '15% off',
+    active: true,
+    category: 'food'
+  },
+  {
     name: 'Crates & Boxes',
     code_prefix: 'CRATES',
     discount_desc: '10% off your order',
@@ -7691,7 +7765,7 @@ const APPROVED_REPO_OFFERS = [
 function inferDealCategory(vendor){
   if(vendor.category) return vendor.category;
   const text=`${vendor.name||''} ${vendor.discount_desc||''} ${vendor.code_prefix||''}`.toLowerCase();
-  if(/food|meal|coffee|restaurant|burger|breakfast|crate|box|mug|drink/.test(text)) return 'food';
+  if(/food|meal|coffee|restaurant|burger|breakfast|crate|box|mug|drink|protein|supplement/.test(text)) return 'food';
   if(/movie|music|game|ticket|event|cinema|entertain/.test(text)) return 'entertainment';
   if(/fashion|clothing|shoe|wear|style|print|gift/.test(text)) return 'fashion';
   if(/travel|flight|hotel|trip|bus|ride/.test(text)) return 'travel';
@@ -7791,6 +7865,31 @@ function renderApprovedRepoOffers(){
   filterPerks();
 }
 
+function mergeApprovedOffers(liveDeals){
+  const liveByName = new Map();
+  const merged = [];
+  const seen = new Set();
+  (liveDeals||[]).forEach(vendor=>{
+    const key = normalizeBusinessName(vendor && vendor.name);
+    if(key && isApprovedLiveBusiness(vendor)) liveByName.set(key, vendor);
+  });
+  APPROVED_REPO_OFFERS.forEach(fallback=>{
+    const fallbackKey = normalizeBusinessName(fallback && fallback.name);
+    const vendor = liveByName.get(fallbackKey) || fallback;
+    const vendorKey = normalizeBusinessName(vendor && vendor.name);
+    if(!vendorKey || seen.has(vendorKey) || !isApprovedLiveBusiness(vendor)) return;
+    seen.add(vendorKey);
+    merged.push(vendor);
+  });
+  (liveDeals||[]).forEach(vendor=>{
+    const key = normalizeBusinessName(vendor && vendor.name);
+    if(!key || seen.has(key) || !isApprovedLiveBusiness(vendor)) return;
+    seen.add(key);
+    merged.push(vendor);
+  });
+  return merged;
+}
+
 async function loadPublicDeals(){
   const grid=document.getElementById('deal-grid');
   if(!grid || publicDealsLoaded) return;
@@ -7810,7 +7909,7 @@ async function loadPublicDeals(){
     });
     const { data, error } = await Promise.race([query, timeout]);
     if(error) throw error;
-    const deals=(data||[]).filter(v=>v && v.name && isApprovedLiveBusiness(v));
+    const deals=mergeApprovedOffers((data||[]).filter(v=>v && v.name && isApprovedLiveBusiness(v)));
     if(!deals.length){
       renderApprovedRepoOffers();
       return;
