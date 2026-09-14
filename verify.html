@@ -193,6 +193,56 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 .btn-ghost:hover:not(:disabled),#logout-btn:hover{background:#050505;color:#fff}
 .cl-head{background:#f1f4f8;border-bottom-color:var(--border)}
 .cl-row{border-bottom-color:var(--border)}
+
+/* Partner dashboard shell */
+#dashboard{max-width:none;padding:0;background:#f6f8fb}
+.portal-shell{display:grid;grid-template-columns:214px minmax(0,1fr);min-height:calc(100vh - 56px)}
+.portal-sidebar{background:#fff;border-right:1px solid #dfe5ee;padding:18px 14px}
+.portal-nav{display:grid;gap:4px;position:sticky;top:74px}
+.portal-tab{display:flex;align-items:center;gap:12px;min-height:40px;padding:0 13px;border-radius:9px;background:transparent;color:#4d5669;font-size:15px;font-weight:800;text-align:left}
+.portal-tab.active{background:#9cff18;color:#050505}
+.tab-icon{width:17px;text-align:center;font-weight:900}
+.portal-main{min-width:0;padding:28px;max-width:1096px}
+.portal-top{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}
+.portal-title h1{font-size:26px;line-height:1;font-weight:900;letter-spacing:-.04em;color:#050505}
+.portal-title p{margin-top:6px;color:#556076;font-size:14px}
+.date-pill{display:inline-flex;align-items:center;min-height:36px;padding:0 16px;border-radius:10px;background:#fff;border:1px solid #dfe5ee;color:#556076;font-size:13px;font-weight:800;box-shadow:0 8px 22px rgba(15,23,42,.06)}
+.mobile-tabs{display:none;gap:8px;overflow-x:auto;margin:0 0 16px;padding-bottom:2px}
+.mobile-tabs .portal-tab{flex:0 0 auto;background:#fff;border:1px solid #dfe5ee}
+.mobile-tabs .portal-tab.active{background:#9cff18;border-color:#9cff18}
+.view-panel{display:none}
+.view-panel.active{display:block}
+.overview-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,.95fr);gap:14px;margin-top:18px}
+.recent-box,.offer-box{background:#fff;border:1px solid #dfe5ee;border-radius:16px;padding:18px;box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.box-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.box-title{font-size:15px;font-weight:900;color:#050505}
+.box-link{background:none;border:none;color:#557500;font-size:12px;font-weight:900;text-decoration:underline}
+.recent-list{display:grid;gap:0}
+.recent-row{display:grid;grid-template-columns:1fr 1fr 90px;gap:12px;padding:9px 0;border-bottom:1px solid #dfe5ee;font-size:12px}
+.recent-row:last-child{border-bottom:0}
+.recent-head{color:#7b8494;text-transform:uppercase;letter-spacing:.08em;font-size:10px;font-weight:900}
+.offer-line{display:flex;gap:10px;margin:12px 0}
+.offer-dot{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#ecffd8;color:#385600;font-weight:900;flex:0 0 32px}
+.offer-line strong{display:block;font-size:15px;color:#050505}
+.offer-line span{display:block;color:#556076;font-size:12px}
+.redemptions-card{background:#fff;border:1px solid #dfe5ee;border-radius:16px;padding:18px;box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.settings-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.help-card{background:#fff;border:1px solid #dfe5ee;border-radius:16px;padding:22px;box-shadow:0 10px 28px rgba(15,23,42,.07);max-width:650px}
+.help-card h2{font-size:22px;line-height:1.05;margin-bottom:10px}
+.help-card p{color:#556076;line-height:1.5}
+@media(max-width:860px){
+  .portal-shell{display:block;min-height:0}
+  .portal-sidebar{display:none}
+  .portal-main{padding:28px 14px 44px;max-width:none}
+  .portal-top{display:grid;gap:12px;margin-bottom:14px}
+  .portal-title h1{font-size:27px}
+  .date-pill{width:max-content}
+  .mobile-tabs{display:flex}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .overview-grid,.settings-grid{grid-template-columns:1fr}
+  .recent-row{grid-template-columns:1fr;gap:3px}
+  .recent-head{display:none}
+}
 </style>
 </head>
 <body>
@@ -229,125 +279,138 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 
 <!-- DASHBOARD -->
 <div id="dashboard">
-  <div class="vendor-header">
-    <div>
-      <div class="vendor-name-display" id="dash-vendor-name"></div>
-      <div class="vendor-discount" id="dash-vendor-discount"></div>
-    </div>
-  </div>
-
-  <button class="analytics-toggle" type="button" id="analytics-toggle" onclick="toggleAnalytics()">Show analytics graph</button>
-
-  <section class="stats-grid" aria-label="Coupon statistics">
-    <article class="stat-card">
-      <div class="stat-dot">#</div>
-      <div><div class="stat-number" id="stat-total">0</div><div class="stat-label">Total codes issued</div></div>
-    </article>
-    <article class="stat-card">
-      <div class="stat-dot">A</div>
-      <div><div class="stat-number" id="stat-available">0</div><div class="stat-label">Available</div></div>
-    </article>
-    <article class="stat-card">
-      <div class="stat-dot">C</div>
-      <div><div class="stat-number" id="stat-assigned">0</div><div class="stat-label">Assigned, not redeemed</div></div>
-    </article>
-    <article class="stat-card">
-      <div class="stat-dot">R</div>
-      <div><div class="stat-number" id="stat-used">0</div><div class="stat-label">Redeemed</div></div>
-    </article>
-  </section>
-
-  <section class="inventory-box" aria-label="Code inventory">
-    <div class="inventory-title">Code inventory</div>
-    <div class="inventory-copy">Codes move from available, to assigned when claimed, to redeemed once used.</div>
-    <div class="inventory-bar" aria-hidden="true">
-      <span class="inventory-segment available" id="bar-available"></span>
-      <span class="inventory-segment assigned" id="bar-assigned"></span>
-      <span class="inventory-segment used" id="bar-used"></span>
-    </div>
-    <div class="inventory-legend">
-      <span><i class="legend-dot"></i>Available <b id="legend-available">0</b></span>
-      <span><i class="legend-dot"></i>Assigned <b id="legend-assigned">0</b></span>
-      <span><i class="legend-dot"></i>Redeemed <b id="legend-used">0</b></span>
-    </div>
-  </section>
-
-  <section class="analytics-panel" id="analytics-panel" aria-label="Analytics graph">
-    <div class="analytics-head">
-      <div>
-        <div class="analytics-title">Redemptions over time</div>
-        <div class="analytics-sub" id="analytics-sub">Last 14 days</div>
+  <div class="portal-shell">
+    <aside class="portal-sidebar" aria-label="Partner dashboard navigation">
+      <div class="portal-nav">
+        <button class="portal-tab active" data-view="overview" onclick="showVendorView('overview')"><span class="tab-icon">⌂</span>Overview</button>
+        <button class="portal-tab" data-view="redemptions" onclick="showVendorView('redemptions')"><span class="tab-icon">▣</span>Redemptions</button>
+        <button class="portal-tab" data-view="analytics" onclick="showVendorView('analytics')"><span class="tab-icon">▥</span>Analytics</button>
+        <button class="portal-tab" data-view="profile" onclick="showVendorView('profile')"><span class="tab-icon">□</span>Business profile</button>
+        <button class="portal-tab" data-view="help" onclick="showVendorView('help')"><span class="tab-icon">?</span>Help</button>
       </div>
-      <div class="analytics-kpi" id="analytics-total">0<span>redeemed</span></div>
-    </div>
-    <div class="chart-wrap" id="chart-wrap"></div>
-  </section>
+    </aside>
 
-  <section class="dashboard-tools" aria-label="Partner tools">
-    <article class="tool-card">
-      <div class="tool-title">Generate codes</div>
-      <div class="tool-copy">Create fresh Just Protein coupon codes for students.</div>
-      <div class="f">
-        <label>How many codes?</label>
-        <input type="number" id="gen-qty" min="1" max="100" value="10">
+    <main class="portal-main">
+      <div class="portal-top">
+        <div class="portal-title">
+          <h1 id="portal-title">Good day</h1>
+          <p id="portal-subtitle">Here's how your StudentPerks codes are performing.</p>
+        </div>
+        <div class="date-pill">Last 14 days</div>
       </div>
-      <button class="btn" id="gen-btn" onclick="generateVendorCodes()">Generate</button>
-      <div class="form-note" id="gen-note"></div>
-    </article>
 
-    <article class="tool-card">
-      <div class="tool-title">Assign a code</div>
-      <div class="tool-copy">Choose an available code and assign it to a student.</div>
-      <div class="f">
-        <label>Code</label>
-        <select id="assign-code"><option value="">No available codes yet</option></select>
+      <div class="mobile-tabs" aria-label="Partner dashboard sections">
+        <button class="portal-tab active" data-view="overview" onclick="showVendorView('overview')">Overview</button>
+        <button class="portal-tab" data-view="redemptions" onclick="showVendorView('redemptions')">Redemptions</button>
+        <button class="portal-tab" data-view="analytics" onclick="showVendorView('analytics')">Analytics</button>
+        <button class="portal-tab" data-view="profile" onclick="showVendorView('profile')">Profile</button>
       </div>
-      <div class="f">
-        <label>Student name</label>
-        <input type="text" id="assign-name" placeholder="Full name">
-      </div>
-      <div class="f">
-        <label>Student email</label>
-        <input type="email" id="assign-email" placeholder="student@example.com">
-      </div>
-      <button class="btn" id="assign-btn" onclick="assignVendorCode()">Assign code</button>
-      <div class="form-note" id="assign-note"></div>
-    </article>
 
-    <article class="tool-card">
-      <div class="tool-title">Login settings</div>
-      <div class="tool-copy">Change the partner sign-in code and PIN.</div>
-      <div class="f">
-        <label>Sign-in code</label>
-        <input type="text" id="settings-prefix" placeholder="JUSTPROTEIN" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')">
-      </div>
-      <div class="f">
-        <label>New PIN</label>
-        <input type="password" id="settings-pin" placeholder="Minimum 4 characters">
-      </div>
-      <button class="btn" id="settings-btn" onclick="updateVendorLogin()">Save login</button>
-      <div class="form-note" id="settings-note"></div>
-    </article>
-  </section>
+      <section class="view-panel active" id="view-overview">
+        <div class="verify-box">
+          <div class="verify-box-title">Check a code</div>
+          <div class="code-input-row">
+            <input class="code-input" type="text" id="check-input" placeholder="E.g. JUSTPROTEIN001-YZ" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkCode()">
+            <button class="check-btn" onclick="checkCode()">Check</button>
+          </div>
+          <div class="result-box" id="result-box"></div>
+        </div>
 
-  <!-- Verify a code -->
-  <div class="verify-box">
-    <div class="verify-box-title">Check a coupon code</div>
-    <div class="code-input-row">
-      <input class="code-input" type="text" id="check-input" placeholder="Enter code e.g. SP-NIKE-X7K2M9" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkCode()">
-      <button class="check-btn" onclick="checkCode()">Check</button>
-    </div>
-    <div class="result-box" id="result-box"></div>
-  </div>
+        <section class="stats-grid" aria-label="Coupon statistics">
+          <article class="stat-card"><div class="stat-dot">#</div><div><div class="stat-number" id="stat-total">0</div><div class="stat-label">Total codes issued</div></div></article>
+          <article class="stat-card"><div class="stat-dot">A</div><div><div class="stat-number" id="stat-available">0</div><div class="stat-label">Available</div></div></article>
+          <article class="stat-card"><div class="stat-dot">C</div><div><div class="stat-number" id="stat-assigned">0</div><div class="stat-label">Assigned, not redeemed</div></div></article>
+          <article class="stat-card"><div class="stat-dot">R</div><div><div class="stat-number" id="stat-used">0</div><div class="stat-label">Redeemed</div></div></article>
+        </section>
 
-  <!-- Code list -->
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3)">Your Coupon Codes</div>
-    <button onclick="loadCodeList()" style="background:none;border:none;color:var(--lime);font-size:12px;font-weight:600;cursor:pointer">↻ Refresh</button>
-  </div>
-  <div class="code-list" id="code-list">
-    <div class="cl-head"><div>Code</div><div>Assigned to</div><div>Email</div><div>Status</div></div>
-    <div class="list-empty" id="list-loading">Loading…</div>
+        <div class="overview-grid">
+          <section class="analytics-panel open" aria-label="Overview analytics graph">
+            <div class="analytics-head">
+              <div><div class="analytics-title">Redemptions over time</div><div class="analytics-sub" id="analytics-sub">Last 14 days</div></div>
+              <div class="analytics-kpi" id="analytics-total">0<span>redeemed</span></div>
+            </div>
+            <div class="chart-wrap" id="chart-wrap"></div>
+          </section>
+
+          <section class="offer-box">
+            <div class="box-title">Your offer</div>
+            <div class="offer-line"><span class="offer-dot">%</span><div><strong id="offer-discount">15% off</strong><span>Student discount</span></div></div>
+            <div class="offer-line"><span class="offer-dot">ID</span><div><strong id="offer-prefix">JUSTPROTEIN</strong><span>Code prefix</span></div></div>
+            <div class="offer-line"><span class="offer-dot">✓</span><div><strong id="offer-status">Active</strong><span>Partner status</span></div></div>
+          </section>
+        </div>
+
+        <section class="recent-box" style="margin-top:14px">
+          <div class="box-head"><div class="box-title">Recent redemptions</div><button class="box-link" onclick="showVendorView('redemptions')">View all →</button></div>
+          <div class="recent-list" id="recent-redemptions"></div>
+        </section>
+      </section>
+
+      <section class="view-panel" id="view-redemptions">
+        <section class="redemptions-card">
+          <div class="box-head"><div class="box-title">Redemptions</div><button class="box-link" onclick="loadCodeList()">Refresh</button></div>
+          <div class="recent-list" id="redemptions-list"></div>
+        </section>
+      </section>
+
+      <section class="view-panel" id="view-analytics">
+        <section class="inventory-box" aria-label="Code inventory">
+          <div class="inventory-title">Code inventory</div>
+          <div class="inventory-copy">Every code moves from available, to assigned when claimed, to redeemed once used.</div>
+          <div class="inventory-bar" aria-hidden="true"><span class="inventory-segment available" id="bar-available"></span><span class="inventory-segment assigned" id="bar-assigned"></span><span class="inventory-segment used" id="bar-used"></span></div>
+          <div class="inventory-legend"><span><i class="legend-dot"></i>Available <b id="legend-available">0</b></span><span><i class="legend-dot"></i>Assigned <b id="legend-assigned">0</b></span><span><i class="legend-dot"></i>Redeemed <b id="legend-used">0</b></span></div>
+        </section>
+        <section class="analytics-panel open" aria-label="Analytics graph">
+          <div class="analytics-head"><div><div class="analytics-title">Redemptions over time</div><div class="analytics-sub" id="analytics-sub-2">Last 14 days</div></div><div class="analytics-kpi" id="analytics-total-2">0<span>redeemed</span></div></div>
+          <div class="chart-wrap" id="chart-wrap-2"></div>
+        </section>
+      </section>
+
+      <section class="view-panel" id="view-profile">
+        <section class="dashboard-tools" aria-label="Partner tools">
+          <article class="tool-card">
+            <div class="tool-title">Generate codes</div>
+            <div class="tool-copy">Create fresh Just Protein coupon codes for students.</div>
+            <div class="f"><label>How many codes?</label><input type="number" id="gen-qty" min="1" max="100" value="10"></div>
+            <button class="btn" id="gen-btn" onclick="generateVendorCodes()">Generate</button>
+            <div class="form-note" id="gen-note"></div>
+          </article>
+          <article class="tool-card">
+            <div class="tool-title">Assign a code</div>
+            <div class="tool-copy">Choose an available code and assign it to a student.</div>
+            <div class="f"><label>Code</label><select id="assign-code"><option value="">No available codes yet</option></select></div>
+            <div class="f"><label>Student name</label><input type="text" id="assign-name" placeholder="Full name"></div>
+            <div class="f"><label>Student email</label><input type="email" id="assign-email" placeholder="student@example.com"></div>
+            <button class="btn" id="assign-btn" onclick="assignVendorCode()">Assign code</button>
+            <div class="form-note" id="assign-note"></div>
+          </article>
+          <article class="tool-card">
+            <div class="tool-title">Login settings</div>
+            <div class="tool-copy">Change the partner sign-in code and PIN.</div>
+            <div class="f"><label>Sign-in code</label><input type="text" id="settings-prefix" placeholder="JUSTPROTEIN" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"></div>
+            <div class="f"><label>New PIN</label><input type="password" id="settings-pin" placeholder="Minimum 4 characters"></div>
+            <button class="btn" id="settings-btn" onclick="updateVendorLogin()">Save login</button>
+            <div class="form-note" id="settings-note"></div>
+          </article>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3)">Your coupon codes</div>
+          <button onclick="loadCodeList()" style="background:none;border:none;color:var(--lime);font-size:12px;font-weight:600;cursor:pointer">↻ Refresh</button>
+        </div>
+        <div class="code-list" id="code-list">
+          <div class="cl-head"><div>Code</div><div>Assigned to</div><div>Email</div><div>Status</div><div>Action</div></div>
+          <div class="list-empty" id="list-loading">Loading…</div>
+        </div>
+      </section>
+
+      <section class="view-panel" id="view-help">
+        <div class="help-card">
+          <h2>Need help?</h2>
+          <p>Use Overview to check customer codes, Business profile to generate and assign codes, and Analytics to monitor performance. Contact StudentPerks if a code or partner setting looks wrong.</p>
+        </div>
+      </section>
+    </main>
   </div>
 </div>
 
@@ -426,11 +489,33 @@ function showDashboard() {
   document.getElementById('dashboard').style.display='block';
   document.getElementById('logout-btn').style.display='inline-block';
   document.getElementById('vendor-name-nav').textContent = currentVendor.name;
-  document.getElementById('dash-vendor-name').textContent = currentVendor.name;
-  document.getElementById('dash-vendor-discount').textContent = currentVendor.discount_desc || '';
+  setText('portal-title', `Good day, ${currentVendor.name}`);
+  setText('offer-discount', currentVendor.discount_desc || 'Student discount');
+  setText('offer-prefix', currentVendor.code_prefix || '');
   document.getElementById('settings-prefix').value = currentVendor.code_prefix || '';
   document.getElementById('settings-pin').value = '';
+  showVendorView('overview');
   loadCodeList();
+}
+
+function showVendorView(name){
+  document.querySelectorAll('.view-panel').forEach(panel=>{
+    panel.classList.toggle('active', panel.id === `view-${name}`);
+  });
+  document.querySelectorAll('.portal-tab').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.view === name);
+  });
+  const titles={
+    overview:[`Good day, ${currentVendor && currentVendor.name ? currentVendor.name : 'partner'}`,"Here's how your StudentPerks codes are performing."],
+    redemptions:['Redemptions','Confirmed code redemptions for your offer.'],
+    analytics:['Analytics','Track code inventory and redemption performance.'],
+    profile:['Business profile','Generate codes, assign them, and update partner login details.'],
+    help:['Help','Quick guidance for managing your StudentPerks offer.']
+  };
+  const next=titles[name]||titles.overview;
+  setText('portal-title', next[0]);
+  setText('portal-subtitle', next[1]);
+  if(name==='analytics') renderAnalytics(currentCodes);
 }
 
 async function checkCode() {
@@ -520,6 +605,7 @@ async function loadCodeList() {
   currentCodes = data;
   updateStats(data);
   renderAnalytics(data);
+  renderRedemptionLists(data);
   refreshAssignOptions(data);
   [...list.querySelectorAll('.cl-row')].forEach(r=>r.remove());
   if(!data||!data.length){
@@ -564,6 +650,7 @@ function refreshAssignOptions(codes){
 function prepareAssign(codeId){
   const select=document.getElementById('assign-code');
   if(select) select.value=codeId;
+  showVendorView('profile');
   document.getElementById('assign-name')?.focus();
   document.querySelector('.dashboard-tools')?.scrollIntoView({behavior:'smooth',block:'start'});
 }
@@ -689,8 +776,6 @@ function toggleAnalytics(){
 }
 
 function renderAnalytics(codes){
-  const wrap=document.getElementById('chart-wrap');
-  if(!wrap) return;
   const list=Array.isArray(codes)?codes:[];
   const days=[];
   const today=new Date();
@@ -708,10 +793,13 @@ function renderAnalytics(codes){
     if(hit) hit.count+=1;
   });
   const total=days.reduce((sum,day)=>sum+day.count,0);
-  const totalEl=document.getElementById('analytics-total');
-  if(totalEl) totalEl.innerHTML=`${total}<span>redeemed</span>`;
-  const sub=document.getElementById('analytics-sub');
-  if(sub) sub.textContent=`${total} redemptions in the last 14 days`;
+  ['analytics-total','analytics-total-2'].forEach(id=>{
+    const totalEl=document.getElementById(id);
+    if(totalEl) totalEl.innerHTML=`${total}<span>redeemed</span>`;
+  });
+  ['analytics-sub','analytics-sub-2'].forEach(id=>setText(id, `${total} redemptions in the last 14 days`));
+  const renderTo=wrap=>{
+    if(!wrap) return;
   if(!total){
     wrap.innerHTML='<div class="chart-empty">No redemptions yet. The graph will appear as students use Just Protein codes.</div>';
     return;
@@ -737,10 +825,43 @@ function renderAnalytics(codes){
   }).join('');
   const dots=points.map(([x,y],i)=>`<circle class="chart-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${days[i].count?4:3}"></circle>`).join('');
   wrap.innerHTML=`<svg class="chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Redemptions over the last 14 days">${grid}<path class="chart-fill" d="${fill}"></path><path class="chart-line" d="${line}"></path>${dots}${labels}</svg>`;
+  };
+  renderTo(document.getElementById('chart-wrap'));
+  renderTo(document.getElementById('chart-wrap-2'));
+}
+
+function redemptionRows(codes){
+  return (codes||[])
+    .filter(c=>c.is_used)
+    .sort((a,b)=>new Date(b.used_at||0)-new Date(a.used_at||0));
+}
+
+function renderRedemptionLists(codes){
+  const rows=redemptionRows(codes);
+  renderRedemptionList('recent-redemptions', rows.slice(0,5), true);
+  renderRedemptionList('redemptions-list', rows, false);
+}
+
+function renderRedemptionList(id, rows, compact){
+  const el=document.getElementById(id);
+  if(!el) return;
+  if(!rows.length){
+    el.innerHTML='<div class="list-empty">No redemptions yet.</div>';
+    return;
+  }
+  const head=compact ? '' : '<div class="recent-row recent-head"><div>Code</div><div>Student</div><div>Date</div></div>';
+  el.innerHTML=head+rows.map(row=>`
+    <div class="recent-row">
+      <div class="code-mono">${esc(row.code)}</div>
+      <div>${esc(row.assigned_to_email || row.assigned_to_name || 'Student')}</div>
+      <div>${esc(fmtShort(row.used_at))}</div>
+    </div>
+  `).join('');
 }
 
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function fmtLong(ts){if(!ts)return'—';return new Date(ts).toLocaleString('en-ZA',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}
+function fmtShort(ts){if(!ts)return'—';return new Date(ts).toLocaleDateString('en-ZA',{day:'2-digit',month:'short'})}
 
 // Restore session
 (function(){
