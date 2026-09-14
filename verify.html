@@ -449,8 +449,10 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
             <div class="tool-copy">Choose the wording students see on the public StudentPerks deal card.</div>
             <div class="f"><label>Tile title</label><input type="text" id="tile-title" maxlength="80" placeholder="Just Protein" oninput="updateTilePreview()"></div>
             <div class="f"><label>Offer wording</label><input type="text" id="tile-offer" maxlength="120" placeholder="15% off" oninput="updateTilePreview()"></div>
-            <div class="f"><label>Background picture URL</label><input type="url" id="tile-background" maxlength="600" placeholder="https://..." oninput="updateTilePreview()"></div>
-            <div class="f"><label>Top-left logo URL</label><input type="url" id="tile-logo" maxlength="600" placeholder="assets/logo-just-protein.png" oninput="updateTilePreview()"></div>
+            <div class="f"><label>Background picture URL</label><input type="text" id="tile-background" maxlength="800000" placeholder="https://..." oninput="updateTilePreview()"></div>
+            <div class="f"><label>Background picture file</label><input type="file" id="tile-background-file" accept="image/png,image/jpeg,image/webp" onchange="handleTileImageUpload('tile-background', this, 'background')"></div>
+            <div class="f"><label>Top-left logo URL</label><input type="text" id="tile-logo" maxlength="800000" placeholder="assets/logo-just-protein.png" oninput="updateTilePreview()"></div>
+            <div class="f"><label>Top-left logo file</label><input type="file" id="tile-logo-file" accept="image/png,image/jpeg,image/webp" onchange="handleTileImageUpload('tile-logo', this, 'logo')"></div>
             <button class="btn" id="tile-btn" onclick="saveTileSettings()">Save website tile</button>
             <div class="form-note" id="tile-note"></div>
           </article>
@@ -803,8 +805,57 @@ function tileDiscountLabel(desc){
 
 function safeTileUrl(value, fallback){
   const url=String(value||'').trim();
-  if(/^https:\/\//i.test(url) || /^assets\//i.test(url)) return url;
+  if(/^https:\/\//i.test(url) || /^assets\//i.test(url) || /^data:image\/(png|jpe?g|webp);base64,/i.test(url)) return url;
   return fallback || '';
+}
+
+function loadImageFromFile(file){
+  return new Promise((resolve, reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const img=new Image();
+      img.onload=()=>resolve(img);
+      img.onerror=()=>reject(new Error('Could not read that image.'));
+      img.src=reader.result;
+    };
+    reader.onerror=()=>reject(new Error('Could not read that image.'));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function imageFileToTileDataUrl(file, kind){
+  if(!file || !/^image\/(png|jpe?g|webp)$/i.test(file.type)) throw new Error('Please choose a PNG, JPG or WebP image.');
+  if(file.size > 8 * 1024 * 1024) throw new Error('Please choose an image under 8 MB.');
+  const img=await loadImageFromFile(file);
+  const isLogo=kind==='logo';
+  const maxWidth=isLogo ? 520 : 1200;
+  const maxHeight=isLogo ? 260 : 760;
+  const scale=Math.min(1, maxWidth / img.naturalWidth, maxHeight / img.naturalHeight);
+  const canvas=document.createElement('canvas');
+  canvas.width=Math.max(1, Math.round(img.naturalWidth * scale));
+  canvas.height=Math.max(1, Math.round(img.naturalHeight * scale));
+  const ctx=canvas.getContext('2d');
+  ctx.imageSmoothingQuality='high';
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  const dataUrl=canvas.toDataURL(isLogo ? 'image/webp' : 'image/jpeg', isLogo ? 0.88 : 0.78);
+  if(dataUrl.length > 750000) throw new Error('That image is still too large after resizing. Please choose a smaller file.');
+  return dataUrl;
+}
+
+async function handleTileImageUpload(targetId, input, kind){
+  const file=input?.files && input.files[0];
+  if(!file) return;
+  note('tile-note','Preparing image...',true);
+  try{
+    const dataUrl=await imageFileToTileDataUrl(file, kind);
+    const target=document.getElementById(targetId);
+    if(target) target.value=dataUrl;
+    updateTilePreview();
+    note('tile-note','Image ready. Save the website tile to publish it.',true);
+  }catch(error){
+    note('tile-note', error.message || 'Could not load that image.', false);
+    input.value='';
+  }
 }
 
 async function loadTileConfig(){

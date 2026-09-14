@@ -3,9 +3,10 @@ const { clean, isApprovedLiveBusiness, json, readBody, requireServiceKey, rest, 
 const CONFIG_CODE = '__TILE_CONFIG__';
 
 function cleanUrl(value) {
-  const url = clean(value).slice(0, 600);
+  const url = clean(value).slice(0, 800000);
   if (!url) return '';
   if (/^(https:\/\/|assets\/)/i.test(url)) return url;
+  if (/^data:image\/(png|jpe?g|webp);base64,/i.test(url) && url.length <= 750000) return url;
   return '';
 }
 
