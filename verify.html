@@ -97,6 +97,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .tool-card select{width:100%;min-width:0;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--white);background:var(--bg3);appearance:none}
 .tool-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .tool-hint{font-size:11px;line-height:1.45;color:var(--ink2);margin-top:10px}
+.venue-qr{display:grid;grid-template-columns:86px 1fr;gap:12px;align-items:center;margin-top:12px;padding:12px;border:1px solid #dfe5ee;border-radius:14px;background:#f8fafc}
+.venue-qr img{width:86px;height:86px;padding:6px;border-radius:10px;background:#fff;border:1px solid #e5eaf1}
+.venue-qr strong{display:block;font-size:13px}.venue-qr span{display:block;margin-top:4px;color:#596174;font-size:11px;line-height:1.35;word-break:break-word}
 .form-note{display:none;margin-top:10px;font-size:12px;font-weight:700;line-height:1.35}
 .form-note.ok{display:block;color:var(--green)}
 .form-note.bad{display:block;color:var(--red)}
@@ -169,6 +172,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
   .chart-wrap{height:190px;padding:10px}
   .dashboard-tools{grid-template-columns:1fr;gap:12px;margin-bottom:16px}
   .tool-card{padding:18px 16px}
+  .venue-qr{grid-template-columns:70px 1fr}.venue-qr img{width:70px;height:70px}
   .verify-box{padding:24px 20px}
   .code-input-row{display:grid;grid-template-columns:1fr}
   .check-btn,.scan-btn{width:100%}
@@ -426,6 +430,10 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
             <div class="tool-actions">
               <button class="btn" id="copy-code-btn" onclick="copySelectedCode()">Copy code</button>
               <button class="btn btn-ghost" id="copy-link-btn" onclick="copySelectedDiscountLink()">Copy link</button>
+            </div>
+            <div class="venue-qr">
+              <img id="venue-qr-img" src="" alt="Venue QR code">
+              <div><strong>Venue QR for students</strong><span id="venue-qr-link">Students scan this at the venue to claim this benefit.</span></div>
             </div>
             <div class="tool-hint">Stats update when codes are claimed on StudentPerks or manually marked redeemed after checkout.</div>
             <div class="form-note" id="share-note"></div>
@@ -993,8 +1001,21 @@ function refreshShareOptions(codes){
   });
   document.getElementById('copy-code-btn').disabled=false;
   document.getElementById('copy-link-btn').disabled=false;
+  updateVenueQr(shared);
   const recordBtn=document.getElementById('record-btn');
   if(recordBtn) recordBtn.disabled=false;
+}
+
+function studentRedeemLink(code){
+  return `https://studentperks.co.za/redeem?code=${encodeURIComponent(code)}`;
+}
+
+function updateVenueQr(code){
+  const link=studentRedeemLink(code);
+  const img=document.getElementById('venue-qr-img');
+  const text=document.getElementById('venue-qr-link');
+  if(img) img.src=`https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(link)}`;
+  if(text) text.textContent=link;
 }
 
 async function copyText(value){
