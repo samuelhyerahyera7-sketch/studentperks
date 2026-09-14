@@ -1000,7 +1000,12 @@ body.business-redesign .success-back {
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
+const SUPA_URL='https://bulmerqkvvrjvzjwmgkl.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1bG1lcnFrdnZyanZ6andtZ2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3OTA4MTksImV4cCI6MjEwMjM2NjgxOX0.UAOqHO_lNBB6ayTa6QEj4vvzdepzNCu0CYv2EOygOGI';
+const sb=window.supabase ? window.supabase.createClient(SUPA_URL,SUPA_KEY) : null;
+
 function openMenu(){ document.getElementById('menu-overlay').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeMenu(){ document.getElementById('menu-overlay').classList.remove('open'); document.body.style.overflow=''; }
 function openModal(t){ document.getElementById('modal-back').classList.add('open'); document.body.style.overflow='hidden'; switchTab(t); }
@@ -1055,22 +1060,37 @@ document.getElementById('partner-form').addEventListener('submit', async functio
   btn.textContent = 'Sending...';
   btn.disabled = true;
 
+  const fd = new FormData(this);
+
   try {
-    const res = await fetch(this.action, {
-      method: 'POST',
-      body: new FormData(this),
-      headers: { 'Accept': 'application/json' }
+    // Save to the database first - this is what makes the application show
+    // up in the admin panel, and it doesn't depend on any third-party email
+    // service being set up correctly.
+    if (!sb) throw new Error('Database connection unavailable');
+    const { error: dbErr } = await sb.from('vendor_applications').insert({
+      brand_name: fd.get('brand_name'),
+      contact_name: fd.get('contact_name'),
+      email: fd.get('email'),
+      phone: fd.get('phone') || '',
+      category: fd.get('category') || '',
+      offer: fd.get('offer') || '',
+      description: fd.get('description') || '',
+      website: fd.get('website') || '',
+      expiry: fd.get('expiry') || '',
+      extra: fd.get('extra') || '',
+      status: 'pending'
     });
-    const data = await res.json().catch(() => null);
-    // FormSubmit returns HTTP 200 even when it's only sent an activation
-    // email for a brand-new destination address and held the real
-    // submission back - res.ok alone can't tell the two cases apart.
-    if (res.ok && data && data.success !== 'false' && data.success !== false) {
-      document.getElementById('form-wrap').style.display = 'none';
-      document.getElementById('success-state').classList.add('show');
-    } else {
-      throw new Error(data && data.message ? data.message : 'Submission was not confirmed');
-    }
+    if (dbErr) throw dbErr;
+
+    // Email notification is best-effort - a misconfigured or unconfirmed
+    // formsubmit.co destination should not stop the application from
+    // being saved and shown as submitted, since it's already in the DB.
+    try {
+      await fetch(this.action, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
+    } catch {}
+
+    document.getElementById('form-wrap').style.display = 'none';
+    document.getElementById('success-state').classList.add('show');
   } catch {
     btn.textContent = 'Try Again';
     btn.disabled = false;

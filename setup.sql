@@ -59,18 +59,38 @@ CREATE TABLE IF NOT EXISTS redemptions (
   redeemed_at    TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS vendor_applications (
+  id             UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  brand_name     TEXT NOT NULL,
+  contact_name   TEXT NOT NULL,
+  email          TEXT NOT NULL,
+  phone          TEXT DEFAULT '',
+  category       TEXT DEFAULT '',
+  offer          TEXT DEFAULT '',
+  description    TEXT DEFAULT '',
+  website        TEXT DEFAULT '',
+  expiry         TEXT DEFAULT '',
+  extra          TEXT DEFAULT '',
+  status         TEXT DEFAULT 'pending',
+  admin_notes    TEXT DEFAULT '',
+  created_at     TIMESTAMPTZ DEFAULT NOW(),
+  reviewed_at    TIMESTAMPTZ
+);
+
 -- 2. ROW LEVEL SECURITY
 
 ALTER TABLE vendors             ENABLE ROW LEVEL SECURITY;
 ALTER TABLE coupon_codes        ENABLE ROW LEVEL SECURITY;
 ALTER TABLE student_applications ENABLE ROW LEVEL SECURITY;
 ALTER TABLE redemptions         ENABLE ROW LEVEL SECURITY;
+ALTER TABLE vendor_applications ENABLE ROW LEVEL SECURITY;
 
 -- Allow anon full access (protected at app layer by admin password + vendor PIN)
 CREATE POLICY "anon_all" ON vendors             FOR ALL TO anon USING (TRUE) WITH CHECK (TRUE);
 CREATE POLICY "anon_all" ON coupon_codes        FOR ALL TO anon USING (TRUE) WITH CHECK (TRUE);
 CREATE POLICY "anon_all" ON student_applications FOR ALL TO anon USING (TRUE) WITH CHECK (TRUE);
 CREATE POLICY "anon_all" ON redemptions         FOR ALL TO anon USING (TRUE) WITH CHECK (TRUE);
+CREATE POLICY "anon_all" ON vendor_applications FOR ALL TO anon USING (TRUE) WITH CHECK (TRUE);
 
 -- 3. STORAGE BUCKET FOR STUDENT CARD PHOTOS
 

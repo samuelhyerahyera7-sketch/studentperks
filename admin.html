@@ -248,6 +248,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
   <div class="tab-nav">
     <button class="tab-btn active" id="tbtn-overview"     onclick="showTab('overview')">Overview</button>
     <button class="tab-btn"        id="tbtn-applications" onclick="showTab('applications')">Applications</button>
+    <button class="tab-btn"        id="tbtn-partner-apps" onclick="showTab('partner-apps')">Partner Applications</button>
     <button class="tab-btn"        id="tbtn-vendors"      onclick="showTab('vendors')">Vendors</button>
     <button class="tab-btn"        id="tbtn-coupons"      onclick="showTab('coupons')">Coupons</button>
     <button class="tab-btn"        id="tbtn-redemptions"  onclick="showTab('redemptions')">Redemptions</button>
@@ -303,6 +304,24 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
           <div>Name</div><div>Email</div><div>Institution</div><div>Status</div><div>Date</div>
         </div>
         <div class="loading-row" id="apps-loading">Loading…</div>
+      </div>
+    </div>
+
+    <!-- ── PARTNER APPLICATIONS ── -->
+    <div class="tab-panel" id="tab-partner-apps">
+      <div class="sec-head"><div class="sec-title">Partner Applications</div></div>
+      <div class="sec-rule"></div>
+      <div class="filter-pills">
+        <button class="filter-pill active" onclick="loadPartnerApps('all',this)">All</button>
+        <button class="filter-pill" onclick="loadPartnerApps('pending',this)">Pending</button>
+        <button class="filter-pill" onclick="loadPartnerApps('approved',this)">Approved</button>
+        <button class="filter-pill" onclick="loadPartnerApps('rejected',this)">Rejected</button>
+      </div>
+      <div class="data-table" id="partner-apps-table">
+        <div class="dt-row head" style="grid-template-columns:1fr 1fr 1fr 100px 90px 80px">
+          <div>Brand</div><div>Contact</div><div>Email</div><div>Category</div><div>Status</div><div>Date</div>
+        </div>
+        <div class="loading-row" id="partner-apps-loading">Loading…</div>
       </div>
     </div>
 
@@ -473,6 +492,24 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
   </div>
 </div>
 
+<!-- ── PARTNER APPLICATION DETAIL MODAL ── -->
+<div class="modal-back" id="partner-app-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('partner-app-modal')">×</button>
+    <div class="modal-title" id="partner-app-modal-title">Partner Application</div>
+    <div class="detail-grid" id="partner-app-detail-grid"></div>
+    <div class="field" style="margin-bottom:12px">
+      <label>Admin notes</label>
+      <textarea class="notes-area" id="partner-app-notes" placeholder="Add a note (optional)…"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="savePartnerAppNotes()">Save notes</button>
+      <button class="btn btn-danger" onclick="updatePartnerAppStatus('rejected')">Reject</button>
+      <button class="btn btn-green" onclick="updatePartnerAppStatus('approved')">Approve</button>
+    </div>
+  </div>
+</div>
+
 <!-- ── ASSIGN CODE MODAL ── -->
 <div class="modal-back" id="assign-modal">
   <div class="modal" style="max-width:360px">
@@ -583,6 +620,7 @@ function showTab(name) {
   switch(name) {
     case 'overview':     loadOverview(); break;
     case 'applications': loadApplications('all'); break;
+    case 'partner-apps': loadPartnerApps('all'); break;
     case 'vendors':      loadVendors(); break;
     case 'coupons':      initCoupons(); break;
     case 'redemptions':  loadRedemptions(); break;
@@ -664,6 +702,72 @@ async function updateAppStatus(status) {
   await _sb.from('student_applications').update({status, admin_notes:notes, reviewed_at:new Date().toISOString()}).eq('id',currentAppId);
   closeModal('app-modal');
   loadApplications(document.querySelector('.filter-pill.active')?.textContent?.toLowerCase()||'all');
+}
+
+/* ── PARTNER APPLICATIONS ── */
+let currentPartnerAppId = null;
+async function loadPartnerApps(status, btn) {
+  const panel = document.getElementById('tab-partner-apps');
+  if(btn){ panel.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active')); btn.classList.add('active'); }
+  const tbody = document.getElementById('partner-apps-table');
+  document.getElementById('partner-apps-loading') && (document.getElementById('partner-apps-loading').textContent = 'Loading…');
+  let q = _sb.from('vendor_applications').select('*').order('created_at',{ascending:false});
+  if(status && status!=='all') q = q.eq('status',status);
+  const {data,error} = await q;
+  [...tbody.querySelectorAll('.dt-row:not(.head)')].forEach(r=>r.remove());
+  const loadingEl = document.getElementById('partner-apps-loading');
+  if(error||!data||!data.length){ loadingEl.textContent = 'No partner applications found.'; return; }
+  loadingEl && loadingEl.remove();
+  data.forEach(app => {
+    const row = document.createElement('div');
+    row.className = 'dt-row';
+    row.style.gridTemplateColumns = '1fr 1fr 1fr 100px 90px 80px';
+    row.style.cursor = 'pointer';
+    row.innerHTML = `
+      <div class="dt-cell bold">${esc(app.brand_name)}</div>
+      <div class="dt-cell dim">${esc(app.contact_name)}</div>
+      <div class="dt-cell dim">${esc(app.email)}</div>
+      <div class="dt-cell dim">${esc(app.category||'—')}</div>
+      <div><span class="pill-status pill-${app.status}">${app.status}</span></div>
+      <div class="dt-cell dim">${fmtDate(app.created_at)}</div>
+    `;
+    row.onclick = () => openPartnerAppModal(app);
+    tbody.appendChild(row);
+  });
+}
+
+function openPartnerAppModal(app) {
+  currentPartnerAppId = app.id;
+  document.getElementById('partner-app-modal-title').textContent = app.brand_name;
+  document.getElementById('partner-app-detail-grid').innerHTML = `
+    <div class="detail-item"><label>Contact person</label><span>${esc(app.contact_name)}</span></div>
+    <div class="detail-item"><label>Email</label><span>${esc(app.email)}</span></div>
+    <div class="detail-item"><label>Phone</label><span>${esc(app.phone||'—')}</span></div>
+    <div class="detail-item"><label>Category</label><span>${esc(app.category||'—')}</span></div>
+    <div class="detail-item"><label>Offer</label><span>${esc(app.offer||'—')}</span></div>
+    <div class="detail-item"><label>Description</label><span>${esc(app.description||'—')}</span></div>
+    <div class="detail-item"><label>Website</label><span>${esc(app.website||'—')}</span></div>
+    <div class="detail-item"><label>Offer expiry</label><span>${esc(app.expiry||'—')}</span></div>
+    <div class="detail-item"><label>Anything else</label><span>${esc(app.extra||'—')}</span></div>
+    <div class="detail-item"><label>Status</label><span><span class="pill-status pill-${app.status}">${app.status}</span></span></div>
+    <div class="detail-item"><label>Submitted</label><span>${fmtDateLong(app.created_at)}</span></div>
+  `;
+  document.getElementById('partner-app-notes').value = app.admin_notes || '';
+  openModal('partner-app-modal');
+}
+
+async function savePartnerAppNotes() {
+  if(!currentPartnerAppId) return;
+  const notes = document.getElementById('partner-app-notes').value.trim();
+  await _sb.from('vendor_applications').update({admin_notes:notes}).eq('id',currentPartnerAppId);
+}
+
+async function updatePartnerAppStatus(status) {
+  if(!currentPartnerAppId) return;
+  const notes = document.getElementById('partner-app-notes').value.trim();
+  await _sb.from('vendor_applications').update({status, admin_notes:notes, reviewed_at:new Date().toISOString()}).eq('id',currentPartnerAppId);
+  closeModal('partner-app-modal');
+  loadPartnerApps(document.querySelector('#tab-partner-apps .filter-pill.active')?.textContent?.toLowerCase()||'all');
 }
 
 /* ── VENDORS ── */
