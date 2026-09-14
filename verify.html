@@ -69,6 +69,22 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .inventory-segment.used{background:#d09100}
 .inventory-legend{display:flex;flex-wrap:wrap;gap:10px 14px;margin-top:10px;font-size:11px;color:var(--ink2)}
 .legend-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;background:#647084}
+.analytics-toggle{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 18px;border-radius:999px;background:#9cff18;color:#050505;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;margin:0 0 18px;border:none}
+.analytics-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:18px;box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.analytics-panel.open{display:block}
+.analytics-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:14px}
+.analytics-title{font-size:15px;font-weight:900;color:var(--white)}
+.analytics-sub{margin-top:4px;font-size:12px;color:var(--ink2);line-height:1.35}
+.analytics-kpi{font-size:24px;font-weight:900;color:var(--white);line-height:1;text-align:right}
+.analytics-kpi span{display:block;margin-top:4px;font-size:10px;font-weight:800;text-transform:uppercase;color:var(--ink2);letter-spacing:.08em}
+.chart-wrap{height:220px;border-radius:12px;background:linear-gradient(180deg,#fbfff5,#fff);border:1px solid #e2e9f2;padding:14px;overflow:hidden}
+.chart-svg{width:100%;height:100%;display:block}
+.chart-line{fill:none;stroke:#557500;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.chart-fill{fill:rgba(156,255,24,.18)}
+.chart-dot{fill:#9cff18;stroke:#557500;stroke-width:2}
+.chart-grid{stroke:#dfe7f0;stroke-width:1}
+.chart-label{fill:#687285;font-size:10px;font-weight:700}
+.chart-empty{height:100%;display:grid;place-items:center;text-align:center;color:var(--ink2);font-size:13px;line-height:1.35}
 .dashboard-tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:18px}
 .tool-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:0 10px 28px rgba(15,23,42,.07)}
 .tool-title{font-size:13px;font-weight:900;color:var(--white);margin-bottom:6px}
@@ -140,6 +156,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
   .inventory-copy{font-size:12px}
   .inventory-bar{height:18px}
   .inventory-legend{display:grid;grid-template-columns:1fr;gap:7px;margin-top:12px}
+  .analytics-toggle{width:100%;margin-bottom:16px}
+  .analytics-panel{padding:16px;margin-bottom:16px}
+  .analytics-head{display:grid;grid-template-columns:1fr auto}
+  .chart-wrap{height:190px;padding:10px}
   .dashboard-tools{grid-template-columns:1fr;gap:12px;margin-bottom:16px}
   .tool-card{padding:18px 16px}
   .verify-box{padding:24px 20px}
@@ -164,7 +184,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 .nav{background:#fff;border-bottom:1px solid var(--border)}
 .logo,.card-title,.vendor-name-display,.result-title,.result-detail b{color:#050505}
 .card-sub,.f label,.vendor-discount,.verify-box-title,.result-detail,.cl-dim,.list-empty,#vendor-name-nav{color:var(--ink2)}
-.login-card,.verify-box,.code-list,.stat-card,.inventory-box,.tool-card{background:#fff;border-color:var(--border);box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.login-card,.verify-box,.code-list,.stat-card,.inventory-box,.tool-card,.analytics-panel{background:#fff;border-color:var(--border);box-shadow:0 10px 28px rgba(15,23,42,.07)}
 .f input,.f select,.code-input,.tool-card select{background:#fff;color:#111827;border-color:#d7dee8}
 .f input::placeholder,.code-input::placeholder{color:#94a3b8}
 .btn,.check-btn{background:#9cff18;color:#050505}
@@ -216,6 +236,8 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
     </div>
   </div>
 
+  <button class="analytics-toggle" type="button" id="analytics-toggle" onclick="toggleAnalytics()">Show analytics graph</button>
+
   <section class="stats-grid" aria-label="Coupon statistics">
     <article class="stat-card">
       <div class="stat-dot">#</div>
@@ -248,6 +270,17 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
       <span><i class="legend-dot"></i>Assigned <b id="legend-assigned">0</b></span>
       <span><i class="legend-dot"></i>Redeemed <b id="legend-used">0</b></span>
     </div>
+  </section>
+
+  <section class="analytics-panel" id="analytics-panel" aria-label="Analytics graph">
+    <div class="analytics-head">
+      <div>
+        <div class="analytics-title">Redemptions over time</div>
+        <div class="analytics-sub" id="analytics-sub">Last 14 days</div>
+      </div>
+      <div class="analytics-kpi" id="analytics-total">0<span>redeemed</span></div>
+    </div>
+    <div class="chart-wrap" id="chart-wrap"></div>
   </section>
 
   <section class="dashboard-tools" aria-label="Partner tools">
@@ -486,6 +519,7 @@ async function loadCodeList() {
   }
   currentCodes = data;
   updateStats(data);
+  renderAnalytics(data);
   refreshAssignOptions(data);
   [...list.querySelectorAll('.cl-row')].forEach(r=>r.remove());
   if(!data||!data.length){
@@ -640,6 +674,69 @@ function updateStats(codes){
     const el=document.getElementById(id);
     if(el) el.style.flex=`${total ? Math.max(count, count ? 1 : 0) : 1} 1 ${total ? (count/safeTotal*100) : 33.333}%`;
   });
+}
+
+function toggleAnalytics(){
+  const panel=document.getElementById('analytics-panel');
+  const btn=document.getElementById('analytics-toggle');
+  const open=!panel.classList.contains('open');
+  panel.classList.toggle('open', open);
+  btn.textContent=open ? 'Hide analytics graph' : 'Show analytics graph';
+  if(open) {
+    renderAnalytics(currentCodes);
+    panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+}
+
+function renderAnalytics(codes){
+  const wrap=document.getElementById('chart-wrap');
+  if(!wrap) return;
+  const list=Array.isArray(codes)?codes:[];
+  const days=[];
+  const today=new Date();
+  today.setHours(0,0,0,0);
+  for(let i=13;i>=0;i-=1){
+    const d=new Date(today);
+    d.setDate(today.getDate()-i);
+    days.push({date:d,count:0});
+  }
+  list.forEach(code=>{
+    if(!code.is_used || !code.used_at) return;
+    const used=new Date(code.used_at);
+    used.setHours(0,0,0,0);
+    const hit=days.find(day=>day.date.getTime()===used.getTime());
+    if(hit) hit.count+=1;
+  });
+  const total=days.reduce((sum,day)=>sum+day.count,0);
+  const totalEl=document.getElementById('analytics-total');
+  if(totalEl) totalEl.innerHTML=`${total}<span>redeemed</span>`;
+  const sub=document.getElementById('analytics-sub');
+  if(sub) sub.textContent=`${total} redemptions in the last 14 days`;
+  if(!total){
+    wrap.innerHTML='<div class="chart-empty">No redemptions yet. The graph will appear as students use Just Protein codes.</div>';
+    return;
+  }
+  const width=640;
+  const height=210;
+  const pad={top:18,right:14,bottom:32,left:28};
+  const max=Math.max(1,...days.map(day=>day.count));
+  const xStep=(width-pad.left-pad.right)/(days.length-1);
+  const yFor=count=>pad.top+(max-count)/max*(height-pad.top-pad.bottom);
+  const points=days.map((day,i)=>[pad.left+i*xStep,yFor(day.count)]);
+  const line=points.map(([x,y],i)=>`${i?'L':'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join(' ');
+  const fill=`${line} L${points[points.length-1][0].toFixed(1)} ${height-pad.bottom} L${points[0][0].toFixed(1)} ${height-pad.bottom} Z`;
+  const labels=days.map((day,i)=>{
+    if(i%3!==0 && i!==days.length-1) return '';
+    const label=day.date.toLocaleDateString('en-ZA',{day:'2-digit',month:'short'});
+    return `<text class="chart-label" x="${(pad.left+i*xStep).toFixed(1)}" y="${height-10}" text-anchor="middle">${esc(label)}</text>`;
+  }).join('');
+  const grid=[0,.5,1].map(t=>{
+    const y=pad.top+t*(height-pad.top-pad.bottom);
+    const label=Math.round(max*(1-t));
+    return `<line class="chart-grid" x1="${pad.left}" y1="${y.toFixed(1)}" x2="${width-pad.right}" y2="${y.toFixed(1)}"></line><text class="chart-label" x="8" y="${(y+4).toFixed(1)}">${label}</text>`;
+  }).join('');
+  const dots=points.map(([x,y],i)=>`<circle class="chart-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${days[i].count?4:3}"></circle>`).join('');
+  wrap.innerHTML=`<svg class="chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Redemptions over the last 14 days">${grid}<path class="chart-fill" d="${fill}"></path><path class="chart-line" d="${line}"></path>${dots}${labels}</svg>`;
 }
 
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
