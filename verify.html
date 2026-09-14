@@ -110,6 +110,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .code-input::placeholder{color:var(--ink3);font-family:var(--font);font-size:14px;letter-spacing:0;text-transform:none}
 .check-btn{background:var(--lime);color:var(--bg);font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:14px 24px;border-radius:50px;border:none;cursor:pointer;font-family:var(--font);transition:background .15s;white-space:nowrap}
 .check-btn:hover{background:var(--white)}
+.scan-btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:999px;background:#f1f4f8;color:#050505;border:1px solid #dfe5ee;font-size:13px;font-weight:900;white-space:nowrap;text-decoration:none}
+.scan-btn:hover{background:#050505;color:#fff}
 
 /* RESULT */
 .result-box{border-radius:14px;padding:18px;margin-top:14px;display:none}
@@ -169,7 +171,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
   .tool-card{padding:18px 16px}
   .verify-box{padding:24px 20px}
   .code-input-row{display:grid;grid-template-columns:1fr}
-  .check-btn{width:100%}
+  .check-btn,.scan-btn{width:100%}
   .cl-head{display:none}
   .cl-row{display:grid;grid-template-columns:1fr;gap:8px;padding:14px 16px;font-size:13px}
   .cl-row > div{display:flex;justify-content:space-between;gap:12px;min-width:0}
@@ -348,6 +350,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
           <div class="code-input-row">
             <input class="code-input" type="text" id="check-input" placeholder="E.g. JUSTPROTEIN15" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkCode()">
             <button class="check-btn" onclick="checkCode()">Check</button>
+            <a class="scan-btn" href="scanner.html?mode=vendor">Scan QR</a>
           </div>
           <div class="result-box" id="result-box"></div>
         </div>
@@ -520,6 +523,7 @@ let currentCodes = [];
 let currentRedemptions = [];
 let analyticsRange = 'all';
 let currentTileConfig = {};
+let pendingScanCode = new URLSearchParams(location.search).get('scan') || '';
 
 const DEFAULT_TILE_BACKGROUND = 'https://www.justprotein.co.za/cdn/shop/files/Healthy_Me1.png?v=1761940686&width=1500';
 const DEFAULT_TILE_LOGO = 'assets/logo-just-protein.png';
@@ -608,6 +612,7 @@ function showDashboard() {
   loadTileConfig();
   showVendorView('overview');
   loadCodeList();
+  applyPendingScan();
 }
 
 function showVendorView(name){
@@ -628,6 +633,29 @@ function showVendorView(name){
   setText('portal-title', next[0]);
   setText('portal-subtitle', next[1]);
   if(name==='analytics') applyDashboardFilters();
+}
+
+function cleanScannedCode(value){
+  let text=String(value||'').trim();
+  try{
+    const url=new URL(text, location.origin);
+    text=url.searchParams.get('code') || text;
+  }catch(e){
+    const match=text.match(/[?&]code=([^&]+)/i);
+    if(match) text=decodeURIComponent(match[1]);
+  }
+  return text.replace(/[^a-zA-Z0-9-]/g,'').toUpperCase();
+}
+
+function applyPendingScan(){
+  const code=cleanScannedCode(pendingScanCode);
+  if(!code) return;
+  pendingScanCode='';
+  showVendorView('overview');
+  const input=document.getElementById('check-input');
+  input.value=code;
+  checkCode();
+  history.replaceState(null,'',location.pathname);
 }
 
 async function checkCode() {

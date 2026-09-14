@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Scan QR - StudentPerks</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{min-height:100vh;font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:#050505}
+a{color:inherit;text-decoration:none}
+.page{width:min(100%,560px);margin:0 auto;padding:18px 22px 40px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:34px}
+.logo{height:32px;width:auto;border-radius:7px;display:block}
+.back{min-height:38px;display:inline-flex;align-items:center;padding:0 16px;border:1px solid #dfe5ee;border-radius:999px;color:#596174;font-size:13px;font-weight:900;background:#fff}
+h1{font-size:42px;line-height:.96;letter-spacing:-.06em;margin-bottom:8px}
+.sub{color:#596174;font-size:16px;line-height:1.45;margin-bottom:18px}
+.card{background:#fff;border:1px solid #dfe5ee;border-radius:20px;padding:18px;box-shadow:0 14px 36px rgba(15,23,42,.08)}
+.reader{position:relative;overflow:hidden;border-radius:16px;background:#050505;aspect-ratio:1/1;display:grid;place-items:center;color:#fff;text-align:center}
+video{width:100%;height:100%;object-fit:cover;display:none}
+.target{position:absolute;inset:18%;border:3px solid #9cff18;border-radius:20px;box-shadow:0 0 0 999px rgba(0,0,0,.32);display:none}
+.hint{position:absolute;left:16px;right:16px;bottom:16px;padding:10px 12px;border-radius:999px;background:rgba(0,0,0,.58);color:#fff;font-size:12px;font-weight:800}
+.empty{padding:26px;color:#cbd5e1;font-size:14px;line-height:1.4}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+button,.upload-label{min-height:50px;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;border:0;font:inherit;font-size:14px;font-weight:900;cursor:pointer}
+.primary{background:#9cff18;color:#050505}
+.ghost{background:#f1f4f8;color:#111827;border:1px solid #dfe5ee}
+input[type=file]{position:absolute;inline-size:1px;block-size:1px;opacity:0;pointer-events:none}
+.status{margin-top:12px;min-height:20px;color:#596174;font-size:13px;line-height:1.45}
+.status.good{color:#166534;font-weight:900}.status.bad{color:#b91c1c;font-weight:900}
+.manual{margin-top:18px;padding-top:16px;border-top:1px solid #e6ebf1}
+.manual label{display:block;margin-bottom:7px;color:#596174;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+.manual-row{display:grid;grid-template-columns:1fr auto;gap:10px}
+.manual input{min-width:0;height:48px;border:1px solid #d7dee8;border-radius:12px;padding:0 14px;font:inherit;font-family:monospace;text-transform:uppercase}
+.manual button{padding:0 18px}
+@media(max-width:440px){.page{padding-inline:16px}.top{margin-bottom:24px}.logo{height:29px}h1{font-size:36px}.actions,.manual-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="page">
+  <header class="top">
+    <a href="index.html"><img class="logo" src="assets/brand/studentperks-logo-dark.svg" alt="StudentPerks"></a>
+    <a class="back" id="backLink" href="dashboard.html">Back</a>
+  </header>
+  <h1 id="title">Scan QR</h1>
+  <p class="sub" id="subtitle">Scan a StudentPerks QR code to open the matching perk.</p>
+  <section class="card">
+    <div class="reader">
+      <video id="video" playsinline muted></video>
+      <div class="target" id="target"></div>
+      <div class="empty" id="empty">Camera is off. Start scanning when you are ready.</div>
+      <div class="hint" id="hint">Point the camera at a StudentPerks QR code.</div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="startBtn" onclick="startScanner()">Start camera</button>
+      <label class="upload-label ghost" for="qrFile">Upload QR image</label>
+      <input id="qrFile" type="file" accept="image/png,image/jpeg,image/webp" onchange="scanUploadedImage(this.files && this.files[0])">
+    </div>
+    <div class="status" id="status"></div>
+    <div class="manual">
+      <label for="manualCode">Or enter code manually</label>
+      <div class="manual-row">
+        <input id="manualCode" type="text" placeholder="JUSTPROTEIN15" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9-]/g,'')" onkeydown="if(event.key==='Enter')goWithManualCode()">
+        <button class="ghost" onclick="goWithManualCode()">Continue</button>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+const params=new URLSearchParams(location.search);
+const mode=params.get('mode')==='vendor'?'vendor':'student';
+const els={video:document.getElementById('video'),empty:document.getElementById('empty'),target:document.getElementById('target'),status:document.getElementById('status'),start:document.getElementById('startBtn')};
+let detector=null,stream=null,scanning=false;
+
+document.getElementById('title').textContent=mode==='vendor'?'Scan customer QR':'Scan QR';
+document.getElementById('subtitle').textContent=mode==='vendor'?'Scan a student QR code to check it in the partner dashboard.':'Scan a StudentPerks QR code to open the matching perk.';
+document.getElementById('backLink').href=mode==='vendor'?'verify.html':'dashboard.html';
+
+function setStatus(text,type){
+  els.status.textContent=text||'';
+  els.status.className='status'+(type?' '+type:'');
+}
+
+function cleanCode(value){
+  let text=String(value||'').trim();
+  try{
+    const url=new URL(text, location.origin);
+    text=url.searchParams.get('code') || text;
+  }catch(e){
+    const match=text.match(/[?&]code=([^&]+)/i);
+    if(match) text=decodeURIComponent(match[1]);
+  }
+  return text.replace(/[^a-zA-Z0-9-]/g,'').toUpperCase();
+}
+
+function destination(code){
+  const encoded=encodeURIComponent(code);
+  return mode==='vendor' ? `verify.html?scan=${encoded}` : `redeem.html?code=${encoded}`;
+}
+
+function handleScan(raw){
+  const code=cleanCode(raw);
+  if(!code){
+    setStatus('That QR did not contain a StudentPerks code.', 'bad');
+    return;
+  }
+  stopScanner();
+  setStatus(`Found ${code}. Opening now...`, 'good');
+  location.href=destination(code);
+}
+
+async function getDetector(){
+  if(!('BarcodeDetector' in window)) throw new Error('QR scanning is not supported in this browser. Try Chrome, or type the code manually.');
+  if(!detector) detector=new BarcodeDetector({formats:['qr_code']});
+  return detector;
+}
+
+async function startScanner(){
+  try{
+    await getDetector();
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});
+    els.video.srcObject=stream;
+    await els.video.play();
+    els.video.style.display='block';
+    els.empty.style.display='none';
+    els.target.style.display='block';
+    els.start.textContent='Scanning...';
+    scanning=true;
+    scanLoop();
+  }catch(e){
+    setStatus(e.message || 'Could not start the camera.', 'bad');
+  }
+}
+
+async function scanLoop(){
+  if(!scanning) return;
+  try{
+    const codes=await detector.detect(els.video);
+    if(codes && codes.length) return handleScan(codes[0].rawValue || '');
+  }catch(e){}
+  requestAnimationFrame(scanLoop);
+}
+
+function stopScanner(){
+  scanning=false;
+  if(stream) stream.getTracks().forEach(track=>track.stop());
+  stream=null;
+}
+
+async function scanUploadedImage(file){
+  if(!file) return;
+  try{
+    const d=await getDetector();
+    const bitmap=await createImageBitmap(file);
+    const codes=await d.detect(bitmap);
+    if(codes && codes.length) handleScan(codes[0].rawValue || '');
+    else setStatus('No QR code found in that image.', 'bad');
+  }catch(e){
+    setStatus(e.message || 'Could not scan that image.', 'bad');
+  }
+}
+
+function goWithManualCode(){
+  const code=cleanCode(document.getElementById('manualCode').value);
+  if(!code){
+    setStatus('Enter a StudentPerks code first.', 'bad');
+    return;
+  }
+  location.href=destination(code);
+}
+
+window.addEventListener('pagehide', stopScanner);
+</script>
+</body>
+</html>
