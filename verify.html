@@ -52,6 +52,21 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .vendor-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
 .vendor-name-display{font-size:20px;font-weight:800;color:var(--white)}
 .vendor-discount{font-size:13px;color:var(--lime);margin-top:3px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.stat-card{display:flex;align-items:center;gap:12px;min-width:0;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.stat-dot{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:0 0 34px;background:#ecffd8;color:#385600;font-weight:900}
+.stat-number{font-size:24px;font-weight:900;line-height:1;color:var(--white)}
+.stat-label{margin-top:2px;font-size:11px;font-weight:700;color:var(--ink2);line-height:1.2}
+.inventory-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:18px;box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.inventory-title{font-size:13px;font-weight:900;color:var(--white);margin-bottom:6px}
+.inventory-copy{font-size:12px;line-height:1.45;color:var(--ink2);margin-bottom:14px}
+.inventory-bar{display:grid;grid-template-columns:1fr 1fr 1fr;overflow:hidden;border-radius:999px;background:#eef2f7;height:20px}
+.inventory-segment{min-width:0}
+.inventory-segment.available{background:#22c55e}
+.inventory-segment.assigned{background:#9cff18}
+.inventory-segment.used{background:#d09100}
+.inventory-legend{display:flex;flex-wrap:wrap;gap:10px 14px;margin-top:10px;font-size:11px;color:var(--ink2)}
+.legend-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;background:#647084}
 
 /* VERIFY BOX */
 .verify-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px}
@@ -84,6 +99,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .cl-head{display:grid;grid-template-columns:160px 1fr 1fr 90px;gap:10px;padding:12px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);background:rgba(255,255,255,.02);border-bottom:1px solid var(--border)}
 .cl-row{display:grid;grid-template-columns:160px 1fr 1fr 90px;gap:10px;padding:12px 16px;font-size:12px;border-bottom:1px solid var(--border);align-items:center}
 .cl-row:last-child{border-bottom:none}
+.cl-mobile-label{display:none}
 .code-mono{font-family:monospace;color:var(--lime);letter-spacing:.04em}
 .cl-dim{color:var(--ink3)}
 .pill{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em}
@@ -92,11 +108,35 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .p-used{background:rgba(255,68,68,.1);color:var(--red)}
 .list-empty{text-align:center;padding:28px;color:var(--ink3);font-size:13px}
 @media(max-width:520px){
+  body{overflow-x:hidden}
   .nav{padding:12px 14px}
   .badge{display:none}
   .login-card{padding:26px 18px}
+  #dashboard{padding:28px 14px 44px;max-width:none}
+  .vendor-header{margin-bottom:18px;padding:0 8px}
+  .vendor-name-display{font-size:26px;line-height:1.05}
+  .vendor-discount{font-size:18px;margin-top:8px}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:16px}
+  .stat-card{align-items:flex-start;padding:14px 12px;border-radius:14px}
+  .stat-dot{width:30px;height:30px;flex-basis:30px;font-size:12px}
+  .stat-number{font-size:24px}
+  .stat-label{font-size:11px}
+  .inventory-box,.verify-box,.code-list{border-radius:16px}
+  .inventory-box{padding:16px;margin-bottom:16px}
+  .inventory-copy{font-size:12px}
+  .inventory-bar{height:18px}
+  .inventory-legend{display:grid;grid-template-columns:1fr;gap:7px;margin-top:12px}
+  .verify-box{padding:24px 20px}
   .code-input-row{display:grid;grid-template-columns:1fr}
   .check-btn{width:100%}
+  .cl-head{display:none}
+  .cl-row{display:grid;grid-template-columns:1fr;gap:8px;padding:14px 16px;font-size:13px}
+  .cl-row > div{display:flex;justify-content:space-between;gap:12px;min-width:0}
+  .cl-row > div:first-child{display:block}
+  .cl-mobile-label{display:inline;color:var(--ink3);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+  .cl-value{min-width:0;text-align:right;overflow:hidden;text-overflow:ellipsis}
+  .code-mono{display:block;font-size:13px;word-break:break-all}
+  .list-empty{padding:34px 18px;font-size:15px;line-height:1.35}
 }
 
 /* White StudentPerks theme alignment */
@@ -108,7 +148,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 .nav{background:#fff;border-bottom:1px solid var(--border)}
 .logo,.card-title,.vendor-name-display,.result-title,.result-detail b{color:#050505}
 .card-sub,.f label,.vendor-discount,.verify-box-title,.result-detail,.cl-dim,.list-empty,#vendor-name-nav{color:var(--ink2)}
-.login-card,.verify-box,.code-list{background:#fff;border-color:var(--border);box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.login-card,.verify-box,.code-list,.stat-card,.inventory-box{background:#fff;border-color:var(--border);box-shadow:0 10px 28px rgba(15,23,42,.07)}
 .f input,.f select,.code-input{background:#fff;color:#111827;border-color:#d7dee8}
 .f input::placeholder,.code-input::placeholder{color:#94a3b8}
 .btn,.check-btn{background:#9cff18;color:#050505}
@@ -159,6 +199,40 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
       <div class="vendor-discount" id="dash-vendor-discount"></div>
     </div>
   </div>
+
+  <section class="stats-grid" aria-label="Coupon statistics">
+    <article class="stat-card">
+      <div class="stat-dot">#</div>
+      <div><div class="stat-number" id="stat-total">0</div><div class="stat-label">Total codes issued</div></div>
+    </article>
+    <article class="stat-card">
+      <div class="stat-dot">A</div>
+      <div><div class="stat-number" id="stat-available">0</div><div class="stat-label">Available</div></div>
+    </article>
+    <article class="stat-card">
+      <div class="stat-dot">C</div>
+      <div><div class="stat-number" id="stat-assigned">0</div><div class="stat-label">Assigned, not redeemed</div></div>
+    </article>
+    <article class="stat-card">
+      <div class="stat-dot">R</div>
+      <div><div class="stat-number" id="stat-used">0</div><div class="stat-label">Redeemed</div></div>
+    </article>
+  </section>
+
+  <section class="inventory-box" aria-label="Code inventory">
+    <div class="inventory-title">Code inventory</div>
+    <div class="inventory-copy">Codes move from available, to assigned when claimed, to redeemed once used.</div>
+    <div class="inventory-bar" aria-hidden="true">
+      <span class="inventory-segment available" id="bar-available"></span>
+      <span class="inventory-segment assigned" id="bar-assigned"></span>
+      <span class="inventory-segment used" id="bar-used"></span>
+    </div>
+    <div class="inventory-legend">
+      <span><i class="legend-dot"></i>Available <b id="legend-available">0</b></span>
+      <span><i class="legend-dot"></i>Assigned <b id="legend-assigned">0</b></span>
+      <span><i class="legend-dot"></i>Redeemed <b id="legend-used">0</b></span>
+    </div>
+  </section>
 
   <!-- Verify a code -->
   <div class="verify-box">
@@ -336,9 +410,15 @@ async function loadCodeList() {
   const list    = document.getElementById('code-list');
   const loading = document.getElementById('list-loading');
   if(loading) loading.textContent='Loading…';
-  const response = await fetch('/api/vendor-codes', {headers: {'Authorization': `Bearer ${vendorToken}`}});
-  const payload = await response.json();
-  const data = response.ok ? payload.codes : [];
+  let data = [];
+  try {
+    const response = await fetch('/api/vendor-codes', {headers: {'Authorization': `Bearer ${vendorToken}`}});
+    const payload = await response.json();
+    data = response.ok ? payload.codes : [];
+  } catch(e) {
+    data = [];
+  }
+  updateStats(data);
   [...list.querySelectorAll('.cl-row')].forEach(r=>r.remove());
   if(!data||!data.length){
     const l=document.getElementById('list-loading');
@@ -350,8 +430,38 @@ async function loadCodeList() {
     const row=document.createElement('div'); row.className='cl-row';
     const cls=c.is_used?'p-used':c.assigned_to_email?'p-assigned':'p-available';
     const lbl=c.is_used?'Used':c.assigned_to_email?'Assigned':'Available';
-    row.innerHTML=`<div class="code-mono">${esc(c.code)}</div><div>${esc(c.assigned_to_name||'—')}</div><div class="cl-dim">${esc(c.assigned_to_email||'—')}</div><div><span class="pill ${cls}">${lbl}</span></div>`;
+    row.innerHTML=`<div class="code-mono">${esc(c.code)}</div><div><span class="cl-mobile-label">Assigned to</span><span class="cl-value">${esc(c.assigned_to_name||'—')}</span></div><div class="cl-dim"><span class="cl-mobile-label">Email</span><span class="cl-value">${esc(c.assigned_to_email||'—')}</span></div><div><span class="cl-mobile-label">Status</span><span class="pill ${cls}">${lbl}</span></div>`;
     list.appendChild(row);
+  });
+}
+
+function setText(id, value){
+  const el=document.getElementById(id);
+  if(el) el.textContent=String(value);
+}
+
+function updateStats(codes){
+  const list=Array.isArray(codes)?codes:[];
+  const total=list.length;
+  const used=list.filter(c=>c.is_used).length;
+  const assigned=list.filter(c=>!c.is_used && c.assigned_to_email).length;
+  const available=Math.max(0,total-used-assigned);
+  setText('stat-total', total);
+  setText('stat-available', available);
+  setText('stat-assigned', assigned);
+  setText('stat-used', used);
+  setText('legend-available', available);
+  setText('legend-assigned', assigned);
+  setText('legend-used', used);
+  const safeTotal=total || 1;
+  const segments=[
+    ['bar-available', available],
+    ['bar-assigned', assigned],
+    ['bar-used', used]
+  ];
+  segments.forEach(([id,count])=>{
+    const el=document.getElementById(id);
+    if(el) el.style.flex=`${total ? Math.max(count, count ? 1 : 0) : 1} 1 ${total ? (count/safeTotal*100) : 33.333}%`;
   });
 }
 
