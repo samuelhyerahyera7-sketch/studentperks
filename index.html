@@ -690,8 +690,11 @@ body.public-redesign .menu-join { background: #9cff18; color: #050505; }
   overflow: hidden;
   color: #fff;
   border-radius: 24px;
-  background: #0d0d0d url('assets/brand/wallet-card-background.svg') center/cover no-repeat;
+  background: #0d0d0d url('assets/brand/wallet-card-face.svg') center/cover no-repeat;
   box-shadow: 0 18px 45px rgba(0,0,0,.2);
+}
+body.public-redesign #wallet .wallet-art .student-card__brand-logo {
+  display: none !important;
 }
 .student-card__brand { font-size: 1.4rem; font-weight: 900; letter-spacing: -.05em; }
 .student-card__brand span,
@@ -6330,18 +6333,19 @@ body.public-redesign #wallet .wallet-art {
 
 body.public-redesign #wallet .wallet-art .student-card,
 body.public-redesign #wallet .wallet-art .promo-wallet-card {
-  position: absolute !important;
+  position: relative !important;
   z-index: 2 !important;
-  right: 104px !important;
-  top: -12px !important;
-  width: 282px !important;
-  height: 128px !important;
+  right: auto !important;
+  top: auto !important;
+  width: min(100%, 330px) !important;
+  height: auto !important;
+  aspect-ratio: 700 / 360 !important;
   min-height: 0 !important;
   padding: 0 !important;
-  border-radius: 9px !important;
-  background: #050505 url('assets/brand/wallet-card-background.svg') center/cover no-repeat !important;
-  box-shadow: 0 12px 28px rgba(0,0,0,.18) !important;
-  transform: rotate(-6deg) !important;
+  border-radius: 18px !important;
+  background: #0c0d0d url('assets/brand/wallet-card-face.svg') center/cover no-repeat !important;
+  box-shadow: 0 18px 45px rgba(0,0,0,.2) !important;
+  transform: rotate(-4deg) !important;
   overflow: hidden !important;
 }
 
@@ -6678,10 +6682,11 @@ body.public-redesign .verify-save {
 
   body.public-redesign #wallet .wallet-art .student-card,
   body.public-redesign #wallet .wallet-art .promo-wallet-card {
-    right: clamp(25px, 7vw, 48px) !important;
-    top: clamp(0px, .4vw, 3px) !important;
-    width: clamp(102px, 28.5vw, 180px) !important;
-    height: clamp(47px, 12.9vw, 82px) !important;
+    right: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 700 / 360 !important;
     border-radius: clamp(5px, 1.3vw, 8px) !important;
   }
 
@@ -6731,7 +6736,7 @@ body.public-redesign .verify-save {
   <div class="wrap">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
-        <img class="logo-mark" src="assets/brand/studentperks-logo-dark.svg?v=2" alt="StudentPerks">
+        <img class="logo-mark" src="assets/brand/studentperks-logo-dark.svg" alt="StudentPerks">
       </a>
       <div class="nav-spacer"></div>
       <div class="nav-desktop">
@@ -6758,7 +6763,7 @@ body.public-redesign .verify-save {
 <div class="menu-overlay" id="menu-overlay">
   <div class="menu-head">
     <div class="menu-logo">
-      <img class="logo-mark" src="assets/brand/studentperks-logo-dark.svg?v=2" alt="StudentPerks" style="height:26px">
+      <img class="logo-mark" src="assets/brand/studentperks-logo-dark.svg" alt="StudentPerks" style="height:26px">
     </div>
     <button class="menu-close" onclick="closeMenu()">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -6912,7 +6917,7 @@ body.public-redesign .verify-save {
       </div>
       <div class="wallet-art">
         <article class="student-card promo-wallet-card" aria-label="StudentPerks wallet card preview">
-          <img class="student-card__brand-logo" src="assets/brand/studentperks-logo-dark.svg?v=2" alt="StudentPerks">
+          <img class="student-card__brand-logo" src="assets/brand/studentperks-logo-dark.svg" alt="StudentPerks">
           <div class="student-card__qr" data-qr-container aria-label="Membership QR code preview"></div>
         </article>
         <div class="desktop-wallet-qr" data-qr-container aria-label="Wallet QR preview"><span>Scan to redeem<br>your deals</span></div>
@@ -6990,7 +6995,7 @@ body.public-redesign .verify-save {
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <img class="logo-mark" src="assets/brand/studentperks-logo-dark.svg?v=2" alt="StudentPerks" style="height:24px;margin-bottom:6px">
+        <img class="logo-mark" src="assets/brand/studentperks-logo-dark.svg" alt="StudentPerks" style="height:24px;margin-bottom:6px">
         <p class="footer-desc">Current student offers from brands listed on StudentPerks.</p>
         <div class="footer-social">
           <svg class="f-soc" width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -7018,7 +7023,7 @@ body.public-redesign .verify-save {
   <div class="modal" id="modal-box">
     <button class="modal-x" onclick="closeModal()">×</button>
     <div class="modal-logo">
-      <img class="logo-mark" src="assets/brand/studentperks-logo-dark.svg?v=2" alt="StudentPerks" style="height:24px">
+      <img class="logo-mark" src="assets/brand/studentperks-logo-dark.svg" alt="StudentPerks" style="height:24px">
     </div>
     <div class="modal-tabs">
       <div class="modal-tab active" id="t-si" onclick="switchTab('si')">Sign in</div>
