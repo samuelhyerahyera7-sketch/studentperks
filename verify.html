@@ -1264,6 +1264,8 @@ function fmtShort(ts){if(!ts)return'—';return new Date(ts).toLocaleDateString(
   const saved=sessionStorage.getItem('sp_vendor');
   if(saved){ try{ const parsed=JSON.parse(saved); currentVendor=parsed.vendor||parsed; vendorToken=parsed.token||''; if(vendorToken && isApprovedLiveBusinessName(currentVendor && currentVendor.name)) showDashboard(); else sessionStorage.removeItem('sp_vendor'); }catch(e){} }
 })();
+
+window.handleTileImageUpload=handleTileImageUpload;
 </script>
 </body>
 </html>
