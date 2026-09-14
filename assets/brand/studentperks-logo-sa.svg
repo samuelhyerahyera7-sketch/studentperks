@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 120" role="img" aria-labelledby="title desc">
+  <title id="title">StudentPerks South Africa logo</title>
+  <desc id="desc">StudentPerks wordmark with South Africa below and lime rays.</desc>
+  <g font-family="Inter, Arial, Helvetica, sans-serif">
+    <text x="0" y="54" font-size="44" font-weight="900" letter-spacing="-2.4">
+      <tspan fill="#050505">Student</tspan><tspan fill="#72ff10">Perks</tspan>
+    </text>
+    <text x="7" y="88" font-size="14" font-weight="800" letter-spacing="7.5" fill="#050505">SOUTH AFRICA</text>
+  </g>
+  <g stroke="#72ff10" stroke-width="5" stroke-linecap="round">
+    <path d="M312 8v-8"/>
+    <path d="M329 15l8-7"/>
+    <path d="M333 32h12"/>
+  </g>
+</svg>
