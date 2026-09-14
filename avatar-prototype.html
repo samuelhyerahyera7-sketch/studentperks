@@ -3,87 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Avatar Studio | StudentPerks</title>
-<link rel="icon" href="/favicon.svg">
-
+<title>StudentPerks 3D Avatar Test</title>
 <style>
-:root{--lime:#8cff13;--ink:#080b0f;--muted:#667085;--line:#e4e9ef;--soft:#f6f8fa;--shadow:0 18px 50px rgba(16,24,40,.1)}
-*{box-sizing:border-box}body{margin:0;background:#f3f5f7;color:var(--ink);font-family:Inter,Arial,sans-serif}button{font:inherit}.shell{width:min(1120px,100%);margin:auto;min-height:100vh;padding:24px}
-.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.logo{height:34px}.back{color:#111;text-decoration:none;font-weight:800;padding:11px 17px;border:1px solid var(--line);border-radius:999px;background:#fff}
-.layout{display:grid;grid-template-columns:minmax(320px,430px) 1fr;gap:22px}.preview,.editor{background:#fff;border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow)}
-.preview{padding:22px;position:sticky;top:20px;height:max-content}.preview h1{margin:0;font-size:35px;letter-spacing:-.05em}.preview p{color:var(--muted);line-height:1.45;margin:8px 0 18px}
-.stage{aspect-ratio:1/1.08;border-radius:22px;overflow:hidden;display:grid;place-items:center;background:#dcffaf}.stage svg{width:100%;height:100%;display:block}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.btn{min-height:49px;border:0;border-radius:999px;font-weight:900;cursor:pointer}.primary{background:var(--lime)}.secondary{background:#101214;color:#fff}.status{min-height:20px;text-align:center;font-size:13px;color:#16851b;font-weight:700;margin-top:10px}
-.editor{padding:22px}.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:13px;scrollbar-width:none}.tab{white-space:nowrap;border:1px solid var(--line);background:#fff;padding:10px 15px;border-radius:999px;font-weight:800;cursor:pointer}.tab.active{background:#101214;color:#fff;border-color:#101214}
-.panel{display:none}.panel.active{display:block}.panel h2{font-size:22px;margin:10px 0 5px}.panel-note{color:var(--muted);font-size:13px;margin:0 0 15px}.options{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-.option{min-height:74px;border:2px solid var(--line);background:#fff;border-radius:17px;cursor:pointer;display:grid;place-items:center;gap:5px;padding:8px;color:#111;font-weight:800;font-size:12px}.option:hover{border-color:#b9c2cc}.option.active{border-color:var(--lime);box-shadow:0 0 0 4px rgba(140,255,19,.2)}
-.swatch{width:35px;height:35px;border-radius:50%;border:1px solid rgba(0,0,0,.1)}.mini{font-size:26px;line-height:1}.login{max-width:460px;margin:70px auto;background:#fff;padding:30px;border-radius:24px;box-shadow:var(--shadow);display:none}.login h1{font-size:34px;margin:0 0 10px}.login p{color:var(--muted);line-height:1.5}.login a{display:inline-flex;margin-top:12px;text-decoration:none;color:#050505;background:var(--lime);padding:14px 20px;border-radius:999px;font-weight:900}
-@media(max-width:780px){.shell{padding:14px}.layout{grid-template-columns:1fr}.preview{position:static}.preview h1{font-size:29px}.stage{max-height:430px}.options{grid-template-columns:repeat(3,minmax(0,1fr))}.logo{height:29px}}
-@media(max-width:390px){.options{grid-template-columns:repeat(2,minmax(0,1fr))}.actions{grid-template-columns:1fr}.preview,.editor{border-radius:21px;padding:17px}}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;font-family:Arial,sans-serif;background:#0d1014;color:#fff}.app{height:100%;display:grid;grid-template-rows:auto 1fr}.bar{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#0d1014;border-bottom:1px solid #2a3038}.brand{font-size:19px;font-weight:900}.mark{display:inline-grid;place-items:center;width:28px;height:28px;margin-right:6px;border-radius:7px;background:#8cff13;color:#050505}.label{margin-left:auto;padding:8px 12px;border-radius:999px;background:#20262e;font-size:12px;font-weight:800}.notice{padding:8px 16px;background:#dfffad;color:#101410;text-align:center;font-size:12px;font-weight:700}.frame{position:relative;min-height:0}.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}.desktop{display:block}.mobile{display:none}@media(max-width:700px){.bar{padding:9px 12px}.brand{font-size:16px}.notice{font-size:11px;padding:7px 10px}.desktop{display:none}.mobile{display:block}}
 </style>
 </head>
 <body>
-<div class="shell" id="app" hidden>
-<header class="top"><div class="logo" style="font-weight:950;font-size:25px;letter-spacing:-1.5px"><span style="background:#8cff13;border-radius:7px;padding:2px 6px;margin-right:5px">S</span>StudentPerks</div><span class="back">Test prototype</span></header>
-<div class="layout">
-<section class="preview"><h1>Create your avatar</h1><p>Make a character that feels like you. You can return and change it whenever you want.</p><div class="stage" id="stage"></div><div class="actions"><button class="btn primary" id="saveBtn">Save my avatar</button><button class="btn secondary" id="randomBtn">Surprise me</button></div><div class="status" id="status" role="status"></div></section>
-<section class="editor"><div class="tabs" id="tabs"></div><div id="panels"></div></section>
-</div></div>
-<script>
-const groups={
- skin:{label:'Skin tone',note:'Choose the tone closest to you.',items:[['deep','#4a281f'],['umber','#674033'],['brown','#865744'],['caramel','#aa7356'],['golden','#c99168'],['warm','#e0ad83'],['light','#f2cfad'],['pale','#f7dfc9']]},
- face:{label:'Face',note:'Choose your face shape.',items:[['oval','Oval','🥚'],['round','Round','●'],['soft','Soft square','▢'],['heart','Heart','♥']]},
- hair:{label:'Hair',note:'Pick a hairstyle. All styles work with every skin tone.',items:[['fade','Fade','▰'],['shortcurls','Short curls','●'],['afro','Afro','☁'],['waves','Waves','≋'],['locs','Locs','▥'],['braids','Braids','〽'],['bun','High bun','♟'],['bob','Bob','◒'],['hijab','Hijab','◉'],['bald','No hair','○']]},
- hairColor:{label:'Hair colour',note:'Choose a natural or expressive colour.',items:[['black','#151211'],['darkbrown','#36251f'],['brown','#664535'],['auburn','#873c2e'],['blonde','#d2aa62'],['pink','#d76187'],['blue','#315d91']]},
- eyes:{label:'Eyes',note:'Small details make the character yours.',items:[['bright','Bright','◉'],['soft','Soft','⌣'],['almond','Almond','◒'],['happy','Happy','⌒'],['lashes','Lashes','✦']]},
- mouth:{label:'Expression',note:'Choose your avatar’s expression.',items:[['smile','Smile','◡'],['grin','Big smile','😁'],['calm','Calm','―'],['confident','Confident','⌁'],['surprised','Surprised','○']]},
- outfit:{label:'Outfit',note:'Choose your campus look.',items:[['hoodie','Green hoodie','●'],['varsity','Varsity jacket','◆'],['tee','Campus T-shirt','T'],['smart','Smart shirt','▦'],['denim','Denim jacket','▣'],['dress','Creative look','♥']]},
- accessory:{label:'Extras',note:'Finish the look with an accessory.',items:[['none','None','×'],['glasses','Glasses','⌐'],['roundglasses','Round glasses','◎'],['headphones','Headphones','🎧'],['cap','Cap','◒'],['earrings','Earrings','✦']]},
- background:{label:'Background',note:'Pick a colour for your profile circle.',items:[['lime','#dfffad'],['sky','#dff2ff'],['rose','#ffe3ec'],['violet','#eee5ff'],['sand','#f7edda'],['dark','#20252b']]}
-};
-const defaults={skin:'brown',face:'oval',hair:'shortcurls',hairColor:'black',eyes:'bright',mouth:'smile',outfit:'hoodie',accessory:'none',background:'lime'};
-let state={...defaults};
-const get=(group,id)=>groups[group].items.find(x=>x[0]===id);
-const color=(group,id)=>get(group,id)?.[1]||'#000';
-function esc(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function svg(){
- const skin=color('skin',state.skin),hair=color('hairColor',state.hairColor),bg=color('background',state.background);
- const faceShape=state.face==='round'?'rx="54" ry="57"':state.face==='soft'?'rx="50" ry="61"':state.face==='heart'?'rx="52" ry="63"':'rx="48" ry="64"';
- const outfit={hoodie:'#8cff13',varsity:'#14181d',tee:'#f6f7f9',smart:'#a9d6f5',denim:'#47739a',dress:'#9b5de5'}[state.outfit];
- const eyes={bright:'<ellipse cx="116" cy="137" rx="7" ry="9"/><ellipse cx="164" cy="137" rx="7" ry="9"/><circle cx="118" cy="134" r="2" fill="white"/><circle cx="166" cy="134" r="2" fill="white"/>',soft:'<path d="M107 138q9 8 18 0M155 138q9 8 18 0" fill="none" stroke="#181818" stroke-width="5" stroke-linecap="round"/>',almond:'<path d="M106 138q10-12 21 0q-10 10-21 0M153 138q10-12 21 0q-10 10-21 0" fill="#171717"/>',happy:'<path d="M107 140q10-14 20 0M154 140q10-14 20 0" fill="none" stroke="#171717" stroke-width="5" stroke-linecap="round"/>',lashes:'<path d="M106 139q10-12 21 0q-10 10-21 0M153 139q10-12 21 0q-10 10-21 0" fill="#171717"/><path d="M107 134l-5-5m19 4l5-5m29 5l-5-5m20 6l6-5" stroke="#171717" stroke-width="3"/>'}[state.eyes];
- const mouths={smile:'<path d="M123 172q17 14 34 0" fill="none" stroke="#762b35" stroke-width="5" stroke-linecap="round"/>',grin:'<path d="M119 169q21 25 42 0q-21 9-42 0" fill="#fff" stroke="#762b35" stroke-width="4"/>',calm:'<path d="M125 174h30" stroke="#762b35" stroke-width="5" stroke-linecap="round"/>',confident:'<path d="M123 176q19-2 34-10" fill="none" stroke="#762b35" stroke-width="5" stroke-linecap="round"/>',surprised:'<ellipse cx="140" cy="173" rx="9" ry="12" fill="#762b35"/>'}[state.mouth];
- let hairSvg='';
- if(state.hair==='fade')hairSvg='<path d="M88 115q5-63 53-64q50 1 54 64q-24-28-55-27q-30 0-52 27" fill="'+hair+'"/>';
- if(state.hair==='shortcurls')hairSvg='<g fill="'+hair+'">'+Array.from({length:13},(_,i)=>'<circle cx="'+(94+(i%7)*15)+'" cy="'+(72+Math.floor(i/7)*18)+'" r="17"/>').join('')+'</g>';
- if(state.hair==='afro')hairSvg='<g fill="'+hair+'"><circle cx="140" cy="65" r="52"/><circle cx="99" cy="88" r="34"/><circle cx="181" cy="88" r="34"/></g>';
- if(state.hair==='waves')hairSvg='<path d="M88 116q4-67 52-67t53 67q-16-18-28-25q-13 19-25 0q-14 19-27 0q-12 7-25 25" fill="'+hair+'"/>';
- if(state.hair==='locs')hairSvg='<g stroke="'+hair+'" stroke-width="13" stroke-linecap="round"><path d="M99 68l-17 92M116 57l-11 107M136 52l-3 107M157 56l8 106M176 68l19 89"/></g>';
- if(state.hair==='braids')hairSvg='<path d="M91 111q4-61 49-61t51 61q-23-22-51-22t-49 22" fill="'+hair+'"/><g stroke="'+hair+'" stroke-width="7"><path d="M95 88l-22 104M111 76L94 198M169 79l18 116M184 91l22 102"/></g>';
- if(state.hair==='bun')hairSvg='<circle cx="140" cy="38" r="32" fill="'+hair+'"/><path d="M89 115q5-65 51-65t52 65q-20-25-52-25t-51 25" fill="'+hair+'"/>';
- if(state.hair==='bob')hairSvg='<path d="M84 122q0-75 56-75t57 75l-8 56h-25l5-75q-29-22-59 0l6 75H91z" fill="'+hair+'"/>';
- if(state.hair==='hijab')hairSvg='<path d="M79 206q3-126 61-155q59 28 63 155l-39 15l-24-30l-25 30z" fill="'+hair+'"/><ellipse cx="140" cy="137" rx="47" ry="62" fill="'+skin+'"/>';
- const accessory={none:'',glasses:'<g fill="none" stroke="#151515" stroke-width="5"><rect x="99" y="124" width="37" height="29" rx="11"/><rect x="145" y="124" width="37" height="29" rx="11"/><path d="M136 137h9"/></g>',roundglasses:'<g fill="none" stroke="#151515" stroke-width="5"><circle cx="119" cy="138" r="18"/><circle cx="162" cy="138" r="18"/><path d="M137 138h7"/></g>',headphones:'<g fill="none" stroke="#171717" stroke-width="10"><path d="M87 135q0-78 53-78t54 78"/><path d="M88 134v37m105-37v37"/></g>',cap:'<path d="M89 91q18-54 72-37q25 8 33 37l-17 16H93z" fill="#111827"/><path d="M171 94q35 1 48 17" stroke="#111827" stroke-width="13" stroke-linecap="round"/>',earrings:'<g fill="none" stroke="#f0b429" stroke-width="5"><circle cx="88" cy="166" r="10"/><circle cx="192" cy="166" r="10"/></g>'}[state.accessory];
- return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 330" role="img" aria-label="Custom StudentPerks avatar"><rect width="280" height="330" rx="28" fill="'+bg+'"/><circle cx="44" cy="55" r="25" fill="#fff" opacity=".22"/><circle cx="232" cy="78" r="40" fill="#fff" opacity=".18"/><ellipse cx="140" cy="322" rx="94" ry="13" fill="#000" opacity=".12"/><path d="M48 330q6-112 92-112t92 112" fill="'+outfit+'"/>'+(state.outfit==='hoodie'?'<path d="M89 237q51 54 102 0M109 249l-9 58m71-58l9 58" fill="none" stroke="#111" stroke-opacity=".25" stroke-width="6"/>':'')+(state.outfit==='varsity'?'<path d="M140 219v111M78 258h36m52 0h36" stroke="#fff" stroke-width="8" opacity=".75"/>':'')+(state.outfit==='smart'?'<path d="M105 225l35 37l35-37M140 262v68" fill="none" stroke="#fff" stroke-width="7"/>':'')+'<rect x="122" y="192" width="36" height="48" rx="15" fill="'+skin+'"/><ellipse cx="88" cy="146" rx="13" ry="18" fill="'+skin+'"/><ellipse cx="192" cy="146" rx="13" ry="18" fill="'+skin+'"/><ellipse cx="140" cy="139" '+faceShape+' fill="'+skin+'"/>'+hairSvg+'<path d="M106 122q10-7 20 0M154 122q10-7 20 0" fill="none" stroke="'+hair+'" stroke-width="5" stroke-linecap="round"/>'+eyes+'<path d="M140 141q-7 15 2 20" fill="none" stroke="#5b3028" stroke-opacity=".45" stroke-width="4" stroke-linecap="round"/>'+mouths+accessory+'</svg>';
-}
-function render(){document.getElementById('stage').innerHTML=svg();document.querySelectorAll('.option').forEach(b=>b.classList.toggle('active',state[b.dataset.group]===b.dataset.value))}
-function build(){
- const tabs=document.getElementById('tabs'),panels=document.getElementById('panels');
- Object.entries(groups).forEach(([key,g],idx)=>{
-  tabs.insertAdjacentHTML('beforeend','<button class="tab '+(idx===0?'active':'')+'" data-tab="'+key+'">'+esc(g.label)+'</button>');
-  const opts=g.items.map(item=>{const isColour=item[1]?.startsWith('#');return '<button class="option" data-group="'+key+'" data-value="'+item[0]+'">'+(isColour?'<span class="swatch" style="background:'+item[1]+'"></span>':'<span class="mini">'+esc(item[2]||'●')+'</span>')+'<span>'+esc(isColour?item[0][0].toUpperCase()+item[0].slice(1):item[1])+'</span></button>'}).join('');
-  panels.insertAdjacentHTML('beforeend','<section class="panel '+(idx===0?'active':'')+'" data-panel="'+key+'"><h2>'+esc(g.label)+'</h2><p class="panel-note">'+esc(g.note)+'</p><div class="options">'+opts+'</div></section>');
- });
- tabs.addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelector('[data-panel="'+b.dataset.tab+'"]').classList.add('active')});
- panels.addEventListener('click',e=>{const b=e.target.closest('.option');if(!b)return;state[b.dataset.group]=b.dataset.value;render()});render();
-}
-async function save(){
- const btn=document.getElementById('saveBtn'),status=document.getElementById('status');
- localStorage.setItem('studentperks_avatar',JSON.stringify(state));
- localStorage.setItem('studentperks_avatar_svg',svg());
- status.style.color='#16851b';status.textContent='Test avatar saved on this device.';
- btn.textContent='Saved ✓';setTimeout(()=>btn.textContent='Save my avatar',1800)
-}
-function randomise(){Object.keys(groups).forEach(k=>{const a=groups[k].items;state[k]=a[Math.floor(Math.random()*a.length)][0]});render();document.getElementById('status').textContent='New look created. Save it when you are happy.'}
-(()=>{const local=localStorage.getItem('studentperks_avatar');if(local)try{state={...defaults,...JSON.parse(local)}}catch(e){}document.getElementById('app').hidden=false;build();document.getElementById('saveBtn').onclick=save;document.getElementById('randomBtn').onclick=randomise})();
-</script>
-</body></html>
+<div class="app">
+<header><div class="bar"><div class="brand"><span class="mark">S</span>StudentPerks</div><span class="label">Private concept test</span></div><div class="notice">3D avatar technology test only. This is not connected to StudentPerks or your student account.</div></header>
+<main class="frame">
+<iframe class="desktop" src="https://metaperson.avatarsdk.com/iframe.html" allow="camera; fullscreen" title="3D avatar creator"></iframe>
+<iframe class="mobile" src="https://mobile.metaperson.avatarsdk.com/generator" allow="camera; fullscreen" title="Mobile 3D avatar creator"></iframe>
+</main>
+</div>
+</body>
+</html>
