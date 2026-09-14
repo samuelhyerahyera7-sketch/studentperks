@@ -61,6 +61,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .inventory-title{font-size:13px;font-weight:900;color:var(--white);margin-bottom:6px}
 .inventory-copy{font-size:12px;line-height:1.45;color:var(--ink2);margin-bottom:14px}
 .inventory-bar{display:grid;grid-template-columns:1fr 1fr 1fr;overflow:hidden;border-radius:999px;background:#eef2f7;height:20px}
+.inventory-bar.empty{display:block;background:#eef2f7}
+.inventory-bar.empty .inventory-segment{display:none}
 .inventory-segment{min-width:0}
 .inventory-segment.available{background:#22c55e}
 .inventory-segment.assigned{background:#9cff18}
@@ -454,6 +456,8 @@ function updateStats(codes){
   setText('legend-assigned', assigned);
   setText('legend-used', used);
   const safeTotal=total || 1;
+  const bar=document.querySelector('.inventory-bar');
+  if(bar) bar.classList.toggle('empty', total === 0);
   const segments=[
     ['bar-available', available],
     ['bar-assigned', assigned],
