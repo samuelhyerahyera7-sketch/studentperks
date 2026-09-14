@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 440" width="1800" height="440" role="img" aria-labelledby="title desc">
+  <title id="title">StudentPerks HD logo</title>
+  <desc id="desc">Student in white and Perks with a full stop in lime on black.</desc>
+  <rect width="1800" height="440" fill="#000000"/>
+  <text x="900" y="302" text-anchor="middle" font-family="Inter, Arial, Helvetica, sans-serif" font-size="200" font-weight="900" letter-spacing="-2">
+    <tspan fill="#FFFFFF">Student</tspan><tspan fill="#D4FF00">Perks.</tspan>
+  </text>
+</svg>
