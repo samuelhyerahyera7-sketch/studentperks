@@ -7856,7 +7856,18 @@ function renderPublicDeal(vendor){
       </button>
     </div>`;
   if(background){
-    card.querySelector('.deal-image').style.setProperty('--tile-bg', `url("${background}")`);
+    const image=card.querySelector('.deal-image');
+    image.style.setProperty('--tile-bg', `url("${background}")`);
+    image.style.setProperty('background-image', `linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.22)), url("${background}")`, 'important');
+    image.style.setProperty('background-position', 'center 58%', 'important');
+    image.style.setProperty('background-size', 'cover', 'important');
+    image.style.setProperty('background-repeat', 'no-repeat', 'important');
+  }
+  const logoImg=card.querySelector('.brand-logo-img');
+  if(logoImg && logo){
+    logoImg.style.setProperty('display', 'block', 'important');
+    logoImg.style.setProperty('visibility', 'visible', 'important');
+    logoImg.style.setProperty('opacity', '1', 'important');
   }
   card.querySelector('.heart-btn').addEventListener('click', event=>{
     event.stopPropagation();
