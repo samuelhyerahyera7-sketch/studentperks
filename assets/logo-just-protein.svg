@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title">
+  <title id="title">Just Protein</title>
+  <rect width="120" height="120" rx="18" fill="#0a0a0a"/>
+  <text x="60" y="56" text-anchor="middle" font-family="Inter, Arial, Helvetica, sans-serif" font-size="30" font-weight="900" fill="#ffffff" letter-spacing="-1">JUST</text>
+  <text x="60" y="82" text-anchor="middle" font-family="Inter, Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#ffffff" letter-spacing="3">PROTEIN</text>
+</svg>
