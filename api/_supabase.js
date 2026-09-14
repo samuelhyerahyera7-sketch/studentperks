@@ -21,7 +21,7 @@ function normalizeBusinessName(name) {
 
 function isApprovedLiveBusinessName(name) {
   const normalized = normalizeBusinessName(name);
-  return normalized === 'cratesandboxes' || normalized === 'custommugs' || normalized === 'custommugssa';
+  return normalized === 'cratesandboxes' || normalized === 'custommugs' || normalized === 'custommugssa' || normalized === 'justprotein';
 }
 
 function isApprovedLiveBusiness(vendor) {
