@@ -211,9 +211,11 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 .portal-top{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}
 .portal-title h1{font-size:26px;line-height:1;font-weight:900;letter-spacing:-.04em;color:#050505}
 .portal-title p{margin-top:6px;color:#556076;font-size:14px}
-.date-pill{display:inline-flex;align-items:center;min-height:36px;border-radius:10px;background:#fff;border:1px solid #dfe5ee;color:#556076;font-size:13px;font-weight:800;box-shadow:0 8px 22px rgba(15,23,42,.06);overflow:hidden}
-.date-pill select{height:36px;padding:0 34px 0 14px;border:0;background:#fff;color:#556076;font:inherit;appearance:none;cursor:pointer}
-.date-pill::after{content:"⌄";margin-left:-24px;pointer-events:none;color:#7b8494;font-size:13px}
+.date-pill{position:relative;display:inline-flex;align-items:center;min-height:38px;border-radius:11px;background:#fff;border:1px solid #dfe5ee;color:#556076;font-size:13px;font-weight:800;box-shadow:0 8px 22px rgba(15,23,42,.06);overflow:hidden}
+.date-pill select{height:38px;min-width:132px;padding:0 42px 0 14px;border:0;background:transparent;color:#556076;font:inherit;appearance:none;cursor:pointer}
+.date-pill::after{content:"";position:absolute;right:12px;top:50%;width:8px;height:8px;border-right:2px solid #7b8494;border-bottom:2px solid #7b8494;transform:translateY(-65%) rotate(45deg);pointer-events:none}
+.date-pill:hover{border-color:#cbd5e1}
+.date-pill:focus-within{border-color:#9cff18;box-shadow:0 0 0 3px rgba(156,255,24,.22),0 8px 22px rgba(15,23,42,.06)}
 .mobile-tabs{display:none;gap:8px;overflow-x:auto;margin:0 0 16px;padding-bottom:2px}
 .mobile-tabs .portal-tab{flex:0 0 auto;background:#fff;border:1px solid #dfe5ee}
 .mobile-tabs .portal-tab.active{background:#9cff18;border-color:#9cff18}
