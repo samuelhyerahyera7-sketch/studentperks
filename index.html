@@ -6178,14 +6178,15 @@ body.public-redesign .modal-success-icon {
   }
 
   body.public-redesign .verify-save-section .wrap {
-    max-width: 930px !important;
+    max-width: none !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
 
   body.public-redesign .verify-save {
-    width: 100% !important;
-    margin-left: 0 !important;
+    width: 100vw !important;
+    margin-left: calc(50% - 50vw) !important;
+    border-radius: 0 !important;
     display: grid !important;
     grid-template-columns: 150px minmax(0, 1fr) 76px !important;
     grid-template-rows: auto auto !important;
@@ -6196,8 +6197,8 @@ body.public-redesign .modal-success-icon {
     column-gap: 28px !important;
     row-gap: 7px !important;
     min-height: 130px !important;
-    padding: 17px 30px !important;
-    border-radius: 14px !important;
+    padding: 17px max(30px, calc((100vw - 1360px) / 2 + 30px)) !important;
+    border-radius: 0 !important;
     background: #050606 url('assets/sections/verify-save/background.svg') center/cover no-repeat !important;
     text-align: left !important;
     overflow: hidden !important;
