@@ -43,7 +43,7 @@ input[type=file]{position:absolute;inline-size:1px;block-size:1px;opacity:0;poin
     <a class="back" id="backLink" href="dashboard.html">Back</a>
   </header>
   <h1 id="title">Scan QR</h1>
-  <p class="sub" id="subtitle">Scan a StudentPerks QR code to open the matching perk.</p>
+  <p class="sub" id="subtitle">Students can scan a venue QR to claim a benefit. Vendors can scan a student's QR to check or redeem their claim.</p>
   <section class="card">
     <div class="reader">
       <video id="video" playsinline muted></video>
@@ -72,8 +72,8 @@ const mode=params.get('mode')==='vendor'?'vendor':'student';
 const els={video:document.getElementById('video'),empty:document.getElementById('empty'),target:document.getElementById('target'),status:document.getElementById('status'),start:document.getElementById('startBtn')};
 let detector=null,stream=null,scanning=false;
 
-document.getElementById('title').textContent=mode==='vendor'?'Scan customer QR':'Scan QR';
-document.getElementById('subtitle').textContent=mode==='vendor'?'Scan a student QR code to check it in the partner dashboard.':'Scan a StudentPerks QR code to open the matching perk.';
+document.getElementById('title').textContent=mode==='vendor'?'Scan student QR':'Scan venue QR';
+document.getElementById('subtitle').textContent=mode==='vendor'?'Use this at the venue when a student shows their StudentPerks QR. The code will open in the partner dashboard for checking or redemption.':'Use this when a venue displays a StudentPerks QR. It opens the matching benefit so you can claim it.';
 document.getElementById('backLink').href=mode==='vendor'?'verify.html':'dashboard.html';
 
 function setStatus(text,type){
