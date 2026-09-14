@@ -298,7 +298,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
           <h1 id="portal-title">Good day</h1>
           <p id="portal-subtitle">Here's how your StudentPerks codes are performing.</p>
         </div>
-        <div class="date-pill">Last 14 days</div>
+        <div class="date-pill">All time</div>
       </div>
 
       <div class="mobile-tabs" aria-label="Partner dashboard sections">
@@ -328,7 +328,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
         <div class="overview-grid">
           <section class="analytics-panel open" aria-label="Overview analytics graph">
             <div class="analytics-head">
-              <div><div class="analytics-title">Redemptions over time</div><div class="analytics-sub" id="analytics-sub">Last 14 days</div></div>
+              <div><div class="analytics-title">Redemptions over time</div><div class="analytics-sub" id="analytics-sub">All recorded redemptions</div></div>
               <div class="analytics-kpi" id="analytics-total">0<span>redeemed</span></div>
             </div>
             <div class="chart-wrap" id="chart-wrap"></div>
@@ -363,7 +363,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
           <div class="inventory-legend"><span><i class="legend-dot"></i>Available <b id="legend-available">0</b></span><span><i class="legend-dot"></i>Claimed <b id="legend-assigned">0</b></span><span><i class="legend-dot"></i>Redeemed <b id="legend-used">0</b></span></div>
         </section>
         <section class="analytics-panel open" aria-label="Analytics graph">
-          <div class="analytics-head"><div><div class="analytics-title">Redemptions over time</div><div class="analytics-sub" id="analytics-sub-2">Last 14 days</div></div><div class="analytics-kpi" id="analytics-total-2">0<span>redeemed</span></div></div>
+          <div class="analytics-head"><div><div class="analytics-title">Redemptions over time</div><div class="analytics-sub" id="analytics-sub-2">All recorded redemptions</div></div><div class="analytics-kpi" id="analytics-total-2">0<span>redeemed</span></div></div>
           <div class="chart-wrap" id="chart-wrap-2"></div>
         </section>
       </section>
@@ -853,40 +853,39 @@ function toggleAnalytics(){
   panel.classList.toggle('open', open);
   btn.textContent=open ? 'Hide analytics graph' : 'Show analytics graph';
   if(open) {
-    renderAnalytics(currentCodes);
+    renderAnalytics(currentRedemptions);
     panel.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
 }
 
 function renderAnalytics(redemptions){
   const list=Array.isArray(redemptions)?redemptions:[];
-  const days=[];
-  const today=new Date();
-  today.setHours(0,0,0,0);
-  for(let i=13;i>=0;i-=1){
-    const d=new Date(today);
-    d.setDate(today.getDate()-i);
-    days.push({date:d,count:0});
-  }
+  const buckets=new Map();
   list.forEach(redemption=>{
     const stamp=redemption.redeemed_at || redemption.used_at;
     if(!stamp) return;
-    const used=new Date(stamp);
-    used.setHours(0,0,0,0);
-    const hit=days.find(day=>day.date.getTime()===used.getTime());
-    if(hit) hit.count+=1;
+    const date=new Date(stamp);
+    date.setHours(0,0,0,0);
+    const key=date.toISOString().slice(0,10);
+    buckets.set(key, {date, count:(buckets.get(key)?.count || 0) + 1});
   });
+  const days=[...buckets.values()].sort((a,b)=>a.date-b.date);
   const total=days.reduce((sum,day)=>sum+day.count,0);
   ['analytics-total','analytics-total-2'].forEach(id=>{
     const totalEl=document.getElementById(id);
     if(totalEl) totalEl.innerHTML=`${total}<span>redeemed</span>`;
   });
-  ['analytics-sub','analytics-sub-2'].forEach(id=>setText(id, `${total} redemptions in the last 14 days`));
+  ['analytics-sub','analytics-sub-2'].forEach(id=>setText(id, `${total} redemptions recorded all time`));
   const renderTo=wrap=>{
     if(!wrap) return;
   if(!total){
     wrap.innerHTML='<div class="chart-empty">No redemptions yet. The graph will appear as students use Just Protein codes.</div>';
     return;
+  }
+  if(days.length===1){
+    const previous=new Date(days[0].date);
+    previous.setDate(previous.getDate()-1);
+    days.unshift({date:previous,count:0});
   }
   const width=640;
   const height=210;
@@ -898,7 +897,8 @@ function renderAnalytics(redemptions){
   const line=points.map(([x,y],i)=>`${i?'L':'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join(' ');
   const fill=`${line} L${points[points.length-1][0].toFixed(1)} ${height-pad.bottom} L${points[0][0].toFixed(1)} ${height-pad.bottom} Z`;
   const labels=days.map((day,i)=>{
-    if(i%3!==0 && i!==days.length-1) return '';
+    const labelEvery=Math.max(1, Math.ceil(days.length/6));
+    if(i%labelEvery!==0 && i!==days.length-1) return '';
     const label=day.date.toLocaleDateString('en-ZA',{day:'2-digit',month:'short'});
     return `<text class="chart-label" x="${(pad.left+i*xStep).toFixed(1)}" y="${height-10}" text-anchor="middle">${esc(label)}</text>`;
   }).join('');
@@ -908,7 +908,7 @@ function renderAnalytics(redemptions){
     return `<line class="chart-grid" x1="${pad.left}" y1="${y.toFixed(1)}" x2="${width-pad.right}" y2="${y.toFixed(1)}"></line><text class="chart-label" x="8" y="${(y+4).toFixed(1)}">${label}</text>`;
   }).join('');
   const dots=points.map(([x,y],i)=>`<circle class="chart-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${days[i].count?4:3}"></circle>`).join('');
-  wrap.innerHTML=`<svg class="chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Redemptions over the last 14 days">${grid}<path class="chart-fill" d="${fill}"></path><path class="chart-line" d="${line}"></path>${dots}${labels}</svg>`;
+  wrap.innerHTML=`<svg class="chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="All recorded redemptions over time">${grid}<path class="chart-fill" d="${fill}"></path><path class="chart-line" d="${line}"></path>${dots}${labels}</svg>`;
   };
   renderTo(document.getElementById('chart-wrap'));
   renderTo(document.getElementById('chart-wrap-2'));
