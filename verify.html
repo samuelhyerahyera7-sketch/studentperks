@@ -450,9 +450,9 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
             <div class="f"><label>Tile title</label><input type="text" id="tile-title" maxlength="80" placeholder="Just Protein" oninput="updateTilePreview()"></div>
             <div class="f"><label>Offer wording</label><input type="text" id="tile-offer" maxlength="120" placeholder="15% off" oninput="updateTilePreview()"></div>
             <div class="f"><label>Background picture URL</label><input type="text" id="tile-background" maxlength="800000" placeholder="https://..." oninput="updateTilePreview()"></div>
-            <div class="f"><label>Background picture file</label><input type="file" id="tile-background-file" accept="image/png,image/jpeg,image/webp" onchange="handleTileImageUpload('tile-background', this, 'background')"></div>
+            <div class="f"><label>Background picture file</label><input type="file" id="tile-background-file" accept="image/png,image/jpeg,image/webp"></div>
             <div class="f"><label>Top-left logo URL</label><input type="text" id="tile-logo" maxlength="800000" placeholder="assets/logo-just-protein.png" oninput="updateTilePreview()"></div>
-            <div class="f"><label>Top-left logo file</label><input type="file" id="tile-logo-file" accept="image/png,image/jpeg,image/webp" onchange="handleTileImageUpload('tile-logo', this, 'logo')"></div>
+            <div class="f"><label>Top-left logo file</label><input type="file" id="tile-logo-file" accept="image/png,image/jpeg,image/webp"></div>
             <button class="btn" id="tile-btn" onclick="saveTileSettings()">Save website tile</button>
             <div class="form-note" id="tile-note"></div>
           </article>
@@ -603,6 +603,7 @@ function showDashboard() {
   document.getElementById('settings-prefix').value = currentVendor.code_prefix || '';
   document.getElementById('settings-pin').value = '';
   setTileForm();
+  bindTileUploadInputs();
   loadTileConfig();
   showVendorView('overview');
   loadCodeList();
@@ -856,6 +857,18 @@ async function handleTileImageUpload(targetId, input, kind){
     note('tile-note', error.message || 'Could not load that image.', false);
     input.value='';
   }
+}
+
+function bindTileUploadInputs(){
+  [
+    ['tile-background-file', 'tile-background', 'background'],
+    ['tile-logo-file', 'tile-logo', 'logo']
+  ].forEach(([inputId, targetId, kind])=>{
+    const input=document.getElementById(inputId);
+    if(!input || input.dataset.tileUploadBound) return;
+    input.dataset.tileUploadBound='true';
+    input.addEventListener('change', ()=>handleTileImageUpload(targetId, input, kind));
+  });
 }
 
 async function loadTileConfig(){
