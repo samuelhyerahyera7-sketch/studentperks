@@ -52,6 +52,49 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .vendor-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
 .vendor-name-display{font-size:20px;font-weight:800;color:var(--white)}
 .vendor-discount{font-size:13px;color:var(--lime);margin-top:3px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.stat-card{display:flex;align-items:center;gap:12px;min-width:0;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.stat-dot{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:0 0 34px;background:#ecffd8;color:#385600;font-weight:900}
+.stat-number{font-size:24px;font-weight:900;line-height:1;color:var(--white)}
+.stat-label{margin-top:2px;font-size:11px;font-weight:700;color:var(--ink2);line-height:1.2}
+.inventory-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:18px;box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.inventory-title{font-size:13px;font-weight:900;color:var(--white);margin-bottom:6px}
+.inventory-copy{font-size:12px;line-height:1.45;color:var(--ink2);margin-bottom:14px}
+.inventory-bar{display:grid;grid-template-columns:1fr 1fr 1fr;overflow:hidden;border-radius:999px;background:#eef2f7;height:20px}
+.inventory-bar.empty{display:block;background:#eef2f7}
+.inventory-bar.empty .inventory-segment{display:none}
+.inventory-segment{min-width:0}
+.inventory-segment.available{background:#22c55e}
+.inventory-segment.assigned{background:#9cff18}
+.inventory-segment.used{background:#d09100}
+.inventory-legend{display:flex;flex-wrap:wrap;gap:10px 14px;margin-top:10px;font-size:11px;color:var(--ink2)}
+.legend-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;background:#647084}
+.analytics-toggle{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 18px;border-radius:999px;background:#9cff18;color:#050505;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;margin:0 0 18px;border:none}
+.analytics-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:18px;box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.analytics-panel.open{display:block}
+.analytics-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:14px}
+.analytics-title{font-size:15px;font-weight:900;color:var(--white)}
+.analytics-sub{margin-top:4px;font-size:12px;color:var(--ink2);line-height:1.35}
+.analytics-kpi{font-size:24px;font-weight:900;color:var(--white);line-height:1;text-align:right}
+.analytics-kpi span{display:block;margin-top:4px;font-size:10px;font-weight:800;text-transform:uppercase;color:var(--ink2);letter-spacing:.08em}
+.chart-wrap{height:220px;border-radius:12px;background:linear-gradient(180deg,#fbfff5,#fff);border:1px solid #e2e9f2;padding:14px;overflow:hidden}
+.chart-svg{width:100%;height:100%;display:block}
+.chart-line{fill:none;stroke:#557500;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.chart-fill{fill:rgba(156,255,24,.18)}
+.chart-dot{fill:#9cff18;stroke:#557500;stroke-width:2}
+.chart-grid{stroke:#dfe7f0;stroke-width:1}
+.chart-label{fill:#687285;font-size:10px;font-weight:700}
+.chart-empty{height:100%;display:grid;place-items:center;text-align:center;color:var(--ink2);font-size:13px;line-height:1.35}
+.dashboard-tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.tool-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.tool-title{font-size:13px;font-weight:900;color:var(--white);margin-bottom:6px}
+.tool-copy{font-size:12px;line-height:1.45;color:var(--ink2);margin-bottom:14px}
+.tool-card .f{margin-bottom:10px}
+.tool-card .btn{margin-top:8px}
+.tool-card select{width:100%;min-width:0;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:var(--font);color:var(--white);background:var(--bg3);appearance:none}
+.form-note{display:none;margin-top:10px;font-size:12px;font-weight:700;line-height:1.35}
+.form-note.ok{display:block;color:var(--green)}
+.form-note.bad{display:block;color:var(--red)}
 
 /* VERIFY BOX */
 .verify-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px}
@@ -81,9 +124,12 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 
 /* CODE LIST */
 .code-list{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-.cl-head{display:grid;grid-template-columns:160px 1fr 1fr 90px;gap:10px;padding:12px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);background:rgba(255,255,255,.02);border-bottom:1px solid var(--border)}
-.cl-row{display:grid;grid-template-columns:160px 1fr 1fr 90px;gap:10px;padding:12px 16px;font-size:12px;border-bottom:1px solid var(--border);align-items:center}
+.cl-head{display:grid;grid-template-columns:150px 1fr 1fr 80px 82px;gap:10px;padding:12px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);background:rgba(255,255,255,.02);border-bottom:1px solid var(--border)}
+.cl-row{display:grid;grid-template-columns:150px 1fr 1fr 80px 82px;gap:10px;padding:12px 16px;font-size:12px;border-bottom:1px solid var(--border);align-items:center}
+.row-action{margin:0;padding:8px 10px;border-radius:999px;background:#f1f4f8;color:#111827;border:1px solid var(--border);font-size:11px;font-weight:900;text-transform:uppercase}
+.row-action:disabled{opacity:.45;cursor:not-allowed}
 .cl-row:last-child{border-bottom:none}
+.cl-mobile-label{display:none}
 .code-mono{font-family:monospace;color:var(--lime);letter-spacing:.04em}
 .cl-dim{color:var(--ink3)}
 .pill{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em}
@@ -92,11 +138,41 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .p-used{background:rgba(255,68,68,.1);color:var(--red)}
 .list-empty{text-align:center;padding:28px;color:var(--ink3);font-size:13px}
 @media(max-width:520px){
+  body{overflow-x:hidden}
   .nav{padding:12px 14px}
   .badge{display:none}
   .login-card{padding:26px 18px}
+  #dashboard{padding:28px 14px 44px;max-width:none}
+  .vendor-header{margin-bottom:18px;padding:0 8px}
+  .vendor-name-display{font-size:26px;line-height:1.05}
+  .vendor-discount{font-size:18px;margin-top:8px}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:16px}
+  .stat-card{align-items:flex-start;padding:14px 12px;border-radius:14px}
+  .stat-dot{width:30px;height:30px;flex-basis:30px;font-size:12px}
+  .stat-number{font-size:24px}
+  .stat-label{font-size:11px}
+  .inventory-box,.verify-box,.code-list{border-radius:16px}
+  .inventory-box{padding:16px;margin-bottom:16px}
+  .inventory-copy{font-size:12px}
+  .inventory-bar{height:18px}
+  .inventory-legend{display:grid;grid-template-columns:1fr;gap:7px;margin-top:12px}
+  .analytics-toggle{width:100%;margin-bottom:16px}
+  .analytics-panel{padding:16px;margin-bottom:16px}
+  .analytics-head{display:grid;grid-template-columns:1fr auto}
+  .chart-wrap{height:190px;padding:10px}
+  .dashboard-tools{grid-template-columns:1fr;gap:12px;margin-bottom:16px}
+  .tool-card{padding:18px 16px}
+  .verify-box{padding:24px 20px}
   .code-input-row{display:grid;grid-template-columns:1fr}
   .check-btn{width:100%}
+  .cl-head{display:none}
+  .cl-row{display:grid;grid-template-columns:1fr;gap:8px;padding:14px 16px;font-size:13px}
+  .cl-row > div{display:flex;justify-content:space-between;gap:12px;min-width:0}
+  .cl-row > div:first-child{display:block}
+  .cl-mobile-label{display:inline;color:var(--ink3);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+  .cl-value{min-width:0;text-align:right;overflow:hidden;text-overflow:ellipsis}
+  .code-mono{display:block;font-size:13px;word-break:break-all}
+  .list-empty{padding:34px 18px;font-size:15px;line-height:1.35}
 }
 
 /* White StudentPerks theme alignment */
@@ -108,8 +184,8 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 .nav{background:#fff;border-bottom:1px solid var(--border)}
 .logo,.card-title,.vendor-name-display,.result-title,.result-detail b{color:#050505}
 .card-sub,.f label,.vendor-discount,.verify-box-title,.result-detail,.cl-dim,.list-empty,#vendor-name-nav{color:var(--ink2)}
-.login-card,.verify-box,.code-list{background:#fff;border-color:var(--border);box-shadow:0 10px 28px rgba(15,23,42,.07)}
-.f input,.f select,.code-input{background:#fff;color:#111827;border-color:#d7dee8}
+.login-card,.verify-box,.code-list,.stat-card,.inventory-box,.tool-card,.analytics-panel{background:#fff;border-color:var(--border);box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.f input,.f select,.code-input,.tool-card select{background:#fff;color:#111827;border-color:#d7dee8}
 .f input::placeholder,.code-input::placeholder{color:#94a3b8}
 .btn,.check-btn{background:#9cff18;color:#050505}
 .btn:hover:not(:disabled),.check-btn:hover{background:#050505;color:#fff}
@@ -117,6 +193,56 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 .btn-ghost:hover:not(:disabled),#logout-btn:hover{background:#050505;color:#fff}
 .cl-head{background:#f1f4f8;border-bottom-color:var(--border)}
 .cl-row{border-bottom-color:var(--border)}
+
+/* Partner dashboard shell */
+#dashboard{max-width:none;padding:0;background:#f6f8fb}
+.portal-shell{display:grid;grid-template-columns:214px minmax(0,1fr);min-height:calc(100vh - 56px)}
+.portal-sidebar{background:#fff;border-right:1px solid #dfe5ee;padding:18px 14px}
+.portal-nav{display:grid;gap:4px;position:sticky;top:74px}
+.portal-tab{display:flex;align-items:center;gap:12px;min-height:40px;padding:0 13px;border-radius:9px;background:transparent;color:#4d5669;font-size:15px;font-weight:800;text-align:left}
+.portal-tab.active{background:#9cff18;color:#050505}
+.tab-icon{width:17px;text-align:center;font-weight:900}
+.portal-main{min-width:0;padding:28px;max-width:1096px}
+.portal-top{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}
+.portal-title h1{font-size:26px;line-height:1;font-weight:900;letter-spacing:-.04em;color:#050505}
+.portal-title p{margin-top:6px;color:#556076;font-size:14px}
+.date-pill{display:inline-flex;align-items:center;min-height:36px;padding:0 16px;border-radius:10px;background:#fff;border:1px solid #dfe5ee;color:#556076;font-size:13px;font-weight:800;box-shadow:0 8px 22px rgba(15,23,42,.06)}
+.mobile-tabs{display:none;gap:8px;overflow-x:auto;margin:0 0 16px;padding-bottom:2px}
+.mobile-tabs .portal-tab{flex:0 0 auto;background:#fff;border:1px solid #dfe5ee}
+.mobile-tabs .portal-tab.active{background:#9cff18;border-color:#9cff18}
+.view-panel{display:none}
+.view-panel.active{display:block}
+.overview-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,.95fr);gap:14px;margin-top:18px}
+.recent-box,.offer-box{background:#fff;border:1px solid #dfe5ee;border-radius:16px;padding:18px;box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.box-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.box-title{font-size:15px;font-weight:900;color:#050505}
+.box-link{background:none;border:none;color:#557500;font-size:12px;font-weight:900;text-decoration:underline}
+.recent-list{display:grid;gap:0}
+.recent-row{display:grid;grid-template-columns:1fr 1fr 90px;gap:12px;padding:9px 0;border-bottom:1px solid #dfe5ee;font-size:12px}
+.recent-row:last-child{border-bottom:0}
+.recent-head{color:#7b8494;text-transform:uppercase;letter-spacing:.08em;font-size:10px;font-weight:900}
+.offer-line{display:flex;gap:10px;margin:12px 0}
+.offer-dot{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#ecffd8;color:#385600;font-weight:900;flex:0 0 32px}
+.offer-line strong{display:block;font-size:15px;color:#050505}
+.offer-line span{display:block;color:#556076;font-size:12px}
+.redemptions-card{background:#fff;border:1px solid #dfe5ee;border-radius:16px;padding:18px;box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.settings-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.help-card{background:#fff;border:1px solid #dfe5ee;border-radius:16px;padding:22px;box-shadow:0 10px 28px rgba(15,23,42,.07);max-width:650px}
+.help-card h2{font-size:22px;line-height:1.05;margin-bottom:10px}
+.help-card p{color:#556076;line-height:1.5}
+@media(max-width:860px){
+  .portal-shell{display:block;min-height:0}
+  .portal-sidebar{display:none}
+  .portal-main{padding:28px 14px 44px;max-width:none}
+  .portal-top{display:grid;gap:12px;margin-bottom:14px}
+  .portal-title h1{font-size:27px}
+  .date-pill{width:max-content}
+  .mobile-tabs{display:flex}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .overview-grid,.settings-grid{grid-template-columns:1fr}
+  .recent-row{grid-template-columns:1fr;gap:3px}
+  .recent-head{display:none}
+}
 </style>
 </head>
 <body>
@@ -153,31 +279,138 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 
 <!-- DASHBOARD -->
 <div id="dashboard">
-  <div class="vendor-header">
-    <div>
-      <div class="vendor-name-display" id="dash-vendor-name"></div>
-      <div class="vendor-discount" id="dash-vendor-discount"></div>
-    </div>
-  </div>
+  <div class="portal-shell">
+    <aside class="portal-sidebar" aria-label="Partner dashboard navigation">
+      <div class="portal-nav">
+        <button class="portal-tab active" data-view="overview" onclick="showVendorView('overview')"><span class="tab-icon">⌂</span>Overview</button>
+        <button class="portal-tab" data-view="redemptions" onclick="showVendorView('redemptions')"><span class="tab-icon">▣</span>Redemptions</button>
+        <button class="portal-tab" data-view="analytics" onclick="showVendorView('analytics')"><span class="tab-icon">▥</span>Analytics</button>
+        <button class="portal-tab" data-view="profile" onclick="showVendorView('profile')"><span class="tab-icon">□</span>Business profile</button>
+        <button class="portal-tab" data-view="help" onclick="showVendorView('help')"><span class="tab-icon">?</span>Help</button>
+      </div>
+    </aside>
 
-  <!-- Verify a code -->
-  <div class="verify-box">
-    <div class="verify-box-title">Check a coupon code</div>
-    <div class="code-input-row">
-      <input class="code-input" type="text" id="check-input" placeholder="Enter code e.g. SP-NIKE-X7K2M9" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkCode()">
-      <button class="check-btn" onclick="checkCode()">Check</button>
-    </div>
-    <div class="result-box" id="result-box"></div>
-  </div>
+    <main class="portal-main">
+      <div class="portal-top">
+        <div class="portal-title">
+          <h1 id="portal-title">Good day</h1>
+          <p id="portal-subtitle">Here's how your StudentPerks codes are performing.</p>
+        </div>
+        <div class="date-pill">Last 14 days</div>
+      </div>
 
-  <!-- Code list -->
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3)">Your Coupon Codes</div>
-    <button onclick="loadCodeList()" style="background:none;border:none;color:var(--lime);font-size:12px;font-weight:600;cursor:pointer">↻ Refresh</button>
-  </div>
-  <div class="code-list" id="code-list">
-    <div class="cl-head"><div>Code</div><div>Assigned to</div><div>Email</div><div>Status</div></div>
-    <div class="list-empty" id="list-loading">Loading…</div>
+      <div class="mobile-tabs" aria-label="Partner dashboard sections">
+        <button class="portal-tab active" data-view="overview" onclick="showVendorView('overview')">Overview</button>
+        <button class="portal-tab" data-view="redemptions" onclick="showVendorView('redemptions')">Redemptions</button>
+        <button class="portal-tab" data-view="analytics" onclick="showVendorView('analytics')">Analytics</button>
+        <button class="portal-tab" data-view="profile" onclick="showVendorView('profile')">Profile</button>
+      </div>
+
+      <section class="view-panel active" id="view-overview">
+        <div class="verify-box">
+          <div class="verify-box-title">Check a code</div>
+          <div class="code-input-row">
+            <input class="code-input" type="text" id="check-input" placeholder="E.g. JUSTPROTEIN001-YZ" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkCode()">
+            <button class="check-btn" onclick="checkCode()">Check</button>
+          </div>
+          <div class="result-box" id="result-box"></div>
+        </div>
+
+        <section class="stats-grid" aria-label="Coupon statistics">
+          <article class="stat-card"><div class="stat-dot">#</div><div><div class="stat-number" id="stat-total">0</div><div class="stat-label">Total codes issued</div></div></article>
+          <article class="stat-card"><div class="stat-dot">A</div><div><div class="stat-number" id="stat-available">0</div><div class="stat-label">Available</div></div></article>
+          <article class="stat-card"><div class="stat-dot">C</div><div><div class="stat-number" id="stat-assigned">0</div><div class="stat-label">Assigned, not redeemed</div></div></article>
+          <article class="stat-card"><div class="stat-dot">R</div><div><div class="stat-number" id="stat-used">0</div><div class="stat-label">Redeemed</div></div></article>
+        </section>
+
+        <div class="overview-grid">
+          <section class="analytics-panel open" aria-label="Overview analytics graph">
+            <div class="analytics-head">
+              <div><div class="analytics-title">Redemptions over time</div><div class="analytics-sub" id="analytics-sub">Last 14 days</div></div>
+              <div class="analytics-kpi" id="analytics-total">0<span>redeemed</span></div>
+            </div>
+            <div class="chart-wrap" id="chart-wrap"></div>
+          </section>
+
+          <section class="offer-box">
+            <div class="box-title">Your offer</div>
+            <div class="offer-line"><span class="offer-dot">%</span><div><strong id="offer-discount">15% off</strong><span>Student discount</span></div></div>
+            <div class="offer-line"><span class="offer-dot">ID</span><div><strong id="offer-prefix">JUSTPROTEIN</strong><span>Code prefix</span></div></div>
+            <div class="offer-line"><span class="offer-dot">✓</span><div><strong id="offer-status">Active</strong><span>Partner status</span></div></div>
+          </section>
+        </div>
+
+        <section class="recent-box" style="margin-top:14px">
+          <div class="box-head"><div class="box-title">Recent redemptions</div><button class="box-link" onclick="showVendorView('redemptions')">View all →</button></div>
+          <div class="recent-list" id="recent-redemptions"></div>
+        </section>
+      </section>
+
+      <section class="view-panel" id="view-redemptions">
+        <section class="redemptions-card">
+          <div class="box-head"><div class="box-title">Redemptions</div><button class="box-link" onclick="loadCodeList()">Refresh</button></div>
+          <div class="recent-list" id="redemptions-list"></div>
+        </section>
+      </section>
+
+      <section class="view-panel" id="view-analytics">
+        <section class="inventory-box" aria-label="Code inventory">
+          <div class="inventory-title">Code inventory</div>
+          <div class="inventory-copy">Every code moves from available, to assigned when claimed, to redeemed once used.</div>
+          <div class="inventory-bar" aria-hidden="true"><span class="inventory-segment available" id="bar-available"></span><span class="inventory-segment assigned" id="bar-assigned"></span><span class="inventory-segment used" id="bar-used"></span></div>
+          <div class="inventory-legend"><span><i class="legend-dot"></i>Available <b id="legend-available">0</b></span><span><i class="legend-dot"></i>Assigned <b id="legend-assigned">0</b></span><span><i class="legend-dot"></i>Redeemed <b id="legend-used">0</b></span></div>
+        </section>
+        <section class="analytics-panel open" aria-label="Analytics graph">
+          <div class="analytics-head"><div><div class="analytics-title">Redemptions over time</div><div class="analytics-sub" id="analytics-sub-2">Last 14 days</div></div><div class="analytics-kpi" id="analytics-total-2">0<span>redeemed</span></div></div>
+          <div class="chart-wrap" id="chart-wrap-2"></div>
+        </section>
+      </section>
+
+      <section class="view-panel" id="view-profile">
+        <section class="dashboard-tools" aria-label="Partner tools">
+          <article class="tool-card">
+            <div class="tool-title">Generate codes</div>
+            <div class="tool-copy">Create fresh Just Protein coupon codes for students.</div>
+            <div class="f"><label>How many codes?</label><input type="number" id="gen-qty" min="1" max="100" value="10"></div>
+            <button class="btn" id="gen-btn" onclick="generateVendorCodes()">Generate</button>
+            <div class="form-note" id="gen-note"></div>
+          </article>
+          <article class="tool-card">
+            <div class="tool-title">Assign a code</div>
+            <div class="tool-copy">Choose an available code and assign it to a student.</div>
+            <div class="f"><label>Code</label><select id="assign-code"><option value="">No available codes yet</option></select></div>
+            <div class="f"><label>Student name</label><input type="text" id="assign-name" placeholder="Full name"></div>
+            <div class="f"><label>Student email</label><input type="email" id="assign-email" placeholder="student@example.com"></div>
+            <button class="btn" id="assign-btn" onclick="assignVendorCode()">Assign code</button>
+            <div class="form-note" id="assign-note"></div>
+          </article>
+          <article class="tool-card">
+            <div class="tool-title">Login settings</div>
+            <div class="tool-copy">Change the partner sign-in code and PIN.</div>
+            <div class="f"><label>Sign-in code</label><input type="text" id="settings-prefix" placeholder="JUSTPROTEIN" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"></div>
+            <div class="f"><label>New PIN</label><input type="password" id="settings-pin" placeholder="Minimum 4 characters"></div>
+            <button class="btn" id="settings-btn" onclick="updateVendorLogin()">Save login</button>
+            <div class="form-note" id="settings-note"></div>
+          </article>
+        </section>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3)">Your coupon codes</div>
+          <button onclick="loadCodeList()" style="background:none;border:none;color:var(--lime);font-size:12px;font-weight:600;cursor:pointer">↻ Refresh</button>
+        </div>
+        <div class="code-list" id="code-list">
+          <div class="cl-head"><div>Code</div><div>Assigned to</div><div>Email</div><div>Status</div><div>Action</div></div>
+          <div class="list-empty" id="list-loading">Loading…</div>
+        </div>
+      </section>
+
+      <section class="view-panel" id="view-help">
+        <div class="help-card">
+          <h2>Need help?</h2>
+          <p>Use Overview to check customer codes, Business profile to generate and assign codes, and Analytics to monitor performance. Contact StudentPerks if a code or partner setting looks wrong.</p>
+        </div>
+      </section>
+    </main>
   </div>
 </div>
 
@@ -188,13 +421,14 @@ const _sb = supabase.createClient(SB_URL, SB_KEY);
 
 let currentVendor = null;
 let vendorToken = '';
+let currentCodes = [];
 
 function normalizeBusinessName(name){
   return String(name||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'').trim();
 }
 function isApprovedLiveBusinessName(name){
   const normalized=normalizeBusinessName(name);
-  return normalized==='cratesandboxes'||normalized==='custommugs'||normalized==='custommugssa';
+  return normalized==='cratesandboxes'||normalized==='custommugs'||normalized==='custommugssa'||normalized==='justprotein';
 }
 
 function togglePw(id, btn){
@@ -255,9 +489,33 @@ function showDashboard() {
   document.getElementById('dashboard').style.display='block';
   document.getElementById('logout-btn').style.display='inline-block';
   document.getElementById('vendor-name-nav').textContent = currentVendor.name;
-  document.getElementById('dash-vendor-name').textContent = currentVendor.name;
-  document.getElementById('dash-vendor-discount').textContent = currentVendor.discount_desc || '';
+  setText('portal-title', `Good day, ${currentVendor.name}`);
+  setText('offer-discount', currentVendor.discount_desc || 'Student discount');
+  setText('offer-prefix', currentVendor.code_prefix || '');
+  document.getElementById('settings-prefix').value = currentVendor.code_prefix || '';
+  document.getElementById('settings-pin').value = '';
+  showVendorView('overview');
   loadCodeList();
+}
+
+function showVendorView(name){
+  document.querySelectorAll('.view-panel').forEach(panel=>{
+    panel.classList.toggle('active', panel.id === `view-${name}`);
+  });
+  document.querySelectorAll('.portal-tab').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.view === name);
+  });
+  const titles={
+    overview:[`Good day, ${currentVendor && currentVendor.name ? currentVendor.name : 'partner'}`,"Here's how your StudentPerks codes are performing."],
+    redemptions:['Redemptions','Confirmed code redemptions for your offer.'],
+    analytics:['Analytics','Track code inventory and redemption performance.'],
+    profile:['Business profile','Generate codes, assign them, and update partner login details.'],
+    help:['Help','Quick guidance for managing your StudentPerks offer.']
+  };
+  const next=titles[name]||titles.overview;
+  setText('portal-title', next[0]);
+  setText('portal-subtitle', next[1]);
+  if(name==='analytics') renderAnalytics(currentCodes);
 }
 
 async function checkCode() {
@@ -336,9 +594,19 @@ async function loadCodeList() {
   const list    = document.getElementById('code-list');
   const loading = document.getElementById('list-loading');
   if(loading) loading.textContent='Loading…';
-  const response = await fetch('/api/vendor-codes', {headers: {'Authorization': `Bearer ${vendorToken}`}});
-  const payload = await response.json();
-  const data = response.ok ? payload.codes : [];
+  let data = [];
+  try {
+    const response = await fetch('/api/vendor-codes', {headers: {'Authorization': `Bearer ${vendorToken}`}});
+    const payload = await response.json();
+    data = response.ok ? payload.codes : [];
+  } catch(e) {
+    data = [];
+  }
+  currentCodes = data;
+  updateStats(data);
+  renderAnalytics(data);
+  renderRedemptionLists(data);
+  refreshAssignOptions(data);
   [...list.querySelectorAll('.cl-row')].forEach(r=>r.remove());
   if(!data||!data.length){
     const l=document.getElementById('list-loading');
@@ -350,13 +618,250 @@ async function loadCodeList() {
     const row=document.createElement('div'); row.className='cl-row';
     const cls=c.is_used?'p-used':c.assigned_to_email?'p-assigned':'p-available';
     const lbl=c.is_used?'Used':c.assigned_to_email?'Assigned':'Available';
-    row.innerHTML=`<div class="code-mono">${esc(c.code)}</div><div>${esc(c.assigned_to_name||'—')}</div><div class="cl-dim">${esc(c.assigned_to_email||'—')}</div><div><span class="pill ${cls}">${lbl}</span></div>`;
+    row.innerHTML=`<div class="code-mono">${esc(c.code)}</div><div><span class="cl-mobile-label">Assigned to</span><span class="cl-value">${esc(c.assigned_to_name||'—')}</span></div><div class="cl-dim"><span class="cl-mobile-label">Email</span><span class="cl-value">${esc(c.assigned_to_email||'—')}</span></div><div><span class="cl-mobile-label">Status</span><span class="pill ${cls}">${lbl}</span></div><div><button class="row-action" ${c.is_used?'disabled':''} onclick="prepareAssign('${esc(c.id)}')">Assign</button></div>`;
     list.appendChild(row);
   });
 }
 
+function note(id, message, ok){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.textContent=message || '';
+  el.className='form-note'+(message ? (ok ? ' ok' : ' bad') : '');
+}
+
+function refreshAssignOptions(codes){
+  const select=document.getElementById('assign-code');
+  if(!select) return;
+  const available=(codes||[]).filter(c=>!c.is_used);
+  select.innerHTML='';
+  if(!available.length){
+    select.add(new Option('No available codes yet', ''));
+    document.getElementById('assign-btn').disabled=true;
+    return;
+  }
+  available.forEach(c=>{
+    const label=c.assigned_to_email ? `${c.code} - assigned` : c.code;
+    select.add(new Option(label, c.id));
+  });
+  document.getElementById('assign-btn').disabled=false;
+}
+
+function prepareAssign(codeId){
+  const select=document.getElementById('assign-code');
+  if(select) select.value=codeId;
+  showVendorView('profile');
+  document.getElementById('assign-name')?.focus();
+  document.querySelector('.dashboard-tools')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+async function generateVendorCodes(){
+  const qty=Math.max(1, Math.min(100, parseInt(document.getElementById('gen-qty').value,10)||10));
+  const btn=document.getElementById('gen-btn');
+  note('gen-note','',true);
+  btn.disabled=true; btn.textContent='Generating...';
+  try{
+    const response=await fetch('/api/vendor-generate-codes',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${vendorToken}`},
+      body:JSON.stringify({quantity:qty})
+    });
+    const payload=await response.json();
+    if(!response.ok) throw new Error(payload.error || 'Could not generate codes.');
+    note('gen-note',`Generated ${payload.generated || qty} codes.`,true);
+    await loadCodeList();
+  }catch(e){
+    note('gen-note',e.message || 'Could not generate codes.',false);
+  }finally{
+    btn.disabled=false; btn.textContent='Generate';
+  }
+}
+
+async function assignVendorCode(){
+  const codeId=document.getElementById('assign-code').value;
+  const studentName=document.getElementById('assign-name').value.trim();
+  const studentEmail=document.getElementById('assign-email').value.trim();
+  const btn=document.getElementById('assign-btn');
+  note('assign-note','',true);
+  btn.disabled=true; btn.textContent='Assigning...';
+  try{
+    const response=await fetch('/api/vendor-assign-code',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${vendorToken}`},
+      body:JSON.stringify({codeId,studentName,studentEmail})
+    });
+    const payload=await response.json();
+    if(!response.ok) throw new Error(payload.error || 'Could not assign code.');
+    note('assign-note','Code assigned.',true);
+    document.getElementById('assign-name').value='';
+    document.getElementById('assign-email').value='';
+    await loadCodeList();
+  }catch(e){
+    note('assign-note',e.message || 'Could not assign code.',false);
+  }finally{
+    btn.disabled=false; btn.textContent='Assign code';
+  }
+}
+
+async function updateVendorLogin(){
+  const codePrefix=document.getElementById('settings-prefix').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
+  const pin=document.getElementById('settings-pin').value.trim();
+  const btn=document.getElementById('settings-btn');
+  note('settings-note','',true);
+  btn.disabled=true; btn.textContent='Saving...';
+  try{
+    const response=await fetch('/api/vendor-update-login',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${vendorToken}`},
+      body:JSON.stringify({codePrefix,pin})
+    });
+    const payload=await response.json();
+    if(!response.ok) throw new Error(payload.error || 'Could not update login details.');
+    currentVendor=payload.vendor || currentVendor;
+    vendorToken=payload.token || vendorToken;
+    sessionStorage.setItem('sp_vendor', JSON.stringify({vendor:currentVendor, token:vendorToken}));
+    document.getElementById('vendor-name-nav').textContent=currentVendor.name;
+    document.getElementById('settings-prefix').value=currentVendor.code_prefix || codePrefix;
+    document.getElementById('settings-pin').value='';
+    note('settings-note','Login details updated. Use the new sign-in code and PIN next time.',true);
+  }catch(e){
+    note('settings-note',e.message || 'Could not update login details.',false);
+  }finally{
+    btn.disabled=false; btn.textContent='Save login';
+  }
+}
+
+function setText(id, value){
+  const el=document.getElementById(id);
+  if(el) el.textContent=String(value);
+}
+
+function updateStats(codes){
+  const list=Array.isArray(codes)?codes:[];
+  const total=list.length;
+  const used=list.filter(c=>c.is_used).length;
+  const assigned=list.filter(c=>!c.is_used && c.assigned_to_email).length;
+  const available=Math.max(0,total-used-assigned);
+  setText('stat-total', total);
+  setText('stat-available', available);
+  setText('stat-assigned', assigned);
+  setText('stat-used', used);
+  setText('legend-available', available);
+  setText('legend-assigned', assigned);
+  setText('legend-used', used);
+  const safeTotal=total || 1;
+  const bar=document.querySelector('.inventory-bar');
+  if(bar) bar.classList.toggle('empty', total === 0);
+  const segments=[
+    ['bar-available', available],
+    ['bar-assigned', assigned],
+    ['bar-used', used]
+  ];
+  segments.forEach(([id,count])=>{
+    const el=document.getElementById(id);
+    if(el) el.style.flex=`${total ? Math.max(count, count ? 1 : 0) : 1} 1 ${total ? (count/safeTotal*100) : 33.333}%`;
+  });
+}
+
+function toggleAnalytics(){
+  const panel=document.getElementById('analytics-panel');
+  const btn=document.getElementById('analytics-toggle');
+  const open=!panel.classList.contains('open');
+  panel.classList.toggle('open', open);
+  btn.textContent=open ? 'Hide analytics graph' : 'Show analytics graph';
+  if(open) {
+    renderAnalytics(currentCodes);
+    panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+}
+
+function renderAnalytics(codes){
+  const list=Array.isArray(codes)?codes:[];
+  const days=[];
+  const today=new Date();
+  today.setHours(0,0,0,0);
+  for(let i=13;i>=0;i-=1){
+    const d=new Date(today);
+    d.setDate(today.getDate()-i);
+    days.push({date:d,count:0});
+  }
+  list.forEach(code=>{
+    if(!code.is_used || !code.used_at) return;
+    const used=new Date(code.used_at);
+    used.setHours(0,0,0,0);
+    const hit=days.find(day=>day.date.getTime()===used.getTime());
+    if(hit) hit.count+=1;
+  });
+  const total=days.reduce((sum,day)=>sum+day.count,0);
+  ['analytics-total','analytics-total-2'].forEach(id=>{
+    const totalEl=document.getElementById(id);
+    if(totalEl) totalEl.innerHTML=`${total}<span>redeemed</span>`;
+  });
+  ['analytics-sub','analytics-sub-2'].forEach(id=>setText(id, `${total} redemptions in the last 14 days`));
+  const renderTo=wrap=>{
+    if(!wrap) return;
+  if(!total){
+    wrap.innerHTML='<div class="chart-empty">No redemptions yet. The graph will appear as students use Just Protein codes.</div>';
+    return;
+  }
+  const width=640;
+  const height=210;
+  const pad={top:18,right:14,bottom:32,left:28};
+  const max=Math.max(1,...days.map(day=>day.count));
+  const xStep=(width-pad.left-pad.right)/(days.length-1);
+  const yFor=count=>pad.top+(max-count)/max*(height-pad.top-pad.bottom);
+  const points=days.map((day,i)=>[pad.left+i*xStep,yFor(day.count)]);
+  const line=points.map(([x,y],i)=>`${i?'L':'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join(' ');
+  const fill=`${line} L${points[points.length-1][0].toFixed(1)} ${height-pad.bottom} L${points[0][0].toFixed(1)} ${height-pad.bottom} Z`;
+  const labels=days.map((day,i)=>{
+    if(i%3!==0 && i!==days.length-1) return '';
+    const label=day.date.toLocaleDateString('en-ZA',{day:'2-digit',month:'short'});
+    return `<text class="chart-label" x="${(pad.left+i*xStep).toFixed(1)}" y="${height-10}" text-anchor="middle">${esc(label)}</text>`;
+  }).join('');
+  const grid=[0,.5,1].map(t=>{
+    const y=pad.top+t*(height-pad.top-pad.bottom);
+    const label=Math.round(max*(1-t));
+    return `<line class="chart-grid" x1="${pad.left}" y1="${y.toFixed(1)}" x2="${width-pad.right}" y2="${y.toFixed(1)}"></line><text class="chart-label" x="8" y="${(y+4).toFixed(1)}">${label}</text>`;
+  }).join('');
+  const dots=points.map(([x,y],i)=>`<circle class="chart-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${days[i].count?4:3}"></circle>`).join('');
+  wrap.innerHTML=`<svg class="chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Redemptions over the last 14 days">${grid}<path class="chart-fill" d="${fill}"></path><path class="chart-line" d="${line}"></path>${dots}${labels}</svg>`;
+  };
+  renderTo(document.getElementById('chart-wrap'));
+  renderTo(document.getElementById('chart-wrap-2'));
+}
+
+function redemptionRows(codes){
+  return (codes||[])
+    .filter(c=>c.is_used)
+    .sort((a,b)=>new Date(b.used_at||0)-new Date(a.used_at||0));
+}
+
+function renderRedemptionLists(codes){
+  const rows=redemptionRows(codes);
+  renderRedemptionList('recent-redemptions', rows.slice(0,5), true);
+  renderRedemptionList('redemptions-list', rows, false);
+}
+
+function renderRedemptionList(id, rows, compact){
+  const el=document.getElementById(id);
+  if(!el) return;
+  if(!rows.length){
+    el.innerHTML='<div class="list-empty">No redemptions yet.</div>';
+    return;
+  }
+  const head=compact ? '' : '<div class="recent-row recent-head"><div>Code</div><div>Student</div><div>Date</div></div>';
+  el.innerHTML=head+rows.map(row=>`
+    <div class="recent-row">
+      <div class="code-mono">${esc(row.code)}</div>
+      <div>${esc(row.assigned_to_email || row.assigned_to_name || 'Student')}</div>
+      <div>${esc(fmtShort(row.used_at))}</div>
+    </div>
+  `).join('');
+}
+
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function fmtLong(ts){if(!ts)return'—';return new Date(ts).toLocaleString('en-ZA',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}
+function fmtShort(ts){if(!ts)return'—';return new Date(ts).toLocaleDateString('en-ZA',{day:'2-digit',month:'short'})}
 
 // Restore session
 (function(){
