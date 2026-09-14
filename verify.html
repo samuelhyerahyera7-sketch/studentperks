@@ -241,7 +241,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 .tile-preview-shell{display:grid;gap:8px}
 .tile-preview-label{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:#7b8494}
 .tile-preview-card{overflow:hidden;border:1px solid #dde4ed;border-radius:10px;background:#fff;box-shadow:0 10px 28px rgba(15,23,42,.07)}
-.tile-preview-image{position:relative;aspect-ratio:1.84/1;background:#f3f0eb linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,.22)),url('https://www.justprotein.co.za/cdn/shop/files/Healthy_Me1.png?v=1761940686&width=1500') center center / 100% auto no-repeat}
+.tile-preview-image{position:relative;aspect-ratio:1.84/1;background-color:#f3f0eb;background-image:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,.22)),url('https://www.justprotein.co.za/cdn/shop/files/Healthy_Me1.png?v=1761940686&width=1500');background-position:center center;background-size:100% auto;background-repeat:no-repeat}
 .tile-preview-card.mobile .tile-preview-image{background-size:145% auto}
 .tile-preview-logo{position:absolute;left:12px;top:12px;width:118px;max-width:58%;max-height:62px;object-fit:contain}
 .tile-preview-badge{position:absolute;right:10px;bottom:10px;min-height:30px;display:inline-flex;align-items:center;background:#9cff18;color:#050505;border-radius:999px;padding:0 14px;font-size:13px;font-weight:900}
@@ -905,7 +905,11 @@ function updateTilePreview(){
   document.querySelectorAll('.js-tile-preview-badge').forEach(el=>{ el.textContent=tileDiscountLabel(offer); });
   document.querySelectorAll('.tile-preview-image').forEach(el=>{
     const size=el.closest('.mobile') ? '145% auto' : '100% auto';
-    el.style.background = `#f3f0eb linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.22)), url("${background.replace(/"/g,'%22')}") center center / ${size} no-repeat`;
+    el.style.backgroundColor='#f3f0eb';
+    el.style.backgroundImage=`linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.22)), url("${background.replace(/"/g,'%22')}")`;
+    el.style.backgroundPosition='center center';
+    el.style.backgroundSize=size;
+    el.style.backgroundRepeat='no-repeat';
   });
   document.querySelectorAll('.js-tile-preview-logo').forEach(el=>{ el.src=logo; });
 }
