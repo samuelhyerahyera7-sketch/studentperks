@@ -6817,7 +6817,9 @@ body.public-redesign .verify-save {
 
 /* Keep Claude's homepage, but make every public deal card use the same layout. */
 body.public-redesign #perks .deal-image.justprotein {
-  background: #f3f3f3 url('assets/logo-just-protein.png') center / 82% auto no-repeat !important;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.2)),
+    url('https://www.justprotein.co.za/cdn/shop/files/just-protein-premium-whey-8630045.png?v=1770148395&width=533') center 58% / cover no-repeat !important;
 }
 
 body.public-redesign #perks .deal-image.justprotein::after {
@@ -6825,7 +6827,7 @@ body.public-redesign #perks .deal-image.justprotein::after {
 }
 
 body.public-redesign #perks .deal-image.justprotein .brand-logo-img {
-  display: none !important;
+  display: block !important;
 }
 
 body.public-redesign #perks .mock-deal-card.perk-card .deal-content p,
@@ -7790,9 +7792,16 @@ function dealAssetFor(name){
     return { logo:'assets/logo-custom-mugs-sa.svg', imageClass:'mugs' };
   }
   if(key.includes('just protein') || key.includes('justprotein')){
-    return { logo:'assets/logo-just-protein.png', imageClass:'justprotein' };
+    return { logo:'assets/logo-just-protein.png', imageClass:'justprotein', background:'https://www.justprotein.co.za/cdn/shop/files/just-protein-premium-whey-8630045.png?v=1770148395&width=533' };
   }
   return { logo:'favicon.svg', imageClass:'placeholder' };
+}
+
+function safeTileUrl(value){
+  const url=String(value||'').trim();
+  if(!url) return '';
+  if(/^https:\/\//i.test(url) || /^assets\//i.test(url)) return url.replace(/"/g,'%22');
+  return '';
 }
 
 function discountLabel(desc){
@@ -7811,6 +7820,9 @@ function renderPublicDeal(vendor){
   const desc=vendor.discount_desc||'Student offer';
   const cat=inferDealCategory(vendor);
   const asset=dealAssetFor(name);
+  const config=vendor.tile_config || {};
+  const logo=safeTileUrl(config.logoUrl) || asset.logo;
+  const background=safeTileUrl(config.backgroundUrl) || asset.background || '';
   const search=[name,desc,vendor.code_prefix,cat].join(' ').toLowerCase();
   const card=document.createElement('article');
   card.className='mock-deal-card perk-card';
@@ -7819,7 +7831,7 @@ function renderPublicDeal(vendor){
   card.onclick=()=>showGateToast('Join StudentPerks to claim this offer.', true);
   card.innerHTML=`
     <div class="deal-image ${asset.imageClass}">
-      <img class="brand-logo-img" src="${asset.logo}" alt="${escapeHtml(name)} logo">
+      <img class="brand-logo-img" src="${logo}" alt="${escapeHtml(name)} logo">
       <button class="heart-btn" type="button" aria-label="Save ${escapeHtml(name)} offer">
         <img src="assets/layered/overlays/heart-button.svg" alt="" aria-hidden="true">
       </button>
@@ -7838,6 +7850,9 @@ function renderPublicDeal(vendor){
         <span class="sp-icon" style="--icon:url('assets/icons/arrow-right.svg')" aria-hidden="true"></span>
       </button>
     </div>`;
+  if(background){
+    card.querySelector('.deal-image').style.background = `linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.22)), url("${background}") center 58% / cover no-repeat`;
+  }
   card.querySelector('.heart-btn').addEventListener('click', event=>{
     event.stopPropagation();
     showGateToast('Sign in to save offers to your wallet.', true);
@@ -7899,17 +7914,13 @@ async function loadPublicDeals(){
     return;
   }
   try{
-    const query=sb
-      .from('vendors')
-      .select('id,name,code_prefix,discount_desc,active,created_at')
-      .eq('active', true)
-      .order('created_at', { ascending:false });
     const timeout=new Promise((_, reject)=>{
       setTimeout(()=>reject(new Error('Public deals request timed out')), 8000);
     });
-    const { data, error } = await Promise.race([query, timeout]);
-    if(error) throw error;
-    const deals=mergeApprovedOffers((data||[]).filter(v=>v && v.name && isApprovedLiveBusiness(v)));
+    const response = await Promise.race([fetch('/api/public-vendors'), timeout]);
+    const payload = await response.json();
+    if(!response.ok) throw new Error(payload.error || 'Could not load public deals');
+    const deals=mergeApprovedOffers((payload.vendors||[]).filter(v=>v && v.name && isApprovedLiveBusiness(v)));
     if(!deals.length){
       renderApprovedRepoOffers();
       return;

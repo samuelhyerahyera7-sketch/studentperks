@@ -240,20 +240,19 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 .tile-preview-grid{display:grid;grid-template-columns:minmax(250px,1fr) minmax(170px,220px);gap:12px;align-items:start}
 .tile-preview-shell{display:grid;gap:8px}
 .tile-preview-label{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:#7b8494}
-.tile-preview-card{overflow:hidden;border:1px solid #dfe5ee;border-radius:16px;background:#fff;box-shadow:0 10px 28px rgba(15,23,42,.07)}
-.tile-preview-image{position:relative;min-height:178px;background:#f3f3f3 url('assets/logo-just-protein.png') center / 82% auto no-repeat}
-.tile-preview-image img{display:none}
-.tile-preview-badge{position:absolute;right:14px;bottom:14px;background:#9cff18;color:#050505;border-radius:999px;padding:10px 15px;font-size:14px;font-weight:900}
-.tile-preview-body{padding:18px}
-.tile-preview-body h3{font-size:27px;line-height:1;font-weight:900;letter-spacing:-.04em;color:#050505;margin-bottom:10px}
-.tile-preview-body p{color:#596071;font-size:13px;line-height:1.35;margin-bottom:13px}
-.tile-preview-button{display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:13px;background:#9cff18;color:#050505;font-size:15px;font-weight:900}
-.tile-preview-card.mobile .tile-preview-image{min-height:112px;background-size:86% auto}
-.tile-preview-card.mobile .tile-preview-badge{right:10px;bottom:10px;padding:7px 10px;font-size:11px}
-.tile-preview-card.mobile .tile-preview-body{padding:12px}
-.tile-preview-card.mobile .tile-preview-body h3{font-size:19px;margin-bottom:7px}
-.tile-preview-card.mobile .tile-preview-body p{font-size:11px;margin-bottom:10px}
-.tile-preview-card.mobile .tile-preview-button{min-height:34px;border-radius:10px;font-size:11px}
+.tile-preview-card{overflow:hidden;border:1px solid #dde4ed;border-radius:10px;background:#fff;box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.tile-preview-image{position:relative;aspect-ratio:1.84/1;background:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,.22)),url('https://www.justprotein.co.za/cdn/shop/files/just-protein-premium-whey-8630045.png?v=1770148395&width=533') center 58% / cover no-repeat}
+.tile-preview-logo{position:absolute;left:12px;top:12px;width:118px;max-width:58%;max-height:62px;object-fit:contain}
+.tile-preview-badge{position:absolute;right:10px;bottom:10px;min-height:30px;display:inline-flex;align-items:center;background:#9cff18;color:#050505;border-radius:999px;padding:0 14px;font-size:13px;font-weight:900}
+.tile-preview-body{display:flex;flex-direction:column;gap:18px;padding:18px 16px}
+.tile-preview-body h3{font-size:30px;line-height:1.02;font-weight:900;letter-spacing:-.04em;color:#050505;margin:0}
+.tile-preview-body p{display:none;color:#596071;font-size:13px;line-height:1.35;margin:0}
+.tile-preview-button{display:flex;align-items:center;justify-content:center;min-height:58px;border-radius:18px;background:#9cff18;color:#050505;font-size:21px;font-weight:900}
+.tile-preview-card.mobile .tile-preview-logo{left:10px;top:10px;width:84px;max-height:44px}
+.tile-preview-card.mobile .tile-preview-badge{right:8px;bottom:8px;min-height:24px;padding:0 10px;font-size:10px}
+.tile-preview-card.mobile .tile-preview-body{gap:10px;padding:11px}
+.tile-preview-card.mobile .tile-preview-body h3{font-size:18px}
+.tile-preview-card.mobile .tile-preview-button{min-height:34px;border-radius:10px;font-size:12px}
 .help-card{background:#fff;border:1px solid #dfe5ee;border-radius:16px;padding:22px;box-shadow:0 10px 28px rgba(15,23,42,.07);max-width:650px}
 .help-card h2{font-size:22px;line-height:1.05;margin-bottom:10px}
 .help-card p{color:#556076;line-height:1.5}
@@ -450,6 +449,8 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
             <div class="tool-copy">Choose the wording students see on the public StudentPerks deal card.</div>
             <div class="f"><label>Tile title</label><input type="text" id="tile-title" maxlength="80" placeholder="Just Protein" oninput="updateTilePreview()"></div>
             <div class="f"><label>Offer wording</label><input type="text" id="tile-offer" maxlength="120" placeholder="15% off" oninput="updateTilePreview()"></div>
+            <div class="f"><label>Background picture URL</label><input type="url" id="tile-background" maxlength="600" placeholder="https://..." oninput="updateTilePreview()"></div>
+            <div class="f"><label>Top-left logo URL</label><input type="url" id="tile-logo" maxlength="600" placeholder="assets/logo-just-protein.png" oninput="updateTilePreview()"></div>
             <button class="btn" id="tile-btn" onclick="saveTileSettings()">Save website tile</button>
             <div class="form-note" id="tile-note"></div>
           </article>
@@ -458,6 +459,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
               <div class="tile-preview-label">Web preview</div>
               <article class="tile-preview-card" aria-label="Website desktop tile preview">
                 <div class="tile-preview-image">
+                  <img class="tile-preview-logo js-tile-preview-logo" src="assets/logo-just-protein.png" alt="">
                   <div class="tile-preview-badge js-tile-preview-badge">15% OFF</div>
                 </div>
                 <div class="tile-preview-body">
@@ -471,6 +473,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
               <div class="tile-preview-label">Mobile preview</div>
               <article class="tile-preview-card mobile" aria-label="Website mobile tile preview">
                 <div class="tile-preview-image">
+                  <img class="tile-preview-logo js-tile-preview-logo" src="assets/logo-just-protein.png" alt="">
                   <div class="tile-preview-badge js-tile-preview-badge">15% OFF</div>
                 </div>
                 <div class="tile-preview-body">
@@ -513,6 +516,10 @@ let vendorToken = '';
 let currentCodes = [];
 let currentRedemptions = [];
 let analyticsRange = 'all';
+let currentTileConfig = {};
+
+const DEFAULT_TILE_BACKGROUND = 'https://www.justprotein.co.za/cdn/shop/files/just-protein-premium-whey-8630045.png?v=1770148395&width=533';
+const DEFAULT_TILE_LOGO = 'assets/logo-just-protein.png';
 
 function sharedCheckoutCode(){
   const name=normalizeBusinessName(currentVendor && currentVendor.name);
@@ -594,6 +601,7 @@ function showDashboard() {
   document.getElementById('settings-prefix').value = currentVendor.code_prefix || '';
   document.getElementById('settings-pin').value = '';
   setTileForm();
+  loadTileConfig();
   showVendorView('overview');
   loadCodeList();
 }
@@ -793,25 +801,54 @@ function tileDiscountLabel(desc){
   return 'STUDENT DEAL';
 }
 
+function safeTileUrl(value, fallback){
+  const url=String(value||'').trim();
+  if(/^https:\/\//i.test(url) || /^assets\//i.test(url)) return url;
+  return fallback || '';
+}
+
+async function loadTileConfig(){
+  try{
+    const response=await fetch('/api/vendor-tile-config',{headers:{'Authorization':`Bearer ${vendorToken}`}});
+    const payload=await response.json();
+    if(response.ok) currentTileConfig=payload.tileConfig || {};
+  }catch(e){
+    currentTileConfig={};
+  }
+  setTileForm();
+}
+
 function setTileForm(){
   const title=document.getElementById('tile-title');
   const offer=document.getElementById('tile-offer');
+  const background=document.getElementById('tile-background');
+  const logo=document.getElementById('tile-logo');
   if(title) title.value=currentVendor.name || '';
   if(offer) offer.value=currentVendor.discount_desc || '';
+  if(background) background.value=currentTileConfig.backgroundUrl || DEFAULT_TILE_BACKGROUND;
+  if(logo) logo.value=currentTileConfig.logoUrl || DEFAULT_TILE_LOGO;
   updateTilePreview();
 }
 
 function updateTilePreview(){
   const title=document.getElementById('tile-title')?.value.trim() || currentVendor?.name || 'Just Protein';
   const offer=document.getElementById('tile-offer')?.value.trim() || currentVendor?.discount_desc || 'Student offer';
+  const background=safeTileUrl(document.getElementById('tile-background')?.value, DEFAULT_TILE_BACKGROUND);
+  const logo=safeTileUrl(document.getElementById('tile-logo')?.value, DEFAULT_TILE_LOGO);
   document.querySelectorAll('.js-tile-preview-title').forEach(el=>{ el.textContent=title; });
   document.querySelectorAll('.js-tile-preview-offer').forEach(el=>{ el.textContent=offer; });
   document.querySelectorAll('.js-tile-preview-badge').forEach(el=>{ el.textContent=tileDiscountLabel(offer); });
+  document.querySelectorAll('.tile-preview-image').forEach(el=>{
+    el.style.background = `linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.22)), url("${background.replace(/"/g,'%22')}") center 58% / cover no-repeat`;
+  });
+  document.querySelectorAll('.js-tile-preview-logo').forEach(el=>{ el.src=logo; });
 }
 
 async function saveTileSettings(){
   const title=document.getElementById('tile-title').value.trim();
   const offer=document.getElementById('tile-offer').value.trim();
+  const backgroundUrl=safeTileUrl(document.getElementById('tile-background').value, DEFAULT_TILE_BACKGROUND);
+  const logoUrl=safeTileUrl(document.getElementById('tile-logo').value, DEFAULT_TILE_LOGO);
   const btn=document.getElementById('tile-btn');
   note('tile-note','',true);
   btn.disabled=true;
@@ -820,11 +857,12 @@ async function saveTileSettings(){
     const response=await fetch('/api/vendor-update-tile',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':`Bearer ${vendorToken}`},
-      body:JSON.stringify({title, offer})
+      body:JSON.stringify({title, offer, backgroundUrl, logoUrl})
     });
     const payload=await response.json();
     if(!response.ok) throw new Error(payload.error || 'Could not save website tile.');
     currentVendor=payload.vendor || currentVendor;
+    currentTileConfig=payload.tileConfig || {backgroundUrl, logoUrl};
     sessionStorage.setItem('sp_vendor', JSON.stringify({vendor:currentVendor, token:vendorToken}));
     document.getElementById('vendor-name-nav').textContent=currentVendor.name;
     setText('portal-title', `Business profile`);
