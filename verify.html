@@ -247,7 +247,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 .tile-preview-shell{display:grid;gap:8px}
 .tile-preview-label{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:#7b8494}
 .tile-preview-card{overflow:hidden;border:1px solid #dde4ed;border-radius:10px;background:#fff;box-shadow:0 10px 28px rgba(15,23,42,.07)}
-.tile-preview-image{position:relative;aspect-ratio:1.84/1;background-color:#f3f0eb;background-image:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,.22)),url('https://www.justprotein.co.za/cdn/shop/files/Healthy_Me1.png?v=1761940686&width=1500');background-position:center center;background-size:100% auto;background-repeat:no-repeat}
+.tile-preview-image{position:relative;aspect-ratio:1.84/1;background-color:#f3f0eb;background-position:center center;background-size:100% auto;background-repeat:no-repeat}
 .tile-preview-card.mobile .tile-preview-image{background-size:145% auto}
 .tile-preview-logo{position:absolute;left:12px;top:12px;width:118px;max-width:58%;max-height:62px;object-fit:contain}
 .tile-preview-badge{position:absolute;right:10px;bottom:10px;min-height:30px;display:inline-flex;align-items:center;background:#9cff18;color:#050505;border-radius:999px;padding:0 14px;font-size:13px;font-weight:900}
@@ -425,7 +425,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
         <section class="dashboard-tools" aria-label="Partner tools">
           <article class="tool-card">
             <div class="tool-title">Shared checkout code</div>
-            <div class="tool-copy">Students use one discount code at justprotein.co.za checkout. Create this exact code in Just Protein's Shopify discounts.</div>
+            <div class="tool-copy" id="shared-code-copy">Students use one discount code at checkout. Create this exact code in your store's discount system.</div>
             <div class="f"><label>Checkout code</label><select id="share-code"><option value="">Loading code...</option></select></div>
             <div class="tool-actions">
               <button class="btn" id="copy-code-btn" onclick="copySelectedCode()">Copy code</button>
@@ -440,7 +440,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
           </article>
           <article class="tool-card">
             <div class="tool-title">Record redemption</div>
-            <div class="tool-copy">When a Just Protein order uses the StudentPerks code, record it here so the graph and redemption log update.</div>
+            <div class="tool-copy" id="record-redemption-copy">When an order uses the StudentPerks code, record it here so the graph and redemption log update.</div>
             <div class="f"><label>Code used at checkout</label><select id="record-code"><option value="">Loading code...</option></select></div>
             <button class="btn" id="record-btn" onclick="recordCheckoutRedemption()">Record redemption</button>
             <div class="form-note" id="record-note"></div>
@@ -513,7 +513,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
       <section class="view-panel" id="view-help">
         <div class="help-card">
           <h2>Need help?</h2>
-          <p>Use Overview to check checkout codes, Business profile to copy the shared Shopify code, and Analytics to monitor StudentPerks-side performance. Just Protein must create the same code in Shopify before students can redeem it there.</p>
+          <p>Use Overview to check checkout codes, Business profile to copy the shared checkout code, and Analytics to monitor StudentPerks-side performance. Your team must create the same code in your own checkout system before students can redeem it there.</p>
         </div>
       </section>
     </main>
@@ -533,8 +533,18 @@ let analyticsRange = 'all';
 let currentTileConfig = {};
 let pendingScanCode = new URLSearchParams(location.search).get('scan') || '';
 
-const DEFAULT_TILE_BACKGROUND = 'https://www.justprotein.co.za/cdn/shop/files/Healthy_Me1.png?v=1761940686&width=1500';
-const DEFAULT_TILE_LOGO = 'assets/logo-just-protein.png';
+function defaultTileLogo(){
+  const key=normalizeBusinessName(currentVendor && currentVendor.name);
+  if(key==='cratesandboxes') return 'assets/logo-crates-and-boxes.svg';
+  if(key==='custommugs'||key==='custommugssa') return 'assets/logo-custom-mugs-sa.svg';
+  if(key==='justprotein') return 'assets/logo-just-protein.png';
+  return 'favicon.svg';
+}
+function defaultTileBackground(){
+  const key=normalizeBusinessName(currentVendor && currentVendor.name);
+  if(key==='justprotein') return 'https://www.justprotein.co.za/cdn/shop/files/Healthy_Me1.png?v=1761940686&width=1500';
+  return '';
+}
 
 function sharedCheckoutCode(){
   const name=normalizeBusinessName(currentVendor && currentVendor.name);
@@ -615,6 +625,8 @@ function showDashboard() {
   setText('offer-prefix', currentVendor.code_prefix || '');
   document.getElementById('settings-prefix').value = currentVendor.code_prefix || '';
   document.getElementById('settings-pin').value = '';
+  document.getElementById('settings-prefix').placeholder = currentVendor.code_prefix || 'STUDENTPERKS';
+  document.getElementById('check-input').placeholder = `E.g. ${sharedCheckoutCode()}`;
   setTileForm();
   bindTileUploadInputs();
   loadTileConfig();
@@ -698,9 +710,9 @@ async function checkCode() {
   box.innerHTML=`
     <div class="result-icon">✅</div>
     <div class="result-title">Valid — not yet redeemed</div>
-    <div class="result-sub green">This code can be accepted here after the matching discount exists in Just Protein checkout.</div>
+    <div class="result-sub green">This code can be accepted here after the matching discount exists in ${esc(currentVendor.name||'your')} checkout.</div>
     <div class="result-detail">
-      <b>Checkout:</b> justprotein.co.za<br>
+      <b>Vendor:</b> ${esc(currentVendor.name||'—')}<br>
       <b>Discount:</b> ${esc(currentVendor.discount_desc||'—')}
     </div>
     <button class="redeem-confirm-btn" onclick="markRedeemed('${esc(code)}')">✓ Mark as redeemed</button>
@@ -771,7 +783,7 @@ async function loadCodeList() {
     const row=document.createElement('div'); row.className='cl-row';
     const cls=c.is_used?'p-used':c.assigned_to_email?'p-assigned':'p-available';
     const lbl=c.is_used?'Redeemed':c.assigned_to_email?'Claimed':'Available';
-    const note=c.is_used?'Confirmed in StudentPerks':c.assigned_to_email?'Student has claimed this code':'Create this same code in Just Protein checkout';
+    const note=c.is_used?'Confirmed in StudentPerks':c.assigned_to_email?'Student has claimed this code':`Create this same code in ${currentVendor && currentVendor.name ? esc(currentVendor.name) : 'your'} checkout`;
     row.innerHTML=`<div class="code-mono">${esc(c.code)}</div><div class="cl-dim"><span class="cl-mobile-label">Checkout note</span><span class="cl-value">${esc(note)}</span></div><div><span class="cl-mobile-label">Status</span><span class="pill ${cls}">${lbl}</span></div><div><button class="row-action" onclick="copyCode('${esc(c.code)}')">Copy</button></div>`;
     list.appendChild(row);
   });
@@ -926,16 +938,16 @@ function setTileForm(){
   const logo=document.getElementById('tile-logo');
   if(title) title.value=currentVendor.name || '';
   if(offer) offer.value=currentVendor.discount_desc || '';
-  if(background) background.value=currentTileConfig.backgroundUrl || DEFAULT_TILE_BACKGROUND;
-  if(logo) logo.value=currentTileConfig.logoUrl || DEFAULT_TILE_LOGO;
+  if(background) background.value=currentTileConfig.backgroundUrl || defaultTileBackground();
+  if(logo) logo.value=currentTileConfig.logoUrl || defaultTileLogo();
   updateTilePreview();
 }
 
 function updateTilePreview(){
-  const title=document.getElementById('tile-title')?.value.trim() || currentVendor?.name || 'Just Protein';
+  const title=document.getElementById('tile-title')?.value.trim() || currentVendor?.name || 'Your business';
   const offer=document.getElementById('tile-offer')?.value.trim() || currentVendor?.discount_desc || 'Student offer';
-  const background=safeTileUrl(document.getElementById('tile-background')?.value, DEFAULT_TILE_BACKGROUND);
-  const logo=safeTileUrl(document.getElementById('tile-logo')?.value, DEFAULT_TILE_LOGO);
+  const background=safeTileUrl(document.getElementById('tile-background')?.value, defaultTileBackground());
+  const logo=safeTileUrl(document.getElementById('tile-logo')?.value, defaultTileLogo());
   document.querySelectorAll('.js-tile-preview-title').forEach(el=>{ el.textContent=title; });
   document.querySelectorAll('.js-tile-preview-offer').forEach(el=>{ el.textContent=offer; });
   document.querySelectorAll('.js-tile-preview-badge').forEach(el=>{ el.textContent=tileDiscountLabel(offer); });
@@ -953,8 +965,8 @@ function updateTilePreview(){
 async function saveTileSettings(){
   const title=document.getElementById('tile-title').value.trim();
   const offer=document.getElementById('tile-offer').value.trim();
-  const backgroundUrl=safeTileUrl(document.getElementById('tile-background').value, DEFAULT_TILE_BACKGROUND);
-  const logoUrl=safeTileUrl(document.getElementById('tile-logo').value, DEFAULT_TILE_LOGO);
+  const backgroundUrl=safeTileUrl(document.getElementById('tile-background').value, defaultTileBackground());
+  const logoUrl=safeTileUrl(document.getElementById('tile-logo').value, defaultTileLogo());
   const btn=document.getElementById('tile-btn');
   note('tile-note','',true);
   btn.disabled=true;
@@ -1048,9 +1060,19 @@ async function copySelectedCode(){
   note('share-note', ok ? `Copied ${code}.` : 'Choose a code to copy.', ok);
 }
 
+function discountLinkFor(code){
+  const key=normalizeBusinessName(currentVendor && currentVendor.name);
+  if(key==='justprotein') return code ? `https://www.justprotein.co.za/discount/${encodeURIComponent(code)}` : '';
+  return '';
+}
+
 async function copySelectedDiscountLink(){
   const code=document.getElementById('share-code').value;
-  const link=code ? `https://www.justprotein.co.za/discount/${encodeURIComponent(code)}` : '';
+  const link=discountLinkFor(code);
+  if(!link){
+    note('share-note', code ? 'No automatic discount link is set up for this store — share the code directly.' : 'Choose a code to copy.', false);
+    return;
+  }
   const ok=await copyText(link);
   note('share-note', ok ? 'Copied discount link.' : 'Choose a code to copy.', ok);
 }
@@ -1084,11 +1106,11 @@ function downloadVendorCodes(){
   const rows=[{
     code:shared,
     status:'shared',
-    checkout_url:`https://www.justprotein.co.za/discount/${encodeURIComponent(shared)}`
+    checkout_url:discountLinkFor(shared)
   }, ...(currentCodes||[]).map(c=>({
     code:c.code,
     status:c.is_used?'redeemed':c.assigned_to_email?'claimed':'available',
-    checkout_url:`https://www.justprotein.co.za/discount/${encodeURIComponent(c.code)}`
+    checkout_url:discountLinkFor(c.code)
   }))];
   if(!rows.length){
     note('share-note','No codes to download yet.',false);
@@ -1225,7 +1247,7 @@ function renderAnalytics(redemptions){
   const renderTo=wrap=>{
     if(!wrap) return;
   if(!total){
-    wrap.innerHTML='<div class="chart-empty">No redemptions yet. The graph will appear as students use Just Protein codes.</div>';
+    wrap.innerHTML=`<div class="chart-empty">No redemptions yet. The graph will appear as students use ${esc(currentVendor && currentVendor.name || 'your')} codes.</div>`;
     return;
   }
   if(days.length===1){
