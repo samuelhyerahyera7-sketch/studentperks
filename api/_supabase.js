@@ -142,6 +142,54 @@ async function sendRedemptionEmails(payload) {
   return { sent: sends.length };
 }
 
+const ADMIN_NOTIFICATION_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || 'samuelhyera.hyera7@gmail.com';
+
+async function sendNewApplicationEmail(payload) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return { sent: 0, skipped: true };
+
+  const from = process.env.REDEMPTION_EMAIL_FROM || 'StudentPerks <notifications@studentperks.co.za>';
+  const html = `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#111">
+    <h2>New StudentPerks application</h2>
+    <p><strong>Name:</strong> ${escapeHtml(payload.name)}</p>
+    <p><strong>Personal email:</strong> ${escapeHtml(payload.email)}</p>
+    <p><strong>Student email:</strong> ${escapeHtml(payload.studentEmail || 'Not provided')}</p>
+    <p><strong>Institution:</strong> ${escapeHtml(payload.institution || 'Not provided')}</p>
+    <p><a href="https://studentperks.co.za/admin">Review it in the admin panel</a></p>
+  </div>`;
+
+  const response = await fetch(RESEND_ENDPOINT, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from, to: ADMIN_NOTIFICATION_EMAIL, subject: `New StudentPerks application: ${payload.name || payload.email}`, html })
+  });
+  if (!response.ok) throw new Error(`Resend failed: ${response.status} ${await response.text()}`);
+  return { sent: 1 };
+}
+
+async function sendApplicationApprovedEmail(payload) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return { sent: 0, skipped: true };
+  if (!isEmail(payload.email)) return { sent: 0, skipped: true };
+
+  const from = process.env.REDEMPTION_EMAIL_FROM || 'StudentPerks <notifications@studentperks.co.za>';
+  const html = `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#111">
+    <h2>You're verified on StudentPerks!</h2>
+    <p>Hi ${escapeHtml(payload.name || 'there')},</p>
+    <p>Your student application has been approved. You can now sign in and start claiming deals.</p>
+    <p><a href="https://studentperks.co.za/" style="display:inline-block;background:#8cff13;color:#050505;padding:12px 20px;border-radius:999px;text-decoration:none;font-weight:700">Sign in to StudentPerks</a></p>
+    <p>Use "Already verified? Sign in" with this email address (${escapeHtml(payload.email)}) to get your sign-in link.</p>
+  </div>`;
+
+  const response = await fetch(RESEND_ENDPOINT, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from, to: payload.email, subject: "You're verified on StudentPerks!", html })
+  });
+  if (!response.ok) throw new Error(`Resend failed: ${response.status} ${await response.text()}`);
+  return { sent: 1 };
+}
+
 module.exports = {
   clean,
   isApprovedLiveBusiness,
@@ -151,6 +199,8 @@ module.exports = {
   readBody,
   requireServiceKey,
   rest,
+  sendApplicationApprovedEmail,
+  sendNewApplicationEmail,
   sendRedemptionEmails,
   signVendor,
   verifyVendorToken

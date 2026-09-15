@@ -7636,8 +7636,9 @@ async function submitJoin(){
     const {data:{publicUrl}}=sb.storage.from('student-cards').getPublicUrl(fname);
 
     // 3. Insert application row
+    const fullName=document.getElementById('jn-name').value.trim();
     const {error:insErr}=await sb.from('student_applications').insert({
-      full_name: document.getElementById('jn-name').value.trim(),
+      full_name: fullName,
       personal_email: personalEmail,
       institution: inst,
       student_email: studentEmail,
@@ -7649,6 +7650,14 @@ async function submitJoin(){
       status: 'pending'
     });
     if(insErr) throw insErr;
+
+    // 4. Let the admin know a new application came in (best-effort - a
+    // notification hiccup should never block the student's submission).
+    fetch('/api/notify-new-application', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ name: fullName, email: personalEmail, studentEmail, institution: inst })
+    }).catch(()=>{});
 
     if(studentEmail && studentEmail.toLowerCase() !== personalEmail.toLowerCase()){
       await sb.auth.signInWithOtp({

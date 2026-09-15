@@ -646,6 +646,7 @@ async function loadOverview() {
 
 /* ── APPLICATIONS ── */
 let currentAppId = null;
+let currentApp = null;
 async function loadApplications(status, btn) {
   if(btn){ document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active')); btn.classList.add('active'); }
   const tbody = document.getElementById('apps-table');
@@ -677,6 +678,7 @@ async function loadApplications(status, btn) {
 
 function openAppModal(app) {
   currentAppId = app.id;
+  currentApp = app;
   document.getElementById('app-modal-title').textContent = app.full_name;
   const photo = document.getElementById('app-photo');
   if(app.card_photo_url){ photo.src = app.card_photo_url; photo.style.display = 'block'; }
@@ -701,6 +703,13 @@ async function updateAppStatus(status) {
   const notes = document.getElementById('app-notes').value.trim();
   const {error} = await _sb.from('student_applications').update({status, admin_notes:notes, reviewed_at:new Date().toISOString()}).eq('id',currentAppId);
   if(error){ alert('Could not update this application: '+error.message); return; }
+  if(status==='approved' && currentApp){
+    fetch('/api/notify-application-approved', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ name: currentApp.full_name, email: currentApp.personal_email })
+    }).catch(()=>{});
+  }
   closeModal('app-modal');
   loadApplications(document.querySelector('.filter-pill.active')?.textContent?.toLowerCase()||'all');
 }
