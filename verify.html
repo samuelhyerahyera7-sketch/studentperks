@@ -500,9 +500,13 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
           </div>
         </section>
 
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px">
           <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3)">Optional unique codes</div>
-          <div style="display:flex;gap:12px;align-items:center"><button onclick="downloadVendorCodes()" style="background:none;border:none;color:#557500;font-size:12px;font-weight:900;text-decoration:underline;cursor:pointer">Download CSV</button><button onclick="generateVendorCodes()" style="background:none;border:none;color:#557500;font-size:12px;font-weight:900;text-decoration:underline;cursor:pointer">Generate 10</button><button onclick="loadCodeList()" style="background:none;border:none;color:var(--lime);font-size:12px;font-weight:600;cursor:pointer">↻ Refresh</button></div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+            <button onclick="generateVendorCodes()" style="background:var(--lime);color:#050505;border:none;border-radius:999px;padding:10px 16px;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.03em;cursor:pointer">+ Generate 10 codes</button>
+            <button onclick="downloadVendorCodes()" style="background:var(--bg3);color:var(--ink2);border:1px solid var(--border);border-radius:999px;padding:10px 16px;font-size:12px;font-weight:800;cursor:pointer">Download CSV</button>
+            <button onclick="loadCodeList()" style="background:none;border:none;color:var(--lime);font-size:12px;font-weight:600;cursor:pointer">↻ Refresh</button>
+          </div>
         </div>
         <div class="code-list" id="code-list">
           <div class="cl-head"><div>Code</div><div>Checkout note</div><div>Status</div><div>Action</div></div>
