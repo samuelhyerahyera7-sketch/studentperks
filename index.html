@@ -7790,7 +7790,7 @@ function renderPublicDeal(vendor){
   card.className='mock-deal-card perk-card';
   card.dataset.cat=cat;
   card.dataset.search=search;
-  card.onclick=()=>handleDealClick();
+  card.onclick=()=>handleDealClick(vendor);
   card.innerHTML=`
     <div class="deal-image ${asset.imageClass}">
       <img class="brand-logo-img" src="${logo}" alt="${escapeHtml(name)} logo">
@@ -7834,12 +7834,12 @@ function renderPublicDeal(vendor){
   });
   card.querySelector('.join-claim').addEventListener('click', event=>{
     event.stopPropagation();
-    handleDealClick();
+    handleDealClick(vendor);
   });
   return card;
 }
 
-function handleDealClick(){
+function handleDealClick(vendor){
   if(!_userStatus){
     showGateToast('Join StudentPerks to claim this offer.', true);
     return;
@@ -7848,7 +7848,40 @@ function handleDealClick(){
     showGateToast('Your account is <b>pending verification</b>. Deals unlock once approved.', false);
     return;
   }
-  window.location.href = 'dashboard.html#deals';
+  showDealCodeToast(vendor);
+}
+
+function vendorSharedCode(vendor){
+  const prefix=String(vendor && vendor.code_prefix || '').toUpperCase().replace(/[^A-Z0-9]/g,'');
+  const digits=String(vendor && vendor.discount_desc || '').match(/\d+/);
+  return `${prefix}${digits ? digits[0] : ''}`;
+}
+
+function showDealCodeToast(vendor){
+  const name=(vendor && vendor.name) || 'This offer';
+  const desc=(vendor && vendor.discount_desc) || 'Student discount';
+  const code=vendorSharedCode(vendor);
+  const t=document.getElementById('gate-toast');
+  const bd=document.getElementById('gate-backdrop');
+  clearTimeout(_gateTimer);
+  t.innerHTML=`
+    <div style="font-weight:900;font-size:19px;margin-bottom:4px">${escapeHtml(name)}</div>
+    <div style="color:#c7cdd8;font-size:14px;margin-bottom:16px">${escapeHtml(desc)}</div>
+    <div style="background:#050505;border:1.5px dashed var(--lime);border-radius:12px;padding:14px;font-family:monospace;font-size:20px;font-weight:900;letter-spacing:.06em;color:var(--lime);margin-bottom:12px;word-break:break-all">${escapeHtml(code)}</div>
+    <div style="font-size:13px;color:#9aa3b5;line-height:1.5;margin-bottom:14px">Enter this code at checkout, or show it at the venue, to get your discount.</div>
+    <span class="gate-sign-in" id="deal-copy-btn" onclick="copyDealCode('${code.replace(/'/g,"\\'")}')">Copy code</span>
+  `;
+  t.style.display='block'; bd.style.display='block';
+  requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ t.classList.add('show'); }); });
+}
+
+function copyDealCode(code){
+  const btn=document.getElementById('deal-copy-btn');
+  navigator.clipboard?.writeText(code).then(()=>{
+    if(btn) btn.textContent='Copied ✓';
+  }).catch(()=>{
+    if(btn) btn.textContent='Copy code';
+  });
 }
 
 function showDealsState(title, body){
