@@ -7556,20 +7556,20 @@ async function handleSignIn(){
   showErr('si-err','');
   btn.disabled=true; btn.textContent='Sending…';
   try {
-    const {data: app} = await sb
-      .from('student_applications')
-      .select('status')
-      .or(`personal_email.eq.${email},student_email.eq.${email}`)
-      .order('created_at',{ascending:false})
-      .limit(1)
-      .maybeSingle();
+    const statusResponse = await fetch('/api/check-student-status', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email})
+    });
+    const statusPayload = await statusResponse.json();
+    if(!statusResponse.ok) throw new Error(statusPayload.error || 'Could not check your application.');
 
-    if(!app){
+    if(!statusPayload.found){
       showErr('si-err',"We couldn't find an account with that email. Have you applied yet?");
       btn.disabled=false; btn.textContent='Send sign-in link';
       return;
     }
-    if(app.status !== 'approved'){
+    if(statusPayload.status !== 'approved'){
       showErr('si-err','Your application is still under review. We\'ll email you once approved.');
       btn.disabled=false; btn.textContent='Send sign-in link';
       return;
@@ -7577,7 +7577,7 @@ async function handleSignIn(){
 
     const {error} = await sb.auth.signInWithOtp({
       email,
-      options:{ emailRedirectTo: 'https://studentperks.co.za/' }
+      options:{ emailRedirectTo: 'https://studentperks.co.za/dashboard' }
     });
     if(error) throw error;
 
@@ -7706,7 +7706,7 @@ async function submitJoin(){
     if(studentEmail && studentEmail.toLowerCase() !== personalEmail.toLowerCase()){
       await sb.auth.signInWithOtp({
         email: studentEmail,
-        options:{ emailRedirectTo: 'https://studentperks.co.za/' }
+        options:{ emailRedirectTo: 'https://studentperks.co.za/dashboard' }
       });
     }
 
