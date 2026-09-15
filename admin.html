@@ -699,7 +699,8 @@ function openAppModal(app) {
 async function updateAppStatus(status) {
   if(!currentAppId) return;
   const notes = document.getElementById('app-notes').value.trim();
-  await _sb.from('student_applications').update({status, admin_notes:notes, reviewed_at:new Date().toISOString()}).eq('id',currentAppId);
+  const {error} = await _sb.from('student_applications').update({status, admin_notes:notes, reviewed_at:new Date().toISOString()}).eq('id',currentAppId);
+  if(error){ alert('Could not update this application: '+error.message); return; }
   closeModal('app-modal');
   loadApplications(document.querySelector('.filter-pill.active')?.textContent?.toLowerCase()||'all');
 }
@@ -759,13 +760,15 @@ function openPartnerAppModal(app) {
 async function savePartnerAppNotes() {
   if(!currentPartnerAppId) return;
   const notes = document.getElementById('partner-app-notes').value.trim();
-  await _sb.from('vendor_applications').update({admin_notes:notes}).eq('id',currentPartnerAppId);
+  const {error} = await _sb.from('vendor_applications').update({admin_notes:notes}).eq('id',currentPartnerAppId);
+  if(error) alert('Could not save notes: '+error.message);
 }
 
 async function updatePartnerAppStatus(status) {
   if(!currentPartnerAppId) return;
   const notes = document.getElementById('partner-app-notes').value.trim();
-  await _sb.from('vendor_applications').update({status, admin_notes:notes, reviewed_at:new Date().toISOString()}).eq('id',currentPartnerAppId);
+  const {error} = await _sb.from('vendor_applications').update({status, admin_notes:notes, reviewed_at:new Date().toISOString()}).eq('id',currentPartnerAppId);
+  if(error){ alert('Could not update this application: '+error.message); return; }
   closeModal('partner-app-modal');
   loadPartnerApps(document.querySelector('#tab-partner-apps .filter-pill.active')?.textContent?.toLowerCase()||'all');
 }
@@ -820,7 +823,8 @@ async function createVendor() {
 async function deleteVendor(id, e) {
   e.stopPropagation();
   if(!confirm('Delete this vendor? All their coupon codes will also be deleted.')) return;
-  await _sb.from('vendors').delete().eq('id',id);
+  const {error} = await _sb.from('vendors').delete().eq('id',id);
+  if(error){ alert('Could not delete this vendor: '+error.message); return; }
   loadVendors();
 }
 
