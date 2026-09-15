@@ -27,7 +27,7 @@ module.exports = async function handler(req, res) {
   try {
     const email = await getUserEmail(accessToken);
     if (!email) return json(res, 401, { error: 'Invalid student session.' });
-    await rest(`student_applications?student_email=eq.${encodeURIComponent(email)}`, {
+    await rest(`student_applications?student_email=ilike.${encodeURIComponent(email)}`, {
       method: 'PATCH',
       headers: { Prefer: 'return=minimal' },
       body: JSON.stringify({ student_email_verified: true })
