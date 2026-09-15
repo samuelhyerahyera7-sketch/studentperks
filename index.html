@@ -7406,15 +7406,15 @@ async function checkAuthStatus(){
   if(!sb) return;
   const { data: { session } } = await sb.auth.getSession();
   if(!session) return;
-  const email = session.user.email;
+  const email = (session.user.email||'').toLowerCase();
   const { data: app } = await sb.from('student_applications')
     .select('id, status, full_name, student_email, student_email_verified')
-    .or(`personal_email.eq.${email},student_email.eq.${email}`)
+    .or(`personal_email.ilike.${email},student_email.ilike.${email}`)
     .order('created_at',{ascending:false})
     .limit(1)
     .maybeSingle();
   if(!app) return;
-  if(email === app.student_email && !app.student_email_verified){
+  if(email === (app.student_email||'').toLowerCase() && !app.student_email_verified){
     await fetch('/api/mark-student-email-verified', {
       method: 'POST',
       headers: {'Authorization': `Bearer ${session.access_token}`}
@@ -7550,7 +7550,7 @@ function resetModal(){
 /* ── SIGN IN ── */
 async function handleSignIn(){
   if(!sb){ showErr('si-err','Sign in is temporarily unavailable. Please try again shortly.'); return; }
-  const email = document.getElementById('si-email').value.trim();
+  const email = document.getElementById('si-email').value.trim().toLowerCase();
   const btn = document.getElementById('si-btn');
   if(!email || !email.includes('@')){ showErr('si-err','Please enter a valid email address.'); return; }
   showErr('si-err','');
@@ -7656,8 +7656,8 @@ async function submitJoin(){
   if(!sb){ showErr('err-3','Verification is temporarily unavailable. Please try again shortly.'); return; }
   const file=document.getElementById('card-file').files[0];
   const terms=document.getElementById('terms-chk').checked;
-  const personalEmail=document.getElementById('jn-email').value.trim();
-  const studentEmail=document.getElementById('jn-student-email').value.trim();
+  const personalEmail=document.getElementById('jn-email').value.trim().toLowerCase();
+  const studentEmail=document.getElementById('jn-student-email').value.trim().toLowerCase();
   const password=document.getElementById('jn-pass').value;
   if(!file){ showErr('err-3','Please upload a photo of your student card.'); return; }
   if(!terms){ showErr('err-3','Please agree to the terms and conditions.'); return; }
