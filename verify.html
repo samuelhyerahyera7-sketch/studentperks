@@ -503,7 +503,8 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
         <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px">
           <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3)">Optional unique codes</div>
           <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
-            <button onclick="generateVendorCodes()" style="background:var(--lime);color:#050505;border:none;border-radius:999px;padding:10px 16px;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.03em;cursor:pointer">+ Generate 10 codes</button>
+            <input type="number" id="gen-qty" value="1" min="1" max="100" style="width:60px;padding:10px 8px;border:1px solid var(--border);border-radius:10px;font-size:12px;font-family:var(--font);color:var(--white);background:var(--bg3);text-align:center">
+            <button id="gen-btn" onclick="generateVendorCodes()" style="background:var(--lime);color:#050505;border:none;border-radius:999px;padding:10px 16px;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.03em;cursor:pointer">+ Generate</button>
             <button onclick="downloadVendorCodes()" style="background:var(--bg3);color:var(--ink2);border:1px solid var(--border);border-radius:999px;padding:10px 16px;font-size:12px;font-weight:800;cursor:pointer">Download CSV</button>
             <button onclick="loadCodeList()" style="background:none;border:none;color:var(--lime);font-size:12px;font-weight:600;cursor:pointer">↻ Refresh</button>
           </div>
@@ -1150,7 +1151,8 @@ async function generateVendorCodes(){
     });
     const payload=await response.json();
     if(!response.ok) throw new Error(payload.error || 'Could not generate codes.');
-    note('share-note',`Generated ${payload.generated || qty} optional tracking codes.`,true);
+    const n=payload.generated || qty;
+    note('share-note',`Generated ${n} optional tracking code${n===1?'':'s'}.`,true);
     await loadCodeList();
   }catch(e){
     note('share-note',e.message || 'Could not generate codes.',false);
