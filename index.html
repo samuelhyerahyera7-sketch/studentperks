@@ -7415,18 +7415,6 @@ async function checkAuthStatus(){
   document.getElementById('nav-status-mobile').innerHTML = label + '<button class="nav-burger" onclick="openMenu()" style="margin-left:8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>';
 }
 
-function openDeal(url){
-  if(!_userStatus){
-    showGateToast('Sign in to access student deals.', true);
-    return;
-  }
-  if(_userStatus !== 'approved'){
-    showGateToast('Your account is <b>pending verification</b>. Deals unlock once approved.', false);
-    return;
-  }
-  window.open(url, '_blank');
-}
-
 let _gateTimer;
 function showGateToast(msg, showSignIn){
   const t = document.getElementById('gate-toast');
@@ -7802,7 +7790,7 @@ function renderPublicDeal(vendor){
   card.className='mock-deal-card perk-card';
   card.dataset.cat=cat;
   card.dataset.search=search;
-  card.onclick=()=>showGateToast('Join StudentPerks to claim this offer.', true);
+  card.onclick=()=>handleDealClick();
   card.innerHTML=`
     <div class="deal-image ${asset.imageClass}">
       <img class="brand-logo-img" src="${logo}" alt="${escapeHtml(name)} logo">
@@ -7846,9 +7834,21 @@ function renderPublicDeal(vendor){
   });
   card.querySelector('.join-claim').addEventListener('click', event=>{
     event.stopPropagation();
-    showGateToast('Join StudentPerks to claim this offer.', true);
+    handleDealClick();
   });
   return card;
+}
+
+function handleDealClick(){
+  if(!_userStatus){
+    showGateToast('Join StudentPerks to claim this offer.', true);
+    return;
+  }
+  if(_userStatus !== 'approved'){
+    showGateToast('Your account is <b>pending verification</b>. Deals unlock once approved.', false);
+    return;
+  }
+  window.location.href = 'dashboard.html#deals';
 }
 
 function showDealsState(title, body){
