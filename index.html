@@ -655,6 +655,7 @@ body.public-redesign .menu-join { background: #9cff18; color: #050505; }
 .deal-image::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.42)); }
 .deal-image.crates { background: linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.38)), url('assets/layered/backgrounds/crates-boxes-food-clean.webp') center/cover; }
 .deal-image.mugs { background: #f8fafc; }
+.deal-image.planetfitness { background: #ffffff; }
 .brand-logo-img { position: absolute; z-index: 2; left: 18px; top: 18px; width: 180px; max-width: 62%; height: auto; border-radius: 8px; box-shadow: 0 10px 24px rgba(0,0,0,.22); }
 .deal-image.mugs .brand-logo-img { left: 50%; top: 50%; width: min(70%, 230px); max-width: none; transform: translate(-50%, -50%); box-shadow: none; border-radius: 0; }
 .product-shape { position: absolute; right: 22px; bottom: 18px; width: 116px; height: 90px; border-radius: 24px 24px 42px 42px; background: linear-gradient(180deg,#fff,#dce2ec); z-index: 1; box-shadow: inset 0 -14px 26px rgba(0,0,0,.12), 0 22px 30px rgba(0,0,0,.26); }
@@ -7776,6 +7777,9 @@ function dealAssetFor(name){
   }
   if(key.includes('just protein') || key.includes('justprotein')){
     return { logo:'assets/logo-just-protein.png', imageClass:'justprotein', background:'https://www.justprotein.co.za/cdn/shop/files/Healthy_Me1.png?v=1761940686&width=1500' };
+  }
+  if(key.includes('planet fitness')){
+    return { logo:'assets/logo-planet-fitness.svg', imageClass:'planetfitness', background:'assets/logo-planet-fitness.svg' };
   }
   return { logo:'favicon.svg', imageClass:'placeholder' };
 }
