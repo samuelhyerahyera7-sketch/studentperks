@@ -7779,7 +7779,7 @@ function dealAssetFor(name){
     return { logo:'assets/logo-just-protein.png', imageClass:'justprotein', background:'https://www.justprotein.co.za/cdn/shop/files/Healthy_Me1.png?v=1761940686&width=1500' };
   }
   if(key.includes('planet fitness')){
-    return { logo:'assets/logo-planet-fitness.svg', imageClass:'planetfitness', background:'assets/logo-planet-fitness.svg' };
+    return { logo:'assets/logo-planet-fitness.svg', imageClass:'planetfitness', background:'assets/logo-planet-fitness.svg', backgroundFit:'contain' };
   }
   return { logo:'favicon.svg', imageClass:'placeholder' };
 }
@@ -7845,7 +7845,7 @@ function renderPublicDeal(vendor){
     </div>`;
   if(background){
     const image=card.querySelector('.deal-image');
-    const tileSize=window.matchMedia('(max-width: 700px)').matches ? '145% auto' : '100% auto';
+    const tileSize=asset.backgroundFit==='contain' ? 'contain' : (window.matchMedia('(max-width: 700px)').matches ? '145% auto' : '100% auto');
     image.style.setProperty('--tile-bg', `url("${background}")`);
     image.style.setProperty('background-image', `linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.22)), url("${background}")`, 'important');
     image.style.setProperty('background-position', 'center center', 'important');
