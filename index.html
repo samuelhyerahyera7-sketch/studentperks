@@ -7828,7 +7828,7 @@ function renderPublicDeal(vendor){
       <button class="heart-btn" type="button" aria-label="Save ${escapeHtml(name)} offer">
         <img src="assets/layered/overlays/heart-button.svg" alt="" aria-hidden="true">
       </button>
-      <div class="discount-pill${comingSoon ? ' discount-pill--soon' : ''}">${comingSoon ? 'COMING SOON' : escapeHtml(discountLabel(desc))}</div>
+      <div class="discount-pill${comingSoon ? ' discount-pill--soon' : ''}">${escapeHtml(discountLabel(desc))}</div>
     </div>
     <div class="deal-content">
       <h3>${escapeHtml(name)}</h3>
