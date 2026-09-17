@@ -673,6 +673,9 @@ body.public-redesign .menu-join { background: #9cff18; color: #050505; }
 .location-line .sp-icon { width: 17px; height: 17px; color: #101014; }
 .location-line .approved-icon { width: 17px; height: 17px; }
 .join-claim { display: flex; align-items: center; justify-content: center; gap: 9px; width: 100%; min-height: 48px; margin-top: 13px; border-radius: 13px; background: linear-gradient(90deg,#bfff73,#9cff18); color: #050505; font-weight: 900; font-size: 16px; }
+.discount-pill--soon { background: #e2e7ef; color: #1a1f2b; }
+.join-claim--soon { background: #e2e7ef; color: #4b5565; }
+.deal-coming-soon .deal-image { filter: grayscale(.35); }
 .how-card,.wallet-promo,.business-promo,.saving-cta { border-radius: 18px; background: #f6f8fb; box-shadow: 0 8px 26px rgba(15,23,42,.06); padding: 22px; }
 .how-steps { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 16px; }
 .how-step { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 12px; font-weight: 900; line-height: 1.04; }
@@ -7726,6 +7729,15 @@ const APPROVED_REPO_OFFERS = [
   }
 ];
 
+const COMING_SOON_OFFERS = [
+  {
+    name: 'Planet Fitness',
+    discount_desc: '30% off student membership',
+    category: 'lifestyle',
+    comingSoon: true
+  }
+];
+
 function inferDealCategory(vendor){
   if(vendor.category) return vendor.category;
   const text=`${vendor.name||''} ${vendor.discount_desc||''} ${vendor.code_prefix||''}`.toLowerCase();
@@ -7777,9 +7789,15 @@ function escapeHtml(s){
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+function showComingSoonToast(vendor){
+  const name=(vendor && vendor.name) || 'This offer';
+  showGateToast(`<b>${escapeHtml(name)}</b> is launching soon on StudentPerks — check back for your code!`, false);
+}
+
 function renderPublicDeal(vendor){
   const name=vendor.name||'StudentPerks approved business';
   const desc=vendor.discount_desc||'Student offer';
+  const comingSoon=!!vendor.comingSoon;
   const cat=inferDealCategory(vendor);
   const asset=dealAssetFor(name);
   const config=vendor.tile_config || {};
@@ -7787,28 +7805,28 @@ function renderPublicDeal(vendor){
   const background=safeTileUrl(config.backgroundUrl) || asset.background || '';
   const search=[name,desc,vendor.code_prefix,cat].join(' ').toLowerCase();
   const card=document.createElement('article');
-  card.className='mock-deal-card perk-card';
+  card.className='mock-deal-card perk-card'+(comingSoon ? ' deal-coming-soon' : '');
   card.dataset.cat=cat;
   card.dataset.search=search;
-  card.onclick=()=>handleDealClick(vendor);
+  card.onclick=()=>comingSoon ? showComingSoonToast(vendor) : handleDealClick(vendor);
   card.innerHTML=`
     <div class="deal-image ${asset.imageClass}">
       <img class="brand-logo-img" src="${logo}" alt="${escapeHtml(name)} logo">
       <button class="heart-btn" type="button" aria-label="Save ${escapeHtml(name)} offer">
         <img src="assets/layered/overlays/heart-button.svg" alt="" aria-hidden="true">
       </button>
-      <div class="discount-pill">${escapeHtml(discountLabel(desc))}</div>
+      <div class="discount-pill${comingSoon ? ' discount-pill--soon' : ''}">${comingSoon ? 'COMING SOON' : escapeHtml(discountLabel(desc))}</div>
     </div>
     <div class="deal-content">
       <h3>${escapeHtml(name)}</h3>
       <p>${escapeHtml(desc)}</p>
       <div class="location-line">
         <img class="approved-icon" src="assets/icons/approved/location.svg" alt="" aria-hidden="true">
-        Current StudentPerks offer
+        ${comingSoon ? 'Coming soon to StudentPerks' : 'Current StudentPerks offer'}
       </div>
-      <button class="join-claim" type="button">
+      <button class="join-claim${comingSoon ? ' join-claim--soon' : ''}" type="button">
         <span class="sp-icon" style="--icon:url('assets/icons/lock.svg')" aria-hidden="true"></span>
-        Join to claim
+        ${comingSoon ? 'Coming soon' : 'Join to claim'}
         <span class="sp-icon" style="--icon:url('assets/icons/arrow-right.svg')" aria-hidden="true"></span>
       </button>
     </div>`;
@@ -7834,7 +7852,7 @@ function renderPublicDeal(vendor){
   });
   card.querySelector('.join-claim').addEventListener('click', event=>{
     event.stopPropagation();
-    handleDealClick(vendor);
+    comingSoon ? showComingSoonToast(vendor) : handleDealClick(vendor);
   });
   return card;
 }
@@ -7897,6 +7915,7 @@ function renderApprovedRepoOffers(){
   if(!grid) return;
   grid.innerHTML='';
   APPROVED_REPO_OFFERS.forEach(v=>grid.appendChild(renderPublicDeal(v)));
+  COMING_SOON_OFFERS.forEach(v=>grid.appendChild(renderPublicDeal(v)));
   filterPerks();
 }
 
@@ -7947,6 +7966,7 @@ async function loadPublicDeals(){
     }
     grid.innerHTML='';
     deals.forEach(v=>grid.appendChild(renderPublicDeal(v)));
+    COMING_SOON_OFFERS.forEach(v=>grid.appendChild(renderPublicDeal(v)));
     filterPerks();
   }catch(e){
     renderApprovedRepoOffers();
