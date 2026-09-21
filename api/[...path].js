@@ -29,8 +29,12 @@ const routes = {
 };
 
 module.exports = async function handler(req, res) {
-  const segments = Array.isArray(req.query.path) ? req.query.path : [req.query.path];
-  const route = routes[segments.join('/')];
+  // req.query.path isn't reliably populated for a bare (non-Next.js) Vercel
+  // project's [...path] filename convention, so parse the route key
+  // straight from the raw request path instead.
+  const pathname = new URL(req.url, 'http://localhost').pathname;
+  const key = pathname.replace(/^\/api\//, '').replace(/\/+$/, '');
+  const route = routes[key];
   if (!route) {
     res.statusCode = 404;
     res.setHeader('Content-Type', 'application/json');
