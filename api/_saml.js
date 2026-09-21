@@ -39,6 +39,18 @@ function getServiceProvider() {
     wantMessageSigned: false,
     signingCert: SP_CERT,
     privateKey: SP_PRIVATE_KEY,
+    // Same keypair does double duty for encryption — SAFIRE's SP
+    // requirements just check that an encryption key is published, and a
+    // second dedicated keypair isn't worth the extra rotation surface here.
+    encryptCert: SP_CERT,
+    encPrivateKey: SP_PRIVATE_KEY,
+    // SAFIRE's validator flags an SP that only advertises the legacy SAML
+    // 1.1 emailAddress format (samlify's default) as excluding both SAML 2
+    // NameID formats.
+    nameIDFormat: [
+      'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
+      'urn:oasis:names:tc:SAML:2.0:nameid-format:persistent'
+    ],
     assertionConsumerService: [{
       Binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
       Location: ACS_URL
@@ -205,19 +217,28 @@ function contactPersonXml(contactType, name, email) {
 
 function securityContactXml(name, email) {
   // REFEDS doesn't define a dedicated SAML contactType, so security
-  // contacts use contactType="other" plus the REFEDS extension marker —
-  // see https://refeds.org/category/security-incident-response
+  // contacts use contactType="other" plus a remd:contactType attribute —
+  // this exact shape (attribute, not a nested <Extensions> element) is
+  // copied from SAFIRE's own published hub metadata, which is what its
+  // validator actually expects; see
+  // https://refeds.org/category/security-incident-response
   if (!email) return '';
   const nameXml = name ? `<GivenName>${escapeXml(name)}</GivenName>` : '';
-  return `<ContactPerson contactType="other" xmlns:remd="http://refeds.org/metadata">` +
-    `<Extensions><remd:contactType>http://refeds.org/metadata/contactType/security</remd:contactType></Extensions>` +
+  return `<ContactPerson contactType="other" remd:contactType="http://refeds.org/metadata/contactType/security">` +
     `${nameXml}<EmailAddress>mailto:${escapeXml(email)}</EmailAddress></ContactPerson>`;
 }
 
 function getMetadataXml() {
   const sp = getServiceProvider();
   if (!sp) throw new Error('SAML sign-in is not configured yet.');
-  const xml = sp.getMetadata();
+  // samlify only declares the namespaces it uses itself, so the REFEDS
+  // security-contact extension prefix needs adding at the root — declaring
+  // it only on the local <ContactPerson> was rejected as an "unknown
+  // namespace" by SAFIRE's own validator.
+  const xml = sp.getMetadata().replace(
+    '<EntityDescriptor ',
+    '<EntityDescriptor xmlns:remd="http://refeds.org/metadata" '
+  );
 
   // SAFIRE's SP requirements mandate Organization + technical/support
   // contacts, and a security contact per the REFEDS Sirtfi baseline —
