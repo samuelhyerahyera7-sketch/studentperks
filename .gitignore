@@ -1,1 +1,5 @@
 .vercel
+node_modules
+*.pem
+saml-sp-key.pem
+saml-sp-cert.pem

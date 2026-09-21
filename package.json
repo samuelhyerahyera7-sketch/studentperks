@@ -1,0 +1,9 @@
+{
+  "name": "studentperks",
+  "version": "1.0.0",
+  "private": true,
+  "description": "StudentPerks — Vercel serverless API functions",
+  "dependencies": {
+    "samlify": "^2.13.1"
+  }
+}
