@@ -2,6 +2,9 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/dispatch?path=:path*" }
+  ],
   "headers": [
     {
       "source": "/sitemap.xml",

@@ -29,11 +29,11 @@ const routes = {
 };
 
 module.exports = async function handler(req, res) {
-  // req.query.path isn't reliably populated for a bare (non-Next.js) Vercel
-  // project's [...path] filename convention, so parse the route key
-  // straight from the raw request path instead.
-  const pathname = new URL(req.url, 'http://localhost').pathname;
-  const key = pathname.replace(/^\/api\//, '').replace(/\/+$/, '');
+  // vercel.json rewrites every /api/:path* request to /api/dispatch?path=:path*,
+  // so the original route lives in the query string here. Falling back to
+  // the raw pathname covers a direct hit on /api/dispatch itself.
+  const url = new URL(req.url, 'http://localhost');
+  const key = url.searchParams.get('path') || url.pathname.replace(/^\/api\/dispatch\/?/, '').replace(/\/+$/, '');
   const route = routes[key];
   if (!route) {
     res.statusCode = 404;
