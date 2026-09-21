@@ -74,6 +74,35 @@ async function readFormBody(req) {
   return body;
 }
 
+// Maps the institution dropdown values in index.html to the entityID each
+// institution's IdP is published under behind the SAFIRE hub's BIRK proxy
+// (from https://metadata.safire.ac.za/safire-idp-proxy-metadata.xml).
+// Passing one of these as `idpentityid` on the hub's SSO endpoint skips its
+// own institution-picker page and sends the browser straight to that
+// institution's login — the student never sees a federation-branded
+// screen, only their own university's login (matching what SAFIRE-joined
+// SPs like Varsity Vibe do). Institutions not listed here (not yet SAFIRE
+// members, or not in our dropdown) fall back to the hub's own picker.
+const INSTITUTION_IDP_MAP = {
+  'University of Cape Town (UCT)': 'https://proxy.safire.ac.za/birk.php/srvslsfed001.uct.ac.za/simplesaml/saml2/idp/metadata.php',
+  'University of the Witwatersrand (Wits)': 'https://proxy.safire.ac.za/birk.php/idp.wits.ac.za/safss/saml2/idp/metadata.php',
+  'Stellenbosch University (SU)': 'http://proxy.safire.ac.za/birk.php/federate.sun.ac.za/adfs/services/trust',
+  'University of Pretoria (UP)': 'https://proxy.safire.ac.za/birk.php/www1.up.ac.za:443/oam/fed',
+  'University of KwaZulu-Natal (UKZN)': 'http://proxy.safire.ac.za/birk.php/federation.ukzn.ac.za/adfs/services/trust',
+  'North-West University (NWU)': 'https://proxy.safire.ac.za/birk.php/shib.nwu.ac.za/idp/shibboleth',
+  'University of the Western Cape (UWC)': 'https://proxy.safire.ac.za/birk.php/saml.uwc.ac.za/simplesaml/saml2/idp/metadata.php',
+  'Rhodes University': 'https://proxy.safire.ac.za/birk.php/login.ru.ac.za/idp/shibboleth',
+  'University of Venda': 'https://proxy.safire.ac.za/birk.php/sts.windows.net/f38ba9d8-554c-48a2-ae42-13b1e7f3c797/',
+  'University of Fort Hare': 'http://proxy.safire.ac.za/birk.php/federate.ufh.ac.za/adfs/services/trust',
+  'Walter Sisulu University (WSU)': 'https://proxy.safire.ac.za/birk.php/idp.wsu.ac.za/simplesaml/saml2/idp/metadata.php',
+  'Sol Plaatje University': 'https://proxy.safire.ac.za/birk.php/sts.windows.net/acbcaed8-7adc-460c-ba57-028bdc80d84a/',
+  'Cape Peninsula University of Technology (CPUT)': 'https://proxy.safire.ac.za/birk.php/sts.windows.net/cc6148eb-d356-4f38-900f-3a4d62b954c8/',
+  'Durban University of Technology (DUT)': 'https://proxy.safire.ac.za/birk.php/sts.windows.net/4b1930d1-12f4-40b5-b48c-bd86117429d8/',
+  'Tshwane University of Technology (TUT)': 'https://proxy.safire.ac.za/birk.php/sts.windows.net/3df74539-9453-4d03-bb9d-b9102cb9ce9c/',
+  'Vaal University of Technology (VUT)': 'http://proxy.safire.ac.za/birk.php/logmein.vut.ac.za/adfs/services/trust',
+  'Central University of Technology (CUT)': 'http://proxy.safire.ac.za/birk.php/logon.cut.ac.za/adfs/services/trust'
+};
+
 const ATTRIBUTE_KEYS = {
   mail: ['mail', 'urn:oid:0.9.2342.19200300.100.1.3', 'email'],
   eppn: ['eduPersonPrincipalName', 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6'],
@@ -134,12 +163,13 @@ function extractStudentProfile(attributes) {
   };
 }
 
-async function createLoginRedirectUrl(relayState) {
+async function createLoginRedirectUrl(institution, relayState) {
   const sp = getServiceProvider();
   if (!sp) throw new Error('SAML sign-in is not configured yet.');
   const idp = await getIdentityProvider();
   const { context } = sp.createLoginRequest(idp, 'redirect', relayState ? { relayState } : undefined);
-  return context;
+  const idpEntityId = INSTITUTION_IDP_MAP[institution];
+  return idpEntityId ? `${context}&idpentityid=${encodeURIComponent(idpEntityId)}` : context;
 }
 
 async function parseAcsRequest(req) {
@@ -210,6 +240,7 @@ function getMetadataXml() {
 module.exports = {
   createLoginRedirectUrl,
   parseAcsRequest,
+  SSO_INSTITUTIONS: Object.keys(INSTITUTION_IDP_MAP),
   getMetadataXml,
   hasSpCredentials,
   extractStudentProfile,

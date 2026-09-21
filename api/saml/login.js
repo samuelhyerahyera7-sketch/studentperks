@@ -2,7 +2,8 @@ const { createLoginRedirectUrl, SITE_ORIGIN } = require('../_saml');
 
 module.exports = async function handler(req, res) {
   try {
-    const url = await createLoginRedirectUrl();
+    const institution = new URL(req.url, SITE_ORIGIN).searchParams.get('inst') || '';
+    const url = await createLoginRedirectUrl(institution);
     res.statusCode = 302;
     res.setHeader('Location', url);
     res.end();

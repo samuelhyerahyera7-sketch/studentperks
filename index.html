@@ -426,10 +426,12 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 .modal-switch { text-align: center; font-size: 13px; color: var(--ink3); margin-top: 14px; }
 .modal-switch span { color: var(--lime); cursor: pointer; font-weight: 600; }
 .modal-err { display: none; color: #ff5555; font-size: 12px; margin-bottom: 8px; padding: 8px 12px; background: rgba(255,85,85,.08); border-radius: 8px; border: 1px solid rgba(255,85,85,.2); }
-.safire-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: #fff; color: #0c0c0c; font-size: 13px; font-weight: 800; letter-spacing: .02em; padding: 13px; text-align: center; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); text-decoration: none; transition: background .15s; }
-.safire-btn:hover { background: var(--lime); }
-.safire-divider { display: flex; align-items: center; gap: 10px; margin: 16px 0; font-size: 11px; color: var(--ink3); text-transform: uppercase; letter-spacing: .06em; }
-.safire-divider::before, .safire-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.safire-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: #0c0c0c; color: #fff; font-size: 13px; font-weight: 800; letter-spacing: .02em; padding: 13px; text-align: center; border-radius: 50px; border: none; cursor: pointer; font-family: var(--font); text-decoration: none; transition: background .15s; }
+.safire-btn:hover { background: #262626; }
+.safire-divider { display: flex; align-items: center; gap: 10px; margin: 16px 0; font-size: 11px; color: #8b95a5; text-transform: uppercase; letter-spacing: .06em; }
+.safire-divider::before, .safire-divider::after { content: ''; flex: 1; height: 1px; background: #d7dee8; }
+body.public-redesign .safire-btn { min-height: 58px !important; font-size: 16px !important; font-weight: 800 !important; text-transform: none !important; letter-spacing: 0 !important; }
+body.public-redesign .safire-divider { font-size: 13px !important; text-transform: none !important; letter-spacing: 0 !important; margin: 16px 0 !important; }
 /* Step indicator */
 .step-indicator { display: flex; align-items: center; margin-bottom: 6px; }
 .step-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--bg3); border: 1.5px solid rgba(255,255,255,.15); flex-shrink: 0; transition: all .2s; }
@@ -7270,10 +7272,33 @@ body.public-redesign #perks .mock-deal-card.perk-card .join-claim.join-claim--so
           <div class="modal-form-title">Create account</div>
           <div class="modal-form-sub">Start with your basic details. We'll verify your student status next.</div>
         </div>
-        <a class="safire-btn" href="/api/saml/login">
+        <div class="field">
+          <select id="jn-sso-institution">
+            <option value="" selected>Select your university for instant verification</option>
+            <option>University of Cape Town (UCT)</option>
+            <option>University of the Witwatersrand (Wits)</option>
+            <option>Stellenbosch University (SU)</option>
+            <option>University of Pretoria (UP)</option>
+            <option>University of KwaZulu-Natal (UKZN)</option>
+            <option>North-West University (NWU)</option>
+            <option>University of the Western Cape (UWC)</option>
+            <option>Rhodes University</option>
+            <option>University of Venda</option>
+            <option>University of Fort Hare</option>
+            <option>Walter Sisulu University (WSU)</option>
+            <option>Sol Plaatje University</option>
+            <option>Cape Peninsula University of Technology (CPUT)</option>
+            <option>Durban University of Technology (DUT)</option>
+            <option>Tshwane University of Technology (TUT)</option>
+            <option>Vaal University of Technology (VUT)</option>
+            <option>Central University of Technology (CUT)</option>
+            <option value="__other">My university isn't listed</option>
+          </select>
+        </div>
+        <button type="button" class="safire-btn" onclick="startInstantVerify()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 3.8 8.6 9 10 5.2-1.4 9-5 9-10V6z"/><polyline points="9 12 11 14 15 10"/></svg>
           Verify instantly with your university login
-        </a>
+        </button>
         <div class="safire-divider">or sign up manually</div>
         <div class="field"><input type="text" id="jn-name" placeholder="Full name"></div>
         <div class="field"><input type="email" id="jn-email" placeholder="Personal email address"></div>
@@ -7499,7 +7524,15 @@ async function handleSafireReturn(){
   } else {
     const reason = params.get('reason')||'';
     showGateToast(SAFIRE_ERROR_MESSAGES[reason] || 'We could not complete instant verification. Please try again or sign up manually.', false);
+    openModal('jn');
   }
+}
+function startInstantVerify(){
+  const inst = document.getElementById('jn-sso-institution').value;
+  if(!inst){ showErr('err-1','Please select your university first.'); return; }
+  showErr('err-1','');
+  const q = inst==='__other' ? '' : '?inst='+encodeURIComponent(inst);
+  location.href = '/api/saml/login'+q;
 }
 
 document.addEventListener('DOMContentLoaded',()=>{

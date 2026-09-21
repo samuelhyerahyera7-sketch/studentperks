@@ -8,26 +8,48 @@ existing manual application in `index.html`.
 
 ## How it works
 
-1. A student clicks **"Verify instantly with your university login"** on
-   the join modal, which links to `GET /api/saml/login`.
-2. That endpoint builds a signed SAML AuthnRequest and redirects the
-   browser to the SAFIRE Hub (`https://iziko.safire.ac.za/`), which shows
-   the student their institution's login page (via the hub's
-   discovery/proxy).
-3. After they log in, the hub POSTs a signed SAML assertion back to
-   `POST /api/saml/acs`.
-4. `acs.js` verifies the assertion, checks that the attributes describe a
+1. On the join modal's step 1, the student picks their university from a
+   dropdown (`#jn-sso-institution`) and clicks **"Verify instantly with
+   your university login"**, which calls `startInstantVerify()` →
+   `GET /api/saml/login?inst=<institution name>`.
+2. `login.js` builds a signed SAML AuthnRequest and redirects the browser
+   straight to that institution's own login page — it does this by
+   appending `&idpentityid=<their IdP's entityID>` to the hub redirect,
+   which skips the SAFIRE hub's own institution-picker page entirely. The
+   student only ever sees their own university's login screen (e.g. the UP
+   Portal), never anything branded "SAFIRE". The `inst` → entityID mapping
+   lives in `INSTITUTION_IDP_MAP` in `api/_saml.js`, sourced from
+   `https://metadata.safire.ac.za/safire-idp-proxy-metadata.xml` (SAFIRE's
+   hub proxies each institution IdP under a `birk.php/<institution-host>`
+   entityID — that's the value `idpentityid` needs). Institutions not in
+   the map (not yet SAFIRE members, or not in our dropdown) fall back to
+   the hub's own picker.
+3. After login, the student's IdP shows a one-time SAFIRE consent screen
+   ("You are about to log into StudentPerks...") — this is SAFIRE's own
+   consent module and can't be skipped or hidden (it's what stops an SP
+   from silently harvesting attributes), but it names *our* SP, not SAFIRE,
+   once we're registered with a proper display name.
+4. The IdP/hub POSTs a signed SAML assertion back to `POST /api/saml/acs`.
+5. `acs.js` verifies the assertion, checks that the attributes describe a
    `student` affiliation, and upserts the matching `student_applications`
    row with `status='approved'` and `student_email_verified=true` — no
    manual review or card photo needed.
-5. The student is redirected back to `/` with `?safire=success&email=...`,
+6. The student is redirected back to `/` with `?safire=success&email=...`,
    which triggers the existing Supabase magic-link sign-in flow
-   automatically (see `handleSafireReturn()` in `index.html`).
+   automatically (see `handleSafireReturn()` in `index.html`). A rejection
+   (e.g. `not_student`) redirects back with `?safire=error&reason=...` and
+   reopens the join modal so they can fall back to manual sign-up.
 
 All the crypto/XML handling goes through
 [`samlify`](https://www.npmjs.com/package/samlify) (`api/_saml.js`) rather
 than being hand-rolled — signature verification is security-critical and
 better left to a maintained library.
+
+This flow mirrors what other SAFIRE-registered student-deals SPs (e.g.
+Varsity Vibe) do in production: full-page redirect (not a popup), direct
+institution pre-selection to skip the hub picker, and a custom-branded
+error state on affiliation mismatch rather than surfacing SAFIRE's own
+error page.
 
 ## Environment variables (Vercel project settings)
 
@@ -72,21 +94,30 @@ happen outside this repo, and both are needed before real institution IdPs
    - Metadata URL: `https://studentperks.co.za/api/saml/metadata`
    - Validate it first at https://safire.ac.za/technical/resources/validating-metadata/
      (or http://validator.safire.ac.za/) before sending it in.
-   - SAFIRE's SP requirements
-     (https://safire.ac.za/technical/saml2/sp-requirements/) also expect
-     `<mdui:UIInfo>` (display name, description, privacy statement URL,
-     logo) and technical/support/security contacts in the metadata — those
-     aren't in `api/_saml.js` yet and should be added before submitting
-     (samlify's `ServiceProvider()` config accepts a `metadata` object with
-     these; see samlify's README for the exact shape).
+   - `api/_saml.js`'s `getMetadataXml()` already appends `Organization` and
+     technical/support/security `ContactPerson` elements (SAFIRE's SP
+     requirements call these mandatory) — set `SAFIRE_ORG_NAME`,
+     `SAFIRE_ORG_URL`, `SAFIRE_TECH_CONTACT_NAME`,
+     `SAFIRE_TECH_CONTACT_EMAIL`, `SAFIRE_SUPPORT_CONTACT_EMAIL`, and
+     `SAFIRE_SECURITY_CONTACT_EMAIL` before submitting, or they fall back
+     to `StudentPerks` / `ADMIN_NOTIFICATION_EMAIL`.
+   - `<mdui:UIInfo>` (display name, description, privacy statement URL,
+     logo) is only "SHOULD", not mandatory, and isn't emitted yet —
+     samlify's built-in metadata builder doesn't support it, so it'd need
+     manual XML injection similar to the Organization/ContactPerson blocks
+     if you want it before submitting.
 
 ## Testing before registration completes
 
 The test IdP (https://testidp.safire.ac.za/) is reachable through the same
-hub today, so `/api/saml/login` → SAFIRE Hub → pick "SAFIRE Test IdP" →
-simulate a user works without waiting on the admin/registration steps —
+hub today and works without waiting on the admin/registration steps —
 SAFIRE's own onboarding email notes real institution IdPs only start
-working once both halves of the join process are complete.
+working once both halves of the join process are complete. It isn't in
+`INSTITUTION_IDP_MAP` (it's not a real university, so it's not in the join
+modal's dropdown), so to test: pick **"My university isn't listed"** in the
+dropdown, which calls `/api/saml/login` with no `idpentityid` hint and
+falls through to the hub's own picker — "SAFIRE Test Identity Provider" is
+selectable there, and lets you simulate different user types/affiliations.
 
 ## Affiliation → verification mapping
 
