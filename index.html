@@ -7811,6 +7811,12 @@ const COMING_SOON_OFFERS = [
     discount_desc: '30% off student membership',
     category: 'lifestyle',
     comingSoon: true
+  },
+  {
+    name: 'Terbodore Coffee',
+    discount_desc: 'Student discount',
+    category: 'food',
+    comingSoon: true
   }
 ];
 
@@ -7846,6 +7852,9 @@ function dealAssetFor(name){
   }
   if(key.includes('planet fitness')){
     return { logo:'assets/logo-planet-fitness.svg', imageClass:'planetfitness', background:'assets/logo-planet-fitness.svg', backgroundFit:'contain' };
+  }
+  if(key.includes('terbodore')){
+    return { logo:'assets/logo-terbodore.png', imageClass:'terbodore', background:'assets/terbodore-bags.png', backgroundFit:'85% auto' };
   }
   return { logo:'favicon.svg', imageClass:'placeholder' };
 }
@@ -7883,6 +7892,7 @@ function renderPublicDeal(vendor){
   const logo=safeTileUrl(config.logoUrl) || asset.logo;
   const background=safeTileUrl(config.backgroundUrl) || asset.background || '';
   const search=[name,desc,vendor.code_prefix,cat].join(' ').toLowerCase();
+  const pillLabel=comingSoon && !/\d+\s*%/.test(desc) ? 'COMING SOON' : discountLabel(desc);
   const card=document.createElement('article');
   card.className='mock-deal-card perk-card'+(comingSoon ? ' deal-coming-soon' : '');
   card.dataset.cat=cat;
@@ -7894,7 +7904,7 @@ function renderPublicDeal(vendor){
       <button class="heart-btn" type="button" aria-label="Save ${escapeHtml(name)} offer">
         <img src="assets/layered/overlays/heart-button.svg" alt="" aria-hidden="true">
       </button>
-      <div class="discount-pill${comingSoon ? ' discount-pill--soon' : ''}">${escapeHtml(discountLabel(desc))}</div>
+      <div class="discount-pill${comingSoon ? ' discount-pill--soon' : ''}">${escapeHtml(pillLabel)}</div>
     </div>
     <div class="deal-content">
       <h3>${escapeHtml(name)}</h3>
@@ -7911,7 +7921,7 @@ function renderPublicDeal(vendor){
     </div>`;
   if(background){
     const image=card.querySelector('.deal-image');
-    const tileSize=asset.backgroundFit==='contain' ? 'contain' : (window.matchMedia('(max-width: 700px)').matches ? '145% auto' : '100% auto');
+    const tileSize=asset.backgroundFit || (window.matchMedia('(max-width: 700px)').matches ? '145% auto' : '100% auto');
     image.style.setProperty('--tile-bg', `url("${background}")`);
     image.style.setProperty('background-image', `linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.22)), url("${background}")`, 'important');
     image.style.setProperty('background-position', 'center center', 'important');
