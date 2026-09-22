@@ -123,7 +123,8 @@ const ATTRIBUTE_KEYS = {
   sn: ['sn', 'surname', 'urn:oid:2.5.4.4'],
   scopedAffiliation: ['eduPersonScopedAffiliation', 'urn:oid:1.3.6.1.4.1.5923.1.1.1.9'],
   affiliation: ['eduPersonAffiliation', 'urn:oid:1.3.6.1.4.1.5923.1.1.1.1'],
-  schacHomeOrganization: ['schacHomeOrganization', 'urn:oid:1.3.6.1.4.1.25178.1.2.9']
+  schacHomeOrganization: ['schacHomeOrganization', 'urn:oid:1.3.6.1.4.1.25178.1.2.9'],
+  targetedId: ['eduPersonTargetedID', 'urn:oid:1.3.6.1.4.1.5923.1.1.1.10']
 };
 
 function firstValue(attrs, keys) {
@@ -148,8 +149,15 @@ function allValues(attrs, keys) {
 // attribute map (per https://safire.ac.za/technical/attributes/).
 function extractStudentProfile(attributes) {
   const attrs = attributes || {};
+  // SAFIRE has confirmed (2026-09) that IdPs won't release an untargeted
+  // identifier — eduPersonPrincipalName or subject-id — for the "student
+  // discount validation" use case, precisely because it's a stable
+  // cross-service identifier and this is a low-trust commercial use.
+  // eppn is kept as a defensive fallback only; mail is the real source,
+  // requested with explicit motivation on the SP registration form.
   const eppn = firstValue(attrs, ATTRIBUTE_KEYS.eppn);
   const mail = firstValue(attrs, ATTRIBUTE_KEYS.mail) || (eppn.includes('@') ? eppn : '');
+  const targetedId = firstValue(attrs, ATTRIBUTE_KEYS.targetedId);
   const givenName = firstValue(attrs, ATTRIBUTE_KEYS.givenName);
   const sn = firstValue(attrs, ATTRIBUTE_KEYS.sn);
   const displayName = firstValue(attrs, ATTRIBUTE_KEYS.displayName) || [givenName, sn].filter(Boolean).join(' ');
@@ -171,7 +179,10 @@ function extractStudentProfile(attributes) {
     institution,
     isStudent,
     affiliations: allAffiliations,
-    studentNumber: eppn
+    // eduPersonTargetedID is the pseudonymous, SP-specific identifier
+    // SAFIRE generates for free (see ATTRIBUTE_KEYS comment above) —
+    // stored for audit/dedup purposes since eppn won't be present.
+    studentNumber: targetedId || eppn
   };
 }
 
