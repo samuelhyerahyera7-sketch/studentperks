@@ -45,12 +45,9 @@ function getServiceProvider() {
     encryptCert: SP_CERT,
     encPrivateKey: SP_PRIVATE_KEY,
     // SAFIRE's validator flags an SP that only advertises the legacy SAML
-    // 1.1 emailAddress format (samlify's default) as excluding both SAML 2
-    // NameID formats.
-    nameIDFormat: [
-      'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
-      'urn:oasis:names:tc:SAML:2.0:nameid-format:persistent'
-    ],
+    // 1.1 emailAddress format (samlify's default); SAFIRE's reviewed
+    // metadata keeps just transient.
+    nameIDFormat: ['urn:oasis:names:tc:SAML:2.0:nameid-format:transient'],
     assertionConsumerService: [{
       Binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
       Location: ACS_URL
@@ -218,7 +215,7 @@ function escapeXml(value) {
 }
 
 function organizationXml() {
-  const name = escapeXml(process.env.SAFIRE_ORG_NAME || 'StudentPerks');
+  const name = escapeXml(process.env.SAFIRE_ORG_NAME || 'Fulltime Marketing (Pty) Ltd');
   const url = escapeXml(process.env.SAFIRE_ORG_URL || SITE_ORIGIN);
   return `<Organization><OrganizationName xml:lang="en">${name}</OrganizationName>` +
     `<OrganizationDisplayName xml:lang="en">${name}</OrganizationDisplayName>` +
@@ -244,14 +241,14 @@ function securityContactXml(name, email) {
     `${nameXml}<EmailAddress>mailto:${escapeXml(email)}</EmailAddress></ContactPerson>`;
 }
 
-// Attributes published in the SP's <AttributeConsumingService>. SAFIRE
-// advised dropping schacHomeOrganization — the home organisation comes from
-// the scope of eduPersonScopedAffiliation instead (see extractStudentProfile).
+// Attributes published in the SP's <AttributeConsumingService>, exactly as
+// in the candidate metadata SAFIRE reviewed (2026-09). schacHomeOrganization
+// was dropped on their advice — the home organisation comes from the scope
+// of eduPersonScopedAffiliation instead (see extractStudentProfile).
 const REQUESTED_ATTRIBUTES = [
   { name: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.9', friendlyName: 'eduPersonScopedAffiliation', required: true },
-  { name: 'urn:oid:0.9.2342.19200300.100.1.3', friendlyName: 'mail', required: true },
-  { name: 'urn:oid:2.16.840.1.113730.3.1.241', friendlyName: 'displayName', required: false },
-  { name: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.10', friendlyName: 'eduPersonTargetedID', required: false }
+  { name: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.10', friendlyName: 'eduPersonTargetedID', required: true },
+  { name: 'urn:oid:0.9.2342.19200300.100.1.3', friendlyName: 'mail', required: false }
 ];
 
 // Deliberately doesn't mention SAFIRE: students shouldn't need to know the
@@ -263,9 +260,9 @@ function uiInfoXml() {
   // <mdui:UIInfo> is what IdPs/the hub show on consent screens. It has to
   // be the first child of SPSSODescriptor (inside <Extensions>). No
   // mdrpi:RegistrationInfo here — SAFIRE adds that itself when publishing.
-  const logoUrl = escapeXml(process.env.SAFIRE_LOGO_URL || `${SITE_ORIGIN}/assets/brand/studentperks-logo-dark.svg`);
-  const logoWidth = Number(process.env.SAFIRE_LOGO_WIDTH) || 900;
-  const logoHeight = Number(process.env.SAFIRE_LOGO_HEIGHT) || 220;
+  const logoUrl = escapeXml(process.env.SAFIRE_LOGO_URL || `${SITE_ORIGIN}/assets/brand/studentperks-logo-hd.svg`);
+  const logoWidth = Number(process.env.SAFIRE_LOGO_WIDTH) || 1800;
+  const logoHeight = Number(process.env.SAFIRE_LOGO_HEIGHT) || 440;
   return '<Extensions><mdui:UIInfo>' +
     `<mdui:DisplayName xml:lang="en">${escapeXml(SERVICE_NAME)}</mdui:DisplayName>` +
     `<mdui:Description xml:lang="en">${escapeXml(SERVICE_DESCRIPTION)}</mdui:Description>` +
@@ -280,7 +277,7 @@ function attributeConsumingServiceXml() {
   // metadata schema's sequence for SPSSODescriptor.
   const requested = REQUESTED_ATTRIBUTES.map(attr =>
     `<RequestedAttribute FriendlyName="${attr.friendlyName}" Name="${attr.name}" ` +
-    `NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" isRequired="${attr.required}"/>`
+    `NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"${attr.required ? ' isRequired="true"' : ''}/>`
   ).join('');
   return '<AttributeConsumingService index="0">' +
     `<ServiceName xml:lang="en">${escapeXml(SERVICE_NAME)}</ServiceName>` +
