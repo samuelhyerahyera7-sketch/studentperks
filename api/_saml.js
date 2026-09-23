@@ -45,12 +45,9 @@ function getServiceProvider() {
     encryptCert: SP_CERT,
     encPrivateKey: SP_PRIVATE_KEY,
     // SAFIRE's validator flags an SP that only advertises the legacy SAML
-    // 1.1 emailAddress format (samlify's default) as excluding both SAML 2
-    // NameID formats.
-    nameIDFormat: [
-      'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
-      'urn:oasis:names:tc:SAML:2.0:nameid-format:persistent'
-    ],
+    // 1.1 emailAddress format (samlify's default); SAFIRE's reviewed
+    // metadata keeps just transient.
+    nameIDFormat: ['urn:oasis:names:tc:SAML:2.0:nameid-format:transient'],
     assertionConsumerService: [{
       Binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
       Location: ACS_URL
@@ -166,15 +163,17 @@ function extractStudentProfile(attributes) {
   const allAffiliations = scopedAffiliations.concat(affiliations);
   const isStudent = allAffiliations.some(value => value.split('@')[0].toLowerCase() === 'student');
 
-  // Guy Halse (SAFIRE, 2026-09-23): schacHomeOrganization is a subset of
-  // eduPersonScopedAffiliation, so prefer deriving the institution from the
-  // affiliation's @scope — schacHomeOrganization is kept only as a fallback
-  // for the rare case an IdP releases it without a usable scoped affiliation.
-  let institution = '';
-  const scoped = scopedAffiliations.find(value => value.includes('@'));
-  if (scoped) institution = scoped.split('@')[1];
-  if (!institution) institution = firstValue(attrs, ATTRIBUTE_KEYS.schacHomeOrganization);
-  if (!institution && eppn.includes('@')) institution = eppn.split('@')[1];
+  // SAFIRE's advice: derive the home organisation from the scope of the
+  // student@<scope> affiliation rather than requesting schacHomeOrganization
+  // (a subset of the same information that IdPs release less and less).
+  // schacHomeOrganization and eppn are only fallbacks if an IdP sends them.
+  const scopeOf = value => (value.includes('@') ? value.split('@')[1].toLowerCase() : '');
+  const studentScoped = scopedAffiliations.find(value => value.split('@')[0].toLowerCase() === 'student' && scopeOf(value));
+  const anyScoped = scopedAffiliations.find(scopeOf);
+  const institution = (studentScoped && scopeOf(studentScoped)) ||
+    (anyScoped && scopeOf(anyScoped)) ||
+    firstValue(attrs, ATTRIBUTE_KEYS.schacHomeOrganization) ||
+    scopeOf(eppn);
 
   return {
     email: mail.toLowerCase(),
@@ -216,7 +215,7 @@ function escapeXml(value) {
 }
 
 function organizationXml() {
-  const name = escapeXml(process.env.SAFIRE_ORG_NAME || 'StudentPerks');
+  const name = escapeXml(process.env.SAFIRE_ORG_NAME || 'Fulltime Marketing (Pty) Ltd');
   const url = escapeXml(process.env.SAFIRE_ORG_URL || SITE_ORIGIN);
   return `<Organization><OrganizationName xml:lang="en">${name}</OrganizationName>` +
     `<OrganizationDisplayName xml:lang="en">${name}</OrganizationDisplayName>` +
@@ -242,36 +241,45 @@ function securityContactXml(name, email) {
     `${nameXml}<EmailAddress>mailto:${escapeXml(email)}</EmailAddress></ContactPerson>`;
 }
 
-// Guy Halse's revised wording (2026-09-23) — deliberately doesn't name
-// SAFIRE: "If we do our job right, students have no idea who we are."
+// Attributes published in the SP's <AttributeConsumingService>, exactly as
+// in the candidate metadata SAFIRE reviewed (2026-09). schacHomeOrganization
+// was dropped on their advice — the home organisation comes from the scope
+// of eduPersonScopedAffiliation instead (see extractStudentProfile).
+const REQUESTED_ATTRIBUTES = [
+  { name: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.9', friendlyName: 'eduPersonScopedAffiliation', required: true },
+  { name: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.10', friendlyName: 'eduPersonTargetedID', required: true },
+  { name: 'urn:oid:0.9.2342.19200300.100.1.3', friendlyName: 'mail', required: false }
+];
+
+// Deliberately doesn't mention SAFIRE: students shouldn't need to know the
+// federation exists (SAFIRE's own request when reviewing our registration).
 const SERVICE_NAME = 'StudentPerks';
-const SERVICE_DESCRIPTION = "Verifies SA student status via their home institution so students can unlock exclusive discounts.";
+const SERVICE_DESCRIPTION = 'Verifies SA student status via their home institution so students can unlock exclusive discounts.';
 
 function uiInfoXml() {
-  const privacyUrl = `${SITE_ORIGIN}/privacy.html`;
-  const logoUrl = `${SITE_ORIGIN}/favicon.svg`;
-  return `<Extensions><mdui:UIInfo xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui">` +
+  // <mdui:UIInfo> is what IdPs/the hub show on consent screens. It has to
+  // be the first child of SPSSODescriptor (inside <Extensions>). No
+  // mdrpi:RegistrationInfo here — SAFIRE adds that itself when publishing.
+  const logoUrl = escapeXml(process.env.SAFIRE_LOGO_URL || `${SITE_ORIGIN}/assets/brand/studentperks-logo-hd.svg`);
+  const logoWidth = Number(process.env.SAFIRE_LOGO_WIDTH) || 1800;
+  const logoHeight = Number(process.env.SAFIRE_LOGO_HEIGHT) || 400;
+  return '<Extensions><mdui:UIInfo>' +
     `<mdui:DisplayName xml:lang="en">${escapeXml(SERVICE_NAME)}</mdui:DisplayName>` +
     `<mdui:Description xml:lang="en">${escapeXml(SERVICE_DESCRIPTION)}</mdui:Description>` +
-    `<mdui:PrivacyStatementURL xml:lang="en">${escapeXml(privacyUrl)}</mdui:PrivacyStatementURL>` +
-    `<mdui:Logo height="256" width="256">${escapeXml(logoUrl)}</mdui:Logo>` +
-    `</mdui:UIInfo></Extensions>`;
+    `<mdui:InformationURL xml:lang="en">${escapeXml(SITE_ORIGIN)}/</mdui:InformationURL>` +
+    `<mdui:PrivacyStatementURL xml:lang="en">${escapeXml(SITE_ORIGIN)}/privacy.html</mdui:PrivacyStatementURL>` +
+    `<mdui:Logo height="${logoHeight}" width="${logoWidth}">${logoUrl}</mdui:Logo>` +
+    '</mdui:UIInfo></Extensions>';
 }
 
-// Guy's suggestion: schacHomeOrganization is derivable from
-// eduPersonScopedAffiliation, so it's marked optional/not requested with
-// the same weight — kept only as a fallback (see extractStudentProfile).
 function attributeConsumingServiceXml() {
-  const attrs = [
-    { name: 'urn:oid:0.9.2342.19200300.100.1.3', friendly: 'mail', required: true },
-    { name: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.9', friendly: 'eduPersonScopedAffiliation', required: true },
-    { name: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.10', friendly: 'eduPersonTargetedID', required: false },
-    { name: 'urn:oid:1.3.6.1.4.1.25178.1.2.9', friendly: 'schacHomeOrganization', required: false }
-  ];
-  const requested = attrs.map(a =>
-    `<RequestedAttribute FriendlyName="${a.friendly}" Name="${a.name}" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" isRequired="${a.required}"/>`
+  // Must come after the AssertionConsumerService elements per the SAML
+  // metadata schema's sequence for SPSSODescriptor.
+  const requested = REQUESTED_ATTRIBUTES.map(attr =>
+    `<RequestedAttribute FriendlyName="${attr.friendlyName}" Name="${attr.name}" ` +
+    `NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"${attr.required ? ' isRequired="true"' : ''}/>`
   ).join('');
-  return `<AttributeConsumingService index="0">` +
+  return '<AttributeConsumingService index="0">' +
     `<ServiceName xml:lang="en">${escapeXml(SERVICE_NAME)}</ServiceName>` +
     `<ServiceDescription xml:lang="en">${escapeXml(SERVICE_DESCRIPTION)}</ServiceDescription>` +
     `${requested}</AttributeConsumingService>`;
@@ -284,34 +292,28 @@ function getMetadataXml() {
   // security-contact extension prefix needs adding at the root — declaring
   // it only on the local <ContactPerson> was rejected as an "unknown
   // namespace" by SAFIRE's own validator.
-  let xml = sp.getMetadata().replace(
-    '<EntityDescriptor ',
-    '<EntityDescriptor xmlns:remd="http://refeds.org/metadata" '
-  );
-
-  // mdui:UIInfo must be the first child of SPSSODescriptor (inside its own
-  // Extensions element), and AttributeConsumingService must come after
-  // AssertionConsumerService — samlify emits neither, and SAFIRE's
-  // validator flagged both as missing.
-  xml = xml.replace(/(<SPSSODescriptor[^>]*>)/, `$1${uiInfoXml()}`);
-  xml = xml.replace('</SPSSODescriptor>', `${attributeConsumingServiceXml()}</SPSSODescriptor>`);
+  const xml = sp.getMetadata()
+    .replace(
+      '<EntityDescriptor ',
+      '<EntityDescriptor xmlns:remd="http://refeds.org/metadata" xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui" '
+    )
+    .replace(/<SPSSODescriptor[^>]*>/, match => match + uiInfoXml())
+    .replace('</SPSSODescriptor>', `${attributeConsumingServiceXml()}</SPSSODescriptor>`);
 
   // SAFIRE's SP requirements mandate Organization + technical/support
   // contacts, and a security contact per the REFEDS Sirtfi baseline —
   // samlify's metadata builder doesn't emit any of these, so they're
-  // appended here from env vars (falling back to the admin notification
-  // address already used for application-review emails).
+  // appended here from env vars. Metadata is published, so these default to
+  // the site's role address — never a personal inbox (SAFIRE flagged this).
   const contactName = clean(process.env.SAFIRE_TECH_CONTACT_NAME);
-  const techEmail = clean(process.env.SAFIRE_TECH_CONTACT_EMAIL || process.env.ADMIN_NOTIFICATION_EMAIL);
-  const supportName = clean(process.env.SAFIRE_SUPPORT_CONTACT_NAME) || 'Support';
+  const techEmail = clean(process.env.SAFIRE_TECH_CONTACT_EMAIL) || 'admin@studentperks.co.za';
   const supportEmail = clean(process.env.SAFIRE_SUPPORT_CONTACT_EMAIL) || techEmail;
-  const securityName = clean(process.env.SAFIRE_SECURITY_CONTACT_NAME) || 'Security';
   const securityEmail = clean(process.env.SAFIRE_SECURITY_CONTACT_EMAIL) || techEmail;
 
   const extra = organizationXml() +
     contactPersonXml('technical', contactName, techEmail) +
-    contactPersonXml('support', supportName, supportEmail) +
-    securityContactXml(securityName, securityEmail);
+    contactPersonXml('support', contactName, supportEmail) +
+    securityContactXml(contactName, securityEmail);
 
   return xml.replace('</EntityDescriptor>', `${extra}</EntityDescriptor>`);
 }
