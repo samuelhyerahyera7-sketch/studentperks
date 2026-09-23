@@ -94,18 +94,19 @@ happen outside this repo, and both are needed before real institution IdPs
    - Metadata URL: `https://studentperks.co.za/api/saml/metadata`
    - Validate it first at https://safire.ac.za/technical/resources/validating-metadata/
      (or http://validator.safire.ac.za/) before sending it in.
-   - `api/_saml.js`'s `getMetadataXml()` already appends `Organization` and
-     technical/support/security `ContactPerson` elements (SAFIRE's SP
-     requirements call these mandatory) — set `SAFIRE_ORG_NAME`,
-     `SAFIRE_ORG_URL`, `SAFIRE_TECH_CONTACT_NAME`,
-     `SAFIRE_TECH_CONTACT_EMAIL`, `SAFIRE_SUPPORT_CONTACT_EMAIL`, and
-     `SAFIRE_SECURITY_CONTACT_EMAIL` before submitting, or they fall back
-     to `StudentPerks` / `ADMIN_NOTIFICATION_EMAIL`.
-   - `<mdui:UIInfo>` (display name, description, privacy statement URL,
-     logo) is only "SHOULD", not mandatory, and isn't emitted yet —
-     samlify's built-in metadata builder doesn't support it, so it'd need
-     manual XML injection similar to the Organization/ContactPerson blocks
-     if you want it before submitting.
+   - `api/_saml.js`'s `getMetadataXml()` adds everything samlify's
+     builder doesn't emit: `<mdui:UIInfo>` (display name, description,
+     information/privacy URLs, logo), `<AttributeConsumingService>`
+     (`REQUESTED_ATTRIBUTES`), `Organization`, and technical/support/security
+     `ContactPerson` elements. It must **not** include
+     `mdrpi:RegistrationInfo` — SAFIRE adds that when publishing.
+   - Contact addresses are published, so they must be role accounts, not a
+     personal inbox. They default to `admin@studentperks.co.za`; override
+     with `SAFIRE_TECH_CONTACT_EMAIL`, `SAFIRE_SUPPORT_CONTACT_EMAIL`,
+     `SAFIRE_SECURITY_CONTACT_EMAIL` (and `SAFIRE_TECH_CONTACT_NAME`,
+     `SAFIRE_ORG_NAME`, `SAFIRE_ORG_URL`, `SAFIRE_LOGO_URL`).
+   - The service description deliberately doesn't mention SAFIRE — students
+     shouldn't need to know the federation exists.
 
 ## Testing before registration completes
 
@@ -126,3 +127,10 @@ or `eduPersonAffiliation` contains the value `student` (case-insensitive,
 ignoring the `@scope` suffix). Staff/alum/member-only accounts are turned
 away with `?safire=error&reason=not_student` rather than silently granted
 access, since StudentPerks is student-only.
+
+## Home institution
+
+The student's institution is the scope of their `student@<scope>`
+`eduPersonScopedAffiliation` value (e.g. `student@up.ac.za` → `up.ac.za`),
+as SAFIRE recommends. `schacHomeOrganization` is no longer requested. It is
+only used as a fallback if an IdP sends it anyway.
