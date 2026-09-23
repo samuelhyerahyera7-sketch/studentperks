@@ -262,7 +262,7 @@ function uiInfoXml() {
   // mdrpi:RegistrationInfo here — SAFIRE adds that itself when publishing.
   const logoUrl = escapeXml(process.env.SAFIRE_LOGO_URL || `${SITE_ORIGIN}/assets/brand/studentperks-logo-hd.svg`);
   const logoWidth = Number(process.env.SAFIRE_LOGO_WIDTH) || 1800;
-  const logoHeight = Number(process.env.SAFIRE_LOGO_HEIGHT) || 440;
+  const logoHeight = Number(process.env.SAFIRE_LOGO_HEIGHT) || 400;
   return '<Extensions><mdui:UIInfo>' +
     `<mdui:DisplayName xml:lang="en">${escapeXml(SERVICE_NAME)}</mdui:DisplayName>` +
     `<mdui:Description xml:lang="en">${escapeXml(SERVICE_DESCRIPTION)}</mdui:Description>` +
