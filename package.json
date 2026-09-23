@@ -4,6 +4,7 @@
   "private": true,
   "description": "StudentPerks — Vercel serverless API functions",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
     "samlify": "^2.13.1"
   }
 }

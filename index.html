@@ -7383,19 +7383,19 @@ body.public-redesign #perks .mock-deal-card.perk-card .join-claim.join-claim--so
       <div id="step-3" style="display:none">
         <div class="modal-form-head">
           <div class="modal-form-title">Verify your identity</div>
-          <div class="modal-form-sub">Upload your student card so we can confirm your enrolment.</div>
+          <div class="modal-form-sub">Upload your student card or this year's proof of registration so we can confirm your enrolment.</div>
         </div>
 
         <div class="upload-zone" id="upload-zone" onclick="document.getElementById('card-file').click()">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--lime)" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          <div id="upload-lbl" style="font-size:14px;font-weight:600;color:var(--white);margin:7px 0 3px">Tap to upload student card</div>
+          <div id="upload-lbl" style="font-size:14px;font-weight:600;color:var(--white);margin:7px 0 3px">Tap to upload student card or proof of registration</div>
           <div style="font-size:11px;color:var(--ink3)">JPG, PNG or PDF · max 5 MB</div>
         </div>
         <input type="file" id="card-file" accept="image/*,.pdf" style="display:none" onchange="handleFile(this)">
 
         <div class="info-box">
           <div class="info-box-label">What we check</div>
-          <div class="info-box-text">Your name, institution and enrolment year must match what you entered. Your card is reviewed by our team and never shared with third parties.</div>
+          <div class="info-box-text">Your name, institution and enrolment year must match what you entered, and the document must show you're registered this year. It's checked automatically, with our team reviewing anything unclear, and never shared with third parties.</div>
         </div>
         <div class="info-box">
           <div class="info-box-label">Student email verification</div>
@@ -7404,7 +7404,7 @@ body.public-redesign #perks .mock-deal-card.perk-card .join-claim.join-claim--so
 
         <label class="modal-terms">
           <input type="checkbox" id="terms-chk" style="accent-color:var(--lime);flex-shrink:0">
-          <span>I agree to the <a href="/terms.html" style="color:var(--lime)">terms &amp; conditions</a> and <a href="/privacy.html" style="color:var(--lime)">privacy statement</a>. I confirm this is my own genuine student card.</span>
+          <span>I agree to the <a href="/terms.html" style="color:var(--lime)">terms &amp; conditions</a> and <a href="/privacy.html" style="color:var(--lime)">privacy statement</a>. I confirm this is my own genuine document.</span>
         </label>
 
         <div class="modal-err" id="err-3"></div>
@@ -7681,7 +7681,7 @@ async function submitJoin(){
   const terms=document.getElementById('terms-chk').checked;
   const personalEmail=document.getElementById('jn-email').value.trim().toLowerCase();
   const studentEmail=document.getElementById('jn-student-email').value.trim().toLowerCase();
-  if(!file){ showErr('err-3','Please upload a photo of your student card.'); return; }
+  if(!file){ showErr('err-3','Please upload your student card or proof of registration.'); return; }
   if(!terms){ showErr('err-3','Please agree to the terms and conditions.'); return; }
   showErr('err-3','');
 
@@ -7724,6 +7724,15 @@ async function submitJoin(){
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ name: fullName, email: personalEmail, studentEmail, institution: inst })
+    }).catch(()=>{});
+
+    // 5. Ask the server to AI-check the upload (best-effort; keepalive so it
+    // still goes through if the student closes the page straight away).
+    fetch('/api/ai-review-application', {
+      method: 'POST',
+      keepalive: true,
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ email: personalEmail })
     }).catch(()=>{});
 
     if(studentEmail && studentEmail.toLowerCase() !== personalEmail.toLowerCase()){

@@ -6,6 +6,7 @@
 // stays easy to find, but Vercel only ever builds this one dispatcher —
 // none of the URLs below changed, so the front-end needed no updates.
 const routes = {
+  'ai-review-application': require('../lib/api-handlers/ai-review-application'),
   'check-student-status': require('../lib/api-handlers/check-student-status'),
   'mark-student-email-verified': require('../lib/api-handlers/mark-student-email-verified'),
   'notify-application-approved': require('../lib/api-handlers/notify-application-approved'),
