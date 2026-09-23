@@ -108,6 +108,18 @@ button{cursor:pointer;border:none;font-family:var(--font)}
 .pill-used{background:rgba(255,68,68,.1);color:var(--red)}
 .pill-available{background:rgba(34,197,94,.1);color:var(--green)}
 .pill-assigned{background:rgba(212,255,0,.1);color:var(--lime)}
+.pill-ai-approved{background:rgba(34,197,94,.1);color:var(--green)}
+.pill-ai-needs_review{background:rgba(255,200,0,.12);color:var(--yellow)}
+.pill-ai-reject{background:rgba(255,68,68,.1);color:var(--red)}
+.pill-ai-error,.pill-ai-none{background:rgba(255,255,255,.06);color:var(--ink2)}
+.ai-box{border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:14px;display:grid;gap:8px}
+.ai-box-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.ai-box-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ink3)}
+.ai-summary{font-size:13px;color:var(--white);line-height:1.5}
+.ai-checks{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:12px;color:var(--ink2)}
+.ai-checks .ok{color:var(--green)} .ai-checks .bad{color:var(--red)}
+.ai-found{font-size:12px;color:var(--ink2);line-height:1.6}
+.ov-ai-line{font-size:12px;color:var(--ink2);margin:-8px 0 24px}
 
 /* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:8px 16px;border-radius:50px;border:none;cursor:pointer;font-family:var(--font);transition:all .15s;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
@@ -268,6 +280,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
         <div class="stat-card"><div class="stat-val" id="ov-approved">—</div><div class="stat-lbl">Approved</div></div>
         <div class="stat-card"><div class="stat-val" id="ov-codes">—</div><div class="stat-lbl">Codes Generated</div></div>
       </div>
+      <div class="ov-ai-line" id="ov-ai">AI check: —</div>
       <div class="sec-head"><div class="sec-title">Quick Links</div></div>
       <div class="sec-rule"></div>
       <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px">
@@ -295,13 +308,14 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
       <div class="sec-rule"></div>
       <div class="filter-pills">
         <button class="filter-pill active" onclick="loadApplications('all',this)">All</button>
+        <button class="filter-pill" onclick="loadApplications('needs_review',this)">Needs review</button>
         <button class="filter-pill" onclick="loadApplications('pending',this)">Pending</button>
         <button class="filter-pill" onclick="loadApplications('approved',this)">Approved</button>
         <button class="filter-pill" onclick="loadApplications('rejected',this)">Rejected</button>
       </div>
       <div class="data-table" id="apps-table">
-        <div class="dt-row head" style="grid-template-columns:1fr 1fr 1fr 90px 80px">
-          <div>Name</div><div>Email</div><div>Institution</div><div>Status</div><div>Date</div>
+        <div class="dt-row head" style="grid-template-columns:1fr 1fr 1fr 110px 90px 80px">
+          <div>Name</div><div>Email</div><div>Institution</div><div>AI check</div><div>Status</div><div>Date</div>
         </div>
         <div class="loading-row" id="apps-loading">Loading…</div>
       </div>
@@ -479,6 +493,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
     <button class="modal-close" onclick="closeModal('app-modal')">×</button>
     <div class="modal-title" id="app-modal-title">Application</div>
     <img id="app-photo" class="modal-photo" src="" alt="Student card" onerror="this.style.display='none'" style="display:none" onclick="openLightbox(this.src)">
+    <div class="ai-box" id="app-ai-box"></div>
     <div class="detail-grid" id="app-detail-grid"></div>
     <div class="field" style="margin-bottom:12px">
       <label>Admin notes</label>
@@ -632,7 +647,7 @@ function showTab(name) {
 /* ── OVERVIEW ── */
 async function loadOverview() {
   const [apps, codes] = await Promise.all([
-    _sb.from('student_applications').select('status'),
+    _sb.from('student_applications').select('status,ai_verdict'),
     _sb.from('coupon_codes').select('id', {count:'exact',head:true})
   ]);
   const all     = apps.data || [];
@@ -642,6 +657,9 @@ async function loadOverview() {
   document.getElementById('ov-pending').textContent  = pending;
   document.getElementById('ov-approved').textContent = approved;
   document.getElementById('ov-codes').textContent    = codes.count ?? '—';
+  const aiApproved = all.filter(a=>a.ai_verdict==='approved').length;
+  const aiReview   = all.filter(a=>a.status==='pending' && a.ai_verdict && a.ai_verdict!=='approved').length;
+  document.getElementById('ov-ai').textContent = `AI check: ${aiApproved} auto-approved · ${aiReview} pending flagged for your review`;
 }
 
 /* ── APPLICATIONS ── */
@@ -652,7 +670,8 @@ async function loadApplications(status, btn) {
   const tbody = document.getElementById('apps-table');
   document.getElementById('apps-loading') && (document.getElementById('apps-loading').textContent = 'Loading…');
   let q = _sb.from('student_applications').select('*').order('created_at',{ascending:false});
-  if(status && status!=='all') q = q.eq('status',status);
+  if(status==='needs_review') q = q.eq('status','pending').not('ai_verdict','is',null).neq('ai_verdict','approved');
+  else if(status && status!=='all') q = q.eq('status',status);
   const {data,error} = await q;
   // clear old rows
   [...tbody.querySelectorAll('.dt-row:not(.head)')].forEach(r=>r.remove());
@@ -662,12 +681,13 @@ async function loadApplications(status, btn) {
   data.forEach(app => {
     const row = document.createElement('div');
     row.className = 'dt-row';
-    row.style.gridTemplateColumns = '1fr 1fr 1fr 90px 80px';
+    row.style.gridTemplateColumns = '1fr 1fr 1fr 110px 90px 80px';
     row.style.cursor = 'pointer';
     row.innerHTML = `
       <div class="dt-cell bold">${esc(app.full_name)}</div>
       <div class="dt-cell dim">${esc(app.personal_email)}</div>
       <div class="dt-cell dim">${esc(app.institution)}</div>
+      <div>${aiPill(app)}</div>
       <div><span class="pill-status pill-${app.status}">${app.status}</span></div>
       <div class="dt-cell dim">${fmtDate(app.created_at)}</div>
     `;
@@ -695,7 +715,63 @@ function openAppModal(app) {
     <div class="detail-item"><label>Submitted</label><span>${fmtDateLong(app.created_at)}</span></div>
   `;
   document.getElementById('app-notes').value = app.admin_notes || '';
+  renderAiBox(app);
   openModal('app-modal');
+}
+
+/* ── AI CHECK ── */
+const AI_LABELS = { approved:'AI approved', needs_review:'Needs review', reject:'AI says reject', error:'AI check failed' };
+function aiPill(app){
+  const v = app.ai_verdict;
+  if(!v) return `<span class="pill-status pill-ai-none">${app.card_photo_url?'Not checked':'SSO / none'}</span>`;
+  return `<span class="pill-status pill-ai-${esc(v)}">${AI_LABELS[v]||esc(v)}</span>`;
+}
+function renderAiBox(app){
+  const box = document.getElementById('app-ai-box');
+  if(!app.card_photo_url){ box.style.display='none'; return; }
+  box.style.display='grid';
+  const r = app.ai_result || {};
+  const head = `<div class="ai-box-head"><span class="ai-box-title">AI document check</span>${aiPill(app)}</div>`;
+  const rerun = app.status==='pending' ? `<div><button class="btn btn-ghost btn-sm" id="ai-rerun-btn" onclick="rerunAiCheck()">${app.ai_verdict?'Re-run AI check':'Run AI check'}</button></div>` : '';
+  if(!app.ai_verdict){ box.innerHTML = head + `<div class="ai-found">This upload hasn't been checked yet.</div>` + rerun; return; }
+  if(app.ai_verdict==='error'){ box.innerHTML = head + `<div class="ai-found">${esc(app.ai_error||'Unknown error')}</div>` + rerun; return; }
+  const check = (ok, label) => `<li class="${ok?'ok':'bad'}">${ok?'✓':'✗'} ${esc(label)}</li>`;
+  const numLabel = {match:'Student number matches', mismatch:'Student number does not match', not_shown:'No student number on document', not_provided:'Student entered no student number'}[r.student_number_check]||'Student number';
+  const tamper = r.tampering_signs||[];
+  const conf = app.ai_confidence!=null ? Math.round(Number(app.ai_confidence)*100)+'% confident' : '';
+  const blockers = r.blockers||[];
+  box.innerHTML = head + `
+    <div class="ai-summary">${esc(app.ai_summary||'')}</div>
+    <ul class="ai-checks">
+      ${check(['student_card','proof_of_registration'].includes(r.document_type), r.document_type==='proof_of_registration'?'Proof of registration':r.document_type==='student_card'?'Student card':'Not a recognised student document')}
+      ${check(!!r.name_matches, 'Name matches')}
+      ${check(!!r.institution_matches, 'Institution matches')}
+      ${check(!!r.is_current, 'Enrolled this year' + (r.valid_for?' ('+r.valid_for+')':''))}
+      ${check(r.student_number_check!=='mismatch', numLabel)}
+      ${check(!!r.looks_genuine && !tamper.length, tamper.length?'Possible editing: '+tamper.join('; '):'No signs of editing')}
+    </ul>
+    <div class="ai-found">On the document: <b>${esc(r.name_on_document||'—')}</b> · ${esc(r.institution_on_document||'—')} · ${esc(r.student_number_on_document||'no number')}<br>
+    ${conf}${app.ai_checked_at?' · checked '+fmtDateLong(app.ai_checked_at):''}</div>
+    ${blockers.length && app.ai_verdict!=='approved' ? `<div class="ai-found">Not auto-approved because: ${esc(blockers.join('; '))}</div>` : ''}
+  ` + rerun;
+}
+async function rerunAiCheck(){
+  if(!currentAppId) return;
+  const btn = document.getElementById('ai-rerun-btn');
+  btn.disabled = true; btn.textContent = 'Checking… (up to a minute)';
+  try{
+    const resp = await fetch('/api/ai-review-application', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({id: currentAppId})});
+    const out = await resp.json().catch(()=>({}));
+    if(!resp.ok) throw new Error(out.error||('HTTP '+resp.status));
+    if(out.skipped) throw new Error(out.reason||'AI check is not set up.');
+  }catch(e){
+    btn.disabled = false; btn.textContent = 'Re-run AI check';
+    document.getElementById('app-ai-box').insertAdjacentHTML('beforeend', `<div class="ai-found" style="color:var(--red)">${esc(e.message)}</div>`);
+    return;
+  }
+  const {data} = await _sb.from('student_applications').select('*').eq('id',currentAppId).single();
+  if(data) openAppModal(data);
+  loadApplications('all', document.querySelector('#tab-applications .filter-pill'));
 }
 
 async function updateAppStatus(status) {
@@ -711,7 +787,7 @@ async function updateAppStatus(status) {
     }).catch(()=>{});
   }
   closeModal('app-modal');
-  loadApplications(document.querySelector('.filter-pill.active')?.textContent?.toLowerCase()||'all');
+  loadApplications(document.querySelector('#tab-applications .filter-pill.active')?.textContent?.trim().toLowerCase().replace(' ','_')||'all');
 }
 
 /* ── PARTNER APPLICATIONS ── */
