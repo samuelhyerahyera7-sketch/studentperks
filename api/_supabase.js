@@ -167,6 +167,32 @@ async function sendNewApplicationEmail(payload) {
   return { sent: 1 };
 }
 
+// Membership lasts one year from the most recent approval (reviewed_at;
+// created_at for older rows). SAFIRE logins and manual re-approvals move
+// reviewed_at forward, which renews it.
+function membershipExpiry(app) {
+  const base = app && (app.reviewed_at || app.created_at);
+  if (!base) return null;
+  const d = new Date(base);
+  if (isNaN(d)) return null;
+  d.setFullYear(d.getFullYear() + 1);
+  return d.toISOString();
+}
+
+function membershipStatus(app) {
+  if (!app) return null;
+  if (app.status !== 'approved') return app.status || 'pending';
+  const expiry = membershipExpiry(app);
+  return expiry && Date.parse(expiry) < Date.now() ? 'expired' : 'approved';
+}
+
+async function latestApplication(email) {
+  const e = encodeURIComponent(clean(email));
+  if (!e) return null;
+  const rows = await rest(`student_applications?or=(personal_email.ilike.${e},student_email.ilike.${e})&order=created_at.desc&limit=1&select=status,reviewed_at,created_at`);
+  return rows && rows[0];
+}
+
 async function sendApplicationApprovedEmail(payload) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return { sent: 0, skipped: true };
@@ -176,7 +202,7 @@ async function sendApplicationApprovedEmail(payload) {
   const html = `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#111">
     <h2>You're verified on StudentPerks!</h2>
     <p>Hi ${escapeHtml(payload.name || 'there')},</p>
-    <p>Your student application has been approved. You can now sign in and start claiming deals.</p>
+    <p>Your student application has been approved. You can now sign in and start claiming deals. Your membership is valid for 12 months.</p>
     <p><a href="https://studentperks.co.za/" style="display:inline-block;background:#8cff13;color:#050505;padding:12px 20px;border-radius:999px;text-decoration:none;font-weight:700">Sign in to StudentPerks</a></p>
     <p>Use "Already verified? Sign in" with this email address (${escapeHtml(payload.email)}) to get your sign-in link.</p>
   </div>`;
@@ -195,6 +221,9 @@ module.exports = {
   isApprovedLiveBusiness,
   isApprovedLiveBusinessName,
   json,
+  latestApplication,
+  membershipExpiry,
+  membershipStatus,
   normalizeBusinessName,
   readBody,
   requireServiceKey,
