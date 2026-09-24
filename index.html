@@ -7256,7 +7256,10 @@ body.public-redesign #perks .mock-deal-card.perk-card .join-claim.join-claim--so
       <div id="si-success" class="modal-success" style="display:none">
         <div class="modal-success-icon">Sent</div>
         <div class="modal-success-title">Check your inbox!</div>
-        <div class="modal-success-sub">If your account is approved, you'll receive a sign-in link shortly. Check your spam folder too.</div>
+        <div class="modal-success-sub">We've emailed you a sign-in link and a 6-digit code. Tap the link, or type the code here to sign in on this device. Check your spam folder too.</div>
+        <div class="field" style="margin-top:14px"><input type="text" id="si-code" inputmode="numeric" autocomplete="one-time-code" maxlength="10" placeholder="6-digit code" aria-label="Sign-in code" onkeydown="if(event.key==='Enter')verifySignInCode()"></div>
+        <div class="modal-err" id="si-code-err"></div>
+        <button class="modal-submit" id="si-code-btn" onclick="verifySignInCode()">Sign in with code</button>
       </div>
       <p class="modal-switch">New here? <span onclick="switchTab('jn')">Verify your student status</span></p>
     </div>
@@ -7609,6 +7612,23 @@ function resetModal(){
 }
 
 /* ── SIGN IN ── */
+// The sign-in email carries both a link and a code; the code lets students
+// sign in on this page even if the link opens in their email app's browser.
+let _siEmail = '';
+async function verifySignInCode(){
+  const token = document.getElementById('si-code').value.replace(/\D/g,'');
+  const btn = document.getElementById('si-code-btn');
+  if(token.length < 6){ showErr('si-code-err','Enter the code from your email.'); return; }
+  showErr('si-code-err','');
+  btn.disabled = true; btn.textContent = 'Checking…';
+  const { error } = await sb.auth.verifyOtp({ email: _siEmail, token, type: 'email' });
+  if(error){
+    showErr('si-code-err', /expired/i.test(error.message) ? 'That code has expired. Close this and request a new one.' : "That code didn't work. Check it and try again.");
+    btn.disabled = false; btn.textContent = 'Sign in with code';
+    return;
+  }
+  location.href = 'dashboard.html';
+}
 async function handleSignIn(){
   if(!sb){ showErr('si-err','Sign in is temporarily unavailable. Please try again shortly.'); return; }
   const email = document.getElementById('si-email').value.trim().toLowerCase();
@@ -7648,8 +7668,10 @@ async function handleSignIn(){
     });
     if(error) throw error;
 
+    _siEmail = email;
     document.getElementById('si-form-wrap').style.display='none';
     document.getElementById('si-success').style.display='block';
+    setTimeout(()=>document.getElementById('si-code').focus(),50);
   } catch(e){
     showErr('si-err', friendlyError('send your sign-in link', e));
     btn.disabled=false; btn.textContent='Send sign-in link';
