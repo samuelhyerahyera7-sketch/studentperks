@@ -430,6 +430,8 @@ footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48
 .safire-btn:hover { background: #262626; }
 .safire-divider { display: flex; align-items: center; gap: 10px; margin: 16px 0; font-size: 11px; color: #8b95a5; text-transform: uppercase; letter-spacing: .06em; }
 .safire-divider::before, .safire-divider::after { content: ''; flex: 1; height: 1px; background: #d7dee8; }
+#jn-sso-btn[hidden],#jn-sso-other-note[hidden]{display:none!important}
+.sso-other-note{margin:-2px 0 12px;padding:10px 12px;border-radius:12px;background:rgba(156,255,24,.14);border:1px solid rgba(156,255,24,.45);font-size:13px;line-height:1.45}
 body.public-redesign .safire-btn { min-height: 58px !important; font-size: 16px !important; font-weight: 800 !important; text-transform: none !important; letter-spacing: 0 !important; }
 body.public-redesign .safire-divider { font-size: 13px !important; text-transform: none !important; letter-spacing: 0 !important; margin: 16px 0 !important; }
 /* Step indicator */
@@ -7279,7 +7281,7 @@ body.public-redesign #perks .mock-deal-card.perk-card .join-claim.join-claim--so
           <div class="modal-form-sub">Start with your basic details. We'll verify your student status next.</div>
         </div>
         <div class="field">
-          <select id="jn-sso-institution">
+          <select id="jn-sso-institution" onchange="onSsoInstitutionChange()">
             <option value="" selected>Select your university for instant verification</option>
             <option>University of Cape Town (UCT)</option>
             <option>University of the Witwatersrand (Wits)</option>
@@ -7307,7 +7309,8 @@ body.public-redesign #perks .mock-deal-card.perk-card .join-claim.join-claim--so
             <option value="__other">My university isn't listed</option>
           </select>
         </div>
-        <button type="button" class="safire-btn" onclick="startInstantVerify()">
+        <p class="sso-other-note" id="jn-sso-other-note" hidden>No problem. Instant verification is only available for the institutions in this list, so sign up below instead. We'll ask for your student card or this year's proof of registration.</p>
+        <button type="button" class="safire-btn" id="jn-sso-btn" onclick="startInstantVerify()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 3.8 8.6 9 10 5.2-1.4 9-5 9-10V6z"/><polyline points="9 12 11 14 15 10"/></svg>
           Verify instantly with your university login
         </button>
@@ -7542,12 +7545,22 @@ async function handleSafireReturn(){
     openModal('jn');
   }
 }
+// Institutions not on SAFIRE can't use instant verification (the hub's own
+// picker wouldn't list them), so "My university isn't listed" switches the
+// student to the manual sign-up form just below instead of redirecting.
+function onSsoInstitutionChange(){
+  const other = document.getElementById('jn-sso-institution').value==='__other';
+  document.getElementById('jn-sso-other-note').hidden = !other;
+  document.getElementById('jn-sso-btn').hidden = other;
+  showErr('err-1','');
+  if(other){ const n=document.getElementById('jn-name'); n.scrollIntoView({behavior:'smooth',block:'center'}); n.focus({preventScroll:true}); }
+}
 function startInstantVerify(){
   const inst = document.getElementById('jn-sso-institution').value;
   if(!inst){ showErr('err-1','Please select your university first.'); return; }
+  if(inst==='__other'){ onSsoInstitutionChange(); return; }
   showErr('err-1','');
-  const q = inst==='__other' ? '' : '?inst='+encodeURIComponent(inst);
-  location.href = '/api/saml/login'+q;
+  location.href = '/api/saml/login?inst='+encodeURIComponent(inst);
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
