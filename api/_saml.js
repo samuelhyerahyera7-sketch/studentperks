@@ -373,7 +373,10 @@ function securityContactXml(name, email) {
 const REQUESTED_ATTRIBUTES = [
   { name: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.9', friendlyName: 'eduPersonScopedAffiliation', required: true },
   { name: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.10', friendlyName: 'eduPersonTargetedID', required: true },
-  { name: 'urn:oid:0.9.2342.19200300.100.1.3', friendlyName: 'mail', required: false }
+  { name: 'urn:oid:0.9.2342.19200300.100.1.3', friendlyName: 'mail', required: false },
+  // Added after registration so the admin dashboard can show students'
+  // names; takes effect once SAFIRE re-publishes our metadata.
+  { name: 'urn:oid:2.16.840.1.113730.3.1.241', friendlyName: 'displayName', required: false }
 ];
 
 // Deliberately doesn't mention SAFIRE: students shouldn't need to know the
