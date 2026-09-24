@@ -128,7 +128,14 @@ const INSTITUTION_IDP_MAP = {
   'Durban University of Technology (DUT)': 'https://sts.windows.net/4b1930d1-12f4-40b5-b48c-bd86117429d8/',
   'Tshwane University of Technology (TUT)': 'https://sts.windows.net/3df74539-9453-4d03-bb9d-b9102cb9ce9c/',
   'Vaal University of Technology (VUT)': 'http://logmein.vut.ac.za/adfs/services/trust',
-  'Central University of Technology (CUT)': 'http://logon.cut.ac.za/adfs/services/trust'
+  'Central University of Technology (CUT)': 'http://logon.cut.ac.za/adfs/services/trust',
+  'Nelson Mandela University (NMU)': 'https://nmmusaml-sc1.nmmu.ac.za/simplesaml/saml2/idp/metadata.php',
+  'University of the Free State (UFS)': 'http://safire.ufs.ac.za/adfs/services/trust',
+  // Zululand publishes separate staff and student logins; students go to the student one.
+  'University of Zululand': 'https://sts.windows.net/543f2205-fcdc-4c35-ad7a-ea6bd74ca885/',
+  'University of Mpumalanga': 'https://sts.windows.net/bc5fec91-045a-4917-906e-43922049f31d/',
+  'George Whitefield College': 'https://sauth1.gwc.ac.za/realms/gwc',
+  'South African Theological Seminary': 'https://sso.sats.edu.za/'
 };
 
 const ATTRIBUTE_KEYS = {
