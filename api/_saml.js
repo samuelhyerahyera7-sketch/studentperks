@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const samlify = require('samlify');
+const { DOMParser } = require('@xmldom/xmldom');
 const { clean } = require('./_supabase');
 
 // Serverless functions have no xmllint binary available, and samlify's
@@ -57,6 +58,22 @@ function getServiceProvider() {
   return spInstance;
 }
 
+// The SAFIRE hub publishes its certificates in <KeyDescriptor> elements
+// with no use="..." attribute, which per saml-metadata §2.4.1.1 means the key
+// is for both signing and encryption. samlify only reads certificates
+// explicitly marked use="signing" for signature checks, so without this it
+// finds none and every login fails inside verifySignature with "Cannot
+// read properties of null (reading 'map')". Each unmarked KeyDescriptor is
+// split into an explicit signing and encryption copy before parsing.
+function expandUnspecifiedKeyUse(xml) {
+  return xml.replace(
+    /<((?:[A-Za-z0-9_-]+:)?)KeyDescriptor>([\s\S]*?)<\/\1KeyDescriptor>/g,
+    (match, prefix, inner) =>
+      `<${prefix}KeyDescriptor use="signing">${inner}</${prefix}KeyDescriptor>` +
+      `<${prefix}KeyDescriptor use="encryption">${inner}</${prefix}KeyDescriptor>`
+  );
+}
+
 let idpCache = { instance: null, fetchedAt: 0 };
 async function getIdentityProvider() {
   const now = Date.now();
@@ -67,7 +84,7 @@ async function getIdentityProvider() {
   if (!response.ok) {
     throw new Error(`Could not fetch SAFIRE IdP metadata (HTTP ${response.status}).`);
   }
-  const xml = await response.text();
+  const xml = expandUnspecifiedKeyUse(await response.text());
   const instance = samlify.IdentityProvider({ metadata: xml });
   idpCache = { instance, fetchedAt: now };
   return instance;
@@ -228,13 +245,37 @@ async function createLoginRedirectUrl(institution, relayState) {
   return context;
 }
 
+// eduPersonTargetedID arrives as a <saml:NameID> nested inside its
+// AttributeValue, which samlify's attribute extractor reads as empty. By the
+// time this runs samlify has verified the signature (and rejected wrapping
+// attacks); reading from the document is only trusted when it holds exactly
+// one Assertion, so the value can only come from the signed one.
+function readTargetedId(samlContent) {
+  if (!samlContent) return '';
+  const doc = new DOMParser().parseFromString(String(samlContent), 'text/xml');
+  const assertions = doc.getElementsByTagNameNS('urn:oasis:names:tc:SAML:2.0:assertion', 'Assertion');
+  if (assertions.length !== 1) return '';
+  const attrs = assertions[0].getElementsByTagNameNS('urn:oasis:names:tc:SAML:2.0:assertion', 'Attribute');
+  for (let i = 0; i < attrs.length; i++) {
+    const name = attrs[i].getAttribute('Name');
+    if (name !== 'urn:oid:1.3.6.1.4.1.5923.1.1.1.10' && name !== 'eduPersonTargetedID') continue;
+    const ids = attrs[i].getElementsByTagNameNS('urn:oasis:names:tc:SAML:2.0:assertion', 'NameID');
+    const value = ids.length ? ids[0].textContent : attrs[i].textContent;
+    return clean(value);
+  }
+  return '';
+}
+
 async function parseAcsRequest(req) {
   const sp = getServiceProvider();
   if (!sp) throw new Error('SAML sign-in is not configured yet.');
   const idp = await getIdentityProvider();
   const body = await readFormBody(req);
-  const { extract } = await sp.parseLoginResponse(idp, 'post', { body });
-  return { profile: extractStudentProfile(extract.attributes), relayState: body.RelayState || '' };
+  const { extract, samlContent } = await sp.parseLoginResponse(idp, 'post', { body });
+  const attributes = { ...(extract.attributes || {}) };
+  const targetedId = readTargetedId(samlContent);
+  if (targetedId) attributes['urn:oid:1.3.6.1.4.1.5923.1.1.1.10'] = targetedId;
+  return { profile: extractStudentProfile(attributes), relayState: body.RelayState || '' };
 }
 
 function escapeXml(value) {
