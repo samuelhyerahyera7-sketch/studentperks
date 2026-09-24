@@ -63,6 +63,9 @@ button.heart.saved{background:var(--lime);color:#050505}
 /* Centre the three stat boxes (icon, number and label) */
 .stats-grid .stat{justify-content:center;text-align:center}
 .stats-grid .stat .stat-icon{margin-left:auto;margin-right:auto}
+/* '.stat span' (meant for the labels) also matched the icon circle and turned off its centring */
+.stats-grid .stat .stat-icon{display:grid;place-items:center;margin-top:0}
+.stats-grid .stat .stat-icon .icon{display:block}
 @media(min-width:431px){.stats-grid .stat{flex-direction:column;gap:8px}.stats-grid .stat .stat-icon{margin-bottom:0}}.stat.is-link:hover{border-color:#cfd6df}
 .profile-actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:9px;margin-top:4px}
 .profile-action{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 16px;border-radius:999px;background:#eff3f8;color:#050505;font-size:13px;font-weight:900}
