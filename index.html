@@ -595,6 +595,12 @@ body.public-redesign .nav-desktop a:hover { color: #090909; }
 body.public-redesign .nav-verify { background: transparent; color: #050505; padding: 10px 14px; text-transform: none; letter-spacing: 0; font-size: 16px; font-weight: 800; }
 body.public-redesign .nav-join { background: #9cff18; color: #050505; box-shadow: 0 10px 24px rgba(156,255,24,.28); }
 body.public-redesign .nav-burger { color: #050505; }
+/* Shown in the header instead of "Get verified" once a student is approved. */
+body.public-redesign .nav-dashboard { display: inline-flex; align-items: center; gap: 10px; min-height: 36px; padding: 0 20px; border-radius: 999px; background: #9cff18; color: #050505; font-size: 13px; font-weight: 900; white-space: nowrap; text-decoration: none; box-shadow: 0 10px 24px rgba(156,255,24,.28); transition: transform .15s, box-shadow .15s; }
+body.public-redesign .nav-dashboard::after { content: ''; width: 15px; height: 15px; background: url('assets/icons/arrow-right.svg') center/contain no-repeat; }
+body.public-redesign .nav-dashboard:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(156,255,24,.4); }
+body.public-redesign .nav-dashboard:focus-visible { outline: 2px solid #050505; outline-offset: 3px; }
+@media (max-width: 760px) { body.public-redesign .nav-dashboard { min-height: 34px; padding: 0 14px; font-size: 13px; box-shadow: none; } }
 body.public-redesign .menu-overlay { background: #fff; color: #050505; }
 body.public-redesign .menu-head { border-color: rgba(15,23,42,.09); }
 body.public-redesign .menu-close { color: #050505; }
@@ -7455,11 +7461,14 @@ async function checkAuthStatus(){
     });
   }
   _userStatus = app.status;
-  const label = app.status === 'approved'
-    ? '<a class="status-chip verified" href="dashboard.html">DASHBOARD</a>'
+  const approved = app.status === 'approved';
+  const label = approved
+    ? '<a class="nav-dashboard" href="dashboard.html">My dashboard</a>'
     : '<span class="status-chip pending">PENDING VERIFICATION</span>';
+  // An approved student doesn't need "Get verified" next to their dashboard link.
+  if (approved) document.querySelectorAll('.nav-join').forEach(el => el.style.setProperty('display', 'none', 'important'));
   document.getElementById('nav-status-desktop').innerHTML = label;
-  document.getElementById('nav-status-mobile').innerHTML = label + '<button class="nav-burger" onclick="openMenu()" style="margin-left:8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>';
+  document.getElementById('nav-status-mobile').innerHTML = (approved ? label.replace('My dashboard', 'Dashboard') : label) + '<button class="nav-burger" onclick="openMenu()" style="margin-left:8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>';
 }
 
 let _gateTimer;
