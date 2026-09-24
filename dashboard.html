@@ -48,7 +48,12 @@ a.notif-item:hover,button.notif-item:hover{background:var(--soft)}
 .notif-item strong{display:block;font-size:14px;font-weight:900}.notif-item span span{display:block;margin-top:2px;color:var(--muted);font-size:12px}
 button.heart{cursor:pointer;transition:transform .15s,background .15s}button.heart:hover{transform:scale(1.08)}
 button.heart.saved{background:var(--lime);color:#050505}
-.stat.is-link{cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%}.stat.is-link:hover{border-color:#cfd6df}
+.stat.is-link{cursor:pointer;font:inherit;color:inherit;width:100%}
+.activity .empty-card.activity-empty{border:0;box-shadow:none;border-radius:0;min-height:0}
+/* Centre the three stat boxes (icon, number and label) */
+.stats-grid .stat{justify-content:center;text-align:center}
+.stats-grid .stat .stat-icon{margin-left:auto;margin-right:auto}
+@media(min-width:431px){.stats-grid .stat{flex-direction:column;gap:8px}.stats-grid .stat .stat-icon{margin-bottom:0}}.stat.is-link:hover{border-color:#cfd6df}
 .profile-actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:9px;margin-top:4px}
 .profile-action{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 16px;border-radius:999px;background:#eff3f8;color:#050505;font-size:13px;font-weight:900}
 .profile-action.primary{background:var(--lime)}.profile-action.danger{background:#fff;border:1px solid #f1c9c9;color:#b42318}
@@ -62,6 +67,32 @@ button.heart.saved{background:var(--lime);color:#050505}
 .qr-zoom-img{width:100%;aspect-ratio:1;max-width:360px;margin:0 auto 14px;display:grid;place-items:center}.qr-zoom-img img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated}
 .qr-zoom-member{font-family:monospace;font-size:15px;font-weight:900;letter-spacing:.06em;margin-bottom:14px}
 .qr-zoom-close{width:100%;height:48px;border-radius:999px;background:var(--lime);font-weight:900}
+/* Profile editor */
+.profile-avatar,.avatar{background-size:cover;background-position:center}
+.profile-avatar img,.avatar img,.pe-preview img{width:100%;height:100%;object-fit:cover;display:block}
+.profile-avatar{position:relative}
+.profile-avatar .pe-cam{position:absolute;right:-2px;bottom:-2px;width:28px;height:28px;border-radius:50%;background:#050505;color:#fff;display:grid;place-items:center;border:2px solid #fff}
+.profile-avatar .pe-cam svg{width:15px;height:15px}
+.profile-edit-backdrop{display:none;position:fixed;inset:0;z-index:9200;background:rgba(5,5,5,.55);align-items:flex-end;justify-content:center;padding:16px}
+@media(min-width:600px){.profile-edit-backdrop{align-items:center}}
+.profile-edit-card{width:100%;max-width:420px;max-height:calc(100vh - 32px);overflow:auto;background:#fff;border-radius:22px;padding:22px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.profile-edit-card h3{font-size:22px;font-weight:900;letter-spacing:-.03em;margin-bottom:16px}
+.pe-photo-row{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.pe-preview{width:96px;height:96px;flex:0 0 auto;border-radius:50%;overflow:hidden;display:grid;place-items:center;font-size:30px;font-weight:900;border:4px solid #d7ff8b}
+.pe-photo-buttons{display:grid;gap:8px}
+.pe-btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 16px;border-radius:999px;background:#eff3f8;font-size:13px;font-weight:900;cursor:pointer}
+.pe-btn.primary{background:var(--lime)}.pe-btn[hidden]{display:none}
+.pe-label{display:block;margin:0 0 8px;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.pe-swatches{display:flex;gap:10px;margin-bottom:18px}
+.pe-swatch{width:38px;height:38px;border-radius:50%;border:2px solid #dfe5ee}
+.pe-swatch[aria-pressed="true"]{border-color:#050505;box-shadow:0 0 0 3px #fff inset}
+.pe-input{width:100%;height:46px;padding:0 14px;border:1.5px solid var(--line);border-radius:12px;font-size:15px;margin-bottom:6px}
+.pe-input:focus{outline:none;border-color:#050505}
+.pe-hint{font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.4}
+.pe-error{font-size:13px;color:#b42318;margin:-8px 0 14px}
+.pe-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pe-actions .pe-btn{min-height:48px;font-size:14px}.pe-btn:disabled{opacity:.6;cursor:progress}
+.pe-swatch:focus-visible,.pe-btn:focus-visible,.profile-avatar:focus-visible{outline:2px solid #050505;outline-offset:2px}
 </style>
 </head>
 <body>
@@ -82,9 +113,29 @@ button.heart.saved{background:var(--lime);color:#050505}
 <section><div class="section-head"><h2>Upcoming for you</h2></div><div class="upcoming-grid" id="upcomingGrid"></div></section>
 <section id="saved"><div class="section-head"><h2>Saved offers</h2></div><div class="deal-grid" id="savedDeals"></div></section>
 <section id="activity"><div class="section-head"><h2>Recent activity</h2></div><div class="activity" id="recentActivity"></div></section>
-<section id="profile"><div class="section-head"><h2>Profile</h2></div><article class="profile-card"><div class="profile-avatar" id="profileInitials">SP</div><div><strong id="profileName">StudentPerks student</strong><span id="profileMeta">Verified StudentPerks member</span><span class="avatar-help">Your verified StudentPerks profile and membership details.</span></div><div class="profile-actions"><a class="profile-action primary" href="#wallet" onclick="event.preventDefault();goTo('wallet')">Open my wallet</a><a class="profile-action" href="index.html#perks">Browse all deals</a><a class="profile-action" href="mailto:admin@studentperks.co.za?subject=StudentPerks%20help">Get help</a><button class="profile-action danger" onclick="signOut()">Sign out</button></div></article></section>
+<section id="profile"><div class="section-head"><h2>Profile</h2></div><article class="profile-card"><div class="profile-avatar" id="profileInitials" role="button" tabindex="0" aria-label="Change profile picture" onclick="openProfileEditor()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openProfileEditor()}">SP</div><div><strong id="profileName">StudentPerks student</strong><span id="profileMeta">Verified StudentPerks member</span><span class="avatar-help">Your verified StudentPerks profile and membership details.</span></div><div class="profile-actions"><button class="profile-action primary" onclick="openProfileEditor()">Edit profile</button><a class="profile-action" href="#wallet" onclick="event.preventDefault();goTo('wallet')">Open my wallet</a><a class="profile-action" href="index.html#perks">Browse all deals</a><a class="profile-action" href="mailto:admin@studentperks.co.za?subject=StudentPerks%20help">Get help</a><button class="profile-action danger" onclick="signOut()">Sign out</button></div></article></section>
 </section>
 </main>
+<div class="profile-edit-backdrop" id="profile-edit" role="dialog" aria-modal="true" aria-labelledby="pe-title" onclick="if(event.target===this)closeProfileEditor()">
+  <div class="profile-edit-card">
+    <h3 id="pe-title">Edit profile</h3>
+    <div class="pe-photo-row">
+      <div class="pe-preview" id="pe-preview"></div>
+      <div class="pe-photo-buttons">
+        <label class="pe-btn primary" for="pe-file" id="pe-upload-label">Add a photo</label>
+        <input type="file" id="pe-file" accept="image/*" hidden onchange="peHandleFile(this.files[0]);this.value=''">
+        <button class="pe-btn" id="pe-remove" onclick="peRemovePhoto()" hidden>Remove photo</button>
+      </div>
+    </div>
+    <p class="pe-error" id="pe-error" hidden></p>
+    <span class="pe-label" id="pe-colour-label">Colour behind your initials</span>
+    <div class="pe-swatches" id="pe-swatches" role="group" aria-labelledby="pe-colour-label"></div>
+    <label class="pe-label" for="pe-name">What should we call you?</label>
+    <input class="pe-input" id="pe-name" maxlength="30" autocomplete="nickname" placeholder="e.g. Thabo">
+    <p class="pe-hint">Used in your greeting. Your wallet card keeps the name you were verified with.</p>
+    <div class="pe-actions"><button class="pe-btn" onclick="closeProfileEditor()">Cancel</button><button class="pe-btn primary" id="pe-save" onclick="saveProfileEditor()">Save</button></div>
+  </div>
+</div>
 <div class="qr-zoom-backdrop" id="qr-zoom" role="dialog" aria-modal="true" aria-labelledby="qr-zoom-title" onclick="if(event.target===this)closeQrZoom()">
   <div class="qr-zoom-card">
     <h3 id="qr-zoom-title">Your StudentPerks QR</h3>
@@ -146,7 +197,7 @@ function offer(x){return first(x,['discount_desc','offer','offer_title','descrip
 function renderExpiry(){document.getElementById('expiryStrip').innerHTML=`<span class="alert-icon"><svg class="icon"><use href="assets/icons/approved/dashboard-symbols.svg#sp-bell"></use></svg></span><span><strong>Your wallet is ready</strong><span>Claimed offers and expiry alerts will appear here automatically.</span></span>`}
 function renderRecommendations(){const t=document.getElementById('recommendedDeals');t.innerHTML='';if(!recommendedRows.length){t.appendChild(empty('More deals coming soon','New StudentPerks partner offers will appear here.','sp-heart'));return}recommendedRows.slice(0,4).forEach(v=>t.appendChild(card({business:vname(v),vendorId:v.id,offer:offer(v),location:loc(v),badge:'Student offer',cta:'Get code',onClick:()=>showDealCodeModal(v)})))}
 function renderUpcoming(){const t=document.getElementById('upcomingGrid');t.innerHTML='';t.appendChild(empty('Events coming soon','StudentPerks events will appear here.','sp-ticket'));t.appendChild(empty('Opportunities coming soon','Student opportunities will appear here.','sp-tag'))}
-async function renderActivity(){const t=document.getElementById('recentActivity'),r=await safe(sb.from('redemptions').select('*').ilike('student_email',currentEmail).order('redeemed_at',{ascending:false}).limit(10),[]);const rows=r.filter(x=>isLive(x.vendor_name||x.business_name)).slice(0,5);if(!rows.length){t.innerHTML='';const e=empty('No recent activity','Your StudentPerks activity will appear here.','sp-clock');e.className='activity-row';t.appendChild(e);return}t.innerHTML=rows.map(x=>`<div class="activity-row"><span class="activity-icon"><svg class="icon"><use href="assets/icons/approved/dashboard-symbols.svg#sp-ticket"></use></svg></span><span><span class="activity-title">${ep(x.vendor_name||x.business_name||'StudentPerks deal')}</span><span class="activity-sub">Offer redeemed</span></span><span class="activity-date">${ep(fmt(x.redeemed_at))}</span></div>`).join('')}
+async function renderActivity(){const t=document.getElementById('recentActivity'),r=await safe(sb.from('redemptions').select('*').ilike('student_email',currentEmail).order('redeemed_at',{ascending:false}).limit(10),[]);const rows=r.filter(x=>isLive(x.vendor_name||x.business_name)).slice(0,5);if(!rows.length){t.innerHTML='';const e=empty('No recent activity','Your StudentPerks activity will appear here.','sp-clock');e.classList.add('activity-empty');t.appendChild(e);return}t.innerHTML=rows.map(x=>`<div class="activity-row"><span class="activity-icon"><svg class="icon"><use href="assets/icons/approved/dashboard-symbols.svg#sp-ticket"></use></svg></span><span><span class="activity-title">${ep(x.vendor_name||x.business_name||'StudentPerks deal')}</span><span class="activity-sub">Offer redeemed</span></span><span class="activity-date">${ep(fmt(x.redeemed_at))}</span></div>`).join('')}
 /* Saved offers: hearts save to this device (per student), merged with any
    rows already in the saved_offers table. */
 function savedKey(){return prefKey('saved_vendors')}
@@ -165,11 +216,40 @@ function renderNotifications(){const items=notifItems(),panel=document.getElemen
 function toggleNotifications(ev){ev&&ev.stopPropagation();const p=document.getElementById('notifPanel'),b=document.getElementById('bellBtn');renderNotifications();p.hidden=!p.hidden;b.setAttribute('aria-expanded',String(!p.hidden))}
 function closeNotifications(){const p=document.getElementById('notifPanel');if(p&&!p.hidden){p.hidden=true;document.getElementById('bellBtn').setAttribute('aria-expanded','false')}}
 document.addEventListener('click',ev=>{const p=document.getElementById('notifPanel');if(p&&!p.hidden&&!p.contains(ev.target))closeNotifications()});
-document.addEventListener('keydown',ev=>{if(ev.key==='Escape'){closeNotifications();hideDealCodeModal();closeQrZoom()}});
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape'){closeNotifications();hideDealCodeModal();closeQrZoom();closeProfileEditor()}});
 /* Navigation helpers: smooth scroll + keep the bottom nav highlight in sync */
 function goTo(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});setActiveNav(id)}
 function setActiveNav(id){document.querySelectorAll('.bottom-nav .nav-item').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id))}
 document.querySelectorAll('.bottom-nav .nav-item').forEach(a=>a.addEventListener('click',ev=>{ev.preventDefault();goTo(a.getAttribute('href').slice(1))}));
+/* Profile customisation: photo, initials colour and preferred name.
+   Saved per student on this device. */
+const PROFILE_COLOURS=[['lime','#dfffad'],['sky','#d7ecff'],['rose','#ffdced'],['sand','#fbe8c8'],['mono','#e9edf2']];
+function prefNameKey(){return prefKey('preferred_name')}function colourKey(){return prefKey('initials_colour')}
+function readPref(k){try{return localStorage.getItem(k)||''}catch{return''}}
+function writePref(k,v){try{if(v)localStorage.setItem(k,v);else localStorage.removeItem(k);return true}catch{return false}}
+function verifiedName(){return first(studentRecord,['full_name','name','display_name'],'')}
+function preferredName(){return readPref(prefNameKey()).trim()}
+function colourHex(id){return (PROFILE_COLOURS.find(x=>x[0]===id)||PROFILE_COLOURS[0])[1]}
+function avatarHtml(photo,initials){return photo?`<img src="${ep(photo)}" alt="">`:ep(initials)}
+function paintAvatar(el,photo,initials,colour){if(!el)return;el.innerHTML=avatarHtml(photo,initials);el.style.background=photo?'#fff':colourHex(colour)}
+function renderAvatar(){const photo=readPref(photoKey()),pref=preferredName(),name=pref||verifiedName(),initials=ini(name,currentEmail),colour=readPref(colourKey())||'lime';
+  paintAvatar(document.getElementById('avatar'),photo,initials,colour);
+  const pa=document.getElementById('profileInitials');paintAvatar(pa,photo,initials,colour);if(pa)pa.insertAdjacentHTML('beforeend','<span class="pe-cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>');
+  const t=document.getElementById('dashboardTitle');if(t)t.textContent=`Hi, ${fn(name,currentEmail)}`;
+  const pn=document.getElementById('profileName');if(pn)pn.textContent=name||currentEmail||'StudentPerks student';
+  const pm=document.getElementById('profileMeta');if(pm&&pref&&verifiedName()&&pref!==verifiedName()&&!pm.textContent.includes('Verified as'))pm.textContent=`Verified as ${verifiedName()} · ${pm.textContent}`}
+let peDraft=null;
+function peRender(){const p=document.getElementById('pe-preview'),name=document.getElementById('pe-name').value.trim()||verifiedName();paintAvatar(p,peDraft.photo,ini(name,currentEmail),peDraft.colour);document.getElementById('pe-remove').hidden=!peDraft.photo;document.getElementById('pe-upload-label').textContent=peDraft.photo?'Change photo':'Add a photo';document.getElementById('pe-swatches').innerHTML=PROFILE_COLOURS.map(([id,hex])=>`<button class="pe-swatch" style="background:${hex}" aria-label="${id}" aria-pressed="${id===peDraft.colour}" onclick="peDraft.colour='${id}';peRender()"></button>`).join('')}
+function peError(msg){const e=document.getElementById('pe-error');e.textContent=msg||'';e.hidden=!msg}
+function openProfileEditor(){peDraft={photo:readPref(photoKey()),colour:readPref(colourKey())||'lime'};document.getElementById('pe-name').value=preferredName();peError('');peRender();document.getElementById('profile-edit').style.display='flex';document.getElementById('pe-name').oninput=peRender;setTimeout(()=>document.getElementById('pe-upload-label').focus(),0)}
+function closeProfileEditor(){const m=document.getElementById('profile-edit');if(m&&m.style.display==='flex'){m.style.display='none';peDraft=null}}
+function peRemovePhoto(){peDraft.photo='';peRender()}
+function peHandleFile(file){peError('');if(!file)return;if(!/^image\//.test(file.type)){peError('Please choose a photo (JPG or PNG).');return}if(file.size>15*1024*1024){peError('That photo is too big. Please choose one under 15 MB.');return}
+  const url=URL.createObjectURL(file),img=new Image();peBusy(true);
+  img.onload=()=>{const size=320,c=document.createElement('canvas'),ctx=c.getContext('2d'),side=Math.min(img.naturalWidth,img.naturalHeight);c.width=size;c.height=size;ctx.drawImage(img,(img.naturalWidth-side)/2,(img.naturalHeight-side)/2,side,side,0,0,size,size);URL.revokeObjectURL(url);if(peDraft)peDraft.photo=c.toDataURL('image/jpeg',.85);peBusy(false);if(peDraft)peRender()};
+  img.onerror=()=>{URL.revokeObjectURL(url);peBusy(false);peError("We couldn't read that photo. Try a JPG or PNG.")};img.src=url}
+function peBusy(on){const b=document.getElementById('pe-save');if(b){b.disabled=on;b.textContent=on?'Loading photo…':'Save'}}
+function saveProfileEditor(){if(!peDraft||document.getElementById('pe-save').disabled)return;const name=document.getElementById('pe-name').value.trim().slice(0,30);if(!writePref(photoKey(),peDraft.photo)){peError("Your browser didn't let us save the photo. Try a smaller one.");return}writePref(colourKey(),peDraft.colour);writePref(prefNameKey(),name);closeProfileEditor();renderStudent();animateAvatar()}
 init();
 </script>
 </body>
