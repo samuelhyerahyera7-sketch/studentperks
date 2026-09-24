@@ -718,7 +718,8 @@ function openAppModal(app) {
     <div class="detail-item"><label>Institution</label><span>${esc(app.institution||'—')}</span></div>
     <div class="detail-item"><label>Year</label><span>${esc(app.year_of_study||'—')}</span></div>
     <div class="detail-item"><label>Degree / Course</label><span>${esc(app.degree_course||'—')}</span></div>
-    <div class="detail-item"><label>Student number</label><span>${esc(app.student_number||'—')}</span></div>
+    <div class="detail-item"><label>Verified via</label><span>${viaUniversityLogin(app)?'University login':'Card upload'}</span></div>
+    <div class="detail-item"><label>${viaUniversityLogin(app)?'Anonymous university ID':'Student number'}</label><span style="word-break:break-all">${esc(app.student_number||'—')}</span></div>
     <div class="detail-item"><label>Status</label><span><span class="pill-status pill-${memberState(app)}">${memberState(app)}</span></span></div>
     <div class="detail-item"><label>Submitted</label><span>${fmtDateLong(app.created_at)}</span></div>
     <div class="detail-item"><label>Membership valid until</label><span>${app.status==='approved'?esc(fmtDateYear(memberExpiry(app)))+(memberState(app)==='expired'?' (expired)':''):'—'}</span></div>
@@ -1346,6 +1347,8 @@ document.querySelectorAll('.modal-back').forEach(m=>m.addEventListener('click',e
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function fmtDate(ts){ if(!ts)return'—'; const d=new Date(ts); return d.toLocaleDateString('en-ZA',{day:'numeric',month:'short'}); }
 // Membership lasts one year from approval (reviewed_at; created_at for older rows).
+// University (SAFIRE) logins are noted in admin_notes by the ACS handler.
+function viaUniversityLogin(app){return /SAFIRE SSO/.test(app&&app.admin_notes||'')}
 function memberExpiry(app){const base=app&&(app.reviewed_at||app.created_at);if(!base)return null;const d=new Date(base);d.setFullYear(d.getFullYear()+1);return d.toISOString()}
 function memberState(app){if(app.status!=='approved')return app.status;const e=memberExpiry(app);return e&&Date.parse(e)<Date.now()?'expired':'approved'}
 function fmtDateYear(ts){if(!ts)return'—';return new Date(ts).toLocaleDateString('en-ZA',{day:'numeric',month:'short',year:'numeric'})}
