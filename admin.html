@@ -105,6 +105,7 @@ button{cursor:pointer;border:none;font-family:var(--font)}
 .pill-pending{background:rgba(255,200,0,.12);color:var(--yellow)}
 .pill-approved{background:rgba(34,197,94,.1);color:var(--green)}
 .pill-rejected{background:rgba(255,68,68,.1);color:var(--red)}
+.pill-expired{background:rgba(255,255,255,.08);color:var(--ink2)}
 .pill-used{background:rgba(255,68,68,.1);color:var(--red)}
 .pill-available{background:rgba(34,197,94,.1);color:var(--green)}
 .pill-assigned{background:rgba(212,255,0,.1);color:var(--lime)}
@@ -312,6 +313,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
         <button class="filter-pill" onclick="loadApplications('pending',this)">Pending</button>
         <button class="filter-pill" onclick="loadApplications('approved',this)">Approved</button>
         <button class="filter-pill" onclick="loadApplications('rejected',this)">Rejected</button>
+        <button class="filter-pill" onclick="loadApplications('expired',this)">Expired</button>
       </div>
       <div class="data-table" id="apps-table">
         <div class="dt-row head" style="grid-template-columns:1fr 1fr 1fr 110px 90px 80px">
@@ -675,8 +677,10 @@ async function loadApplications(status, btn) {
   document.getElementById('apps-loading') && (document.getElementById('apps-loading').textContent = 'Loading…');
   let q = _sb.from('student_applications').select('*').order('created_at',{ascending:false});
   if(status==='needs_review') q = q.eq('status','pending').not('ai_verdict','is',null).neq('ai_verdict','approved');
+  else if(status==='expired') q = q.eq('status','approved');
   else if(status && status!=='all') q = q.eq('status',status);
-  const {data,error} = await q;
+  let {data,error} = await q;
+  if(data && status==='expired') data = data.filter(a=>memberState(a)==='expired');
   // clear old rows
   [...tbody.querySelectorAll('.dt-row:not(.head)')].forEach(r=>r.remove());
   const loadingEl = document.getElementById('apps-loading');
@@ -692,7 +696,7 @@ async function loadApplications(status, btn) {
       <div class="dt-cell dim">${esc(app.personal_email)}</div>
       <div class="dt-cell dim">${esc(app.institution)}</div>
       <div>${aiPill(app)}</div>
-      <div><span class="pill-status pill-${app.status}">${app.status}</span></div>
+      <div><span class="pill-status pill-${memberState(app)}">${memberState(app)}</span></div>
       <div class="dt-cell dim">${fmtDate(app.created_at)}</div>
     `;
     row.onclick = () => openAppModal(app);
@@ -715,8 +719,9 @@ function openAppModal(app) {
     <div class="detail-item"><label>Year</label><span>${esc(app.year_of_study||'—')}</span></div>
     <div class="detail-item"><label>Degree / Course</label><span>${esc(app.degree_course||'—')}</span></div>
     <div class="detail-item"><label>Student number</label><span>${esc(app.student_number||'—')}</span></div>
-    <div class="detail-item"><label>Status</label><span><span class="pill-status pill-${app.status}">${app.status}</span></span></div>
+    <div class="detail-item"><label>Status</label><span><span class="pill-status pill-${memberState(app)}">${memberState(app)}</span></span></div>
     <div class="detail-item"><label>Submitted</label><span>${fmtDateLong(app.created_at)}</span></div>
+    <div class="detail-item"><label>Membership valid until</label><span>${app.status==='approved'?esc(fmtDateYear(memberExpiry(app)))+(memberState(app)==='expired'?' (expired)':''):'—'}</span></div>
   `;
   document.getElementById('app-notes').value = app.admin_notes || '';
   renderAiBox(app);
@@ -1340,6 +1345,10 @@ document.querySelectorAll('.modal-back').forEach(m=>m.addEventListener('click',e
 /* ── HELPERS ── */
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function fmtDate(ts){ if(!ts)return'—'; const d=new Date(ts); return d.toLocaleDateString('en-ZA',{day:'numeric',month:'short'}); }
+// Membership lasts one year from approval (reviewed_at; created_at for older rows).
+function memberExpiry(app){const base=app&&(app.reviewed_at||app.created_at);if(!base)return null;const d=new Date(base);d.setFullYear(d.getFullYear()+1);return d.toISOString()}
+function memberState(app){if(app.status!=='approved')return app.status;const e=memberExpiry(app);return e&&Date.parse(e)<Date.now()?'expired':'approved'}
+function fmtDateYear(ts){if(!ts)return'—';return new Date(ts).toLocaleDateString('en-ZA',{day:'numeric',month:'short',year:'numeric'})}
 function fmtDateLong(ts){ if(!ts)return'—'; const d=new Date(ts); return d.toLocaleString('en-ZA',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }
 function showFormErr(el,msg){ el.textContent=msg; el.style.display='block'; }
 

@@ -7370,7 +7370,7 @@ body.public-redesign #perks .mock-deal-card.perk-card .join-claim.join-claim--so
           </select>
         </div>
         <div class="field"><input type="text" id="jn-other-inst" placeholder="Institution name" style="display:none"></div>
-        <div class="field"><input type="email" id="jn-student-email" placeholder="Student email (e.g. you@myuniversity.ac.za)"></div>
+        <div class="field"><input type="email" id="jn-student-email" placeholder="University or college email (e.g. you@myuniversity.ac.za)"></div>
         <div class="field">
           <select id="jn-year">
             <option value="" disabled selected>Year of study</option>
@@ -7457,7 +7457,7 @@ async function checkAuthStatus(){
   if(!session) return;
   const email = (session.user.email||'').toLowerCase();
   const { data: app } = await sb.from('student_applications')
-    .select('id, status, full_name, student_email, student_email_verified')
+    .select('id, status, full_name, student_email, student_email_verified, reviewed_at, created_at')
     .or(`personal_email.ilike.${email},student_email.ilike.${email}`)
     .order('created_at',{ascending:false})
     .limit(1)
@@ -7470,6 +7470,12 @@ async function checkAuthStatus(){
     });
   }
   _userStatus = app.status;
+  // Membership lasts a year from approval (reviewed_at; created_at for older rows).
+  if (app.status === 'approved') {
+    const base = new Date(app.reviewed_at || app.created_at || Date.now());
+    base.setFullYear(base.getFullYear() + 1);
+    if (base.getTime() < Date.now()) _userStatus = 'expired';
+  }
   const approved = app.status === 'approved';
   const label = approved
     ? '<a class="nav-dashboard" href="dashboard.html">My dashboard</a>'
@@ -7624,6 +7630,12 @@ async function handleSignIn(){
       btn.disabled=false; btn.textContent='Send sign-in link';
       return;
     }
+    if(statusPayload.status === 'expired'){
+      const when = statusPayload.expiresAt ? new Date(statusPayload.expiresAt).toLocaleDateString('en-ZA',{day:'numeric',month:'long',year:'numeric'}) : '';
+      showErr('si-err',`Your membership expired${when?' on '+when:''}. Memberships last a year, so please verify again under "Verify & Join" to renew.`);
+      btn.disabled=false; btn.textContent='Send sign-in link';
+      return;
+    }
     if(statusPayload.status !== 'approved'){
       showErr('si-err','Your application is still under review. We\'ll email you once approved.');
       btn.disabled=false; btn.textContent='Send sign-in link';
@@ -7647,6 +7659,10 @@ async function handleSignIn(){
 /* ── JOIN — STEPS ── */
 let step = 1;
 
+// Free personal mailboxes can't prove enrolment, so they're refused as the
+// university/college email.
+const PERSONAL_EMAIL_DOMAINS=['gmail.com','googlemail.com','yahoo.com','yahoo.co.za','ymail.com','outlook.com','hotmail.com','hotmail.co.za','live.com','live.co.za','msn.com','icloud.com','me.com','mac.com','aol.com','proton.me','protonmail.com','gmx.com','mail.com','zoho.com','yandex.com','webmail.co.za','mweb.co.za','telkomsa.net','vodamail.co.za','iafrica.com','absamail.co.za','lantic.net','ananzi.co.za'];
+function isPersonalEmail(e){const d=String(e||'').toLowerCase().split('@')[1]||'';return PERSONAL_EMAIL_DOMAINS.includes(d)}
 function nextStep(to){
   if(to===2){
     const name=document.getElementById('jn-name').value.trim();
@@ -7663,7 +7679,9 @@ function nextStep(to){
     const stunum=document.getElementById('jn-stunum').value.trim();
     if(!inst){ showErr('err-2','Please select your institution.'); return; }
     if(inst==='other'&&!document.getElementById('jn-other-inst').value.trim()){ showErr('err-2','Please enter your institution name.'); return; }
-    if(!semail||!semail.includes('@')){ showErr('err-2','Please enter your student email address.'); return; }
+    if(!semail||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(semail)){ showErr('err-2','Please enter your university or college email address.'); return; }
+    if(semail.toLowerCase()===document.getElementById('jn-email').value.trim().toLowerCase()){ showErr('err-2','Your university email must be different from your personal email.'); return; }
+    if(isPersonalEmail(semail)){ showErr('err-2','Please use the email address your university or college gave you, not a personal one like Gmail or Outlook.'); return; }
     if(!yr){ showErr('err-2','Please select your year of study.'); return; }
     if(!course){ showErr('err-2','Please enter your degree or course.'); return; }
     if(!stunum){ showErr('err-2','Please enter your student number.'); return; }
@@ -7813,6 +7831,7 @@ function showErr(id, msg){
 (function(){
   const p=new URLSearchParams(window.location.search);
   if(p.has('applied')) document.getElementById('applied-banner').classList.add('show');
+  if(p.has('renew')) window.addEventListener('DOMContentLoaded',()=>{ try{ openModal('jn'); }catch(e){} });
 })();
 
 /* ── Perks filter ── */
@@ -7986,6 +8005,10 @@ function renderPublicDeal(vendor){
 function handleDealClick(vendor){
   if(!_userStatus){
     showGateToast('Join StudentPerks to claim this offer.', true);
+    return;
+  }
+  if(_userStatus === 'expired'){
+    showGateToast('Your StudentPerks membership has <b>expired</b>. Renew it from your <a href="dashboard.html" style="color:inherit;text-decoration:underline">dashboard</a> to keep claiming deals.', false);
     return;
   }
   if(_userStatus !== 'approved'){
