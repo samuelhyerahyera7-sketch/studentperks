@@ -646,10 +646,13 @@ function showTab(name) {
 
 /* ── OVERVIEW ── */
 async function loadOverview() {
-  const [apps, codes] = await Promise.all([
+  let [apps, codes] = await Promise.all([
     _sb.from('student_applications').select('status,ai_verdict'),
     _sb.from('coupon_codes').select('id', {count:'exact',head:true})
   ]);
+  // ai_verdict only exists once add-ai-verification.sql has been run.
+  const aiReady = !apps.error;
+  if (!aiReady) apps = await _sb.from('student_applications').select('status');
   const all     = apps.data || [];
   const pending = all.filter(a=>a.status==='pending').length;
   const approved= all.filter(a=>a.status==='approved').length;
@@ -657,6 +660,7 @@ async function loadOverview() {
   document.getElementById('ov-pending').textContent  = pending;
   document.getElementById('ov-approved').textContent = approved;
   document.getElementById('ov-codes').textContent    = codes.count ?? '—';
+  if (!aiReady) { document.getElementById('ov-ai').textContent = 'AI check: not set up yet'; return; }
   const aiApproved = all.filter(a=>a.ai_verdict==='approved').length;
   const aiReview   = all.filter(a=>a.status==='pending' && a.ai_verdict && a.ai_verdict!=='approved').length;
   document.getElementById('ov-ai').textContent = `AI check: ${aiApproved} auto-approved · ${aiReview} pending flagged for your review`;
