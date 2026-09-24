@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const samlify = require('samlify');
 const { clean } = require('./_supabase');
 
@@ -83,33 +84,34 @@ async function readFormBody(req) {
   return body;
 }
 
-// Maps the institution dropdown values in index.html to the entityID each
-// institution's IdP is published under behind the SAFIRE hub's BIRK proxy
-// (from https://metadata.safire.ac.za/safire-idp-proxy-metadata.xml).
-// Passing one of these as `idpentityid` on the hub's SSO endpoint skips its
-// own institution-picker page and sends the browser straight to that
-// institution's login — the student never sees a federation-branded
-// screen, only their own university's login (matching what SAFIRE-joined
-// SPs like Varsity Vibe do). Institutions not listed here (not yet SAFIRE
-// members, or not in our dropdown) fall back to the hub's own picker.
+// Maps the institution dropdown values in index.html to each institution's
+// IdP entityID as the SAFIRE hub knows it (the idpentityid values on the
+// hub's own discovery page, https://iziko.safire.ac.za). createLoginRedirectUrl
+// puts this in a <Scoping><IDPList> in the AuthnRequest, which makes the
+// hub skip its institution picker and send the student straight to their
+// own university's login. These are the institutions' real entityIDs, not
+// the proxy.safire.ac.za/birk.php/... aliases (those are for SPs connecting
+// outside the hub; the hub answers "None of the IdPs requested are
+// supported by this proxy" to them). Institutions not listed here fall back
+// to the hub's picker.
 const INSTITUTION_IDP_MAP = {
-  'University of Cape Town (UCT)': 'https://proxy.safire.ac.za/birk.php/srvslsfed001.uct.ac.za/simplesaml/saml2/idp/metadata.php',
-  'University of the Witwatersrand (Wits)': 'https://proxy.safire.ac.za/birk.php/idp.wits.ac.za/safss/saml2/idp/metadata.php',
-  'Stellenbosch University (SU)': 'http://proxy.safire.ac.za/birk.php/federate.sun.ac.za/adfs/services/trust',
-  'University of Pretoria (UP)': 'https://proxy.safire.ac.za/birk.php/www1.up.ac.za:443/oam/fed',
-  'University of KwaZulu-Natal (UKZN)': 'http://proxy.safire.ac.za/birk.php/federation.ukzn.ac.za/adfs/services/trust',
-  'North-West University (NWU)': 'https://proxy.safire.ac.za/birk.php/shib.nwu.ac.za/idp/shibboleth',
-  'University of the Western Cape (UWC)': 'https://proxy.safire.ac.za/birk.php/saml.uwc.ac.za/simplesaml/saml2/idp/metadata.php',
-  'Rhodes University': 'https://proxy.safire.ac.za/birk.php/login.ru.ac.za/idp/shibboleth',
-  'University of Venda': 'https://proxy.safire.ac.za/birk.php/sts.windows.net/f38ba9d8-554c-48a2-ae42-13b1e7f3c797/',
-  'University of Fort Hare': 'http://proxy.safire.ac.za/birk.php/federate.ufh.ac.za/adfs/services/trust',
-  'Walter Sisulu University (WSU)': 'https://proxy.safire.ac.za/birk.php/idp.wsu.ac.za/simplesaml/saml2/idp/metadata.php',
-  'Sol Plaatje University': 'https://proxy.safire.ac.za/birk.php/sts.windows.net/acbcaed8-7adc-460c-ba57-028bdc80d84a/',
-  'Cape Peninsula University of Technology (CPUT)': 'https://proxy.safire.ac.za/birk.php/sts.windows.net/cc6148eb-d356-4f38-900f-3a4d62b954c8/',
-  'Durban University of Technology (DUT)': 'https://proxy.safire.ac.za/birk.php/sts.windows.net/4b1930d1-12f4-40b5-b48c-bd86117429d8/',
-  'Tshwane University of Technology (TUT)': 'https://proxy.safire.ac.za/birk.php/sts.windows.net/3df74539-9453-4d03-bb9d-b9102cb9ce9c/',
-  'Vaal University of Technology (VUT)': 'http://proxy.safire.ac.za/birk.php/logmein.vut.ac.za/adfs/services/trust',
-  'Central University of Technology (CUT)': 'http://proxy.safire.ac.za/birk.php/logon.cut.ac.za/adfs/services/trust'
+  'University of Cape Town (UCT)': 'https://srvslsfed001.uct.ac.za/simplesaml/saml2/idp/metadata.php',
+  'University of the Witwatersrand (Wits)': 'https://idp.wits.ac.za/safss/saml2/idp/metadata.php',
+  'Stellenbosch University (SU)': 'http://federate.sun.ac.za/adfs/services/trust',
+  'University of Pretoria (UP)': 'https://www1.up.ac.za:443/oam/fed',
+  'University of KwaZulu-Natal (UKZN)': 'http://federation.ukzn.ac.za/adfs/services/trust',
+  'North-West University (NWU)': 'https://shib.nwu.ac.za/idp/shibboleth',
+  'University of the Western Cape (UWC)': 'https://saml.uwc.ac.za/simplesaml/saml2/idp/metadata.php',
+  'Rhodes University': 'https://login.ru.ac.za/idp/shibboleth',
+  'University of Venda': 'https://sts.windows.net/f38ba9d8-554c-48a2-ae42-13b1e7f3c797/',
+  'University of Fort Hare': 'http://federate.ufh.ac.za/adfs/services/trust',
+  'Walter Sisulu University (WSU)': 'https://idp.wsu.ac.za/simplesaml/saml2/idp/metadata.php',
+  'Sol Plaatje University': 'https://sts.windows.net/acbcaed8-7adc-460c-ba57-028bdc80d84a/',
+  'Cape Peninsula University of Technology (CPUT)': 'https://sts.windows.net/cc6148eb-d356-4f38-900f-3a4d62b954c8/',
+  'Durban University of Technology (DUT)': 'https://sts.windows.net/4b1930d1-12f4-40b5-b48c-bd86117429d8/',
+  'Tshwane University of Technology (TUT)': 'https://sts.windows.net/3df74539-9453-4d03-bb9d-b9102cb9ce9c/',
+  'Vaal University of Technology (VUT)': 'http://logmein.vut.ac.za/adfs/services/trust',
+  'Central University of Technology (CUT)': 'http://logon.cut.ac.za/adfs/services/trust'
 };
 
 const ATTRIBUTE_KEYS = {
@@ -188,13 +190,42 @@ function extractStudentProfile(attributes) {
   };
 }
 
+// The SAFIRE hub ignores an idpentityid query parameter on its SSO
+// endpoint; it pre-selects an institution from a SAML <Scoping><IDPList>
+// inside the AuthnRequest itself (the mechanism SAFIRE's own IdP
+// monitoring uses). samlify's default template has no Scoping element, so
+// when an institution is known the request XML is built here instead.
+function authnRequestWithScoping(idp, idpEntityId) {
+  return template => {
+    const id = `_${crypto.randomUUID()}`;
+    const destination = idp.entityMeta.getSingleSignOnService('redirect');
+    const context = template
+      .replace('{ID}', id)
+      .replace(' ForceAuthn="{ForceAuthn}"', '')
+      .replace('{IssueInstant}', new Date().toISOString())
+      .replace('{Destination}', escapeXml(destination))
+      .replace('{ProtocolBinding}', 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST')
+      .replace('{AssertionConsumerServiceURL}', escapeXml(ACS_URL))
+      .replace(' AssertionConsumerServiceIndex="{AssertionConsumerServiceIndex}"', '')
+      .replace('{Issuer}', escapeXml(SP_ENTITY_ID))
+      .replace('{NameIDFormat}', 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient')
+      .replace('{AllowCreate}', 'false')
+      .replace('</samlp:AuthnRequest>',
+        `<samlp:Scoping><samlp:IDPList><samlp:IDPEntry ProviderID="${escapeXml(idpEntityId)}"/></samlp:IDPList></samlp:Scoping></samlp:AuthnRequest>`);
+    return { id, context };
+  };
+}
+
 async function createLoginRedirectUrl(institution, relayState) {
   const sp = getServiceProvider();
   if (!sp) throw new Error('SAML sign-in is not configured yet.');
   const idp = await getIdentityProvider();
-  const { context } = sp.createLoginRequest(idp, 'redirect', relayState ? { relayState } : undefined);
   const idpEntityId = INSTITUTION_IDP_MAP[institution];
-  return idpEntityId ? `${context}&idpentityid=${encodeURIComponent(idpEntityId)}` : context;
+  const options = {};
+  if (relayState) options.relayState = relayState;
+  if (idpEntityId) options.customTagReplacement = authnRequestWithScoping(idp, idpEntityId);
+  const { context } = sp.createLoginRequest(idp, 'redirect', options);
+  return context;
 }
 
 async function parseAcsRequest(req) {
