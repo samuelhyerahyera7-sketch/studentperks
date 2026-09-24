@@ -186,6 +186,39 @@ function membershipStatus(app) {
   return expiry && Date.parse(expiry) < Date.now() ? 'expired' : 'approved';
 }
 
+// Signs a student straight in after their university has just verified them:
+// asks Supabase Auth (service role) for a one-time magic link for that email
+// and returns its URL, which logs the browser in and lands on redirectTo.
+// Creates the auth user first if needed. Returns '' if anything fails, so
+// the caller can fall back to emailing a sign-in link.
+async function createInstantLoginLink(email, redirectTo) {
+  if (!SERVICE_KEY || !isEmail(email)) return '';
+  const headers = { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, 'Content-Type': 'application/json' };
+  const generate = async () => {
+    const response = await fetch(`${SUPABASE_URL}/auth/v1/admin/generate_link`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ type: 'magiclink', email, redirect_to: redirectTo })
+    });
+    const data = await response.json().catch(() => ({}));
+    return response.ok ? clean(data.action_link || (data.properties && data.properties.action_link)) : '';
+  };
+  try {
+    let link = await generate();
+    if (!link) {
+      await fetch(`${SUPABASE_URL}/auth/v1/admin/users`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ email, email_confirm: true })
+      });
+      link = await generate();
+    }
+    return /^https:\/\//.test(link) ? link : '';
+  } catch (error) {
+    return '';
+  }
+}
+
 async function latestApplication(email) {
   const e = encodeURIComponent(clean(email));
   if (!e) return null;
@@ -221,6 +254,7 @@ module.exports = {
   isApprovedLiveBusiness,
   isApprovedLiveBusinessName,
   json,
+  createInstantLoginLink,
   latestApplication,
   membershipExpiry,
   membershipStatus,

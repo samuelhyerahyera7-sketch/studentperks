@@ -138,6 +138,51 @@ const INSTITUTION_IDP_MAP = {
   'South African Theological Seminary': 'https://sso.sats.edu.za/'
 };
 
+// Friendly institution names for the domain (scope) in a student's
+// eduPersonScopedAffiliation, from the shibmd:Scope values each institution
+// publishes in SAFIRE metadata. A scope matches its domain or any subdomain
+// (e.g. students.wits.ac.za -> Wits). Unknown scopes keep the raw domain.
+const SCOPE_INSTITUTIONS = [
+  ['uct.ac.za', 'University of Cape Town (UCT)'],
+  ['wits.ac.za', 'University of the Witwatersrand (Wits)'],
+  ['sun.ac.za', 'Stellenbosch University (SU)'],
+  ['up.ac.za', 'University of Pretoria (UP)'],
+  ['ukzn.ac.za', 'University of KwaZulu-Natal (UKZN)'],
+  ['nwu.ac.za', 'North-West University (NWU)'],
+  ['mandela.ac.za', 'Nelson Mandela University (NMU)'],
+  ['nmmu.ac.za', 'Nelson Mandela University (NMU)'],
+  ['ufs.ac.za', 'University of the Free State (UFS)'],
+  ['uwc.ac.za', 'University of the Western Cape (UWC)'],
+  ['myuwc.ac.za', 'University of the Western Cape (UWC)'],
+  ['ru.ac.za', 'Rhodes University'],
+  ['univen.ac.za', 'University of Venda'],
+  ['ufh.ac.za', 'University of Fort Hare'],
+  ['wsu.ac.za', 'Walter Sisulu University (WSU)'],
+  ['mywsu.ac.za', 'Walter Sisulu University (WSU)'],
+  ['spu.ac.za', 'Sol Plaatje University'],
+  ['unizulu.ac.za', 'University of Zululand'],
+  ['ump.ac.za', 'University of Mpumalanga'],
+  ['cput.ac.za', 'Cape Peninsula University of Technology (CPUT)'],
+  ['mycput.ac.za', 'Cape Peninsula University of Technology (CPUT)'],
+  ['dut.ac.za', 'Durban University of Technology (DUT)'],
+  ['dut4life.ac.za', 'Durban University of Technology (DUT)'],
+  ['tut.ac.za', 'Tshwane University of Technology (TUT)'],
+  ['tut4life.ac.za', 'Tshwane University of Technology (TUT)'],
+  ['vut.ac.za', 'Vaal University of Technology (VUT)'],
+  ['cut.ac.za', 'Central University of Technology (CUT)'],
+  ['gwc.ac.za', 'George Whitefield College'],
+  ['sats.ac.za', 'South African Theological Seminary'],
+  ['sats.edu.za', 'South African Theological Seminary'],
+  ['testidp.safire.ac.za', 'SAFIRE Test Identity Provider']
+];
+
+function institutionFromScope(scope) {
+  const s = clean(scope).toLowerCase();
+  if (!s) return '';
+  const hit = SCOPE_INSTITUTIONS.find(([domain]) => s === domain || s.endsWith(`.${domain}`));
+  return hit ? hit[1] : s;
+}
+
 const ATTRIBUTE_KEYS = {
   mail: ['mail', 'urn:oid:0.9.2342.19200300.100.1.3', 'email'],
   eppn: ['eduPersonPrincipalName', 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6'],
@@ -204,7 +249,8 @@ function extractStudentProfile(attributes) {
   return {
     email: mail.toLowerCase(),
     fullName: displayName,
-    institution,
+    institution: institutionFromScope(institution),
+    institutionDomain: institution,
     isStudent,
     affiliations: allAffiliations,
     // eduPersonTargetedID is the pseudonymous, SP-specific identifier
@@ -404,5 +450,6 @@ module.exports = {
   getMetadataXml,
   hasSpCredentials,
   extractStudentProfile,
+  institutionFromScope,
   SITE_ORIGIN
 };
