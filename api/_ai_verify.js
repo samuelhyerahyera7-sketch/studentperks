@@ -14,14 +14,31 @@ const { clean, rest, sendApplicationApprovedEmail } = require('./_supabase');
 const SUPABASE_URL = (process.env.SUPABASE_URL || 'https://bulmerqkvvrjvzjwmgkl.supabase.co').replace(/\/$/, '');
 const UPLOAD_PREFIX = `${SUPABASE_URL}/storage/v1/object/public/student-cards/`;
 const MAX_BYTES = 5 * 1024 * 1024;
-const MODEL = 'claude-opus-5';
+const CLAUDE_MODEL = 'claude-opus-5';
+const GROK_MODEL = process.env.XAI_MODEL || 'grok-4.7';
+const XAI_RESPONSES_URL = 'https://api.x.ai/v1/responses';
 const MIN_CONFIDENCE = 0.85;
 
 const IMAGE_TYPES = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', gif: 'image/gif' };
 
-function hasAiKey() {
-  return Boolean(process.env.ANTHROPIC_API_KEY);
+// Grok (xAI) is used when XAI_API_KEY is set, Claude when only
+// ANTHROPIC_API_KEY is set. AI_PROVIDER=grok|claude forces one.
+function aiProvider() {
+  const forced = clean(process.env.AI_PROVIDER).toLowerCase();
+  if (forced === 'grok' && process.env.XAI_API_KEY) return 'grok';
+  if (forced === 'claude' && process.env.ANTHROPIC_API_KEY) return 'claude';
+  if (process.env.XAI_API_KEY) return 'grok';
+  if (process.env.ANTHROPIC_API_KEY) return 'claude';
+  return null;
 }
+
+function hasAiKey() {
+  return Boolean(aiProvider());
+}
+
+// Thrown when the chosen AI can't read this kind of file (Grok only takes
+// JPG/PNG). The application is flagged for a person instead of erroring.
+class UnreadableForAi extends Error {}
 
 function autoApproveEnabled() {
   return clean(process.env.AI_AUTO_APPROVE).toLowerCase() !== 'false';
@@ -88,8 +105,7 @@ async function fetchDocument(url) {
   return { type: 'image', source: { type: 'base64', media_type: mediaType, data: buffer.toString('base64') } };
 }
 
-async function askClaude(app, documentBlock) {
-  const client = new Anthropic();
+function userPrompt(app) {
   const claimed = {
     full_name: app.full_name,
     institution: app.institution,
@@ -98,9 +114,49 @@ async function askClaude(app, documentBlock) {
     course: app.degree_course
   };
   const today = new Date().toISOString().slice(0, 10);
+  return `Today's date: ${today}\nDetails the student entered:\n${JSON.stringify(claimed, null, 2)}\n\nCheck the uploaded document against these details.`;
+}
 
+async function askGrok(app, documentBlock) {
+  const mediaType = documentBlock.source.media_type;
+  if (!['image/jpeg', 'image/png'].includes(mediaType)) {
+    throw new UnreadableForAi(`Grok can only read JPG or PNG images, and this upload is ${mediaType === 'application/pdf' ? 'a PDF' : mediaType}. Please check it by hand.`);
+  }
+  const response = await fetch(XAI_RESPONSES_URL, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${process.env.XAI_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: GROK_MODEL,
+      input: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        {
+          role: 'user',
+          content: [
+            { type: 'input_image', image_url: `data:${mediaType};base64,${documentBlock.source.data}`, detail: 'high' },
+            { type: 'input_text', text: userPrompt(app) }
+          ]
+        }
+      ],
+      text: { format: { type: 'json_schema', name: 'document_check', schema: RESULT_SCHEMA, strict: true } }
+    })
+  });
+  const data = await response.json().catch(() => null);
+  if (!response.ok) {
+    const message = data && data.error ? (data.error.message || data.error) : `HTTP ${response.status}`;
+    throw new Error(`Grok request failed: ${message}`);
+  }
+  const text = typeof data.output_text === 'string' && data.output_text
+    ? data.output_text
+    : (data.output || []).flatMap(item => item.content || [])
+      .filter(part => part.type === 'output_text').map(part => part.text).join('');
+  if (!text) throw new Error('Grok returned no answer.');
+  return JSON.parse(text);
+}
+
+async function askClaude(app, documentBlock) {
+  const client = new Anthropic();
   const response = await client.beta.messages.create({
-    model: MODEL,
+    model: CLAUDE_MODEL,
     max_tokens: 16000,
     betas: ['server-side-fallback-2026-07-01'],
     fallbacks: 'default',
@@ -116,7 +172,7 @@ async function askClaude(app, documentBlock) {
         documentBlock,
         {
           type: 'text',
-          text: `Today's date: ${today}\nDetails the student entered:\n${JSON.stringify(claimed, null, 2)}\n\nCheck the uploaded document against these details.`
+          text: userPrompt(app)
         }
       ]
     }]
@@ -181,7 +237,23 @@ function blockers(result, app, duplicate) {
 
 async function reviewApplication(app) {
   const documentBlock = await fetchDocument(app.card_photo_url);
-  const result = await askClaude(app, documentBlock);
+  const provider = aiProvider();
+  const model = provider === 'grok' ? GROK_MODEL : CLAUDE_MODEL;
+  let result;
+  try {
+    result = provider === 'grok' ? await askGrok(app, documentBlock) : await askClaude(app, documentBlock);
+  } catch (error) {
+    if (!(error instanceof UnreadableForAi)) throw error;
+    await rest(`student_applications?id=eq.${app.id}`, {
+      method: 'PATCH',
+      headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify({
+        ai_verdict: 'needs_review', ai_confidence: null, ai_summary: error.message,
+        ai_result: { blockers: [error.message], model }, ai_checked_at: new Date().toISOString(), ai_error: null
+      })
+    });
+    return { verdict: 'needs_review', summary: error.message, blockers: [error.message] };
+  }
   const duplicate = await findDuplicate(app);
   const reasons = blockers(result, app, duplicate);
   const approve = reasons.length === 0 && autoApproveEnabled() && app.status === 'pending';
@@ -191,7 +263,7 @@ async function reviewApplication(app) {
     ai_verdict: approve ? 'approved' : (result.verdict === 'reject' ? 'reject' : 'needs_review'),
     ai_confidence: Number(result.confidence) || 0,
     ai_summary: clean(result.summary),
-    ai_result: { ...result, blockers: reasons, model: MODEL },
+    ai_result: { ...result, blockers: reasons, model },
     ai_checked_at: now,
     ai_error: null
   };

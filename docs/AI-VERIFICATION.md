@@ -20,9 +20,16 @@ the upload and compare it with what the student typed in.
 ## Setup
 
 1. Run `add-ai-verification.sql` in the Supabase SQL editor.
-2. In Vercel, add `ANTHROPIC_API_KEY` (from console.anthropic.com) and
-   redeploy. Without it the check is skipped and everything stays manual.
+2. In Vercel, add `XAI_API_KEY` (from console.x.ai) and redeploy. The check
+   uses Grok (`grok-4.7`, override with `XAI_MODEL`). Without a key the check
+   is skipped and everything stays manual.
 3. Optional: set `AI_AUTO_APPROVE=false` to have the AI only flag and
    recommend, never approve by itself.
 
-Each check costs roughly US$0.05 (about R1) with `claude-opus-5`.
+Grok only reads JPG and PNG images. PDFs (and other formats) are flagged
+*Needs review* with a note, for a person to check.
+
+Claude is still supported: with only `ANTHROPIC_API_KEY` set, or with
+`AI_PROVIDER=claude`, the check uses `claude-opus-5`, which also reads PDFs.
+
+Each check costs roughly US$0.01 (about R0.20) with Grok.
