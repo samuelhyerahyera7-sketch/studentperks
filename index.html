@@ -679,7 +679,6 @@ body.public-redesign .menu-join { background: #9cff18; color: #050505; }
 .heart-btn { position: absolute; z-index: 3; right: 14px; top: 12px; width: 38px; height: 38px; border-radius: 999px; display: grid; place-items: center; background: rgba(0,0,0,.28); color: #fff; border: 2px solid rgba(255,255,255,.72); }
 .heart-btn svg { width: 20px; height: 20px; stroke: currentColor; }
 .heart-btn .sp-icon { width: 20px; height: 20px; }
-.heart-btn img { width: 34px; height: 34px; display: block; }
 .deal-content { padding: 14px 18px 16px; }
 .deal-content h3 { font-size: 21px; line-height: 1.05; letter-spacing: -.04em; color: #101014; margin-bottom: 4px; }
 .deal-content p { color: #596071; font-size: 17px; line-height: 1.24; }
@@ -6034,11 +6033,6 @@ body.public-redesign .modal-success-icon {
     height: clamp(30px, 8.6vw, 36px) !important;
   }
 
-  body.public-redesign #perks .heart-btn img {
-    width: 100% !important;
-    height: 100% !important;
-  }
-
   body.public-redesign #perks .discount-pill {
     right: 10px !important;
     bottom: 10px !important;
@@ -7981,7 +7975,7 @@ function renderPublicDeal(vendor){
     <div class="deal-image ${asset.imageClass}">
       <img class="brand-logo-img" src="${logo}" alt="${escapeHtml(name)} logo">
       <button class="heart-btn" type="button" aria-label="Save ${escapeHtml(name)} offer">
-        <img src="assets/layered/overlays/heart-button.svg" alt="" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5 4.9 13.6a4.6 4.6 0 0 1 6.5-6.5l.6.6.6-.6a4.6 4.6 0 0 1 6.5 6.5L12 20.5Z"/></svg>
       </button>
       <div class="discount-pill${comingSoon ? ' discount-pill--soon' : ''}">${escapeHtml(pillLabel)}</div>
     </div>
