@@ -543,12 +543,14 @@ function defaultTileLogo(){
   if(key==='cratesandboxes') return 'assets/logo-crates-and-boxes.svg';
   if(key==='custommugs'||key==='custommugssa') return 'assets/logo-custom-mugs-sa.svg';
   if(key==='justprotein') return 'assets/logo-just-protein.png';
+  if(key.includes('terbodore')) return 'assets/logo-terbodore.png';
   return 'favicon.svg';
 }
 function defaultTileBackground(){
   const key=normalizeBusinessName(currentVendor && currentVendor.name);
   if(key==='justprotein') return 'https://www.justprotein.co.za/cdn/shop/files/Healthy_Me1.png?v=1761940686&width=1500';
   if(key==='cratesandboxes') return 'assets/deals/crates-boxes-blue-box.jpg';
+  if(key.includes('terbodore')) return 'assets/terbodore-bags.png';
   if(key==='custommugs'||key==='custommugssa') return 'assets/deals/custom-mugs-hero-mug.png';
   return '';
 }
@@ -556,6 +558,7 @@ function defaultTileBackground(){
 function sharedCheckoutCode(){
   const name=normalizeBusinessName(currentVendor && currentVendor.name);
   if(name==='justprotein') return 'JP-STUPERK15';
+  if(name.includes('terbodore')) return 'studentperks20';
   const prefix=String(currentVendor && currentVendor.code_prefix || 'STUDENTPERKS').toUpperCase().replace(/[^A-Z0-9]/g,'');
   const digits=String(currentVendor && currentVendor.discount_desc || '').match(/\d+/);
   return `${prefix}${digits ? digits[0] : ''}`;
@@ -566,7 +569,7 @@ function normalizeBusinessName(name){
 }
 function isApprovedLiveBusinessName(name){
   const normalized=normalizeBusinessName(name);
-  return normalized==='cratesandboxes'||normalized==='custommugs'||normalized==='custommugssa'||normalized==='justprotein';
+  return normalized==='cratesandboxes'||normalized==='custommugs'||normalized==='custommugssa'||normalized==='justprotein'||normalized==='terbodore'||normalized==='terbodorecoffee';
 }
 
 function togglePw(id, btn){
