@@ -8041,6 +8041,7 @@ function handleDealClick(vendor){
 }
 
 function vendorSharedCode(vendor){
+  if(normalizeBusinessName(vendor && vendor.name)==='justprotein') return 'JP-STUPERK15';
   const prefix=String(vendor && vendor.code_prefix || '').toUpperCase().replace(/[^A-Z0-9]/g,'');
   const digits=String(vendor && vendor.discount_desc || '').match(/\d+/);
   return `${prefix}${digits ? digits[0] : ''}`;
