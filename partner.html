@@ -122,6 +122,8 @@ nav { background: var(--bg); border-bottom: 1px solid var(--border); position: s
 
 /* ── BENEFITS ── */
 .benefits-sec { padding: 60px 0; border-bottom: 1px solid var(--border); background: var(--bg2); }
+/* Cards start translated 60px right for the slide-in; clip so they don't widen the page on phones */
+.how-sec, .benefits-sec { overflow-x: clip; }
 .benefits-grid { display: grid; gap: 14px; }
 @media(min-width:640px){ .benefits-grid { grid-template-columns: repeat(2,1fr); } }
 @media(min-width:860px){ .benefits-grid { grid-template-columns: repeat(3,1fr); } }

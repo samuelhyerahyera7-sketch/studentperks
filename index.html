@@ -460,6 +460,7 @@ body.public-redesign .safire-divider { font-size: 13px !important; text-transfor
 .applied-banner.show { display: block; }
 .applied-banner-x { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 18px; cursor: pointer; color: var(--bg); opacity: .6; font-family: var(--font); }
 
+.perk-card[hidden], body #perks #deal-grid .perk-card[hidden] { display: none !important; }
 #no-results { display: none; text-align: center; padding: 48px 0; color: var(--ink3); font-size: 15px; }
 
 /* ── EMPTY STATE ── */
@@ -8190,7 +8191,8 @@ function filterPerks(){
     const searchable=`${card.dataset.search||''} ${card.innerText||''}`.toLowerCase();
     const textMatch=!q||searchable.includes(q);
     const show=catMatch&&textMatch;
-    card.style.display=show?'':'none';
+    // hidden + a !important rule, because the mobile redesign forces cards to display:flex !important
+    card.hidden=!show;
     if(show) visible++;
   });
   const count=document.getElementById('deal-count');
@@ -8199,7 +8201,12 @@ function filterPerks(){
     count.style.display='inline-flex';
   }
   const empty=document.getElementById('no-results');
-  if(empty) empty.style.display=visible===0?'block':'none';
+  if(empty){
+    const pill=document.querySelector('.mock-cats .pill.active');
+    const catName=pill ? pill.innerText.trim() : '';
+    empty.textContent=(activeCat!=='all' && !q) ? `No ${catName} deals yet — check back soon.` : 'No deals match your search.';
+    empty.style.display=visible===0?'block':'none';
+  }
 }
 loadPublicDeals();
 
