@@ -7802,15 +7802,6 @@ async function submitJoin(){
       body: JSON.stringify({ name: fullName, email: personalEmail, studentEmail, institution: inst })
     }).catch(()=>{});
 
-    // 5. Ask the server to AI-check the upload (best-effort; keepalive so it
-    // still goes through if the student closes the page straight away).
-    fetch('/api/ai-review-application', {
-      method: 'POST',
-      keepalive: true,
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ email: personalEmail })
-    }).catch(()=>{});
-
     if(studentEmail && studentEmail.toLowerCase() !== personalEmail.toLowerCase()){
       await sb.auth.signInWithOtp({
         email: studentEmail,
