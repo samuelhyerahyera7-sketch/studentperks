@@ -7952,7 +7952,7 @@ function dealAssetFor(name){
     return { logo:'assets/logo-terbodore.png', imageClass:'terbodore', background:'assets/terbodore-bags.png', backgroundFit:'85% auto' };
   }
   if(key.includes('intercity')){
-    return { logo:'assets/logo-intercity.png', imageClass:'intercity', background:'assets/deals/intercity-bus.jpg' };
+    return { logo:'assets/logo-intercity.png', imageClass:'intercity', background:'assets/deals/intercity-bus.jpg', backgroundFit:window.matchMedia('(max-width: 700px)').matches ? '185% auto' : 'cover' };
   }
   return { logo:'favicon.svg', imageClass:'placeholder' };
 }
