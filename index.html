@@ -7894,6 +7894,14 @@ const APPROVED_REPO_OFFERS = [
     discount_desc: '20% off the first order',
     active: true,
     category: 'food'
+  },
+  {
+    name: 'Intercity Xpress',
+    code_prefix: 'INTERCITY',
+    discount_desc: 'Double Bus Bucks',
+    website: 'https://www.intercity.co.za',
+    active: true,
+    category: 'travel'
   }
 ];
 
@@ -7922,7 +7930,7 @@ function normalizeBusinessName(name){
 
 function isApprovedLiveBusiness(vendor){
   const normalized = normalizeBusinessName(vendor && vendor.name);
-  return normalized === 'cratesandboxes' || normalized === 'custommugs' || normalized === 'custommugssa' || normalized === 'justprotein' || normalized === 'terbodore' || normalized === 'terbodorecoffee';
+  return normalized === 'cratesandboxes' || normalized === 'custommugs' || normalized === 'custommugssa' || normalized === 'justprotein' || normalized === 'terbodore' || normalized === 'terbodorecoffee' || normalized === 'intercity' || normalized === 'intercityxpress';
 }
 
 function dealAssetFor(name){
@@ -7941,6 +7949,9 @@ function dealAssetFor(name){
   }
   if(key.includes('terbodore')){
     return { logo:'assets/logo-terbodore.png', imageClass:'terbodore', background:'assets/terbodore-bags.png', backgroundFit:'85% auto' };
+  }
+  if(key.includes('intercity')){
+    return { logo:'assets/logo-intercity.png', imageClass:'intercity', background:'assets/deals/intercity-bus.jpg' };
   }
   return { logo:'favicon.svg', imageClass:'placeholder' };
 }
@@ -7978,7 +7989,7 @@ function renderPublicDeal(vendor){
   const logo=safeTileUrl(config.logoUrl) || asset.logo;
   const background=safeTileUrl(config.backgroundUrl) || asset.background || '';
   const search=[name,desc,vendor.code_prefix,cat].join(' ').toLowerCase();
-  const pillLabel=normalizeBusinessName(name).includes('terbodore') ? '20% off the first order' : (comingSoon && !/\d+\s*%/.test(desc) ? 'COMING SOON' : discountLabel(desc));
+  const pillLabel=normalizeBusinessName(name).includes('terbodore') ? '20% off the first order' : normalizeBusinessName(name).includes('intercity') ? 'Double Bus Bucks' : (comingSoon && !/\d+\s*%/.test(desc) ? 'COMING SOON' : discountLabel(desc));
   const card=document.createElement('article');
   card.className='mock-deal-card perk-card'+(comingSoon ? ' deal-coming-soon' : '');
   card.dataset.cat=cat;
@@ -8051,6 +8062,7 @@ function handleDealClick(vendor){
 function vendorSharedCode(vendor){
   if(normalizeBusinessName(vendor && vendor.name)==='justprotein') return 'JP-STUPERK15';
   if(normalizeBusinessName(vendor && vendor.name).includes('terbodore')) return 'studentperks20';
+  if(normalizeBusinessName(vendor && vendor.name).includes('intercity')) return 'STUDENTPERKS2X';
   const prefix=String(vendor && vendor.code_prefix || '').toUpperCase().replace(/[^A-Z0-9]/g,'');
   const digits=String(vendor && vendor.discount_desc || '').match(/\d+/);
   return `${prefix}${digits ? digits[0] : ''}`;
@@ -8069,6 +8081,7 @@ function showDealCodeToast(vendor){
     <div style="background:#050505;border:1.5px dashed var(--lime);border-radius:12px;padding:14px;font-family:monospace;font-size:20px;font-weight:900;letter-spacing:.06em;color:var(--lime);margin-bottom:12px;word-break:break-all">${escapeHtml(code)}</div>
     <div style="font-size:13px;color:#9aa3b5;line-height:1.5;margin-bottom:14px">Enter this code at checkout, or show it at the venue, to get your discount.</div>
     <span class="gate-sign-in" id="deal-copy-btn" onclick="copyDealCode('${code.replace(/'/g,"\\'")}')">Copy code</span>
+    ${vendor && vendor.website ? `<a href="${escapeHtml(vendor.website)}" target="_blank" rel="noopener" style="display:block;margin-top:12px;font-size:14px;font-weight:800;color:var(--lime);text-decoration:underline">Book at ${escapeHtml(vendor.website.replace(/^https?:\/\/(www\.)?/,''))}</a>` : ''}
   `;
   t.style.display='block'; bd.style.display='block';
   requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ t.classList.add('show'); }); });
