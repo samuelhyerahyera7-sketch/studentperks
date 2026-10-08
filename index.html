@@ -7499,6 +7499,7 @@ async function checkAuthStatus(){
 let _gateTimer;
 function showGateToast(msg, showSignIn){
   const t = document.getElementById('gate-toast');
+  t.style.width = '';
   t.innerHTML = msg + (showSignIn ? '<br><span class="gate-sign-in" onclick="openModal(\'si\');hideGateToast()">Sign in →</span>' : '');
   const bd = document.getElementById('gate-backdrop');
   t.style.display = 'block'; bd.style.display = 'block';
@@ -8081,8 +8082,9 @@ function showDealCodeToast(vendor){
     <div style="background:#050505;border:1.5px dashed var(--lime);border-radius:12px;padding:14px;font-family:monospace;font-size:20px;font-weight:900;letter-spacing:.06em;color:var(--lime);margin-bottom:12px;word-break:break-all">${escapeHtml(code)}</div>
     <div style="font-size:13px;color:#9aa3b5;line-height:1.5;margin-bottom:14px">Enter this code at checkout, or show it at the venue, to get your discount.</div>
     <span class="gate-sign-in" id="deal-copy-btn" onclick="copyDealCode('${code.replace(/'/g,"\\'")}')">Copy code</span>
-    ${vendor && vendor.website ? `<a href="${escapeHtml(vendor.website)}" target="_blank" rel="noopener" style="display:block;margin-top:12px;font-size:14px;font-weight:800;color:var(--lime);text-decoration:underline">Book at ${escapeHtml(vendor.website.replace(/^https?:\/\/(www\.)?/,''))}</a>` : ''}
+    ${vendor && vendor.website ? `<a href="${escapeHtml(vendor.website)}" target="_blank" rel="noopener" style="display:block;margin-top:12px;font-size:14px;font-weight:800;color:#050505;text-decoration:underline">Book at ${escapeHtml(vendor.website.replace(/^https?:\/\/(www\.)?/,''))}</a>` : ''}
   `;
+  t.style.width='min(380px, calc(100vw - 32px))';
   t.style.display='block'; bd.style.display='block';
   requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ t.classList.add('show'); }); });
 }
