@@ -222,7 +222,7 @@ function showDealCodeModal(vendor){
   document.getElementById('deal-code-value').textContent=code;
   document.getElementById('deal-code-copy').textContent='Copy code';
   document.getElementById('deal-code-copy').style.display='';
-  const site=document.getElementById('deal-code-site');site.hidden=!vendor.website;if(vendor.website){site.href=vendor.website;site.textContent='Book at '+vendor.website.replace(/^https?:\/\/(www\.)?/,'')}
+  const site=document.getElementById('deal-code-site'),web=vendor.website||(APPROVED_REPO_OFFERS.find(o=>norm(o.name)===norm(vname(vendor)))||{}).website;site.hidden=!web;if(web){site.href=web;site.textContent='Book at '+web.replace(/^https?:\/\/(www\.)?/,'')}
   document.getElementById('deal-code-modal').style.display='flex';
 }
 let walletQrPayload='',walletQrIsPerk=false;

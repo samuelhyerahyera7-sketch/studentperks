@@ -8117,8 +8117,8 @@ function mergeApprovedOffers(liveDeals){
   APPROVED_REPO_OFFERS.forEach(fallback=>{
     const fallbackKey = normalizeBusinessName(fallback && fallback.name);
     const live = liveByName.get(fallbackKey);
-    // Live rows from /api/public-vendors carry no category; keep the one set here
-    const vendor = live ? { ...live, category: live.category || fallback.category } : fallback;
+    // Live rows from /api/public-vendors carry no category or website; keep the ones set here
+    const vendor = live ? { ...fallback, ...live, category: live.category || fallback.category, website: live.website || fallback.website } : fallback;
     const vendorKey = normalizeBusinessName(vendor && vendor.name);
     if(!vendorKey || seen.has(vendorKey) || !isApprovedLiveBusiness(vendor)) return;
     seen.add(vendorKey);
