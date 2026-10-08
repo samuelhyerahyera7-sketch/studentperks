@@ -7899,7 +7899,7 @@ const APPROVED_REPO_OFFERS = [
   {
     name: 'Intercity Xpress',
     code_prefix: 'INTERCITY',
-    discount_desc: 'Double Bus Buck Rewards',
+    discount_desc: 'Double Busbucks Rewards',
     website: 'https://www.intercity.co.za',
     active: true,
     category: 'travel'
@@ -7990,7 +7990,7 @@ function renderPublicDeal(vendor){
   const logo=safeTileUrl(config.logoUrl) || asset.logo;
   const background=safeTileUrl(config.backgroundUrl) || asset.background || '';
   const search=[name,desc,vendor.code_prefix,cat].join(' ').toLowerCase();
-  const pillLabel=normalizeBusinessName(name).includes('terbodore') ? '20% off the first order' : normalizeBusinessName(name).includes('intercity') ? 'Double Bus Buck Rewards' : (comingSoon && !/\d+\s*%/.test(desc) ? 'COMING SOON' : discountLabel(desc));
+  const pillLabel=normalizeBusinessName(name).includes('terbodore') ? '20% off the first order' : normalizeBusinessName(name).includes('intercity') ? 'Double Busbucks Rewards' : (comingSoon && !/\d+\s*%/.test(desc) ? 'COMING SOON' : discountLabel(desc));
   const card=document.createElement('article');
   card.className='mock-deal-card perk-card'+(comingSoon ? ' deal-coming-soon' : '');
   card.dataset.cat=cat;
