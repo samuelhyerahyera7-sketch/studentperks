@@ -7868,20 +7868,6 @@ const APPROVED_REPO_OFFERS = [
     category: 'food'
   },
   {
-    name: 'Crates & Boxes',
-    code_prefix: 'CRATES',
-    discount_desc: '10% off your order',
-    active: true,
-    category: 'lifestyle'
-  },
-  {
-    name: 'Custom Mugs',
-    code_prefix: 'MUGS',
-    discount_desc: '10% off custom mugs',
-    active: true,
-    category: 'lifestyle'
-  },
-  {
     name: 'Terbodore Coffee',
     code_prefix: 'TERBODORE',
     discount_desc: '20% off the first order',
@@ -7899,6 +7885,18 @@ const APPROVED_REPO_OFFERS = [
 ];
 
 const COMING_SOON_OFFERS = [
+  {
+    name: 'Crates & Boxes',
+    discount_desc: '10% off your order',
+    category: 'lifestyle',
+    comingSoon: true
+  },
+  {
+    name: 'Custom Mugs',
+    discount_desc: '10% off custom mugs',
+    category: 'lifestyle',
+    comingSoon: true
+  },
   {
     name: 'Planet Fitness',
     discount_desc: '30% off student membership',
@@ -8150,7 +8148,9 @@ async function loadPublicDeals(){
     const response = await Promise.race([fetch('/api/public-vendors'), timeout]);
     const payload = await response.json();
     if(!response.ok) throw new Error(payload.error || 'Could not load public deals');
-    const deals=mergeApprovedOffers((payload.vendors||[]).filter(v=>v && v.name && isApprovedLiveBusiness(v)));
+    // Partners listed as coming soon keep their dashboard login but show no live deal yet
+    const comingSoon=new Set(COMING_SOON_OFFERS.map(v=>normalizeBusinessName(v.name)));
+    const deals=mergeApprovedOffers((payload.vendors||[]).filter(v=>v && v.name && isApprovedLiveBusiness(v) && !comingSoon.has(normalizeBusinessName(v.name))));
     if(!deals.length){
       renderApprovedRepoOffers();
       return;
