@@ -149,6 +149,7 @@ button{cursor:pointer;border:none;font-family:var(--font)}
 .modal-title{font-size:16px;font-weight:800;color:var(--white);margin-bottom:18px;letter-spacing:-.02em}
 .modal-close{position:absolute;top:16px;right:16px;background:var(--bg3);border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink2);font-size:17px}
 .modal-actions{display:flex;gap:8px;margin-top:16px}
+#app-modal .modal-actions{position:sticky;bottom:-28px;margin:16px -24px -28px;padding:14px 24px 20px;background:var(--card);border-top:1px solid var(--border);flex-wrap:wrap}
 .doc-box{border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:14px;background:rgba(255,255,255,.03)}
 .doc-box[hidden],.doc-none[hidden],.doc-img[hidden],.doc-pdf[hidden],.doc-error[hidden]{display:none}
 .doc-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
@@ -692,7 +693,7 @@ async function loadApplications(status, btn) {
       <div><span class="pill-status pill-${memberState(app)}">${memberState(app)}</span></div>
       <div class="dt-cell dim">${fmtDate(app.created_at)}</div>
     `;
-    row.onclick = ev => ev.target.closest('.doc-badge') ? viewApplicationDocument(ev, app.card_photo_url) : openAppModal(app);
+    row.onclick = () => openAppModal(app);
     tbody.appendChild(row);
   });
 }
@@ -1307,11 +1308,6 @@ function showDocError(){
   document.getElementById('app-photo').hidden=true;
   document.getElementById('app-doc-error').hidden=false;
 }
-function viewApplicationDocument(ev, url){
-  ev.stopPropagation();
-  if(/\.pdf(\?|#|$)/i.test(url)) window.open(url,'_blank','noopener'); else openLightbox(url);
-}
-
 /* ── LIGHTBOX ── */
 function openLightbox(src){
   const lb = document.getElementById('lightbox');
