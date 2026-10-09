@@ -7864,6 +7864,7 @@ let publicDealsLoaded = false;
 const APPROVED_REPO_OFFERS = [
   {
     name: 'Just Protein',
+    website: 'https://www.justprotein.co.za',
     code_prefix: 'JUSTPROTEIN',
     discount_desc: '15% off',
     active: true,
@@ -7871,6 +7872,7 @@ const APPROVED_REPO_OFFERS = [
   },
   {
     name: 'Terbodore Coffee',
+    website: 'https://www.terbodore.com',
     code_prefix: 'TERBODORE',
     discount_desc: '20% off the first order',
     active: true,
@@ -7881,6 +7883,7 @@ const APPROVED_REPO_OFFERS = [
     code_prefix: 'INTERCITY',
     discount_desc: 'Double BusBucks Rewards',
     website: 'https://www.intercity.co.za',
+    websiteLabel: 'Book at',
     active: true,
     category: 'travel'
   }
@@ -7889,12 +7892,14 @@ const APPROVED_REPO_OFFERS = [
 const COMING_SOON_OFFERS = [
   {
     name: 'Crates & Boxes',
+    website: 'https://www.cratesandboxes.co.za',
     discount_desc: '10% off your order',
     category: 'lifestyle',
     comingSoon: true
   },
   {
     name: 'Custom Mugs',
+    website: 'https://www.custommugs.co.za',
     discount_desc: '10% off custom mugs',
     category: 'lifestyle',
     comingSoon: true
@@ -8085,7 +8090,7 @@ function showDealCodeToast(vendor){
     <div style="background:#050505;border:1.5px dashed var(--lime);border-radius:12px;padding:14px;font-family:monospace;font-size:20px;font-weight:900;letter-spacing:.06em;color:var(--lime);margin-bottom:12px;word-break:break-all">${escapeHtml(code)}</div>
     <div style="font-size:13px;color:#9aa3b5;line-height:1.5;margin-bottom:14px">Enter this code at checkout, or show it at the venue, to get your discount.</div>
     <span class="gate-sign-in" id="deal-copy-btn" onclick="copyDealCode('${code.replace(/'/g,"\\'")}')">Copy code</span>
-    ${vendor && vendor.website ? `<a href="${escapeHtml(vendor.website)}" target="_blank" rel="noopener" style="display:block;margin-top:12px;font-size:14px;font-weight:800;color:#050505;text-decoration:underline">Book at ${escapeHtml(vendor.website.replace(/^https?:\/\/(www\.)?/,''))}</a>` : ''}
+    ${vendor && vendor.website ? `<a href="${escapeHtml(vendor.website)}" target="_blank" rel="noopener" style="display:block;margin-top:12px;font-size:14px;font-weight:800;color:#050505;text-decoration:underline">${escapeHtml(vendor.websiteLabel||'Shop at')} ${escapeHtml(vendor.website.replace(/^https?:\/\/(www\.)?/,''))}</a>` : ''}
   `;
   t.style.width='min(380px, calc(100vw - 32px))';
   t.style.display='block'; bd.style.display='block';
@@ -8130,7 +8135,7 @@ function mergeApprovedOffers(liveDeals){
     const fallbackKey = normalizeBusinessName(fallback && fallback.name);
     const live = liveByName.get(fallbackKey);
     // Live rows from /api/public-vendors carry no category or website; keep the ones set here
-    const vendor = live ? { ...fallback, ...live, category: live.category || fallback.category, website: live.website || fallback.website } : fallback;
+    const vendor = live ? { ...fallback, ...live, category: live.category || fallback.category, website: live.website || fallback.website, websiteLabel: live.websiteLabel || fallback.websiteLabel } : fallback;
     const vendorKey = normalizeBusinessName(vendor && vendor.name);
     if(!vendorKey || seen.has(vendorKey) || !isApprovedLiveBusiness(vendor)) return;
     seen.add(vendorKey);
