@@ -8055,6 +8055,7 @@ function vendorSharedCode(vendor){
   if(normalizeBusinessName(vendor && vendor.name)==='justprotein') return 'JP-STUPERK15';
   if(normalizeBusinessName(vendor && vendor.name).includes('terbodore')) return 'studentperks20';
   if(normalizeBusinessName(vendor && vendor.name).includes('intercity')) return 'STUDENTPERKS2X';
+  if(normalizeBusinessName(vendor && vendor.name).includes('custommug')) return 'MUGS10';
   const prefix=String(vendor && vendor.code_prefix || '').toUpperCase().replace(/[^A-Z0-9]/g,'');
   const digits=String(vendor && vendor.discount_desc || '').match(/\d+/);
   return `${prefix}${digits ? digits[0] : ''}`;

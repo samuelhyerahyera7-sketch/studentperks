@@ -562,6 +562,7 @@ function sharedCheckoutCode(){
   if(name==='justprotein') return 'JP-STUPERK15';
   if(name.includes('terbodore')) return 'studentperks20';
   if(name.includes('intercity')) return 'STUDENTPERKS2X';
+  if(name.includes('custommug')) return 'MUGS10';
   const prefix=String(currentVendor && currentVendor.code_prefix || 'STUDENTPERKS').toUpperCase().replace(/[^A-Z0-9]/g,'');
   const digits=String(currentVendor && currentVendor.discount_desc || '').match(/\d+/);
   return `${prefix}${digits ? digits[0] : ''}`;
