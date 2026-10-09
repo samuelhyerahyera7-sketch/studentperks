@@ -7711,7 +7711,9 @@ function nextStep(to){
     if(!inst){ showErr('err-2','Please select your institution.'); return; }
     if(inst==='other'&&!document.getElementById('jn-other-inst').value.trim()){ showErr('err-2','Please enter your institution name.'); return; }
     if(!semail||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(semail)){ showErr('err-2','Please enter your university or college email address.'); return; }
-    if(semail.toLowerCase()===document.getElementById('jn-email').value.trim().toLowerCase()){ showErr('err-2','Your university email must be different from your personal email.'); return; }
+    // Relaxed until midnight 9 Oct 2026 (SAST) to help a student who only has one email; strict again after that
+    const sameEmailAllowed=Date.now()<Date.parse('2026-10-10T00:00:00+02:00');
+    if(!sameEmailAllowed&&semail.toLowerCase()===document.getElementById('jn-email').value.trim().toLowerCase()){ showErr('err-2','Your university email must be different from your personal email.'); return; }
     if(isPersonalEmail(semail)){ showErr('err-2','Please use the email address your university or college gave you, not a personal one like Gmail or Outlook.'); return; }
     if(!yr){ showErr('err-2','Please select your year of study.'); return; }
     if(!course){ showErr('err-2','Please enter your degree or course.'); return; }
