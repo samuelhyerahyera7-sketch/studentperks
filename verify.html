@@ -20,6 +20,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 *:focus{outline:none}
 :root{--lime:#d4ff00;--bg:#0c0c0c;--bg3:#1a1a1a;--card:#161616;--border:rgba(255,255,255,.07);--white:#fff;--ink:rgba(255,255,255,.92);--ink2:rgba(255,255,255,.5);--ink3:rgba(255,255,255,.25);--red:#ff4444;--green:#22c55e;--yellow:#ffc800;--font:'Inter',sans-serif}
+button,input,select,textarea{font-family:inherit}
 body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
 .nav{background:var(--card);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;min-height:56px;gap:12px;flex-wrap:wrap}
 .logo img{height:24px;width:auto;border-radius:6px;display:block}
@@ -108,7 +109,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .verify-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px}
 .verify-box-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:14px}
 .code-input-row{display:flex;gap:10px}
-.code-input{flex:1;min-width:0;padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:monospace;color:var(--white);background:var(--bg3);letter-spacing:.05em;text-transform:uppercase;transition:border-color .15s}
+.code-input{flex:1;min-width:0;padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:var(--font);font-variant-numeric:tabular-nums;color:var(--white);background:var(--bg3);letter-spacing:.05em;text-transform:uppercase;transition:border-color .15s}
 .code-input:focus{border-color:var(--lime)}
 .code-input::placeholder{color:var(--ink3);font-family:var(--font);font-size:14px;letter-spacing:0;text-transform:none}
 .check-btn{background:var(--lime);color:var(--bg);font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:14px 24px;border-radius:50px;border:none;cursor:pointer;font-family:var(--font);transition:background .15s;white-space:nowrap}
@@ -140,7 +141,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .row-action:disabled{opacity:.45;cursor:not-allowed}
 .cl-row:last-child{border-bottom:none}
 .cl-mobile-label{display:none}
-.code-mono{font-family:monospace;color:#3d6b00;font-weight:700;letter-spacing:.04em}
+.code-mono{font-family:var(--font);font-variant-numeric:tabular-nums;color:#3d6b00;font-weight:700;letter-spacing:.03em}
 .cl-dim{color:var(--ink3)}
 .pill{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em}
 .p-available{background:rgba(34,197,94,.1);color:var(--green)}
@@ -210,9 +211,10 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 .portal-shell{display:grid;grid-template-columns:214px minmax(0,1fr);min-height:calc(100vh - 56px)}
 .portal-sidebar{background:#fff;border-right:1px solid #dfe5ee;padding:18px 14px}
 .portal-nav{display:grid;gap:4px;position:sticky;top:74px}
-.portal-tab{display:flex;align-items:center;gap:12px;min-height:40px;padding:0 13px;border-radius:9px;background:transparent;color:#4d5669;font-size:15px;font-weight:800;text-align:left}
-.portal-tab.active{background:#9cff18;color:#050505}
-.tab-icon{width:17px;text-align:center;font-weight:900}
+.portal-tab{display:flex;align-items:center;gap:12px;min-height:42px;padding:0 13px;border:0;border-radius:10px;background:transparent;color:#4d5669;font-family:var(--font);font-size:15px;font-weight:700;text-align:left;cursor:pointer;transition:background .15s,color .15s}
+.portal-tab:hover{background:#f1f4f8;color:#050505}
+.portal-tab.active,.portal-tab.active:hover{background:#9cff18;color:#050505}
+.tab-icon{width:19px;height:19px;flex:none}
 .portal-main{min-width:0;padding:28px;max-width:1096px}
 .portal-top{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}
 .portal-title h1{font-size:26px;line-height:1;font-weight:900;letter-spacing:-.04em;color:#050505}
@@ -237,6 +239,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 .recent-row:last-child{border-bottom:0}
 .recent-head{color:#7b8494;text-transform:uppercase;letter-spacing:.08em;font-size:10px;font-weight:900}
 .offer-line{display:flex;align-items:center;gap:10px;margin:12px 0}
+.stat-dot svg,.offer-dot svg{width:18px;height:18px}
 .offer-dot{width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#ecffd8;color:#385600;font-size:13px;font-weight:900;line-height:1;flex:0 0 32px;text-align:center}
 .offer-line strong{display:block;font-size:15px;color:#050505}
 .offer-line > div > span{display:block;color:#556076;font-size:12px}
@@ -315,11 +318,11 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
   <div class="portal-shell">
     <aside class="portal-sidebar" aria-label="Partner dashboard navigation">
       <div class="portal-nav">
-        <button class="portal-tab active" data-view="overview" onclick="showVendorView('overview')"><span class="tab-icon">⌂</span>Overview</button>
-        <button class="portal-tab" data-view="redemptions" onclick="showVendorView('redemptions')"><span class="tab-icon">▣</span>Redemptions</button>
-        <button class="portal-tab" data-view="analytics" onclick="showVendorView('analytics')"><span class="tab-icon">▥</span>Analytics</button>
-        <button class="portal-tab" data-view="profile" onclick="showVendorView('profile')"><span class="tab-icon">□</span>Business profile</button>
-        <button class="portal-tab" data-view="help" onclick="showVendorView('help')"><span class="tab-icon">?</span>Help</button>
+        <button class="portal-tab active" data-view="overview" onclick="showVendorView('overview')"><svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg>Overview</button>
+        <button class="portal-tab" data-view="redemptions" onclick="showVendorView('redemptions')"><svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4Z"/><path d="m9 12 2 2 4-4"/></svg>Redemptions</button>
+        <button class="portal-tab" data-view="analytics" onclick="showVendorView('analytics')"><svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M8 16v-4"/><path d="M13 16V8"/><path d="M18 16v-6"/></svg>Analytics</button>
+        <button class="portal-tab" data-view="profile" onclick="showVendorView('profile')"><svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5 5.5 4h13L20 9.5"/><path d="M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0"/><path d="M5 12v9h14v-9"/><path d="M10 21v-5h4v5"/></svg>Business profile</button>
+        <button class="portal-tab" data-view="help" onclick="showVendorView('help')"><svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4V13"/><path d="M12 17h.01"/></svg>Help</button>
       </div>
     </aside>
 
@@ -360,10 +363,10 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
         </div>
 
         <section class="stats-grid" aria-label="Coupon statistics">
-          <article class="stat-card"><div class="stat-dot">#</div><div><div class="stat-number" id="stat-total">0</div><div class="stat-label">Tracked codes</div></div></article>
-          <article class="stat-card"><div class="stat-dot">A</div><div><div class="stat-number" id="stat-available">0</div><div class="stat-label">Available</div></div></article>
-          <article class="stat-card"><div class="stat-dot">C</div><div><div class="stat-number" id="stat-assigned">0</div><div class="stat-label">Claimed, not redeemed</div></div></article>
-          <article class="stat-card"><div class="stat-dot">R</div><div><div class="stat-number" id="stat-used">0</div><div class="stat-label">Redeemed</div></div></article>
+          <article class="stat-card"><div class="stat-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></div><div><div class="stat-number" id="stat-total">0</div><div class="stat-label">Tracked codes</div></div></article>
+          <article class="stat-card"><div class="stat-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5Z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg></div><div><div class="stat-number" id="stat-available">0</div><div class="stat-label">Available</div></div></article>
+          <article class="stat-card"><div class="stat-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><div><div class="stat-number" id="stat-assigned">0</div><div class="stat-label">Claimed, not redeemed</div></div></article>
+          <article class="stat-card"><div class="stat-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg></div><div><div class="stat-number" id="stat-used">0</div><div class="stat-label">Redeemed</div></div></article>
         </section>
 
         <div class="overview-grid">
@@ -377,9 +380,9 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 
           <section class="offer-box">
             <div class="box-title">Your offer</div>
-            <div class="offer-line"><span class="offer-dot">%</span><div><strong id="offer-discount">15% off</strong><span>Student discount</span></div></div>
-            <div class="offer-line"><span class="offer-dot">ID</span><div><strong id="offer-prefix">JUSTPROTEIN</strong><span>Code prefix</span></div></div>
-            <div class="offer-line"><span class="offer-dot">✓</span><div><strong id="offer-status">Active</strong><span>Partner status</span></div></div>
+            <div class="offer-line"><span class="offer-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></span><div><strong id="offer-discount">15% off</strong><span>Student discount</span></div></div>
+            <div class="offer-line"><span class="offer-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 9.2-9.2"/><path d="m16 7 3 3"/></svg></span><div><strong id="offer-prefix">JUSTPROTEIN</strong><span>Code prefix</span></div></div>
+            <div class="offer-line"><span class="offer-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg></span><div><strong id="offer-status">Active</strong><span>Partner status</span></div></div>
           </section>
         </div>
 
