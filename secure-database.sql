@@ -34,6 +34,26 @@ CREATE TABLE IF NOT EXISTS app_settings (
   updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- Partner applications from the "become a partner" page (partner.html).
+-- This table was missing, so that form could not save applications.
+CREATE TABLE IF NOT EXISTS vendor_applications (
+  id             UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  brand_name     TEXT NOT NULL,
+  contact_name   TEXT NOT NULL,
+  email          TEXT NOT NULL,
+  phone          TEXT DEFAULT '',
+  category       TEXT DEFAULT '',
+  offer          TEXT DEFAULT '',
+  description    TEXT DEFAULT '',
+  website        TEXT DEFAULT '',
+  expiry         TEXT DEFAULT '',
+  extra          TEXT DEFAULT '',
+  status         TEXT DEFAULT 'pending',
+  admin_notes    TEXT DEFAULT '',
+  created_at     TIMESTAMPTZ DEFAULT NOW(),
+  reviewed_at    TIMESTAMPTZ
+);
+
 -- Which student received a deal code (recorded by the server).
 ALTER TABLE deal_events ADD COLUMN IF NOT EXISTS student_email TEXT NOT NULL DEFAULT '';
 
