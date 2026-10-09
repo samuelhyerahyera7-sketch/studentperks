@@ -145,10 +145,19 @@ button{cursor:pointer;border:none;font-family:var(--font)}
 /* MODAL */
 .modal-back{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:999;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(6px)}
 .modal-back.open{display:flex}
-.modal{background:#141414;border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:28px 24px;width:100%;max-width:480px;position:relative;max-height:90vh;overflow-y:auto}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px 24px;width:100%;max-width:560px;position:relative;max-height:90vh;overflow-y:auto}
 .modal-title{font-size:16px;font-weight:800;color:var(--white);margin-bottom:18px;letter-spacing:-.02em}
 .modal-close{position:absolute;top:16px;right:16px;background:var(--bg3);border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink2);font-size:17px}
 .modal-actions{display:flex;gap:8px;margin-top:16px}
+.doc-box{border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:14px;background:rgba(255,255,255,.03)}
+.doc-box[hidden],.doc-none[hidden],.doc-img[hidden],.doc-pdf[hidden],.doc-error[hidden]{display:none}
+.doc-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.doc-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ink3)}
+.doc-img{display:block;width:100%;max-height:440px;object-fit:contain;border-radius:8px;background:#000;cursor:zoom-in}
+.doc-pdf{display:block;width:100%;height:440px;border:0;border-radius:8px;background:#fff}
+.doc-error,.doc-none{font-size:13px;color:var(--ink2);line-height:1.5}
+.doc-none{margin-bottom:14px}
+.doc-badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#ecffd8;color:#2f5f00;white-space:nowrap;cursor:pointer}.doc-badge:hover{background:#9cff18;color:#050505}
 .modal-photo{width:100%;border-radius:12px;margin-bottom:14px;border:1px solid var(--border);max-height:200px;object-fit:cover;cursor:zoom-in;transition:opacity .15s}.modal-photo:hover{opacity:.85}
 .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 .detail-item label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);display:block;margin-bottom:3px}
@@ -480,7 +489,13 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
   <div class="modal">
     <button class="modal-close" onclick="closeModal('app-modal')">×</button>
     <div class="modal-title" id="app-modal-title">Application</div>
-    <img id="app-photo" class="modal-photo" src="" alt="Student card" onerror="this.style.display='none'" style="display:none" onclick="openLightbox(this.src)">
+    <div class="doc-box" id="app-doc" hidden>
+      <div class="doc-head"><span class="doc-title">Uploaded student document</span><a class="btn btn-ghost btn-sm" id="app-doc-open" href="#" target="_blank" rel="noopener">Open full size ↗</a></div>
+      <img id="app-photo" class="doc-img" alt="Uploaded student card" hidden onclick="openLightbox(this.src)" onerror="if(window.showDocError&&this.getAttribute('src'))showDocError()">
+      <iframe id="app-pdf" class="doc-pdf" title="Uploaded proof of registration" hidden></iframe>
+      <div class="doc-error" id="app-doc-error" hidden>This file couldn't be shown here. Use "Open full size" to view or download it.</div>
+    </div>
+    <div class="doc-none" id="app-doc-none" hidden>No document uploaded. This student verified with their university login.</div>
     <div class="detail-grid" id="app-detail-grid"></div>
     <div class="field" style="margin-bottom:12px">
       <label>Admin notes</label>
@@ -660,7 +675,8 @@ async function loadApplications(status, btn) {
   if(data && status==='expired') data = data.filter(a=>memberState(a)==='expired');
   // clear old rows
   [...tbody.querySelectorAll('.dt-row:not(.head)')].forEach(r=>r.remove());
-  const loadingEl = document.getElementById('apps-loading');
+  let loadingEl = document.getElementById('apps-loading');
+  if(!loadingEl){ loadingEl=document.createElement('div'); loadingEl.className='loading-row'; loadingEl.id='apps-loading'; tbody.appendChild(loadingEl); }
   if(error||!data||!data.length){ loadingEl.textContent = 'No applications found.'; return; }
   loadingEl && loadingEl.remove();
   data.forEach(app => {
@@ -672,11 +688,11 @@ async function loadApplications(status, btn) {
       <div class="dt-cell bold">${esc(app.full_name)}</div>
       <div class="dt-cell dim">${esc(app.personal_email)}</div>
       <div class="dt-cell dim">${esc(app.institution)}</div>
-      <div class="dt-cell dim">${viaUniversityLogin(app)?'University login':'Card upload'}</div>
+      <div class="dt-cell dim">${viaUniversityLogin(app)?'University login':app.card_photo_url?'<span class="doc-badge" role="button" tabindex="0">View card</span>':'No upload'}</div>
       <div><span class="pill-status pill-${memberState(app)}">${memberState(app)}</span></div>
       <div class="dt-cell dim">${fmtDate(app.created_at)}</div>
     `;
-    row.onclick = () => openAppModal(app);
+    row.onclick = ev => ev.target.closest('.doc-badge') ? viewApplicationDocument(ev, app.card_photo_url) : openAppModal(app);
     tbody.appendChild(row);
   });
 }
@@ -685,9 +701,7 @@ function openAppModal(app) {
   currentAppId = app.id;
   currentApp = app;
   document.getElementById('app-modal-title').textContent = app.full_name;
-  const photo = document.getElementById('app-photo');
-  if(app.card_photo_url){ photo.src = app.card_photo_url; photo.style.display = 'block'; }
-  else { photo.style.display = 'none'; }
+  showApplicationDocument(app.card_photo_url);
   document.getElementById('app-detail-grid').innerHTML = `
     <div class="detail-item"><label>Personal email</label><span>${esc(app.personal_email)}</span></div>
     <div class="detail-item"><label>Student email</label><span>${esc(app.student_email||'—')}</span></div>
@@ -1275,6 +1289,28 @@ function memberState(app){if(app.status!=='approved')return app.status;const e=m
 function fmtDateYear(ts){if(!ts)return'—';return new Date(ts).toLocaleDateString('en-ZA',{day:'numeric',month:'short',year:'numeric'})}
 function fmtDateLong(ts){ if(!ts)return'—'; const d=new Date(ts); return d.toLocaleString('en-ZA',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }
 function showFormErr(el,msg){ el.textContent=msg; el.style.display='block'; }
+
+/* ── UPLOADED STUDENT DOCUMENT ── */
+// Shows a student card photo, or a PDF proof of registration, in the
+// application pop-up. Anything else gets a link to open it directly.
+function showApplicationDocument(url){
+  const box=document.getElementById('app-doc'), none=document.getElementById('app-doc-none');
+  const img=document.getElementById('app-photo'), pdf=document.getElementById('app-pdf'), err=document.getElementById('app-doc-error');
+  img.hidden=true; pdf.hidden=true; err.hidden=true; img.removeAttribute('src'); pdf.removeAttribute('src');
+  if(!url){ box.hidden=true; none.hidden=false; return; }
+  none.hidden=true; box.hidden=false;
+  document.getElementById('app-doc-open').href=url;
+  if(/\.pdf(\?|#|$)/i.test(url)){ pdf.src=url+'#view=FitH'; pdf.hidden=false; }
+  else { img.src=url; img.hidden=false; }
+}
+function showDocError(){
+  document.getElementById('app-photo').hidden=true;
+  document.getElementById('app-doc-error').hidden=false;
+}
+function viewApplicationDocument(ev, url){
+  ev.stopPropagation();
+  if(/\.pdf(\?|#|$)/i.test(url)) window.open(url,'_blank','noopener'); else openLightbox(url);
+}
 
 /* ── LIGHTBOX ── */
 function openLightbox(src){
