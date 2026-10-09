@@ -227,6 +227,18 @@ function membershipStatus(app) {
 // and returns its URL, which logs the browser in and lands on redirectTo.
 // Creates the auth user first if needed. Returns '' if anything fails, so
 // the caller can fall back to emailing a sign-in link.
+// The signed-in student's email, from their Supabase session token
+// (the dashboard's sign-in). Empty if the token is missing or invalid.
+async function authUserEmail(token) {
+  if (!token || !SERVICE_KEY) return '';
+  const response = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+    headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${token}` }
+  });
+  if (!response.ok) return '';
+  const user = await response.json().catch(() => null);
+  return clean(user && user.email).toLowerCase();
+}
+
 async function createInstantLoginLink(email, redirectTo) {
   if (!SERVICE_KEY || !isEmail(email)) return '';
   const headers = { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, 'Content-Type': 'application/json' };
@@ -286,6 +298,7 @@ async function sendApplicationApprovedEmail(payload) {
 }
 
 module.exports = {
+  authUserEmail,
   clean,
   isEmail,
   isApprovedLiveBusiness,

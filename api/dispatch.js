@@ -17,6 +17,7 @@ const routes = {
   'vendor-codes': require('../lib/api-handlers/vendor-codes'),
   'vendor-jobs': require('../lib/api-handlers/vendor-jobs'),
   'public-jobs': require('../lib/api-handlers/public-jobs'),
+  'student-set-name': require('../lib/api-handlers/student-set-name'),
   'vendor-help': require('../lib/api-handlers/vendor-help'),
   'vendor-generate-codes': require('../lib/api-handlers/vendor-generate-codes'),
   'vendor-login': require('../lib/api-handlers/vendor-login'),

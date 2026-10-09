@@ -686,7 +686,7 @@ async function loadApplications(status, btn) {
     row.style.gridTemplateColumns = '1fr 1fr 1fr 110px 90px 80px';
     row.style.cursor = 'pointer';
     row.innerHTML = `
-      <div class="dt-cell bold">${esc(app.full_name)}</div>
+      <div class="dt-cell bold">${displayName(app)}</div>
       <div class="dt-cell dim">${esc(app.personal_email)}</div>
       <div class="dt-cell dim">${esc(app.institution)}</div>
       <div class="dt-cell dim">${viaUniversityLogin(app)?'University login':app.card_photo_url?'<span class="doc-badge" role="button" tabindex="0">View card</span>':'No upload'}</div>
@@ -701,7 +701,7 @@ async function loadApplications(status, btn) {
 function openAppModal(app) {
   currentAppId = app.id;
   currentApp = app;
-  document.getElementById('app-modal-title').textContent = app.full_name;
+  document.getElementById('app-modal-title').textContent = nameMissing(app) ? 'Name not shared by university' : app.full_name;
   showApplicationDocument(app.card_photo_url);
   document.getElementById('app-detail-grid').innerHTML = `
     <div class="detail-item"><label>Personal email</label><span>${esc(app.personal_email)}</span></div>
@@ -1284,6 +1284,9 @@ function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')
 function fmtDate(ts){ if(!ts)return'—'; const d=new Date(ts); return d.toLocaleDateString('en-ZA',{day:'numeric',month:'short'}); }
 // Membership lasts one year from approval (reviewed_at; created_at for older rows).
 // University (SAFIRE) logins are noted in admin_notes by the ACS handler.
+// University logins without a shared name store the email as the name
+function nameMissing(app){const n=String(app&&app.full_name||'').trim();return !n||n.includes('@')}
+function displayName(app){return nameMissing(app)?'<span class="dim" style="font-weight:500;font-style:italic">Name not shared by university</span>':esc(app.full_name)}
 function viaUniversityLogin(app){return /SAFIRE SSO/.test(app&&app.admin_notes||'')}
 function memberExpiry(app){const base=app&&(app.reviewed_at||app.created_at);if(!base)return null;const d=new Date(base);d.setFullYear(d.getFullYear()+1);return d.toISOString()}
 function memberState(app){if(app.status!=='approved')return app.status;const e=memberExpiry(app);return e&&Date.parse(e)<Date.now()?'expired':'approved'}
