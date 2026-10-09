@@ -24,6 +24,13 @@ function isApprovedLiveBusinessName(name) {
   return normalized === 'cratesandboxes' || normalized === 'custommugs' || normalized === 'custommugssa' || normalized === 'justprotein' || normalized === 'terbodore' || normalized === 'terbodorecoffee' || normalized === 'intercity' || normalized === 'intercityxpress';
 }
 
+// The STUDENTPERKS account is a presentation demo: it may sign in to the
+// partner portal (which then runs on sample data in the browser) but never
+// appears as a deal and can't use any other partner endpoint.
+function isDemoVendor(vendor) {
+  return String(vendor && vendor.code_prefix || '').toUpperCase() === 'STUDENTPERKS';
+}
+
 function isApprovedLiveBusiness(vendor) {
   return isApprovedLiveBusinessName(vendor && vendor.name);
 }
@@ -253,6 +260,7 @@ module.exports = {
   clean,
   isApprovedLiveBusiness,
   isApprovedLiveBusinessName,
+  isDemoVendor,
   json,
   createInstantLoginLink,
   latestApplication,
