@@ -754,7 +754,7 @@ body.public-redesign #wallet .wallet-art .student-card__brand-logo {
 .event-date span { display: block; font-size: 11px; margin-top: 3px; }
 .event-card h3,.job-row h3 { color: #101014; font-size: 17px; margin: 10px 12px 2px; }
 .event-card p,.job-row p { color: #596071; font-size: 14px; margin: 0 12px 12px; }
-.job-row { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; padding: 12px; margin-bottom: 12px; }
+.job-row { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; padding: 12px; margin-bottom: 12px; text-decoration: none; }
 .job-logo { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: #d9ffad; color: #050505; font-weight: 900; }
 .job-row h3 { margin: 0 0 3px; }
 .job-row p { margin: 0; }
@@ -7165,7 +7165,8 @@ body.public-redesign #perks .mock-deal-card.perk-card .join-claim.join-claim--so
       </div>
       <div id="jobs">
         <div class="mock-section-head"><h2>Student opportunities</h2><a class="see-all" href="#jobs">See all →</a></div>
-        <article class="empty-tile">
+        <div id="jobs-list"></div>
+        <article class="empty-tile" id="jobs-empty">
           <div class="empty-icon">
             <img class="approved-icon" src="assets/icons/approved/jobs.svg" alt="" aria-hidden="true">
           </div>
@@ -8218,6 +8219,31 @@ function filterPerks(){
   }
 }
 loadPublicDeals();
+
+/* ── Student jobs posted by partners (partner portal → Jobs) ── */
+async function loadPublicJobs(){
+  const list=document.getElementById('jobs-list');
+  if(!list) return;
+  let jobs=[];
+  try{
+    const response=await fetch('/api/public-jobs');
+    if(response.ok) jobs=(await response.json()).jobs || [];
+  }catch(e){}
+  if(!jobs.length) return;
+  document.getElementById('jobs-empty').style.display='none';
+  list.innerHTML=jobs.map(job=>{
+    const apply=String(job.apply_url||'');
+    const href=/^https:\/\//i.test(apply) ? apply : /@/.test(apply) ? 'mailto:'+apply+'?subject='+encodeURIComponent('Application: '+job.title+' (via StudentPerks)') : '#jobs';
+    const initials=String(job.company||'SP').split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+    const meta=[job.company, job.job_type, job.location, job.pay].filter(Boolean).join(' · ');
+    return `<a class="job-row" href="${escapeHtml(href)}" target="_blank" rel="noopener" title="${escapeHtml(job.description||'')}">
+      <span class="job-logo">${escapeHtml(initials)}</span>
+      <span><h3>${escapeHtml(job.title)}</h3><p>${escapeHtml(meta)}</p></span>
+      <span class="chev" aria-hidden="true">›</span>
+    </a>`;
+  }).join('');
+}
+loadPublicJobs();
 
 /* ── Typewriter ── */
 (function(){
