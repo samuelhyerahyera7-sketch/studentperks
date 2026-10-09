@@ -74,6 +74,59 @@ async function rest(path, options = {}) {
   return data;
 }
 
+// Admin sessions for admin.html, signed like partner sessions but with
+// role 'admin' (verifyVendorToken rejects them: they carry no vendorId).
+function signAdmin() {
+  const payload = Buffer.from(JSON.stringify({ role: 'admin', exp: Date.now() + 1000 * 60 * 60 * 12 })).toString('base64url');
+  const sig = crypto.createHmac('sha256', VENDOR_SESSION_SECRET).update(payload).digest('base64url');
+  return `${payload}.${sig}`;
+}
+
+function verifyAdminToken(token) {
+  const [payload, sig] = clean(token).split('.');
+  if (!payload || !sig || !VENDOR_SESSION_SECRET) return false;
+  const expected = crypto.createHmac('sha256', VENDOR_SESSION_SECRET).update(payload).digest('base64url');
+  if (Buffer.byteLength(sig) !== Buffer.byteLength(expected)) return false;
+  if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected))) return false;
+  try {
+    const parsed = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8'));
+    return parsed.role === 'admin' && parsed.exp > Date.now();
+  } catch (error) {
+    return false;
+  }
+}
+
+function bearer(req) {
+  return req.headers.authorization ? req.headers.authorization.replace(/^Bearer\s+/i, '') : '';
+}
+
+// Student cards live in the private 'student-cards' bucket; admins see them
+// through short-lived signed links. Returns {publicUrlOrPath: signedUrl}.
+const CARD_PREFIX = '/storage/v1/object/public/student-cards/';
+async function signStudentCardUrls(urls, expiresIn = 3600) {
+  const paths = [...new Set((urls || []).filter(Boolean).map(u => {
+    const i = String(u).indexOf(CARD_PREFIX);
+    return i >= 0 ? decodeURIComponent(String(u).slice(i + CARD_PREFIX.length).split('?')[0]) : '';
+  }).filter(Boolean))];
+  if (!paths.length || !SERVICE_KEY) return {};
+  const response = await fetch(`${SUPABASE_URL}/storage/v1/object/sign/student-cards`, {
+    method: 'POST',
+    headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ expiresIn, paths })
+  });
+  if (!response.ok) return {};
+  const signed = await response.json().catch(() => []);
+  const out = {};
+  (signed || []).forEach(item => {
+    if (item && item.path && item.signedURL) out[item.path] = `${SUPABASE_URL}/storage/v1${item.signedURL}`;
+  });
+  return Object.fromEntries((urls || []).filter(Boolean).map(u => {
+    const i = String(u).indexOf(CARD_PREFIX);
+    const path = i >= 0 ? decodeURIComponent(String(u).slice(i + CARD_PREFIX.length).split('?')[0]) : '';
+    return [u, out[path] || u];
+  }));
+}
+
 function signVendor(vendorId) {
   const payload = Buffer.from(JSON.stringify({
     vendorId,
@@ -299,6 +352,10 @@ async function sendApplicationApprovedEmail(payload) {
 
 module.exports = {
   authUserEmail,
+  bearer,
+  signAdmin,
+  signStudentCardUrls,
+  verifyAdminToken,
   clean,
   isEmail,
   isApprovedLiveBusiness,

@@ -14,7 +14,6 @@
 <title>StudentPerks Admin</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="shortcut icon" href="/favicon.svg">
-<script src="assets/vendor/supabase-js-2.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
@@ -471,7 +470,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
         <div class="data-table" id="dp-table"></div>
         <div class="chart-card-title" style="margin:18px 0 8px">Redeemed today</div>
         <div class="data-table" id="dp-today"></div>
-        <p class="deal-perf-foot"><b>Views</b>: deal card seen on screen. <b>Opens</b>: card tapped. <b>Codes shown</b>: a verified student revealed the code. <b>Redeemed</b>: confirmed through StudentPerks (QR scan or partner check). Shared codes typed into a partner's own checkout (e.g. STUDENTPERKS2X) are only counted by that partner.</p>
+        <p class="deal-perf-foot"><b>Views</b>: deal card seen on screen. <b>Opens</b>: card tapped. <b>Codes shown</b>: a verified student revealed the code. <b>Redeemed</b>: confirmed through StudentPerks (QR scan or partner check). A partner's shared code typed into their own checkout is only counted by that partner.</p>
       </div>
 
       <!-- Stat cards -->
@@ -597,24 +596,53 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 </div>
 
 <script>
-/* ── SUPABASE ── */
-const SB_URL = 'https://bulmerqkvvrjvzjwmgkl.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1bG1lcnFrdnZyanZ6andtZ2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3OTA4MTksImV4cCI6MjEwMjM2NjgxOX0.UAOqHO_lNBB6ayTa6QEj4vvzdepzNCu0CYv2EOygOGI';
-const _sb = supabase.createClient(SB_URL, SB_KEY);
+/* ── DATABASE ──
+   The admin page signs in through /api/admin-login and runs every query
+   through /api/admin-db (server side, admin session required), so the
+   database can stay closed to the public. `_sb` mimics the small part of
+   the Supabase client this page uses, so the queries below read the same. */
 const PUBLIC_REDEEM_BASE = 'https://studentperks.co.za/redeem';
 let currentQrCode = '';
+const SESSION_KEY = 'sp_admin_token';
+function adminToken(){ return sessionStorage.getItem(SESSION_KEY) || ''; }
+
+class AdminQuery {
+  constructor(table){ this.spec = { table, op:'select', select:'*', filters:[] }; }
+  select(cols, opts){ this.spec.select = cols || '*'; if(opts && opts.count) this.spec.count = true; if(opts && opts.head) this.spec.head = true; return this; }
+  insert(values){ this.spec.op = 'insert'; this.spec.values = values; return this; }
+  update(values){ this.spec.op = 'update'; this.spec.values = values; return this; }
+  delete(){ this.spec.op = 'delete'; return this; }
+  filter(col, op, val){ this.spec.filters.push([col, op, val]); return this; }
+  eq(c,v){ return this.filter(c,'eq',v); }
+  neq(c,v){ return this.filter(c,'neq',v); }
+  gt(c,v){ return this.filter(c,'gt',v); }
+  gte(c,v){ return this.filter(c,'gte',v); }
+  lt(c,v){ return this.filter(c,'lt',v); }
+  lte(c,v){ return this.filter(c,'lte',v); }
+  not(c,op,v){ return this.filter(c,'not.'+op,v); }
+  order(col, opts){ this.spec.order = [col, !(opts && opts.ascending === false)]; return this; }
+  limit(n){ this.spec.limit = n; return this; }
+  single(){ this.spec.single = true; return this; }
+  then(resolve, reject){ return this.run().then(resolve, reject); }
+  async run(){
+    try{
+      const r = await fetch('/api/admin-db', { method:'POST', headers:{ 'Content-Type':'application/json', Authorization:'Bearer '+adminToken() }, body: JSON.stringify(this.spec) });
+      if(r.status === 401){ doLogout('Your admin session expired. Please sign in again.'); return { data:null, count:null, error:{ message:'Signed out' } }; }
+      const out = await r.json();
+      if(this.spec.single && !out.error){
+        out.data = Array.isArray(out.data) ? (out.data[0] || null) : out.data;
+        if(!out.data) out.error = { message:'Not found' };
+      }
+      return out;
+    }catch(e){
+      return { data:null, count:null, error:{ message: e.message || 'Network error' } };
+    }
+  }
+}
+const _sb = { from: table => new AdminQuery(table) };
 
 /* ── AUTH ── */
-const ADMIN_EMAIL   = 'samuelhyera.hyera7@gmail.com';
-const DEFAULT_HASH  = '5e7b9ea5a153f3ca9a889f6d6145707494b9d260dc2d13a56b152ea5198a578d';
-const SESSION_KEY   = 'sp_admin_v2';
-
-async function sha256(str) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-
-function getPassHash() { return localStorage.getItem('sp_admin_hash') || DEFAULT_HASH; }
+const ADMIN_EMAIL = 'samuelhyera.hyera7@gmail.com';
 
 async function doLogin() {
   const pass = document.getElementById('l-pass').value;
@@ -622,21 +650,28 @@ async function doLogin() {
   const err  = document.getElementById('login-err');
   err.style.display = 'none';
   btn.disabled = true; btn.textContent = 'Signing in…';
-  const hash = await sha256(pass);
-  if (hash !== getPassHash()) {
+  try{
+    const r = await fetch('/api/admin-login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ password: pass }) });
+    const out = await r.json().catch(()=>({}));
+    if(!r.ok || !out.token) throw new Error(out.error || 'Incorrect password.');
+    sessionStorage.setItem(SESSION_KEY, out.token);
+    document.getElementById('l-pass').value = '';
+    btn.disabled = false; btn.textContent = 'Sign in';
+    showAdmin();
+  }catch(e){
+    err.textContent = e.message;
     err.style.display = 'block';
     btn.disabled = false; btn.textContent = 'Sign in';
-    return;
   }
-  sessionStorage.setItem(SESSION_KEY, '1');
-  showAdmin();
 }
 
-function doLogout() {
+function doLogout(message) {
   sessionStorage.removeItem(SESSION_KEY);
   document.getElementById('admin-page').style.display = 'none';
   document.getElementById('login-page').style.display = 'flex';
   document.getElementById('l-pass').value = '';
+  const err = document.getElementById('login-err');
+  if(typeof message === 'string' && err){ err.textContent = message; err.style.display = 'block'; }
 }
 
 function showAdmin() {
@@ -646,7 +681,7 @@ function showAdmin() {
   showTab('overview');
 }
 
-(function(){ if(sessionStorage.getItem(SESSION_KEY)) showAdmin(); })();
+(function(){ sessionStorage.removeItem('sp_admin_v2'); if(adminToken()) showAdmin(); })();
 
 /* ── PASSWORD TOGGLE ── */
 function togglePw(inputId, btn) {
@@ -1107,10 +1142,11 @@ async function changeAdminPass() {
   if(!cur||!nw||!confirm){ showFormErr(err,'All fields are required.'); return; }
   if(nw.length<8){ showFormErr(err,'New password must be at least 8 characters.'); return; }
   if(nw!==confirm){ showFormErr(err,'New passwords do not match.'); return; }
-  const curHash = await sha256(cur);
-  if(curHash!==getPassHash()){ showFormErr(err,'Current password is incorrect.'); return; }
-  const newHash = await sha256(nw);
-  localStorage.setItem('sp_admin_hash',newHash);
+  try{
+    const r = await fetch('/api/admin-login', { method:'POST', headers:{'Content-Type':'application/json', Authorization:'Bearer '+adminToken()}, body: JSON.stringify({ action:'change', current:cur, next:nw }) });
+    const out = await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(out.error || 'Could not change the password.');
+  }catch(e){ showFormErr(err, e.message); return; }
   ['cp-current','cp-new','cp-confirm'].forEach(id=>document.getElementById(id).value='');
   err.style.display='none'; ok.style.display='block';
 }
