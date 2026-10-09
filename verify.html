@@ -61,7 +61,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .inventory-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:18px;box-shadow:0 10px 28px rgba(15,23,42,.07)}
 .inventory-title{font-size:13px;font-weight:900;color:var(--white);margin-bottom:6px}
 .inventory-copy{font-size:12px;line-height:1.45;color:var(--ink2);margin-bottom:14px}
-.inventory-bar{display:grid;grid-template-columns:1fr 1fr 1fr;overflow:hidden;border-radius:999px;background:#eef2f7;height:20px}
+.inventory-bar{display:flex;overflow:hidden;border-radius:999px;background:#eef2f7;height:20px}
 .inventory-bar.empty{display:block;background:#eef2f7}
 .inventory-bar.empty .inventory-segment{display:none}
 .inventory-segment{min-width:0}
@@ -238,8 +238,10 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 .recent-row{display:grid;grid-template-columns:1fr 1fr 90px;gap:12px;padding:9px 0;border-bottom:1px solid #dfe5ee;font-size:12px}
 .recent-row:last-child{border-bottom:0}
 .recent-head{color:#7b8494;text-transform:uppercase;letter-spacing:.08em;font-size:10px;font-weight:900}
-.offer-line{display:flex;align-items:center;gap:10px;margin:12px 0}
+.offer-line{display:flex;align-items:center;gap:10px;margin:0;padding:12px 0}
+.offer-line+.offer-line{border-top:1px solid #eef2f7}
 .stat-dot svg,.offer-dot svg{width:18px;height:18px}
+.inventory-box[hidden]{display:none}
 .offer-dot{width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#ecffd8;color:#385600;font-size:13px;font-weight:900;line-height:1;flex:0 0 32px;text-align:center}
 .offer-line strong{display:block;font-size:15px;color:#050505}
 .offer-line > div > span{display:block;color:#556076;font-size:12px}
@@ -363,10 +365,10 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
         </div>
 
         <section class="stats-grid" aria-label="Coupon statistics">
-          <article class="stat-card"><div class="stat-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></div><div><div class="stat-number" id="stat-total">0</div><div class="stat-label">Tracked codes</div></div></article>
-          <article class="stat-card"><div class="stat-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5Z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg></div><div><div class="stat-number" id="stat-available">0</div><div class="stat-label">Available</div></div></article>
-          <article class="stat-card"><div class="stat-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><div><div class="stat-number" id="stat-assigned">0</div><div class="stat-label">Claimed, not redeemed</div></div></article>
-          <article class="stat-card"><div class="stat-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg></div><div><div class="stat-number" id="stat-used">0</div><div class="stat-label">Redeemed</div></div></article>
+          <article class="stat-card"><div><div class="stat-number" id="stat-total">0</div><div class="stat-label">Tracked codes</div></div></article>
+          <article class="stat-card"><div><div class="stat-number" id="stat-available">0</div><div class="stat-label">Available</div></div></article>
+          <article class="stat-card"><div><div class="stat-number" id="stat-assigned">0</div><div class="stat-label">Claimed, not redeemed</div></div></article>
+          <article class="stat-card"><div><div class="stat-number" id="stat-used">0</div><div class="stat-label">Redeemed</div></div></article>
         </section>
 
         <div class="overview-grid">
@@ -380,9 +382,9 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 
           <section class="offer-box">
             <div class="box-title">Your offer</div>
-            <div class="offer-line"><span class="offer-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></span><div><strong id="offer-discount">15% off</strong><span>Student discount</span></div></div>
-            <div class="offer-line"><span class="offer-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 9.2-9.2"/><path d="m16 7 3 3"/></svg></span><div><strong id="offer-prefix">JUSTPROTEIN</strong><span>Code prefix</span></div></div>
-            <div class="offer-line"><span class="offer-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg></span><div><strong id="offer-status">Active</strong><span>Partner status</span></div></div>
+            <div class="offer-line"><div><strong id="offer-discount">15% off</strong><span>Student discount</span></div></div>
+            <div class="offer-line"><div><strong id="offer-prefix">JUSTPROTEIN</strong><span>Code prefix</span></div></div>
+            <div class="offer-line"><div><strong id="offer-status">Active</strong><span>Partner status</span></div></div>
           </section>
         </div>
 
@@ -410,7 +412,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
         </div>
         <section class="inventory-box" aria-label="Code inventory">
           <div class="inventory-title">Code inventory</div>
-          <div class="inventory-copy">Every checkout code moves from available, to claimed when a student takes it from StudentPerks, to redeemed once the order is confirmed.</div>
+          <div class="inventory-copy">Your unique student codes: available to hand out, claimed by a student on StudentPerks, or redeemed at your checkout.</div>
           <div class="inventory-bar" aria-hidden="true"><span class="inventory-segment available" id="bar-available"></span><span class="inventory-segment assigned" id="bar-assigned"></span><span class="inventory-segment used" id="bar-used"></span></div>
           <div class="inventory-legend"><span><i class="legend-dot"></i>Available <b id="legend-available">0</b></span><span><i class="legend-dot"></i>Claimed <b id="legend-assigned">0</b></span><span><i class="legend-dot"></i>Redeemed <b id="legend-used">0</b></span></div>
         </section>
@@ -566,6 +568,7 @@ function sharedCheckoutCode(){
   if(name.includes('terbodore')) return 'studentperks20';
   if(name.includes('intercity')) return 'STUDENTPERKS2X';
   if(name.includes('custommug')) return 'MUGS10';
+  if(isDemoVendor(currentVendor)) return DEMO_CODE;
   const prefix=String(currentVendor && currentVendor.code_prefix || 'STUDENTPERKS').toUpperCase().replace(/[^A-Z0-9]/g,'');
   const digits=String(currentVendor && currentVendor.discount_desc || '').match(/\d+/);
   return `${prefix}${digits ? digits[0] : ''}`;
@@ -588,29 +591,18 @@ function isDemoVendor(vendor){
   return String(vendor && vendor.code_prefix || '').toUpperCase()==='STUDENTPERKS';
 }
 const realFetch=window.fetch.bind(window);
+const DEMO_CODE='STUDENTPERKS2X';
 let demoState=null;
 function demoData(){
+  // One shared code, STUDENTPERKS2X, redeemed at checkout; growing over ~10 weeks
   const day=86400000, now=Date.now();
   let seed=7; const rand=()=>((seed=(seed*16807)%2147483647)/2147483647);
-  const pick=a=>a[Math.floor(rand()*a.length)];
-  const campuses=['uct.ac.za','wits.ac.za','up.ac.za','uj.ac.za','sun.ac.za','ukzn.ac.za'];
-  const codes=[], redemptions=[];
-  for(let i=0;i<220;i++){
-    // More codes in recent weeks, so the demo shows steady growth
-    const created=now-Math.round(75*(1-Math.sqrt(i/220)))*day;
-    const used=rand()<0.6, claimed=used||rand()<0.55;
-    const usedAt=used ? created+Math.floor(rand()*6+1)*day+Math.floor(rand()*10)*3600000 : null;
-    const code='STUDENTPERKS-'+(4100+i*7).toString(36).toUpperCase();
-    const email=claimed?`student${String(i+1).padStart(3,'0')}@${pick(campuses)}`:'';
-    codes.push({code,is_used:used,used_at:usedAt&&usedAt<now?new Date(usedAt).toISOString():null,assigned_to_email:email,created_at:new Date(created).toISOString()});
-    if(used && usedAt<now) redemptions.push({code,assigned_to_email:email,redeemed_at:new Date(usedAt).toISOString()});
+  const redemptions=[];
+  for(let d=70;d>=0;d--){
+    const n=Math.floor(rand()*(1+(70-d)/12));
+    for(let k=0;k<n;k++) redemptions.push({code:DEMO_CODE,assigned_to_email:'',redeemed_at:new Date(now-d*day-Math.floor(rand()*12)*3600000).toISOString()});
   }
-  // Shared checkout code used online, more of it in recent weeks
-  for(let d=60;d>=0;d--){
-    const n=Math.floor(rand()*(d<20?4:2));
-    for(let k=0;k<n;k++) redemptions.push({code:'STUDENTPERKS15',assigned_to_email:'',redeemed_at:new Date(now-d*day-Math.floor(rand()*12)*3600000).toISOString()});
-  }
-  return {codes:codes.filter(c=>!c.is_used||c.used_at), redemptions};
+  return {codes:[], redemptions};
 }
 function demoResponse(body, status=200){
   return Promise.resolve(new Response(JSON.stringify(body),{status,headers:{'Content-Type':'application/json'}}));
@@ -730,7 +722,7 @@ function showVendorView(name){
   const titles={
     overview:[`Good day, ${currentVendor && currentVendor.name ? currentVendor.name : 'partner'}`,"Here's how your StudentPerks codes are performing."],
     redemptions:['Redemptions','Confirmed code redemptions for your offer.'],
-    analytics:['Analytics','Track code inventory and redemption performance.'],
+    analytics:['Analytics','See how many students are using your StudentPerks offer.'],
     profile:['Business profile','Copy the shared checkout code or create optional tracking codes.'],
     help:['Help','Quick guidance for managing your StudentPerks offer.']
   };
@@ -1272,31 +1264,47 @@ function setText(id, value){
   if(el) el.textContent=String(value);
 }
 
+function setStat(id, value, label){
+  setText(id, value);
+  const card=document.getElementById(id);
+  const el=card && card.parentElement.querySelector('.stat-label');
+  if(el) el.textContent=label;
+}
+
 function updateStats(codes, redemptions){
   const list=Array.isArray(codes)?codes:[];
   const redemptionList=Array.isArray(redemptions)?redemptions:[];
-  const total=list.length + 1;
   const used=redemptionList.length || list.filter(c=>c.is_used).length;
+  const inventory=document.querySelector('.inventory-box');
+  // Partners on one shared checkout code have no code inventory to track:
+  // show how many redemptions came in recently instead.
+  if(!list.length){
+    if(inventory) inventory.hidden=true;
+    const all=Array.isArray(currentRedemptions)?currentRedemptions:[];
+    const now=new Date(), startToday=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+    const since=t=>all.filter(r=>new Date(r.redeemed_at||r.used_at||0).getTime()>=t).length;
+    setStat('stat-total', since(startToday), 'Redeemed today');
+    setStat('stat-available', since(startToday-6*86400000), 'Last 7 days');
+    setStat('stat-assigned', since(new Date(now.getFullYear(),now.getMonth(),1).getTime()), 'This month');
+    setStat('stat-used', used, analyticsRange==='all' ? 'Redeemed all time' : `Redeemed ${rangeLabel()}`);
+    return;
+  }
+  if(inventory) inventory.hidden=false;
   const claimed=list.filter(c=>!c.is_used && c.assigned_to_email).length;
-  const available=list.filter(c=>!c.is_used && !c.assigned_to_email).length + 1;
-  setText('stat-total', total);
-  setText('stat-available', available);
-  setText('stat-assigned', claimed);
-  setText('stat-used', used);
+  const available=list.filter(c=>!c.is_used && !c.assigned_to_email).length;
+  setStat('stat-total', list.length, 'Tracked codes');
+  setStat('stat-available', available, 'Available');
+  setStat('stat-assigned', claimed, 'Claimed, not redeemed');
+  setStat('stat-used', used, 'Redeemed');
   setText('legend-available', available);
   setText('legend-assigned', claimed);
   setText('legend-used', used);
-  const safeTotal=Math.max(total, available + claimed + used, 1);
-  const bar=document.querySelector('.inventory-bar');
-  if(bar) bar.classList.toggle('empty', total === 0);
-  const segments=[
-    ['bar-available', available],
-    ['bar-assigned', claimed],
-    ['bar-used', used]
-  ];
-  segments.forEach(([id,count])=>{
+  // Each bar section is sized by its share; empty sections are hidden
+  [['bar-available', available],['bar-assigned', claimed],['bar-used', used]].forEach(([id,count])=>{
     const el=document.getElementById(id);
-    if(el) el.style.flex=`${total ? Math.max(count, count ? 1 : 0) : 1} 1 ${total ? (count/safeTotal*100) : 33.333}%`;
+    if(!el) return;
+    el.style.flex=`${count} 1 0%`;
+    el.style.display=count ? '' : 'none';
   });
 }
 
