@@ -218,6 +218,7 @@ function vendorSharedCode(vendor){if(vendor&&norm(vname(vendor))==='justprotein'
 function showDealCodeModal(vendor){
   if(memberStatus()==='expired'){document.getElementById('deal-code-title').textContent='Membership expired';document.getElementById('deal-code-desc').textContent='StudentPerks memberships last a year.';document.getElementById('deal-code-value').textContent='Renew to unlock';document.getElementById('deal-code-copy').style.display='none';document.getElementById('deal-code-modal').style.display='flex';return}
   const name=vname(vendor)||'This offer',desc=vendor.discount_desc||'Student discount',code=vendorSharedCode(vendor);
+  trackDeal(vname(vendor),'code');
   document.getElementById('deal-code-title').textContent=name;
   document.getElementById('deal-code-desc').textContent=desc;
   document.getElementById('deal-code-value').textContent=code;
@@ -248,7 +249,13 @@ function offerAsset(name){const k=norm(name);if(k.includes('justprotein'))return
 function allOffers(){const soon=new Set(COMING_SOON_OFFERS.map(v=>norm(v.name))),live=recommendedRows.filter(v=>!soon.has(norm(vname(v)))),seen=new Set(live.map(v=>norm(vname(v))));APPROVED_REPO_OFFERS.forEach(v=>{if(!seen.has(norm(v.name))&&![...seen].some(n=>n.includes(norm(v.name))||norm(v.name).includes(n))){live.push(v);seen.add(norm(v.name))}});return live.concat(COMING_SOON_OFFERS)}
 function offerKey(v){return v.id?String(v.id):'name:'+norm(vname(v))}
 function tileUrl(u){u=String(u||'').trim();return /^https:\/\//i.test(u)||/^assets\//i.test(u)?u:''}
-function offerCard(v,badge){const a=offerAsset(vname(v)),cfg=v.tile_config||{},bg=tileUrl(cfg.backgroundUrl)||a.background||'';return card({business:vname(v),vendorId:offerKey(v),offer:offer(v),location:v.comingSoon?'Launching soon':loc(v),badge:badge||(v.comingSoon?'Coming soon':'Student offer'),cta:v.comingSoon?'Coming soon':'Get code',background:bg,bgFit:bg===a.background?a.bgFit:'',comingSoon:!!v.comingSoon,onClick:()=>v.comingSoon?showComingSoon(v):showDealCodeModal(v)})}
+/* Deal views, opens and code reveals for the admin "Deal performance" view.
+   Each counts once per deal per page load. */
+const TRACKED_DEAL_EVENTS=new Set();
+function trackDeal(deal,event){const key=event+':'+deal;if(!deal||TRACKED_DEAL_EVENTS.has(key))return;TRACKED_DEAL_EVENTS.add(key);try{const body=JSON.stringify({deal,event,source:'dashboard'});if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([body],{type:'application/json'})))return;fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body,keepalive:true}).catch(()=>{})}catch(e){}}
+const dealViewObserver=('IntersectionObserver' in window)?new IntersectionObserver(entries=>entries.forEach(en=>{if(en.isIntersecting){trackDeal(en.target.dataset.trackDeal,'view');dealViewObserver.unobserve(en.target)}}),{threshold:.5}):null;
+function watchDealView(el,deal){if(!el||!deal)return;el.dataset.trackDeal=deal;if(dealViewObserver)dealViewObserver.observe(el)}
+function offerCard(v,badge){const a=offerAsset(vname(v)),cfg=v.tile_config||{},bg=tileUrl(cfg.backgroundUrl)||a.background||'';const el=card({business:vname(v),vendorId:offerKey(v),offer:offer(v),location:v.comingSoon?'Launching soon':loc(v),badge:badge||(v.comingSoon?'Coming soon':'Student offer'),cta:v.comingSoon?'Coming soon':'Get code',background:bg,bgFit:bg===a.background?a.bgFit:'',comingSoon:!!v.comingSoon,onClick:()=>{trackDeal(vname(v),'open');v.comingSoon?showComingSoon(v):showDealCodeModal(v)}});watchDealView(el,vname(v));return el}
 function showComingSoon(v){document.getElementById('deal-code-title').textContent=vname(v);document.getElementById('deal-code-desc').textContent=v.discount_desc||'Student discount';document.getElementById('deal-code-value').textContent='Launching soon';document.getElementById('deal-code-copy').style.display='none';document.getElementById('deal-code-modal').style.display='flex'}
 /* Saved offers: hearts save to this device (per student), merged with any
    rows already in the saved_offers table. */

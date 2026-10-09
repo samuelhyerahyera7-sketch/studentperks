@@ -7967,6 +7967,13 @@ function escapeHtml(s){
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+/* Deal views, opens and code reveals for the admin "Deal performance" view.
+   Each counts once per deal per page load. */
+const TRACKED_DEAL_EVENTS=new Set();
+function trackDeal(deal,event){const key=event+':'+deal;if(!deal||TRACKED_DEAL_EVENTS.has(key))return;TRACKED_DEAL_EVENTS.add(key);try{const body=JSON.stringify({deal,event,source:'home'});if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([body],{type:'application/json'})))return;fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body,keepalive:true}).catch(()=>{})}catch(e){}}
+const dealViewObserver=('IntersectionObserver' in window)?new IntersectionObserver(entries=>entries.forEach(en=>{if(en.isIntersecting){trackDeal(en.target.dataset.trackDeal,'view');dealViewObserver.unobserve(en.target)}}),{threshold:.5}):null;
+function watchDealView(el,deal){if(!el||!deal)return;el.dataset.trackDeal=deal;if(dealViewObserver)dealViewObserver.observe(el)}
+
 function showComingSoonToast(vendor){
   const name=(vendor && vendor.name) || 'This offer';
   showGateToast(`<b>${escapeHtml(name)}</b> is launching soon on StudentPerks — check back for your code!`, false);
@@ -7987,7 +7994,7 @@ function renderPublicDeal(vendor){
   card.className='mock-deal-card perk-card'+(comingSoon ? ' deal-coming-soon' : '');
   card.dataset.cat=cat;
   card.dataset.search=search;
-  card.onclick=()=>comingSoon ? showComingSoonToast(vendor) : handleDealClick(vendor);
+  card.onclick=()=>{ trackDeal(name,'open'); comingSoon ? showComingSoonToast(vendor) : handleDealClick(vendor); };
   card.innerHTML=`
     <div class="deal-image ${asset.imageClass}">
       <img class="brand-logo-img" src="${logo}" alt="${escapeHtml(name)} logo">
@@ -8031,8 +8038,10 @@ function renderPublicDeal(vendor){
   });
   card.querySelector('.join-claim').addEventListener('click', event=>{
     event.stopPropagation();
+    trackDeal(name,'open');
     comingSoon ? showComingSoonToast(vendor) : handleDealClick(vendor);
   });
+  watchDealView(card, name);
   return card;
 }
 
@@ -8063,6 +8072,7 @@ function vendorSharedCode(vendor){
 }
 
 function showDealCodeToast(vendor){
+  trackDeal(vendor && vendor.name, 'code');
   const name=(vendor && vendor.name) || 'This offer';
   const desc=(vendor && vendor.discount_desc) || 'Student discount';
   const code=vendorSharedCode(vendor);

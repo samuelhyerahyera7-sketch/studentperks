@@ -150,6 +150,14 @@ button{cursor:pointer;border:none;font-family:var(--font)}
 .modal-close{position:absolute;top:16px;right:16px;background:var(--bg3);border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink2);font-size:17px}
 .modal-actions{display:flex;gap:8px;margin-top:16px}
 #app-modal .modal-actions{position:sticky;bottom:-28px;margin:16px -24px -28px;padding:14px 24px 20px;background:var(--card);border-top:1px solid var(--border);flex-wrap:wrap}
+.deal-perf{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:20px}
+.deal-perf-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.deal-perf-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.deal-perf-sub{font-size:12px;color:var(--ink3);margin-top:4px}
+.deal-perf-note{font-size:13px;color:#8a5a00;background:#fff8e6;border:1px solid #f3d38a;border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.deal-perf-note[hidden]{display:none}
+.deal-perf-foot{font-size:12px;color:var(--ink3);line-height:1.6;margin-top:12px}
+.dp-num{font-variant-numeric:tabular-nums;font-weight:700;text-align:right}
 .doc-box{border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:14px;background:rgba(255,255,255,.03)}
 .doc-box[hidden],.doc-none[hidden],.doc-img[hidden],.doc-pdf[hidden],.doc-error[hidden]{display:none}
 .doc-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
@@ -444,6 +452,27 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
         </a>
       </div>
       <div class="sec-rule"></div>
+
+      <!-- Deal performance (views, opens, codes, redemptions) -->
+      <div class="deal-perf">
+        <div class="deal-perf-head">
+          <div><div class="chart-card-title" style="margin:0">Deal performance</div><div class="deal-perf-sub" id="dp-sub">Loading…</div></div>
+          <div class="deal-perf-actions">
+            <div class="filter-pills" id="dp-range" style="margin:0">
+              <button class="filter-pill active" data-range="today" onclick="setDealRange('today')">Today</button>
+              <button class="filter-pill" data-range="d7" onclick="setDealRange('d7')">7 days</button>
+              <button class="filter-pill" data-range="d30" onclick="setDealRange('d30')">30 days</button>
+              <button class="filter-pill" data-range="all" onclick="setDealRange('all')">All time</button>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="loadDealStats()">↻ Refresh</button>
+          </div>
+        </div>
+        <div class="deal-perf-note" id="dp-setup" hidden>View tracking isn't switched on yet: run <b>add-deal-events.sql</b> in Supabase. Redemptions below are already accurate.</div>
+        <div class="data-table" id="dp-table"></div>
+        <div class="chart-card-title" style="margin:18px 0 8px">Redeemed today</div>
+        <div class="data-table" id="dp-today"></div>
+        <p class="deal-perf-foot"><b>Views</b>: deal card seen on screen. <b>Opens</b>: card tapped. <b>Codes shown</b>: a verified student revealed the code. <b>Redeemed</b>: confirmed through StudentPerks (QR scan or partner check). Shared codes typed into a partner's own checkout (e.g. STUDENTPERKS2X) are only counted by that partner.</p>
+      </div>
 
       <!-- Stat cards -->
       <div class="an-stat-grid">
@@ -1165,7 +1194,46 @@ function makeHBar(id, labels, data) {
   });
 }
 
+/* ── DEAL PERFORMANCE ── */
+let dealStats=null, dealRange='today';
+function setDealRange(range){
+  dealRange=range;
+  document.querySelectorAll('#dp-range .filter-pill').forEach(b=>b.classList.toggle('active', b.dataset.range===range));
+  renderDealStats();
+}
+async function loadDealStats(){
+  document.getElementById('dp-sub').textContent='Loading…';
+  try{
+    const r=await fetch('/api/deal-stats',{cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    dealStats=await r.json();
+  }catch(e){
+    dealStats=null;
+    document.getElementById('dp-sub').textContent='Could not load deal stats ('+e.message+').';
+    return;
+  }
+  renderDealStats();
+}
+function renderDealStats(){
+  if(!dealStats) return;
+  const label={today:'today',d7:'in the last 7 days',d30:'in the last 30 days',all:'all time'}[dealRange];
+  document.getElementById('dp-sub').textContent=`Showing ${label} · updated ${fmtDateLong(dealStats.generatedAt)}`;
+  document.getElementById('dp-setup').hidden=!!dealStats.trackingReady;
+  const cols='1.6fr repeat(4,1fr)';
+  const rows=dealStats.deals.slice().sort((a,b)=>(b.view[dealRange]+b.redeemed[dealRange])-(a.view[dealRange]+a.redeemed[dealRange]));
+  const tot=k=>rows.reduce((n,d)=>n+d[k][dealRange],0);
+  document.getElementById('dp-table').innerHTML=
+    `<div class="dt-row head" style="grid-template-columns:${cols}"><div>Deal</div><div class="dp-num">Views</div><div class="dp-num">Opens</div><div class="dp-num">Codes shown</div><div class="dp-num">Redeemed</div></div>`+
+    rows.map(d=>`<div class="dt-row" style="grid-template-columns:${cols}"><div class="dt-cell bold">${esc(d.deal)}</div><div class="dt-cell dp-num">${d.view[dealRange]}</div><div class="dt-cell dp-num">${d.open[dealRange]}</div><div class="dt-cell dp-num">${d.code[dealRange]}</div><div class="dt-cell dp-num">${d.redeemed[dealRange]}</div></div>`).join('')+
+    `<div class="dt-row" style="grid-template-columns:${cols}"><div class="dt-cell bold">Total</div><div class="dt-cell dp-num">${tot('view')}</div><div class="dt-cell dp-num">${tot('open')}</div><div class="dt-cell dp-num">${tot('code')}</div><div class="dt-cell dp-num">${tot('redeemed')}</div></div>`;
+  const today=dealStats.redeemedToday||[];
+  document.getElementById('dp-today').innerHTML=today.length
+    ? `<div class="dt-row head" style="grid-template-columns:1fr 1fr 140px"><div>Deal</div><div>Code</div><div>Time</div></div>`+today.map(r=>`<div class="dt-row" style="grid-template-columns:1fr 1fr 140px"><div class="dt-cell bold">${esc(r.deal)}</div><div class="dt-cell" style="font-family:monospace;font-weight:700">${esc(r.code)}</div><div class="dt-cell dim">${esc(new Date(r.at).toLocaleTimeString('en-ZA',{hour:'2-digit',minute:'2-digit'}))}</div></div>`).join('')
+    : '<div class="loading-row">No redemptions recorded through StudentPerks today.</div>';
+}
+
 async function loadAnalytics() {
+  loadDealStats();
   const days = last30Days();
   const cutoff = days[0]+'T00:00:00Z';
 
