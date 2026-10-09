@@ -273,6 +273,17 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 .help-card{background:#fff;border:1px solid #dfe5ee;border-radius:16px;padding:22px;box-shadow:0 10px 28px rgba(15,23,42,.07);max-width:650px}
 .help-card h2{font-size:22px;line-height:1.05;margin-bottom:10px}
 .help-card p{color:#556076;line-height:1.5}
+.help-card+.help-card{margin-top:16px}
+.help-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.help-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border-radius:999px;border:1px solid #dfe5ee;background:#fff;color:#050505;font-size:14px;font-weight:800;text-decoration:none;cursor:pointer}
+.help-btn.primary{background:#9cff18;border-color:#9cff18}
+.help-btn:disabled{opacity:.6;cursor:default}
+.help-card .f{margin:14px 0 0}
+.help-card .f label{display:block;font-size:13px;font-weight:700;color:#4d5669;margin-bottom:6px}
+.help-card .f input,.help-card .f textarea{width:100%;padding:12px 14px;border:1.5px solid #dfe5ee;border-radius:10px;font-size:15px;color:#050505;background:#fff;resize:vertical}
+.help-card #help-btn{margin-top:16px}
+.help-note{margin-top:12px;font-weight:700}
+.help-note.ok{color:#2f7a00}.help-note.bad{color:#c62828}
 @media(max-width:860px){
   .portal-shell{display:block;min-height:0}
   .portal-sidebar{display:none}
@@ -527,8 +538,25 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 
       <section class="view-panel" id="view-help">
         <div class="help-card">
-          <h2>Need help?</h2>
-          <p>Use Overview to check checkout codes, Business profile to copy the shared checkout code, and Analytics to monitor StudentPerks-side performance. Your team must create the same code in your own checkout system before students can redeem it there.</p>
+          <h2>Talk to StudentPerks</h2>
+          <p>Questions about your offer, your codes or your dashboard? We're happy to help.</p>
+          <div class="help-actions">
+            <a class="help-btn primary" href="https://wa.me/27813756494?text=Hi%20StudentPerks%2C%20I%20need%20help%20with%20my%20partner%20dashboard." target="_blank" rel="noopener">WhatsApp us</a>
+            <a class="help-btn" href="mailto:admin@studentperks.co.za?subject=Partner%20dashboard%20help">Email admin@studentperks.co.za</a>
+          </div>
+        </div>
+        <div class="help-card">
+          <h2>Send us a message</h2>
+          <p>Tell us what you need and we'll get back to you by email.</p>
+          <div class="f"><label for="help-email">Your email</label><input type="email" id="help-email" autocomplete="email" placeholder="you@business.co.za"></div>
+          <div class="f"><label for="help-phone">Phone (optional)</label><input type="tel" id="help-phone" autocomplete="tel" placeholder="082 123 4567"></div>
+          <div class="f"><label for="help-message">How can we help?</label><textarea id="help-message" rows="5" maxlength="3000" placeholder="E.g. a student's code isn't working at checkout"></textarea></div>
+          <button class="help-btn primary" id="help-btn" onclick="sendHelpRequest()">Send message</button>
+          <p class="help-note" id="help-note" hidden></p>
+        </div>
+        <div class="help-card">
+          <h2>Quick tips</h2>
+          <p><b>Check a code</b> on Overview to confirm a student's code before you give the discount. <b>Business profile</b> has your shared checkout code to copy. <b>Analytics</b> shows how many students used your offer. Make sure the same code exists in your own checkout system so students can use it there.</p>
         </div>
       </section>
     </main>
@@ -635,6 +663,7 @@ function startDemo(){
       demoState.redemptions.push({code:code||sharedCheckoutCode(),assigned_to_email:found?found.assigned_to_email:'',redeemed_at:at});
       return demoResponse({ok:true});
     }
+    if(path.startsWith('/api/vendor-help')) return demoResponse({sent:true});
     return demoResponse({error:'This is a demo account, so changes are not saved.'},403);
   };
 }
@@ -729,7 +758,7 @@ function showVendorView(name){
     redemptions:['Redemptions','Confirmed code redemptions for your offer.'],
     analytics:['Analytics','See how many students are using your StudentPerks offer.'],
     profile:['Business profile','Copy the shared checkout code or create optional tracking codes.'],
-    help:['Help','Quick guidance for managing your StudentPerks offer.']
+    help:['Help','Get in touch with the StudentPerks team.']
   };
   const next=titles[name]||titles.overview;
   setText('portal-title', next[0]);
@@ -1261,6 +1290,32 @@ async function updateVendorLogin(){
     note('settings-note',e.message || 'Could not update login details.',false);
   }finally{
     btn.disabled=false; btn.textContent='Save login';
+  }
+}
+
+async function sendHelpRequest(){
+  const email=document.getElementById('help-email').value.trim();
+  const phone=document.getElementById('help-phone').value.trim();
+  const message=document.getElementById('help-message').value.trim();
+  const btn=document.getElementById('help-btn'), out=document.getElementById('help-note');
+  const say=(text,ok)=>{ out.textContent=text; out.className='help-note '+(ok?'ok':'bad'); out.hidden=false; };
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return say('Please enter an email address we can reply to.', false);
+  if(message.length<5) return say('Please tell us what you need help with.', false);
+  btn.disabled=true; btn.textContent='Sending...';
+  try{
+    const response=await fetch('/api/vendor-help',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${vendorToken}`},
+      body:JSON.stringify({email,phone,message})
+    });
+    const payload=await response.json().catch(()=>({}));
+    if(!response.ok) throw new Error(payload.error || 'Could not send your message.');
+    document.getElementById('help-message').value='';
+    say("Thanks, your message has been sent. We'll reply to "+email+" soon.", true);
+  }catch(e){
+    say(e.message || 'Could not send your message. Please email admin@studentperks.co.za or WhatsApp us.', false);
+  }finally{
+    btn.disabled=false; btn.textContent='Send message';
   }
 }
 
