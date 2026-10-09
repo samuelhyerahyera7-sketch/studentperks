@@ -81,7 +81,12 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .analytics-filterbar{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
 .filter-chip{min-height:34px;padding:0 13px;border-radius:999px;border:1px solid #dfe5ee;background:#fff;color:#556076;font-size:12px;font-weight:900;cursor:pointer}
 .filter-chip.active{background:#9cff18;border-color:#9cff18;color:#050505}
-.chart-wrap{height:220px;border-radius:12px;background:linear-gradient(180deg,#fbfff5,#fff);border:1px solid #e2e9f2;padding:14px;overflow:hidden}
+.chart-wrap{position:relative;height:220px;border-radius:12px;background:linear-gradient(180deg,#fbfff5,#fff);border:1px solid #e2e9f2;padding:14px;overflow:hidden}
+.chart-svg{touch-action:pan-y;cursor:crosshair}
+.chart-guide{stroke:#557500;stroke-width:1;stroke-dasharray:3 3;opacity:.6}
+.chart-dot.hot{fill:#050505;stroke:#9cff18;stroke-width:3}
+.chart-tip{position:absolute;pointer-events:none;transform:translate(-50%,-100%);margin-top:-12px;background:#050505;color:#fff;border-radius:8px;padding:6px 10px;font-size:12px;line-height:1.35;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.18);z-index:2}
+.chart-tip b{display:block;font-size:14px;color:#9cff18}
 .chart-svg{width:100%;height:100%;display:block}
 .chart-line{fill:none;stroke:#557500;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .chart-fill{fill:rgba(156,255,24,.18)}
@@ -1371,7 +1376,8 @@ function renderAnalytics(redemptions){
     return `<line class="chart-grid" x1="${pad.left}" y1="${y.toFixed(1)}" x2="${width-pad.right}" y2="${y.toFixed(1)}"></line><text class="chart-label" x="8" y="${(y+4).toFixed(1)}">${label}</text>`;
   }).join('');
   const dots=points.map(([x,y],i)=>`<circle class="chart-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${days[i].count?4:3}"></circle>`).join('');
-  wrap.innerHTML=`<svg class="chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="All recorded redemptions over time">${grid}<path class="chart-fill" d="${fill}"></path><path class="chart-line" d="${line}"></path>${dots}${labels}</svg>`;
+  wrap.innerHTML=`<svg class="chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="All recorded redemptions over time">${grid}<path class="chart-fill" d="${fill}"></path><path class="chart-line" d="${line}"></path><line class="chart-guide" y1="${pad.top}" y2="${height-pad.bottom}" visibility="hidden"></line>${dots}${labels}</svg><div class="chart-tip" hidden></div>`;
+  bindChartTooltip(wrap, points, days);
   };
   renderTo(document.getElementById('chart-wrap'));
   renderTo(document.getElementById('chart-wrap-2'));
@@ -1410,6 +1416,36 @@ function renderCodeBreakdown(redemptions){
     `;
   }).join('');
   wrap.innerHTML=`<svg class="chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Redemptions by code">${bars}</svg>`;
+}
+
+// Hover (or drag a finger) along the graph to see each day's redemptions
+function bindChartTooltip(wrap, points, days){
+  const svg=wrap.querySelector('svg'), tip=wrap.querySelector('.chart-tip'), guide=wrap.querySelector('.chart-guide');
+  const dots=[...wrap.querySelectorAll('.chart-dot')];
+  if(!svg || !tip) return;
+  const baseR=dots.map(d=>d.getAttribute('r'));
+  const hot=i=>dots.forEach((d,k)=>{ d.classList.toggle('hot', k===i); d.setAttribute('r', k===i?7:baseR[k]); });
+  const hide=()=>{ tip.hidden=true; guide.setAttribute('visibility','hidden'); hot(-1); };
+  const show=ev=>{
+    const ctm=svg.getScreenCTM(); if(!ctm) return;
+    const pt=svg.createSVGPoint(); pt.x=ev.clientX; pt.y=ev.clientY;
+    const x=pt.matrixTransform(ctm.inverse()).x;
+    let i=0; points.forEach(([px],k)=>{ if(Math.abs(px-x)<Math.abs(points[i][0]-x)) i=k; });
+    const [px,py]=points[i], day=days[i];
+    hot(i);
+    guide.setAttribute('x1',px); guide.setAttribute('x2',px); guide.setAttribute('visibility','visible');
+    pt.x=px; pt.y=py;
+    const screen=pt.matrixTransform(ctm), box=wrap.getBoundingClientRect();
+    const date=day.date.toLocaleDateString('en-ZA',{weekday:'short',day:'numeric',month:'short'});
+    tip.innerHTML=`<b>${day.count} redemption${day.count===1?'':'s'}</b>${esc(date)}`;
+    tip.hidden=false;
+    const half=tip.offsetWidth/2;
+    tip.style.left=Math.min(Math.max(screen.x-box.left, half+4), box.width-half-4)+'px';
+    tip.style.top=Math.max(screen.y-box.top, tip.offsetHeight+16)+'px';
+  };
+  svg.addEventListener('pointermove', show);
+  svg.addEventListener('pointerdown', show);
+  svg.addEventListener('pointerleave', hide);
 }
 
 function redemptionRows(redemptions){
