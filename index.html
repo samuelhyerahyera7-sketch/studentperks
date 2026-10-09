@@ -8066,35 +8066,45 @@ function handleDealClick(vendor){
   showDealCodeToast(vendor);
 }
 
-function vendorSharedCode(vendor){
-  if(normalizeBusinessName(vendor && vendor.name)==='justprotein') return 'JP-STUPERK15';
-  if(normalizeBusinessName(vendor && vendor.name).includes('terbodore')) return 'studentperks20';
-  if(normalizeBusinessName(vendor && vendor.name).includes('intercity')) return 'STUDENTPERKS2X';
-  if(normalizeBusinessName(vendor && vendor.name).includes('custommug')) return 'MUGS10';
-  const prefix=String(vendor && vendor.code_prefix || '').toUpperCase().replace(/[^A-Z0-9]/g,'');
-  const digits=String(vendor && vendor.discount_desc || '').match(/\d+/);
-  return `${prefix}${digits ? digits[0] : ''}`;
+// Shop links carry a StudentPerks tag so partners can see the visits in their own stats
+function withUtm(url){
+  return url+(url.includes('?')?'&':'?')+'utm_source=studentperks&utm_medium=referral&utm_campaign=student_deal';
 }
 
-function showDealCodeToast(vendor){
-  trackDeal(vendor && vendor.name, 'code');
+// Deal codes are handed out by the server, only to signed-in, approved students
+async function showDealCodeToast(vendor){
   const name=(vendor && vendor.name) || 'This offer';
   const desc=(vendor && vendor.discount_desc) || 'Student discount';
-  const code=vendorSharedCode(vendor);
   const t=document.getElementById('gate-toast');
   const bd=document.getElementById('gate-backdrop');
   clearTimeout(_gateTimer);
   t.innerHTML=`
     <div style="font-weight:900;font-size:19px;margin-bottom:4px">${escapeHtml(name)}</div>
     <div style="color:#c7cdd8;font-size:14px;margin-bottom:16px">${escapeHtml(desc)}</div>
-    <div style="background:#050505;border:1.5px dashed var(--lime);border-radius:12px;padding:14px;font-family:monospace;font-size:20px;font-weight:900;letter-spacing:.06em;color:var(--lime);margin-bottom:12px;word-break:break-all">${escapeHtml(code)}</div>
+    <div id="deal-code-box" style="background:#050505;border:1.5px dashed var(--lime);border-radius:12px;padding:14px;font-family:monospace;font-size:20px;font-weight:900;letter-spacing:.06em;color:var(--lime);margin-bottom:12px;word-break:break-all">Getting your code…</div>
     <div style="font-size:13px;color:#9aa3b5;line-height:1.5;margin-bottom:14px">Enter this code at checkout, or show it at the venue, to get your discount.</div>
-    <span class="gate-sign-in" id="deal-copy-btn" onclick="copyDealCode('${code.replace(/'/g,"\\'")}')">Copy code</span>
-    ${vendor && vendor.website ? `<a href="${escapeHtml(vendor.website)}" target="_blank" rel="noopener" style="display:block;margin-top:12px;font-size:14px;font-weight:800;color:#050505;text-decoration:underline">${escapeHtml(vendor.websiteLabel||'Shop at')} ${escapeHtml(vendor.website.replace(/^https?:\/\/(www\.)?/,''))}</a>` : ''}
+    <span class="gate-sign-in" id="deal-copy-btn" style="display:none">Copy code</span>
+    ${vendor && vendor.website ? `<a href="${escapeHtml(withUtm(vendor.website))}" target="_blank" rel="noopener" style="display:block;margin-top:12px;font-size:14px;font-weight:800;color:#050505;text-decoration:underline">${escapeHtml(vendor.websiteLabel||'Shop at')} ${escapeHtml(vendor.website.replace(/^https?:\/\/(www\.)?/,''))}</a>` : ''}
   `;
   t.style.width='min(380px, calc(100vw - 32px))';
   t.style.display='block'; bd.style.display='block';
   requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ t.classList.add('show'); }); });
+  const box=document.getElementById('deal-code-box');
+  try{
+    const { data: { session } } = await sb.auth.getSession();
+    const r=await fetch('/api/deal-code',{
+      method:'POST',
+      headers:{'Content-Type':'application/json',Authorization:`Bearer ${session && session.access_token || ''}`},
+      body:JSON.stringify({ deal:name, source:'home' })
+    });
+    const p=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(p.error || 'Could not load this code.');
+    if(box) box.textContent=p.code;
+    const btn=document.getElementById('deal-copy-btn');
+    if(btn){ btn.style.display=''; btn.onclick=()=>copyDealCode(p.code); }
+  }catch(e){
+    if(box){ box.textContent=e.message || 'Could not load this code. Please try again.'; box.style.fontSize='15px'; box.style.letterSpacing='0'; }
+  }
 }
 
 function copyDealCode(code){

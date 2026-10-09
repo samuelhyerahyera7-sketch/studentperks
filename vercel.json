@@ -3,23 +3,46 @@
   "trailingSlash": false,
   "outputDirectory": ".",
   "functions": {
-    "api/dispatch.js": { "maxDuration": 60 }
+    "api/dispatch.js": {
+      "maxDuration": 60
+    }
   },
   "rewrites": [
-    { "source": "/api/:path*", "destination": "/api/dispatch?path=:path*" }
+    {
+      "source": "/api/:path*",
+      "destination": "/api/dispatch?path=:path*"
+    }
   ],
   "headers": [
     {
       "source": "/sitemap.xml",
       "headers": [
-        { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        }
       ]
     },
     {
       "source": "/robots.txt",
       "headers": [
-        { "key": "Content-Type", "value": "text/plain; charset=utf-8" }
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/lib/:path*",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/:file(.*\\.sql)",
+      "destination": "/",
+      "permanent": false
     }
   ]
 }

@@ -385,7 +385,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
         <div class="verify-box">
           <div class="verify-box-title">Check a code</div>
           <div class="code-input-row">
-            <input class="code-input" type="text" id="check-input" placeholder="E.g. JP-STUPERK15" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkCode()">
+            <input class="code-input" type="text" id="check-input" placeholder="Enter a student's code" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkCode()">
             <button class="check-btn" onclick="checkCode()">Check</button>
             <a class="scan-btn" href="scanner.html?mode=vendor">Scan student QR</a>
           </div>
@@ -631,16 +631,10 @@ function defaultTileBackground(){
   return '';
 }
 
+// The partner's checkout code comes from the server with their sign-in
+// (it is no longer written into this page).
 function sharedCheckoutCode(){
-  const name=normalizeBusinessName(currentVendor && currentVendor.name);
-  if(name==='justprotein') return 'JP-STUPERK15';
-  if(name.includes('terbodore')) return 'studentperks20';
-  if(name.includes('intercity')) return 'STUDENTPERKS2X';
-  if(name.includes('custommug')) return 'MUGS10';
-  if(isDemoVendor(currentVendor)) return DEMO_CODE;
-  const prefix=String(currentVendor && currentVendor.code_prefix || 'STUDENTPERKS').toUpperCase().replace(/[^A-Z0-9]/g,'');
-  const digits=String(currentVendor && currentVendor.discount_desc || '').match(/\d+/);
-  return `${prefix}${digits ? digits[0] : ''}`;
+  return String(currentVendor && currentVendor.shared_code || '');
 }
 
 function normalizeBusinessName(name){
@@ -660,16 +654,16 @@ function isDemoVendor(vendor){
   return String(vendor && vendor.code_prefix || '').toUpperCase()==='STUDENTPERKS';
 }
 const realFetch=window.fetch.bind(window);
-const DEMO_CODE='STUDENTPERKS2X';
+
 let demoState=null;
 function demoData(){
-  // One shared code, STUDENTPERKS2X, redeemed at checkout; growing over ~10 weeks
+  // One shared code (the demo account's code from the server), redeemed at checkout; growing over ~10 weeks
   const day=86400000, now=Date.now();
   let seed=7; const rand=()=>((seed=(seed*16807)%2147483647)/2147483647);
   const redemptions=[];
   for(let d=70;d>=0;d--){
     const n=Math.floor(rand()*(1+(70-d)/12));
-    for(let k=0;k<n;k++) redemptions.push({code:DEMO_CODE,assigned_to_email:'',redeemed_at:new Date(now-d*day-Math.floor(rand()*12)*3600000).toISOString()});
+    for(let k=0;k<n;k++) redemptions.push({code:sharedCheckoutCode(),assigned_to_email:'',redeemed_at:new Date(now-d*day-Math.floor(rand()*12)*3600000).toISOString()});
   }
   const jobs=[
     {id:'demo-1',title:'Weekend barista',job_type:'Part-time',location:'Hatfield, Pretoria',pay:'R60 per hour',closes_on:new Date(now+21*day).toISOString().slice(0,10),active:true,created_at:new Date(now-3*day).toISOString()},
@@ -1638,7 +1632,7 @@ function fmtShort(ts){if(!ts)return'—';return new Date(ts).toLocaleDateString(
 // Restore session
 (function(){
   const saved=sessionStorage.getItem('sp_vendor');
-  if(saved){ try{ const parsed=JSON.parse(saved); currentVendor=parsed.vendor||parsed; vendorToken=parsed.token||''; if(vendorToken && (isApprovedLiveBusinessName(currentVendor && currentVendor.name) || isDemoVendor(currentVendor))) showDashboard(); else sessionStorage.removeItem('sp_vendor'); }catch(e){} }
+  if(saved){ try{ const parsed=JSON.parse(saved); currentVendor=parsed.vendor||parsed; vendorToken=parsed.token||''; if(vendorToken && currentVendor && currentVendor.shared_code && (isApprovedLiveBusinessName(currentVendor.name) || isDemoVendor(currentVendor))) showDashboard(); else sessionStorage.removeItem('sp_vendor'); }catch(e){} }
 })();
 
 window.handleTileImageUpload=handleTileImageUpload;
