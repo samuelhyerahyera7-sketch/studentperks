@@ -15,6 +15,7 @@ const routes = {
   'redeem-code': require('../lib/api-handlers/redeem-code'),
   'vendor-check-code': require('../lib/api-handlers/vendor-check-code'),
   'vendor-codes': require('../lib/api-handlers/vendor-codes'),
+  'vendor-help': require('../lib/api-handlers/vendor-help'),
   'vendor-generate-codes': require('../lib/api-handlers/vendor-generate-codes'),
   'vendor-login': require('../lib/api-handlers/vendor-login'),
   'vendor-record-redemption': require('../lib/api-handlers/vendor-record-redemption'),

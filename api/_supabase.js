@@ -174,6 +174,35 @@ async function sendNewApplicationEmail(payload) {
   return { sent: 1 };
 }
 
+async function sendVendorHelpEmail(payload) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) throw new Error('Email is not set up on the server.');
+
+  const from = process.env.REDEMPTION_EMAIL_FROM || 'StudentPerks <notifications@studentperks.co.za>';
+  const html = `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#111">
+    <h2>Partner help request</h2>
+    <p><strong>Partner:</strong> ${escapeHtml(payload.vendorName)} (${escapeHtml(payload.codePrefix)})</p>
+    <p><strong>Reply to:</strong> ${escapeHtml(payload.replyTo)}</p>
+    <p><strong>Phone:</strong> ${escapeHtml(payload.phone || 'Not provided')}</p>
+    <p><strong>Message:</strong></p>
+    <p style="white-space:pre-wrap;background:#f5f5f5;padding:12px;border-radius:8px">${escapeHtml(payload.message)}</p>
+  </div>`;
+
+  const response = await fetch(RESEND_ENDPOINT, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from,
+      to: ADMIN_NOTIFICATION_EMAIL,
+      reply_to: payload.replyTo,
+      subject: `Partner help request: ${payload.vendorName}`,
+      html
+    })
+  });
+  if (!response.ok) throw new Error(`Resend failed: ${response.status} ${await response.text()}`);
+  return { sent: 1 };
+}
+
 // Membership lasts one year from the most recent approval (reviewed_at;
 // created_at for older rows). SAFIRE logins and manual re-approvals move
 // reviewed_at forward, which renews it.
@@ -258,6 +287,7 @@ async function sendApplicationApprovedEmail(payload) {
 
 module.exports = {
   clean,
+  isEmail,
   isApprovedLiveBusiness,
   isApprovedLiveBusinessName,
   isDemoVendor,
@@ -272,6 +302,7 @@ module.exports = {
   rest,
   sendApplicationApprovedEmail,
   sendNewApplicationEmail,
+  sendVendorHelpEmail,
   sendRedemptionEmails,
   signVendor,
   verifyVendorToken
