@@ -127,6 +127,73 @@ async function signStudentCardUrls(urls, expiresIn = 3600) {
   }));
 }
 
+// ── Private storage helpers (talent photos) ──
+async function storageUpload(bucket, path, buffer, contentType) {
+  const response = await fetch(`${SUPABASE_URL}/storage/v1/object/${bucket}/${path}`, {
+    method: 'POST',
+    headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, 'Content-Type': contentType, 'x-upsert': 'true' },
+    body: buffer
+  });
+  if (!response.ok) throw new Error(`Upload failed (${response.status}): ${await response.text()}`);
+}
+
+async function storageRemove(bucket, paths) {
+  if (!paths.length) return;
+  await fetch(`${SUPABASE_URL}/storage/v1/object/${bucket}`, {
+    method: 'DELETE',
+    headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prefixes: paths })
+  }).catch(() => {});
+}
+
+// {path: signedUrl} for private objects, valid for expiresIn seconds
+async function storageSign(bucket, paths, expiresIn = 3600) {
+  const unique = [...new Set(paths.filter(Boolean))];
+  if (!unique.length || !SERVICE_KEY) return {};
+  const response = await fetch(`${SUPABASE_URL}/storage/v1/object/sign/${bucket}`, {
+    method: 'POST',
+    headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ expiresIn, paths: unique })
+  });
+  if (!response.ok) return {};
+  const signed = await response.json().catch(() => []);
+  const out = {};
+  (signed || []).forEach(item => { if (item && item.path && item.signedURL) out[item.path] = `${SUPABASE_URL}/storage/v1${item.signedURL}`; });
+  return out;
+}
+
+// ── Email preference links (one-click unsubscribe, no sign-in needed) ──
+const EMAIL_PREFS = ['job_alerts', 'application_alerts', 'message_alerts'];
+function emailPrefToken(email, pref) {
+  return crypto.createHmac('sha256', VENDOR_SESSION_SECRET).update(`prefs|${clean(email).toLowerCase()}|${pref}`).digest('base64url');
+}
+function emailPrefLink(email, pref) {
+  const q = new URLSearchParams({ e: clean(email).toLowerCase(), p: pref, t: emailPrefToken(email, pref) });
+  return `https://studentperks.co.za/api/email-prefs?${q}`;
+}
+function verifyEmailPrefToken(email, pref, token) {
+  const expected = emailPrefToken(email, pref);
+  return EMAIL_PREFS.includes(pref) && Buffer.byteLength(String(token)) === Buffer.byteLength(expected)
+    && crypto.timingSafeEqual(Buffer.from(String(token)), Buffer.from(expected));
+}
+
+// Send many emails through Resend, 100 per request. Returns how many were accepted.
+async function sendEmailBatch(emails) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey || !emails.length) return 0;
+  let sent = 0;
+  for (let i = 0; i < emails.length; i += 100) {
+    const chunk = emails.slice(i, i + 100);
+    const response = await fetch('https://api.resend.com/emails/batch', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(chunk)
+    });
+    if (response.ok) sent += chunk.length;
+  }
+  return sent;
+}
+
 function signVendor(vendorId) {
   const payload = Buffer.from(JSON.stringify({
     vendorId,
@@ -352,6 +419,14 @@ async function sendApplicationApprovedEmail(payload) {
 
 module.exports = {
   authUserEmail,
+  EMAIL_PREFS,
+  emailPrefLink,
+  escapeHtml,
+  sendEmailBatch,
+  storageRemove,
+  storageSign,
+  storageUpload,
+  verifyEmailPrefToken,
   bearer,
   signAdmin,
   signStudentCardUrls,

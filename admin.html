@@ -125,6 +125,13 @@ button{cursor:pointer;border:none;font-family:var(--font)}
 .filter-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .filter-pill{font-size:12px;font-weight:700;padding:7px 16px;border-radius:50px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:var(--ink3);cursor:pointer;font-family:var(--font);transition:all .15s}
 .filter-pill:hover{border-color:rgba(255,255,255,.25);color:var(--white)}
+.talent-note{font-size:13px;color:var(--ink2);margin:0 0 14px}
+.talent-search{flex:1;min-width:180px;background:var(--bg3);border:1px solid var(--border);border-radius:50px;padding:7px 16px;color:var(--ink);font-family:var(--font);font-size:13px}
+.tp-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
+.tp-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px}.tp-name{font-size:16px;font-weight:800;color:var(--white)}.tp-email{font-size:12px;color:var(--ink2)}
+.tp-tags{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.tp-tag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:50px;background:rgba(255,255,255,.06);color:var(--ink2)}.tp-tag.on{background:rgba(34,197,94,.12);color:#15803d}.tp-tag.warn{background:rgba(255,200,0,.12);color:var(--yellow)}
+.tp-fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px 16px;font-size:12px}.tp-fields div span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3)}.tp-fields div b{font-weight:600;color:var(--ink)}
+.tp-photos{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.tp-photo{width:120px}.tp-photo a{display:block;width:120px;height:160px;border-radius:10px;overflow:hidden;background:var(--bg3)}.tp-photo img{width:100%;height:100%;object-fit:cover}.tp-photo .tp-ps{font-size:10px;color:var(--ink2);margin:5px 0;text-transform:uppercase;letter-spacing:.06em}.tp-photo .tp-ps.approved{color:var(--green)}.tp-photo .tp-ps.rejected{color:var(--red)}.tp-photo .tp-ps.pending{color:var(--yellow)}.tp-photo button{font-size:11px;font-weight:700;padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--ink);cursor:pointer;margin-right:4px;font-family:var(--font)}
 .filter-pill.active{background:var(--lime);color:var(--bg);border-color:var(--lime)}
 
 /* FORM FIELDS */
@@ -270,6 +277,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
     <button class="tab-btn"        id="tbtn-vendors"      onclick="showTab('vendors')">Vendors</button>
     <button class="tab-btn"        id="tbtn-coupons"      onclick="showTab('coupons')">Coupons</button>
     <button class="tab-btn"        id="tbtn-redemptions"  onclick="showTab('redemptions')">Redemptions</button>
+    <button class="tab-btn"        id="tbtn-talent"       onclick="showTab('talent')">Talent</button>
     <button class="tab-btn"        id="tbtn-analytics"    onclick="showTab('analytics')">Analytics</button>
     <button class="tab-btn"        id="tbtn-settings"     onclick="showTab('settings')">Settings</button>
   </div>
@@ -411,6 +419,20 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
     </div>
 
     <!-- ── SETTINGS ── -->
+    <div class="tab-panel" id="tab-talent">
+      <div class="sec-head"><div class="sec-title">Student work profiles</div><button class="filter-pill" onclick="exportTalentCsv()">Export CSV</button></div>
+      <div class="sec-rule"></div>
+      <p class="talent-note">You can see every detail here. Partners only ever see what each student ticked under "What partners can see".</p>
+      <div class="filter-pills">
+        <button class="filter-pill active" onclick="filterTalent('all',this)">All</button>
+        <button class="filter-pill" onclick="filterTalent('photos',this)">Photos to check</button>
+        <button class="filter-pill" onclick="filterTalent('complete',this)">Complete</button>
+        <button class="filter-pill" onclick="filterTalent('incomplete',this)">Incomplete</button>
+        <input class="talent-search" id="talent-search" placeholder="Search name, email, city…" oninput="renderTalent()">
+      </div>
+      <div id="talent-list"><div class="loading-row">Loading…</div></div>
+    </div>
+
     <div class="tab-panel" id="tab-settings">
       <div class="sec-head"><div class="sec-title">Vendor Credentials (PINs)</div></div>
       <div class="sec-rule"></div>
@@ -706,9 +728,67 @@ function showTab(name) {
     case 'vendors':      loadVendors(); break;
     case 'coupons':      initCoupons(); break;
     case 'redemptions':  loadRedemptions(); break;
+    case 'talent':       loadTalent(); break;
     case 'analytics':    loadAnalytics(); break;
     case 'settings':     loadSettings(); break;
   }
+}
+
+/* ── TALENT (work profiles) ── */
+let talentRows = [], talentFilter = 'all';
+const TALENT_COLS = [['full_name','Name'],['student_email','Email'],['phone','Phone'],['date_of_birth','Date of birth'],['age','Age'],['gender','Gender'],['race','Race'],['home_language','Languages'],['province','Province'],['city','City'],['height_cm','Height (cm)'],['eye_colour','Eyes'],['hair_colour','Hair colour'],['hair_style','Hair style'],['tattoos','Tattoos'],['piercings','Piercings'],['shirt_size','Shirt'],['waist','Waist'],['pants_size','Pants'],['shoe_size','Shoe'],['experience','Experience'],['availability','Availability'],['licence','Licence'],['own_transport','Own transport'],['travel','Travel'],['skills','Skills']];
+function tx(v){ return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+async function loadTalent(){
+  const box = document.getElementById('talent-list');
+  box.innerHTML = '<div class="loading-row">Loading…</div>';
+  try{
+    const r = await fetch('/api/admin-talent', { headers:{ Authorization:'Bearer '+adminToken() } });
+    if(r.status === 401) return doLogout('Your admin session expired. Please sign in again.');
+    const out = await r.json();
+    if(!r.ok) throw new Error(out.error || 'Could not load work profiles.');
+    talentRows = out.profiles || [];
+    renderTalent();
+  }catch(e){ box.innerHTML = `<div class="loading-row">${tx(e.message)}</div>`; }
+}
+function filterTalent(f, btn){ talentFilter = f; document.querySelectorAll('#tab-talent .filter-pill').forEach(b=>b.classList.toggle('active', b===btn)); renderTalent(); }
+function renderTalent(){
+  const q = (document.getElementById('talent-search').value || '').toLowerCase();
+  const rows = talentRows.filter(p => {
+    if(talentFilter === 'photos' && !(p.photos||[]).some(ph => ph.status === 'pending')) return false;
+    if(talentFilter === 'complete' && (p.missing||[]).length) return false;
+    if(talentFilter === 'incomplete' && !(p.missing||[]).length) return false;
+    return !q || [p.full_name,p.student_email,p.city,p.province].join(' ').toLowerCase().includes(q);
+  });
+  const box = document.getElementById('talent-list');
+  if(!rows.length){ box.innerHTML = `<div class="loading-row">${talentRows.length ? 'No profiles match.' : 'No students have created a work profile yet.'}</div>`; return; }
+  box.innerHTML = rows.map(p => {
+    const tags = [
+      [p.share_details,'Shares details'],[p.share_photos,'Shares photos'],[p.share_race,'Shares race'],[p.adult_confirmed,'18+ confirmed'],
+      [p.job_alerts,'Job alerts'],[p.application_alerts,'Application emails'],[p.message_alerts,'Message emails']
+    ].map(([on,l]) => `<span class="tp-tag ${on?'on':''}">${on?'✓':'✕'} ${l}</span>`).join('') +
+      ((p.missing||[]).length ? `<span class="tp-tag warn">Missing: ${tx(p.missing.join(', '))}</span>` : '<span class="tp-tag on">Complete</span>');
+    const fields = TALENT_COLS.slice(2).filter(([k]) => p[k] !== null && p[k] !== '' && p[k] !== undefined).map(([k,l]) => `<div><span>${l}</span><b>${tx(p[k])}</b></div>`).join('');
+    const photos = (p.photos||[]).map(ph => `<div class="tp-photo"><a href="${tx(ph.url)}" target="_blank" rel="noopener"><img src="${tx(ph.url)}" alt="${tx(ph.slot)}" loading="lazy"></a><div class="tp-ps ${tx(ph.status)}">${tx(ph.slot)} · ${tx(ph.status)}</div>${ph.status!=='approved'?`<button onclick="setTalentPhoto('${tx(p.student_email)}','${tx(ph.slot)}','approved')">Approve</button>`:''}${ph.status!=='rejected'?`<button onclick="setTalentPhoto('${tx(p.student_email)}','${tx(ph.slot)}','rejected')">Reject</button>`:''}</div>`).join('');
+    return `<div class="tp-card"><div class="tp-top"><span class="tp-name">${tx(p.full_name || 'Name not added yet')}</span><span class="tp-email">${tx(p.student_email)}</span><span class="tp-email">Updated ${tx(String(p.updated_at||'').slice(0,10))}</span></div><div class="tp-tags">${tags}</div><div class="tp-fields">${fields || '<div><b>No details added yet.</b></div>'}</div>${photos ? `<div class="tp-photos">${photos}</div>` : ''}</div>`;
+  }).join('');
+}
+async function setTalentPhoto(email, slot, status){
+  try{
+    const r = await fetch('/api/admin-talent', { method:'POST', headers:{ 'Content-Type':'application/json', Authorization:'Bearer '+adminToken() }, body: JSON.stringify({ action:'photo', email, slot, status }) });
+    const out = await r.json();
+    if(!r.ok) throw new Error(out.error || 'Could not update the photo.');
+    talentRows = talentRows.map(p => p.student_email === email ? out.profile : p);
+    renderTalent();
+  }catch(e){ alert(e.message); }
+}
+function exportTalentCsv(){
+  const cols = [...TALENT_COLS, ['share_details','Shares details'],['share_photos','Shares photos'],['share_race','Shares race'],['adult_confirmed','18+ confirmed'],['job_alerts','Job alerts'],['updated_at','Updated']];
+  const cell = v => { const s = String(v==null?'':v); return /^[=+\-@]/.test(s) ? `"'${s.replace(/"/g,'""')}"` : `"${s.replace(/"/g,'""')}"`; };
+  const csv = [cols.map(c=>cell(c[1])).join(','), ...talentRows.map(p => cols.map(([k]) => cell(p[k])).join(','))].join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type:'text/csv' }));
+  a.download = `studentperks-work-profiles-${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
 }
 
 /* ── OVERVIEW ── */
