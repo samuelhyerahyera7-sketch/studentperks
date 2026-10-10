@@ -46,6 +46,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .btn-ghost{background:var(--bg3);color:var(--ink2)}
 .btn-ghost:hover:not(:disabled){background:rgba(255,255,255,.08);color:var(--white)}
+.link-btn{display:block;margin:14px auto 0;background:none;border:0;color:var(--ink3);font:600 13px var(--font);text-decoration:underline;cursor:pointer}.link-btn:hover{color:var(--lime)}
+.login-card[hidden]{display:none}
 .err-box{display:none;font-size:12px;color:var(--red);background:rgba(255,68,68,.08);border:1px solid rgba(255,68,68,.18);border-radius:8px;padding:9px 12px;margin-bottom:10px}
 
 /* DASHBOARD */
@@ -319,24 +321,43 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
 
 <!-- LOGIN -->
 <div class="page" id="login-section">
-  <div class="login-card">
-    <div class="card-title">Vendor Sign In</div>
-    <div class="card-sub">Enter your vendor code and PIN to access your coupon dashboard.</div>
+  <div class="login-card" id="login-card">
+    <div class="card-title">Partner sign in</div>
+    <div class="card-sub">Enter your partner username and password to open your dashboard.</div>
     <div class="f">
-      <label>Vendor sign-in code</label>
+      <label>Username</label>
       <input type="text" id="v-prefix" placeholder="STUDENTPERKS" autocomplete="username" spellcheck="false" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')">
     </div>
     <div class="f">
-      <label>PIN</label>
+      <label>Password</label>
       <div class="pw-wrap">
-        <input type="password" id="v-pin" placeholder="Your PIN" autocomplete="current-password" onkeydown="if(event.key==='Enter')doVendorLogin()">
-        <button class="pw-eye" type="button" onclick="togglePw('v-pin',this)" title="Show/hide PIN" aria-label="Show or hide PIN">
+        <input type="password" id="v-pin" placeholder="Your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doVendorLogin()">
+        <button class="pw-eye" type="button" onclick="togglePw('v-pin',this)" title="Show/hide password" aria-label="Show or hide password">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
         </button>
       </div>
     </div>
-    <div class="err-box" id="v-err">Incorrect vendor code or PIN.</div>
+    <div class="err-box" id="v-err">Incorrect username or password.</div>
+    <div class="form-note" id="login-note"></div>
     <button class="btn" id="v-login-btn" onclick="doVendorLogin()">Sign in</button>
+    <button class="link-btn" type="button" onclick="showLoginCard('forgot')">Forgot password?</button>
+  </div>
+  <div class="login-card" id="forgot-card" hidden>
+    <div class="card-title">Forgot password</div>
+    <div class="card-sub">Enter your username or the email address StudentPerks has for your business. We'll email you a link to choose a new password.</div>
+    <div class="f"><label>Username or email</label><input type="text" id="forgot-user" autocomplete="username" spellcheck="false" onkeydown="if(event.key==='Enter')sendPartnerReset()"></div>
+    <div class="form-note" id="forgot-note"></div>
+    <button class="btn" id="forgot-btn" onclick="sendPartnerReset()">Email me a reset link</button>
+    <button class="link-btn" type="button" onclick="showLoginCard('login')">Back to sign in</button>
+  </div>
+  <div class="login-card" id="reset-card" hidden>
+    <div class="card-title">Choose a new password</div>
+    <div class="card-sub">At least 8 characters. You'll use it with your usual username.</div>
+    <div class="f"><label>New password</label><input type="password" id="reset-pin" autocomplete="new-password"></div>
+    <div class="f"><label>Type it again</label><input type="password" id="reset-pin2" autocomplete="new-password" onkeydown="if(event.key==='Enter')savePartnerReset()"></div>
+    <div class="form-note" id="reset-note"></div>
+    <button class="btn" id="reset-btn" onclick="savePartnerReset()">Save new password</button>
+    <button class="link-btn" type="button" onclick="showLoginCard('login')">Back to sign in</button>
   </div>
 </div>
 
@@ -480,9 +501,10 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
           </article>
           <article class="tool-card">
             <div class="tool-title">Login settings</div>
-            <div class="tool-copy">Change the partner sign-in code and PIN.</div>
-            <div class="f"><label>Sign-in code</label><input type="text" id="settings-prefix" placeholder="JUSTPROTEIN" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"></div>
-            <div class="f"><label>New PIN</label><input type="password" id="settings-pin" placeholder="Minimum 8 characters"></div>
+            <div class="tool-copy">Change your username or password. We'll email you to confirm the change.</div>
+            <div class="f"><label>Username</label><input type="text" id="settings-prefix" placeholder="JUSTPROTEIN" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"></div>
+            <div class="f"><label>New password</label><input type="password" id="settings-pin" placeholder="Leave blank to keep it" autocomplete="new-password"></div>
+            <div class="f"><label>Current password</label><input type="password" id="settings-current" placeholder="Needed to save changes" autocomplete="current-password"></div>
             <button class="btn" id="settings-btn" onclick="updateVendorLogin()">Save login</button>
             <div class="form-note" id="settings-note"></div>
           </article>
@@ -727,7 +749,7 @@ async function doVendorLogin() {
   const btn    = document.getElementById('v-login-btn');
   const err    = document.getElementById('v-err');
   err.style.display='none';
-  if(!prefix||!pin){ err.textContent='Please enter your vendor code and PIN.'; err.style.display='block'; return; }
+  if(!prefix||!pin){ err.textContent='Please enter your username and password.'; err.style.display='block'; return; }
   btn.disabled=true; btn.textContent='Signing in…';
   try {
     const response = await fetch('/api/vendor-login', {
@@ -736,7 +758,7 @@ async function doVendorLogin() {
       body: JSON.stringify({prefix, pin})
     });
     const payload = await response.json();
-    if(!response.ok) throw new Error(payload.error || 'Incorrect vendor code or PIN.');
+    if(!response.ok) throw new Error(payload.error || 'Incorrect username or password.');
     if(!isApprovedLiveBusinessName(payload.vendor && payload.vendor.name) && !isDemoVendor(payload.vendor)){
       throw new Error('This business dashboard is not available on the live StudentPerks site.');
     }
@@ -745,7 +767,7 @@ async function doVendorLogin() {
     sessionStorage.setItem('sp_vendor', JSON.stringify({vendor: currentVendor, token: vendorToken}));
     showDashboard();
   } catch(e) {
-    err.textContent = e.message || 'Incorrect vendor code or PIN.';
+    err.textContent = e.message || 'Incorrect username or password.';
     err.style.display='block';
     btn.disabled=false;
     btn.textContent='Sign in';
@@ -777,6 +799,7 @@ function showDashboard() {
   setText('offer-prefix', currentVendor.code_prefix || '');
   document.getElementById('settings-prefix').value = currentVendor.code_prefix || '';
   document.getElementById('settings-pin').value = '';
+  document.getElementById('settings-current').value = '';
   document.getElementById('settings-prefix').placeholder = currentVendor.code_prefix || 'STUDENTPERKS';
   document.getElementById('check-input').placeholder = `E.g. ${sharedCheckoutCode()}`;
   setTileForm();
@@ -1311,6 +1334,7 @@ async function generateVendorCodes(){
 async function updateVendorLogin(){
   const codePrefix=document.getElementById('settings-prefix').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
   const pin=document.getElementById('settings-pin').value.trim();
+  const currentPin=document.getElementById('settings-current').value;
   const btn=document.getElementById('settings-btn');
   note('settings-note','',true);
   btn.disabled=true; btn.textContent='Saving...';
@@ -1318,7 +1342,7 @@ async function updateVendorLogin(){
     const response=await fetch('/api/vendor-update-login',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':`Bearer ${vendorToken}`},
-      body:JSON.stringify({codePrefix,pin})
+      body:JSON.stringify({codePrefix,pin,currentPin})
     });
     const payload=await response.json();
     if(!response.ok) throw new Error(payload.error || 'Could not update login details.');
@@ -1328,13 +1352,50 @@ async function updateVendorLogin(){
     document.getElementById('vendor-name-nav').textContent=currentVendor.name;
     document.getElementById('settings-prefix').value=currentVendor.code_prefix || codePrefix;
     document.getElementById('settings-pin').value='';
-    note('settings-note','Login details updated. Use the new sign-in code and PIN next time.',true);
+    document.getElementById('settings-current').value='';
+    note('settings-note','Saved. Use your new login next time you sign in. We have emailed you to confirm.',true);
   }catch(e){
     note('settings-note',e.message || 'Could not update login details.',false);
   }finally{
     btn.disabled=false; btn.textContent='Save login';
   }
 }
+
+/* ── FORGOT / RESET PASSWORD ── */
+function showLoginCard(which){
+  ['login','forgot','reset'].forEach(k=>{ document.getElementById(k+'-card').hidden = k!==which; });
+  if(which==='login' && location.search.includes('reset=')) history.replaceState(null,'',location.pathname);
+}
+async function sendPartnerReset(){
+  const username=document.getElementById('forgot-user').value.trim();
+  const btn=document.getElementById('forgot-btn');
+  if(!username){ note('forgot-note','Please enter your username or email address.',false); return; }
+  btn.disabled=true; btn.textContent='Sending...';
+  try{
+    const r=await fetch('/api/vendor-forgot-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username})});
+    const p=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(p.error||'Could not send the email. Please try again.');
+    note('forgot-note',p.message,true);
+  }catch(e){ note('forgot-note',e.message,false); }
+  finally{ btn.disabled=false; btn.textContent='Email me a reset link'; }
+}
+async function savePartnerReset(){
+  const pin=document.getElementById('reset-pin').value, pin2=document.getElementById('reset-pin2').value;
+  const btn=document.getElementById('reset-btn');
+  if(pin.trim().length<8){ note('reset-note','Your new password must be at least 8 characters.',false); return; }
+  if(pin!==pin2){ note('reset-note',"The two passwords don't match.",false); return; }
+  btn.disabled=true; btn.textContent='Saving...';
+  try{
+    const token=new URLSearchParams(location.search).get('reset')||'';
+    const r=await fetch('/api/vendor-reset-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token,pin:pin.trim()})});
+    const p=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(p.error||'Could not save your new password.');
+    showLoginCard('login');
+    document.getElementById('v-prefix').value=p.username||'';
+    note('login-note','Password changed. Sign in with your new password.',true);
+  }catch(e){ note('reset-note',e.message,false); btn.disabled=false; btn.textContent='Save new password'; }
+}
+if(new URLSearchParams(location.search).get('reset')) showLoginCard('reset');
 
 /* ── JOBS ── */
 async function jobsApi(body){
