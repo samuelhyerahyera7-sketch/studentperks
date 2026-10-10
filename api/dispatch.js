@@ -28,6 +28,8 @@ const routes = {
   'talent-photo': require('../lib/api-handlers/talent-photo'),
   'email-prefs': require('../lib/api-handlers/email-prefs'),
   'vendor-help': require('../lib/api-handlers/vendor-help'),
+  'vendor-forgot-password': require('../lib/api-handlers/vendor-forgot-password'),
+  'vendor-reset-password': require('../lib/api-handlers/vendor-reset-password'),
   'vendor-generate-codes': require('../lib/api-handlers/vendor-generate-codes'),
   'vendor-login': require('../lib/api-handlers/vendor-login'),
   'vendor-record-redemption': require('../lib/api-handlers/vendor-record-redemption'),
