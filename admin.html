@@ -362,7 +362,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
           <div class="field"><label>Vendor email</label><input type="email" id="v-email" placeholder="deals@brand.co.za"></div>
           <div class="field"><label>Code prefix</label><input type="text" id="v-prefix" placeholder="e.g. STUDENTPERKS" maxlength="20" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"></div>
           <div class="field"><label>Discount description</label><input type="text" id="v-discount" placeholder="e.g. 15% off all footwear"></div>
-          <div class="field"><label>Vendor PIN</label><input type="text" id="v-pin" placeholder="e.g. Studentperks14!" maxlength="32"></div>
+          <div class="field"><label>Partner password</label><input type="text" id="v-pin" placeholder="At least 8 characters" maxlength="32"></div>
         </div>
         <div class="form-err" id="v-err"></div>
         <button class="btn btn-lime" onclick="createVendor()">+ Add vendor</button>
@@ -872,8 +872,8 @@ async function updateAppStatus(status) {
   if(status==='approved' && currentApp){
     fetch('/api/notify-application-approved', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ name: currentApp.full_name, email: currentApp.personal_email })
+      headers: {'Content-Type':'application/json', Authorization:'Bearer '+adminToken()},
+      body: JSON.stringify({ applicationId: currentAppId })
     }).catch(()=>{});
   }
   closeModal('app-modal');
@@ -987,7 +987,7 @@ async function createVendor() {
   if(!name){ showFormErr(err,'Please enter a vendor name.'); return; }
   if(!email||!email.includes('@')){ showFormErr(err,'Please enter a valid vendor email.'); return; }
   if(!prefix||prefix.length<2){ showFormErr(err,'Please enter a code prefix (min 2 characters).'); return; }
-  if(!pin||pin.length<4){ showFormErr(err,'Please enter a PIN with at least 4 characters.'); return; }
+  if(!pin||pin.length<8){ showFormErr(err,'Please enter a password with at least 8 characters.'); return; }
   const {error} = await _sb.from('vendors').insert({name,email,code_prefix:prefix,discount_desc:disc,vendor_pin:pin});
   if(error){ showFormErr(err, error.code==='23505'?'That prefix is already taken. Choose a different one.':'Error saving vendor.'); return; }
   err.style.display='none';
@@ -1199,7 +1199,7 @@ async function loadRedemptions() {
 
 /* ── SETTINGS ── */
 async function loadSettings() {
-  const {data} = await _sb.from('vendors').select('name,code_prefix,discount_desc,vendor_pin').order('name');
+  const {data} = await _sb.from('vendors').select('name,code_prefix,discount_desc').order('name');
   const tbody  = document.getElementById('creds-table');
   const loading= document.getElementById('creds-loading');
   [...tbody.querySelectorAll('.dt-row:not(.head)')].forEach(r=>r.remove());
@@ -1220,7 +1220,7 @@ async function changeAdminPass() {
   const ok      = document.getElementById('cp-ok');
   ok.style.display='none'; err.style.display='none';
   if(!cur||!nw||!confirm){ showFormErr(err,'All fields are required.'); return; }
-  if(nw.length<8){ showFormErr(err,'New password must be at least 8 characters.'); return; }
+  if(nw.length<10){ showFormErr(err,'New password must be at least 10 characters.'); return; }
   if(nw!==confirm){ showFormErr(err,'New passwords do not match.'); return; }
   try{
     const r = await fetch('/api/admin-login', { method:'POST', headers:{'Content-Type':'application/json', Authorization:'Bearer '+adminToken()}, body: JSON.stringify({ action:'change', current:cur, next:nw }) });
