@@ -482,7 +482,7 @@ body{background:linear-gradient(180deg,#fff 0,#f7f9fc 100%);color:var(--ink)}
             <div class="tool-title">Login settings</div>
             <div class="tool-copy">Change the partner sign-in code and PIN.</div>
             <div class="f"><label>Sign-in code</label><input type="text" id="settings-prefix" placeholder="JUSTPROTEIN" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"></div>
-            <div class="f"><label>New PIN</label><input type="password" id="settings-pin" placeholder="Minimum 4 characters"></div>
+            <div class="f"><label>New PIN</label><input type="password" id="settings-pin" placeholder="Minimum 8 characters"></div>
             <button class="btn" id="settings-btn" onclick="updateVendorLogin()">Save login</button>
             <div class="form-note" id="settings-note"></div>
           </article>
