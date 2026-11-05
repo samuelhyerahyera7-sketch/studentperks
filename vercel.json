@@ -35,6 +35,11 @@
   ],
   "redirects": [
     {
+      "source": "/crumbsandcream",
+      "destination": "/?deal=crumbsandcream",
+      "permanent": false
+    },
+    {
       "source": "/lib/:path*",
       "destination": "/",
       "permanent": false
